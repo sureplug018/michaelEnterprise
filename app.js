@@ -1,0 +1,38 @@
+const express = require("express");
+const mongoSanitize = require("express-mongo-sanitize");
+const rateLimit = require("express-rate-limit");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const userRoutes = require("./routes/userRoutes");
+
+const app = express();
+app.set("view engine", "ejs");
+
+if (process.env.NODE_ENV === "development") {
+  console.log(process.env.NODE_ENV);
+}
+
+app.set("views", path.join(__dirname, "views"));
+
+// limiting the amount of requests from an IP
+const limiter = rateLimit({
+  max: 100,
+  windowMs: 60 * 60 * 100,
+  message: "Too many requests from this Ip, please try again in an hour!",
+});
+
+app.use("/api", limiter);
+
+// limiting the amount of data that is parsed in body-parser by adding size in kb
+app.use(express.json({ limit: "10kb" }));
+app.use(cookieParser());
+
+// DATA SANITIZATION
+app.use(mongoSanitize());
+
+app.use(express.static("./public"));
+
+// routes
+app.use("/api/v1/users", userRoutes);
+
+module.exports = app;
