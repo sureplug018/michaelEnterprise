@@ -1,9 +1,6 @@
 /*const mongoose = require('mongoose');*/
 const cron = require("node-cron");
 const User = require("./models/userModel");
-const Plan = require("./models/planModel");
-const Investment = require("./models/investmentModel");
-const StockInvestment = require("./models/stockInvestmentModel");
 
 // Function to delete unconfirmed users after a specific time
 async function deleteUnconfirmedUsers() {

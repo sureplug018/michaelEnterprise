@@ -185,7 +185,7 @@ exports.login = async (req, res) => {
 
     // fetching data from database
     const user = await User.findOne({ email: sanitizedEmail }).select(
-      "+password"
+      "+password",
     );
 
     // comparing the input data and the saved data
@@ -283,7 +283,7 @@ exports.loginAdmin = async (req, res) => {
 
     // fetching data from database
     const user = await User.findOne({ email: sanitizedEmail }).select(
-      "+password"
+      "+password",
     );
     // comparing the input data and the saved data
     if (!user) {
@@ -382,18 +382,18 @@ exports.protect = async (req, res, next) => {
     // step 2: verification of token
     const decodedAccessToken = await promisify(jwt.verify)(
       accessToken,
-      process.env.ACCESS_TOKEN_SECRET
+      process.env.ACCESS_TOKEN_SECRET,
     );
 
     const decodedRefreshToken = await promisify(jwt.verify)(
       refreshToken,
-      process.env.REFRESH_TOKEN_SECRET
+      process.env.REFRESH_TOKEN_SECRET,
     );
 
     // compare the cookie refresh token and the one from database
     const DBrefreshToken = await User.find(
       { _id: decodedRefreshToken.id },
-      { refreshToken: 1 }
+      { refreshToken: 1 },
     );
     let token = DBrefreshToken[0].refreshToken;
     token = token.toString();
@@ -438,7 +438,7 @@ exports.protect = async (req, res, next) => {
         // Verify the refresh token
         const decodedRefreshToken = jwt.verify(
           refreshToken,
-          process.env.REFRESH_TOKEN_SECRET
+          process.env.REFRESH_TOKEN_SECRET,
         );
         // Check if refresh token is still valid
         // If refresh token is valid, generate a new access token
@@ -459,7 +459,7 @@ exports.protect = async (req, res, next) => {
           process.env.ACCESS_TOKEN_SECRET,
           {
             expiresIn: "15m",
-          }
+          },
         );
 
         const cookieOptions = {
@@ -513,7 +513,7 @@ exports.forgotPassword = async (req, res, next) => {
     if (!user) {
       res.status(404).json({
         status: "fail",
-        message: "There is no user with email address",
+        message: "Invalid email address",
       });
       return;
     }
@@ -525,7 +525,7 @@ exports.forgotPassword = async (req, res, next) => {
     // step 5: sending the email
     try {
       const resetUrl = `${req.protocol}://${req.get(
-        "host"
+        "host",
       )}/resetPassword/${resetToken}`;
 
       await new Email(user, resetUrl).sendPasswordReset();
@@ -543,7 +543,7 @@ exports.forgotPassword = async (req, res, next) => {
         res.status(500).json({
           status: "fail",
           message: "there was an error sending the email, try again",
-        })
+        }),
       );
     }
   } catch (err) {
@@ -578,6 +578,27 @@ exports.resetPassword = async (req, res, next) => {
     const password = req.body.password;
     const passwordConfirm = req.body.passwordConfirm;
 
+    if (!password) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Password is required",
+      });
+    }
+
+    if (!passwordConfirm) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Confirm password is required",
+      });
+    }
+
+    if(password !== passwordConfirm){
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Password does not match'
+      })
+    }
+
     const sanitizedPassword = password ? validator.escape(password) : undefined;
     const sanitizedPasswordConfirm = passwordConfirm
       ? validator.escape(passwordConfirm)
@@ -589,36 +610,9 @@ exports.resetPassword = async (req, res, next) => {
     user.passwordResetExpires = undefined;
     await user.save();
 
-    // step 3: generate JWT and login the user
-    // const accessToken = signAccessToken(user._id);
-    // const refreshToken = signRefreshToken(user._id);
-
-    // Set cookies
-    // const accessCookieOptions = {
-    //   expiresIn: new Date(Date.now() + process.env.ACCESS_TOKEN_EXPIRES_IN),
-    //   secure: true,
-    //   httpOnly: true,
-    //   path: '/',
-    //   sameSite: 'none',
-    //   maxAge: 15 * 60 * 1000, //15 mins
-    // };
-
-    // const refreshCookieOptions = {
-    //   expiresIn: new Date(Date.now() + process.env.REFRESH_TOKEN_EXPIRES_IN),
-    //   secure: true,
-    //   httpOnly: true,
-    //   path: '/',
-    //   sameSite: 'none',
-    //   maxAge: 30 * 24 * 60 * 60 * 1000, //30 days
-    // };
-
-    // res.cookie('access-token', accessToken, accessCookieOptions);
-    // res.cookie('refresh-token', refreshToken, refreshCookieOptions);
     // sending response
     res.status(200).json({
       status: "success",
-      // accessToken,
-      // refreshToken,
     });
     next();
   } catch (err) {
@@ -634,11 +628,6 @@ exports.updatePassword = async (req, res) => {
     const user = await User.findById(req.user.id).select("+password");
 
     const passwordCurrent = req.body.passwordCurrent;
-    // const sanitizedPasswordCurrent = passwordCurrent
-    //   ? validator.escape(passwordCurrent)
-    //   : undefined;
-
-    // The rest of your code for password validation...
 
     // comparing the input data and the saved data
     if (!(await user.correctPassword(passwordCurrent, user.password))) {
@@ -667,44 +656,45 @@ exports.updatePassword = async (req, res) => {
     const password = req.body.password;
     const passwordConfirm = req.body.passwordConfirm;
 
-    // const sanitizedPassword = validator.escape(password);
-    // const sanitizedPasswordConfirm = validator.escape(passwordConfirm);
-
     // Update user password and passwordConfirm
     user.password = password;
     user.passwordConfirm = passwordConfirm;
     await user.save();
 
-    // Generate a new JWT token
-    // const accessToken = signAccessToken(user._id);
-    // const refreshToken = signRefreshToken(user._id);
+    // generating token for login
+    const accessToken = signAccessToken(user._id);
+    const refreshToken = signRefreshToken(user._id);
 
     // Set cookies
-    // const accessCookieOptions = {
-    //   expiresIn: new Date(Date.now() + process.env.ACCESS_TOKEN_EXPIRES_IN),
-    //   secure: true,
-    //   httpOnly: true,
-    //   path: '/',
-    //   sameSite: 'none',
-    //   maxAge: 15 * 60 * 1000, //15 mins
-    // };
+    const accessCookieOptions = {
+      expiresIn: new Date(Date.now() + process.env.ACCESS_TOKEN_EXPIRES_IN),
+      secure: true,
+      httpOnly: true,
+      path: "/",
+      sameSite: "none",
+      maxAge: 15 * 60 * 1000, //15 mins
+    };
 
-    // const refreshCookieOptions = {
-    //   expiresIn: new Date(Date.now() + process.env.REFRESH_TOKEN_EXPIRES_IN),
-    //   secure: true,
-    //   httpOnly: true,
-    //   path: '/',
-    //   sameSite: 'none',
-    //   maxAge: 30 * 24 * 60 * 60 * 1000, //30 days
-    // };
+    const refreshCookieOptions = {
+      expiresIn: new Date(Date.now() + process.env.REFRESH_TOKEN_EXPIRES_IN),
+      secure: true,
+      httpOnly: true,
+      path: "/",
+      sameSite: "none",
+      maxAge: 30 * 24 * 60 * 60 * 1000, //30 days
+    };
 
-    // res.cookie('access-token', accessToken, accessCookieOptions);
-    // res.cookie('refresh-token', refreshToken, refreshCookieOptions);
+    res.cookie("access-token", accessToken, accessCookieOptions);
+    res.cookie("refresh-token", refreshToken, refreshCookieOptions);
+
+    // update user refresh token
+    await User.findOneAndUpdate({ email: user.email }, { refreshToken });
+
     // sending response
     res.status(200).json({
       status: "success",
-      // accessToken,
-      // refreshToken,
+      accessToken,
+      refreshToken,
     });
   } catch (err) {
     return res.status(400).json({
@@ -716,8 +706,18 @@ exports.updatePassword = async (req, res) => {
 
 exports.logout = async (req, res) => {
   try {
-    // Find the user document by its ID
-    await User.findByIdAndUpdate({ _id: req.user.id }, { refreshToken: "" });
+    // Find the user document by its ID and ensure the user exists
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({
+        status: "error",
+        message: "User not found",
+      });
+    }
+
+    // Invalidate the refresh token
+    user.refreshToken = "";
+    await user.save();
 
     // Clear the access token cookie
     res.clearCookie("access-token", {
@@ -733,8 +733,13 @@ exports.logout = async (req, res) => {
       secure: true, // Adjust as needed based on your deployment environment
     });
 
+    // Optionally, set additional security headers
+    res.setHeader("Cache-Control", "no-store");
+    res.setHeader("Pragma", "no-cache");
+
     res.status(200).json({
       status: "success",
+      message: "Logged out successfully",
     });
   } catch (error) {
     console.error("Error during logout:", error);
@@ -745,13 +750,14 @@ exports.logout = async (req, res) => {
   }
 };
 
+
 // Function to update user data
 exports.updateUserData = async (req, res) => {
   try {
     // Step 1: Authentication - Verify JWT token
     const decoded = await promisify(jwt.verify)(
       req.cookies["access-token"], // Assuming the JWT is stored in a cookie
-      process.env.ACCESS_TOKEN_SECRET
+      process.env.ACCESS_TOKEN_SECRET,
     );
 
     // Step 2: Fetch the user from the database
@@ -800,12 +806,12 @@ exports.isLoggedIn = async (req, res, next) => {
       // step 2: verification of token
       const decoded = await promisify(jwt.verify)(
         req.cookies["access-token"],
-        process.env.ACCESS_TOKEN_SECRET
+        process.env.ACCESS_TOKEN_SECRET,
       );
 
       const decodedRefreshToken = await promisify(jwt.verify)(
         req.cookies["refresh-token"],
-        process.env.REFRESH_TOKEN_SECRET
+        process.env.REFRESH_TOKEN_SECRET,
       );
 
       // step 3: check if user still exists
@@ -829,7 +835,7 @@ exports.isLoggedIn = async (req, res, next) => {
       if (req.cookies["refresh-token"]) {
         const decodedRefreshToken = await promisify(jwt.verify)(
           req.cookies["refresh-token"],
-          process.env.REFRESH_TOKEN_SECRET
+          process.env.REFRESH_TOKEN_SECRET,
         );
 
         const currentUser = await User.findById(decodedRefreshToken.id);
@@ -844,7 +850,7 @@ exports.isLoggedIn = async (req, res, next) => {
           process.env.ACCESS_TOKEN_SECRET,
           {
             expiresIn: "15m",
-          }
+          },
         );
 
         const cookieOptions = {
