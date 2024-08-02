@@ -6,30 +6,27 @@ const cartSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  product: {
+  productId: {
     type: mongoose.Schema.ObjectId,
     ref: 'Product',
     required: true,
   },
-  itemUnit: {
-    type: String,
-    required: true,
+  quantity: {
+    type: Number,
+    default: 1,
   },
 });
 
+// Combine populate middleware into one function
 cartSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'user',
     select: 'firstName lastName email',
-  });
-  next();
-});
-
-cartSchema.pre(/^find/, function next() {
-  this.populate({
-    path: 'product',
+  }).populate({
+    path: 'productId',
     select: 'name category',
   });
+  next();
 });
 
 const Cart = mongoose.model('Cart', cartSchema);

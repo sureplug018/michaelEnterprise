@@ -68,7 +68,7 @@ reviewSchema.post('save', function () {
 // updating ratingsAverage and ratingsQuantity when they are deleted or updated
 // this code will find the review before deleting or updating it
 reviewSchema.pre(/^findOneAnd/, async function (next) {
-  console.log(this.r);
+//   console.log(this.r);
   //   // we are using findOneAnd regular expression because update and delete are being done by findOneAndUpdate and findOneAndDelete
   this.r = await this.findOne(); // we are using this.r for we to be able to make use of the await in another middleware
   next();

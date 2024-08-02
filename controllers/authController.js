@@ -493,8 +493,9 @@ exports.protect = async (req, res, next) => {
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
-      return res.status(404).render("error", {
-        title: "Error",
+      return res.status(400).json({
+        status: 'fail',
+        message: 'User cannot perform this action',
       });
     }
     next();

@@ -13,7 +13,6 @@ const productSchema = new mongoose.Schema(
     },
     discount: {
       type: String,
-      required: true,
     },
     description: {
       type: String,
@@ -45,13 +44,11 @@ const productSchema = new mongoose.Schema(
     },
     productStock: {
       type: String,
-      required: true,
       enum: ['In stock', 'Few units left', 'Out of stock'],
       default: 'In stock',
     },
     keyFeatures: {
       type: String,
-      required: true,
     },
   },
   {
@@ -68,8 +65,14 @@ productSchema.index({ category: 1, price: -1 });
 productSchema.index({ category: 1, ratingsAverage: -1 });
 productSchema.index({ slug: 1 });
 
+productSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'product',
+  localField: '_id',
+});
+
 // Document middleware
-tourSchema.pre('save', function (next) {
+productSchema.pre('save', function (next) {
   // Create a lowercase version of the name for slug generation
   const lowercaseName = this.name.toLowerCase();
 

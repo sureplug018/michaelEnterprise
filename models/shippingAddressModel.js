@@ -6,6 +6,10 @@ const shippingAddress = new mongoose.Schema.ObjectId({
     ref: 'User',
     required: true,
   },
+  fullName: {
+    type: String,
+    required: true,
+  },
   address: {
     type: String,
     required: true,
