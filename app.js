@@ -7,6 +7,7 @@ const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const wishlistRoutes = require('./routes/wishlistRoutes');
+const orderRoutes = require('./routes/orderRoutes');
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -40,5 +41,6 @@ app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/products', productRoutes);
 app.use('/api/v1/carts', cartRoutes);
 app.use('/api/v1/wishlists', wishlistRoutes);
+app.use('/api/v1/orders', orderRoutes);
 
 module.exports = app;

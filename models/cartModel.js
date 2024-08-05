@@ -24,7 +24,7 @@ cartSchema.pre(/^find/, function (next) {
     select: 'firstName lastName email',
   }).populate({
     path: 'productId',
-    select: 'name category',
+    select: 'name category price',
   });
   next();
 });

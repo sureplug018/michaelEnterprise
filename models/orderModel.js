@@ -21,7 +21,7 @@ const orderSchema = new mongoose.Schema({
     enum: ['Order placed', 'Confirmed', 'Shipped', 'Delivered', 'Canceled'],
     default: 'Confirmed',
   },
-  itemUnit: {
+  quantity: {
     type: String,
     required: true,
   },
@@ -61,7 +61,7 @@ orderSchema.pre(/^find/, function (next) {
 orderSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'product',
-    select: 'name category',
+    select: 'name category imageCover',
   });
 });
 

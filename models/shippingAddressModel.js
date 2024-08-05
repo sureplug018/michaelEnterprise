@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const shippingAddress = new mongoose.Schema.ObjectId({
+const shippingAddressSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.ObjectId,
     ref: 'User',
@@ -33,7 +33,7 @@ const shippingAddress = new mongoose.Schema.ObjectId({
   },
 });
 
-shippingAddress.pre(/^find/, function (next) {
+shippingAddressSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'user',
     select: 'firstName lastName email',
@@ -41,6 +41,6 @@ shippingAddress.pre(/^find/, function (next) {
   next();
 });
 
-const ShippingAddress = mongoose.model('ShippingAddress', shippingAddress);
+const ShippingAddress = mongoose.model('ShippingAddress', shippingAddressSchema);
 
 module.exports = ShippingAddress;
