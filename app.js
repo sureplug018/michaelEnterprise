@@ -8,6 +8,9 @@ const productRoutes = require('./routes/productRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const wishlistRoutes = require('./routes/wishlistRoutes');
 const orderRoutes = require('./routes/orderRoutes');
+const shippingAddressRoutes = require('./routes/shippingAddressRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
+const supportRoutes = require('./routes/supportRoutes');
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -42,5 +45,8 @@ app.use('/api/v1/products', productRoutes);
 app.use('/api/v1/carts', cartRoutes);
 app.use('/api/v1/wishlists', wishlistRoutes);
 app.use('/api/v1/orders', orderRoutes);
+app.use('/api/v1/shipping-address', shippingAddressRoutes);
+app.use('/api/v1/reviews', reviewRoutes);
+app.use('/api/v1/supports', supportRoutes);
 
 module.exports = app;

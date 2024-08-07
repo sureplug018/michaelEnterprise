@@ -13,7 +13,7 @@ const reviewSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: 'User',
     },
-    product: {
+    productId: {
       type: mongoose.Schema.ObjectId,
       ref: 'Product',
       required: true,
@@ -30,53 +30,49 @@ reviewSchema.pre(/^find/, function (next) {
   next();
 });
 
-// preventing duplicate reviews on a particular tour from on same user
-reviewSchema.index({ product: 1, user: 1 }, { unique: true });
+// Preventing duplicate reviews on a particular product from the same user
+reviewSchema.index({ productId: 1, user: 1 }, { unique: true });
 
-// this is a aggregation pipeline that calculates the ratings average and the rating quantity
+// Aggregation pipeline to calculate average ratings and rating quantity
 reviewSchema.statics.calcAverageRatings = async function (productId) {
   const stats = await this.aggregate([
-    { $match: { product: productId } },
+    { $match: { productId } },
     {
       $group: {
-        _id: '$tour',
+        _id: '$productId',
         nRating: { $sum: 1 },
         avgRating: { $avg: '$rating' },
       },
     },
   ]);
-  // setting the values of the ratingsQuantity and the ratingsAverage
+
+  // Setting the values of the ratingsQuantity and the ratingsAverage
   if (stats.length > 0) {
     await Product.findByIdAndUpdate(productId, {
       ratingsQuantity: stats[0].nRating,
       ratingsAverage: stats[0].avgRating,
     });
   } else {
-    await Tour.findByIdAndUpdate(productId, {
+    await Product.findByIdAndUpdate(productId, {
       ratingsQuantity: 0,
       ratingsAverage: 0,
     });
   }
 };
 
-// this is the code that runs executes the aggregation pipeline, and this runs after saving a review
+// Execute the aggregation pipeline after saving a review
 reviewSchema.post('save', function () {
-  // this points to the current review document
-  this.constructor.calcAverageRatings(this.product);
+  this.constructor.calcAverageRatings(this.productId);
 });
 
-// updating ratingsAverage and ratingsQuantity when they are deleted or updated
-// this code will find the review before deleting or updating it
+// Update ratingsAverage and ratingsQuantity when reviews are deleted or updated
 reviewSchema.pre(/^findOneAnd/, async function (next) {
-//   console.log(this.r);
-  //   // we are using findOneAnd regular expression because update and delete are being done by findOneAndUpdate and findOneAndDelete
-  this.r = await this.findOne(); // we are using this.r for we to be able to make use of the await in another middleware
+  this.r = await this.findOne(); // Storing the current review document
   next();
 });
 
-// this code awaits the first one to find and then runs the calculation of ratingsAverage and ratingsQuantity
 reviewSchema.post(/^findOneAnd/, async function () {
-  await this.r.constructor.calcAverageRatings(this.r.product);
+  await this.r.constructor.calcAverageRatings(this.r.productId);
 });
 
 const Review = mongoose.model('Review', reviewSchema);

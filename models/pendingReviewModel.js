@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const pendingReviewSchema = new mongoose.Schema({
-  product: {
+  productId: {
     type: mongoose.Schema.ObjectId,
     ref: 'Product',
     required: true,

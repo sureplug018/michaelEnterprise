@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>
+    <%= subject %>
+  </title>
+
+  <%- include('styles/_style') %>
+</head>
+
+<body>
+  <table class="body" role="presentation" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td></td>
+        <td class="container">
+          <div class="content">
+            <!-- Rest of your HTML content -->
+            <p>Hi <%= firstName %>,</p>
+            </p>
+            <p>
+              After email confirmation, login and do well to deposit and invest in our company with our robost plans <br>
+              If you need any help, please don't
+              hesitate to contact us: support@firmestone.com
+            </p>
+
+            <ul>
+              <li>Order id: <%= orders.orderId %></li>
+              <li>Product name: <%= orders.productId.name %></li>
+              <li>Quantity: <%= orders.quantity %></li>
+              <li>Total: <%= orders.total %></li>
+              <li>Payment method: <%= orders.paymentMethod %></li>
+              <li>Delivery method: <%= orders.deliveryMethod %></li>
+            </ul>
+
+            <table class="btn btn-primary" role="presentation" border="0" cellpadding="0" cellspacing="0">
+              <tbody>
+                <tr>
+                  <td align="left">
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                      <tbody>
+                        <tr>
+                          <td>
+                            <a href="<%= url %>" target="_blank">View dashboard</a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <p>
+
+            </p>
+            <!-- Footer section -->
+            <div class="footer">
+              <table class="content-block" role="presentation" border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                  <tr>
+                    <td>
+                      <span class="apple-link">Company name Inc, No. 32 granite stone drive, Canada</span>
+                      <br />
+                      Don't like these emails? <a href="#">Unsubscribe</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+
+</html>

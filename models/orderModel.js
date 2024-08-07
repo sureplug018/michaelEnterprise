@@ -10,7 +10,7 @@ const orderSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  product: {
+  productId: {
     type: mongoose.Schema.ObjectId,
     ref: 'Product',
     required: true,
@@ -18,8 +18,8 @@ const orderSchema = new mongoose.Schema({
   status: {
     type: String,
     require: true,
-    enum: ['Order placed', 'Confirmed', 'Shipped', 'Delivered', 'Canceled'],
-    default: 'Confirmed',
+    enum: ['Order placed', 'Confirmed', 'Shipped', 'Delivered', 'Cancelled'],
+    default: 'Order placed',
   },
   quantity: {
     type: String,
@@ -33,10 +33,10 @@ const orderSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  deliveryFee: {
-    type: String,
-    required: true,
-  },
+  // deliveryFee: {
+  //   type: String,
+  //   required: true,
+  // },
   deliveryMethod: {
     type: String,
     required: true,
@@ -47,7 +47,6 @@ const orderSchema = new mongoose.Schema({
     ref: 'Address',
   },
   dateDelivered: String,
-  deliveredBy: String,
 });
 
 orderSchema.pre(/^find/, function (next) {
@@ -60,9 +59,26 @@ orderSchema.pre(/^find/, function (next) {
 
 orderSchema.pre(/^find/, function (next) {
   this.populate({
-    path: 'product',
+    path: 'productId',
     select: 'name category imageCover',
   });
+  next();
+});
+
+orderSchema.pre('save', function (next) {
+  this.populate({
+    path: 'productId',
+    select: 'price name',
+  });
+  next();
+});
+
+orderSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'deliveryAddress',
+    select: 'fullName address phoneNumber country city region',
+  });
+  next();
 });
 
 const Order = mongoose.model('Order', orderSchema);

@@ -21,6 +21,14 @@ exports.createShippingAddress = async (req, res) => {
     }
   }
   try {
+    // check if user already has a shipping address
+    const checkAddress = await ShippingAddress.findOne({ user });
+    if (checkAddress) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'User already has a shipping address',
+      });
+    }
     const { fullName, address, phoneNumber, country, region, city } = req.body;
     const newShippingAddress = await ShippingAddress.create({
       user,

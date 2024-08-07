@@ -1,16 +1,16 @@
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
-dotenv.config({ path: "config.env" });
-const app = require("./app");
-const cronJob = require("./cronJob");
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+dotenv.config({ path: 'config.env' });
+const app = require('./app');
+const cronJob = require('./cronJob');
 
 const DB = process.env.DATABASE.replace(
-  "<PASSWORD>",
-  process.env.DATABASE_PASSWORD
+  '<PASSWORD>',
+  process.env.DATABASE_PASSWORD,
 );
 
 // Trust only the X-Forwarded-For header
-app.set("trust proxy", ["loopback", "linklocal", "uniquelocal"]);
+app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']);
 
 mongoose
   .connect(DB, {
@@ -18,7 +18,7 @@ mongoose
     // useUnifiedTopology: true,
   })
   .then(() => {
-    console.log("successfully connected to database");
+    console.log('successfully connected to database');
   })
   .catch((err) => {
     console.log(err);

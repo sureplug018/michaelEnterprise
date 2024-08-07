@@ -6,6 +6,36 @@ const router = express.Router();
 
 router.use(authController.protect);
 
-router.post('/initiate-cart-checkout', orderController.initiateCheckoutPayment);
+// router.post('/initiate-cart-checkout', orderController.initiateCheckoutPayment);
+
+router.post(
+  '/create-order',
+  authController.restrictTo('user'),
+  orderController.createOrder,
+);
+
+router.patch(
+  '/confirm-order/:orderId',
+  authController.restrictTo('admin'),
+  orderController.confirmOrder,
+);
+
+router.patch(
+  '/ship-order/:orderId',
+  authController.restrictTo('admin'),
+  orderController.shipOrder,
+);
+
+router.patch(
+  '/deliver-order/:orderId',
+  authController.restrictTo('admin'),
+  orderController.deliverOrder,
+);
+
+router.patch(
+  '/cancel-order/:orderId',
+  authController.restrictTo('admin'),
+  orderController.cancelOrder,
+);
 
 module.exports = router;
