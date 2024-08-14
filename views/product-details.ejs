@@ -129,9 +129,11 @@
             <div class="tab-content" id="myTabContent">
               <div class="tab-pane fade   show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
                 <div class="single-tab-content-shop-details">
+                  <% product.summary.split('*').forEach(function(summaryPart) { %>
                   <p class="disc">
-                    <%= product.summary %>
+                    <%= summaryPart.trim() %>
                   </p>
+                  <% }); %>
                 </div>
               </div>
 

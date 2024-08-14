@@ -15,8 +15,18 @@ const coverStorage = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: 'product_covers',
-    format: async (req, file) => 'jpeg',
+    format: async (req, file) => 'jpeg', // supports promises as well
     public_id: (req, file) => `cover-${Date.now()}`,
+    transformation: [{ width: 500, height: 500, crop: 'limit' }], // Cloudinary transformation
+  },
+});
+
+const imagesStorage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: 'product_images',
+    format: async (req, file) => 'jpeg', // supports promises as well
+    public_id: (req, file) => `image-${Date.now()}`,
     transformation: [{ width: 500, height: 500, crop: 'limit' }],
   },
 });
@@ -29,15 +39,31 @@ const multerFilter = (req, file, cb) => {
   }
 };
 
-const upload = multer({
+const uploadCover = multer({
   storage: coverStorage,
   fileFilter: multerFilter,
   limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB limit
 });
 
-exports.uploadProductFiles = upload.single('imageCover');
+const uploadImages = multer({
+  storage: imagesStorage,
+  fileFilter: multerFilter,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB limit
+});
 
-// add product
+// Use multer fields to handle both imageCover and images
+const uploadProductFiles = multer({
+  storage: coverStorage,
+  fileFilter: multerFilter,
+  limits: { fileSize: 5 * 1024 * 1024 },
+}).fields([
+  { name: 'imageCover', maxCount: 1 },
+  { name: 'images', maxCount: 10 },
+]);
+
+// upload images
+exports.uploadProductFiles = uploadProductFiles;
+
 exports.addProduct = async (req, res) => {
   const requiredFields = [
     'name',
@@ -59,10 +85,21 @@ exports.addProduct = async (req, res) => {
   }
 
   // Validate imageCover file
-  if (!req.file) {
+  if (
+    !req.files ||
+    !req.files.imageCover ||
+    req.files.imageCover.length === 0
+  ) {
     return res
       .status(400)
       .json({ status: 'fail', message: 'Image Cover is required' });
+  }
+
+  // Validate images field
+  if (!req.files || !req.files.images || req.files.images.length === 0) {
+    return res
+      .status(400)
+      .json({ status: 'fail', message: 'At least one image is required' });
   }
 
   try {
@@ -75,10 +112,31 @@ exports.addProduct = async (req, res) => {
       superCategory,
       category,
       productStock,
-      keyFeatures,
+      variations, // Expecting variations to be sent as a JSON string
     } = req.body;
 
-    const imageCover = req.file.path; // Cloudinary URL
+    const imageCover = req.files.imageCover[0].path; // Cloudinary URL
+
+    // Extract images
+    const images = req.files.images.map((file) => file.path); // Array of Cloudinary URLs
+
+    // Process the variations
+    let parsedVariations = [];
+    try {
+      parsedVariations = variations ? JSON.parse(variations) : [];
+    } catch (err) {
+      return res
+        .status(400)
+        .json({ status: 'fail', message: 'Invalid variations format' });
+    }
+
+    // Validate productStock based on variations
+    if (!parsedVariations.length && !productStock) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Product stock is required when there are no variations',
+      });
+    }
 
     // Process the product creation here
     const newProduct = await Product.create({
@@ -90,8 +148,9 @@ exports.addProduct = async (req, res) => {
       superCategory,
       category,
       productStock,
-      keyFeatures,
       imageCover,
+      images,
+      variations: parsedVariations,
     });
 
     res.status(201).json({
@@ -100,6 +159,7 @@ exports.addProduct = async (req, res) => {
       data: newProduct,
     });
   } catch (err) {
+    console.log(err);
     res.status(400).json({
       status: 'fail',
       message: err.message,
@@ -137,51 +197,123 @@ exports.deleteProduct = async (req, res) => {
 };
 
 exports.editProduct = async (req, res) => {
-  try {
-    const { productId } = req.params;
+  const requiredFields = [
+    'name',
+    'price',
+    'initialPrice',
+    'description',
+    'summary',
+    'superCategory',
+    'category',
+  ];
 
-    // Validate that the product exists
-    const product = await Product.findById(productId);
+  const { productId } = req.params;
+
+  // Check if the product exists
+  let product;
+  try {
+    product = await Product.findById(productId);
     if (!product) {
-      return res.status(404).json({
+      return res
+        .status(404)
+        .json({ status: 'fail', message: 'Product not found' });
+    }
+  } catch (err) {
+    return res.status(400).json({
+      status: 'fail',
+      message: 'Invalid product ID',
+    });
+  }
+
+  // Validate request body fields only if they exist
+  for (const field of requiredFields) {
+    if (req.body[field] && !req.body[field].trim()) {
+      return res
+        .status(400)
+        .json({ status: 'fail', message: `${field} cannot be empty` });
+    }
+  }
+
+  // Validate imageCover file if provided
+  if (req.files && req.files.imageCover && req.files.imageCover.length === 0) {
+    return res
+      .status(400)
+      .json({ status: 'fail', message: 'Image Cover cannot be empty' });
+  }
+
+  // Validate images field if provided
+  if (req.files && req.files.images && req.files.images.length === 0) {
+    return res
+      .status(400)
+      .json({ status: 'fail', message: 'At least one image is required' });
+  }
+
+  try {
+    const {
+      name,
+      price,
+      initialPrice,
+      description,
+      summary,
+      superCategory,
+      category,
+      productStock,
+      variations, // Expecting variations to be sent as a JSON string
+    } = req.body;
+
+    // Handle imageCover update
+    const imageCover = req.files?.imageCover
+      ? req.files.imageCover[0].path // Cloudinary URL
+      : product.imageCover;
+
+    // Handle images update
+    const images = req.files?.images
+      ? req.files.images.map((file) => file.path) // Array of Cloudinary URLs
+      : product.images;
+
+    // Process the variations
+    let parsedVariations = [];
+    try {
+      parsedVariations = variations
+        ? JSON.parse(variations)
+        : product.variations;
+    } catch (err) {
+      return res
+        .status(400)
+        .json({ status: 'fail', message: 'Invalid variations format' });
+    }
+
+    // Validate productStock based on variations only if productStock is provided
+    if (
+      !parsedVariations.length &&
+      productStock === undefined &&
+      !product.productStock
+    ) {
+      return res.status(400).json({
         status: 'fail',
-        message: 'Product not found',
+        message: 'Product stock is required when there are no variations',
       });
     }
 
-    const updatedFields = [
-      'name',
-      'price',
-      'initialPrice',
-      'description',
-      'summary',
-      'superCategory',
-      'category',
-      'productDetails',
-      'productStock',
-      'keyFeatures',
-      'productStock',
-    ];
-
-    // Update product fields
-    updatedFields.forEach((field) => {
-      if (req.body[field] !== undefined) {
-        product[field] = req.body[field];
-      }
-    });
-
-    // Handle image updates if new files are provided
-    if (req.files) {
-      if (req.files.imageCover) {
-        product.imageCover = req.files.imageCover[0].path; // Cloudinary URL
-      }
-      if (req.files.images) {
-        product.images = req.files.images.map((file) => file.path); // Array of Cloudinary URLs
-      }
-    }
-
-    // Save the updated product
-    const updatedProduct = await product.save();
+    // Update the product
+    const updatedProduct = await Product.findByIdAndUpdate(
+      productId,
+      {
+        name,
+        price,
+        initialPrice,
+        description,
+        summary,
+        superCategory,
+        category,
+        productStock:
+          productStock !== undefined ? productStock : product.productStock,
+        imageCover,
+        images,
+        variations: parsedVariations,
+      },
+      { new: true, runValidators: true },
+    );
 
     res.status(200).json({
       status: 'success',
@@ -189,6 +321,7 @@ exports.editProduct = async (req, res) => {
       data: updatedProduct,
     });
   } catch (err) {
+    console.log(err);
     res.status(400).json({
       status: 'fail',
       message: err.message,

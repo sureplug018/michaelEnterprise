@@ -261,7 +261,16 @@ if (addProductsForm) {
       document.getElementById('superCategory').value,
     );
     formData.append('category', document.getElementById('category').value);
-    formData.append('imageCover', document.getElementById('image').files[0]);
+    formData.append(
+      'imageCover',
+      document.getElementById('imageCover').files[0],
+    );
+    // Handle multiple images
+    const images = document.getElementById('images').files;
+    for (let i = 0; i < images.length; i++) {
+      formData.append('images', images[i]);
+    }
+    formData.append('variations', document.getElementById('variations').value);
     formData.append('productStock', document.getElementById('quantity').value);
     await addProducts(formData);
     addBtn.style.opacity = '1';

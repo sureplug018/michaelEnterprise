@@ -1,6 +1,20 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
 
+const variationSchema = new mongoose.Schema({
+  color: {
+    type: String,
+  },
+  size: {
+    type: String,
+  },
+  quantity: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
+});
+
 const productSchema = new mongoose.Schema(
   {
     name: {
@@ -37,19 +51,19 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    // images: {
-    //   type: String,
-    //   required: true,
-    // },
+    images: [String],
     productDetails: {
       type: String,
     },
     productStock: {
       type: Number,
-      required: true,
+      required: function () {
+        return !this.variations || this.variations.length === 0;
+      },
     },
-    keyFeatures: {
-      type: String,
+    variations: {
+      type: [variationSchema],
+      default: [],
     },
   },
   {
