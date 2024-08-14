@@ -11,7 +11,7 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    discount: {
+    initialPrice: {
       type: String,
     },
     description: {
@@ -37,15 +37,16 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    images: [String],
+    // images: {
+    //   type: String,
+    //   required: true,
+    // },
     productDetails: {
       type: String,
-      required: true,
     },
     productStock: {
-      type: String,
-      enum: ['In stock', 'Few units left', 'Out of stock'],
-      default: 'In stock',
+      type: Number,
+      required: true,
     },
     keyFeatures: {
       type: String,

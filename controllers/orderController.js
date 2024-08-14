@@ -5,7 +5,8 @@ const Order = require('../models/orderModel');
 const User = require('../models/userModel');
 const Cart = require('../models/cartModel');
 const ShippingAddress = require('../models/shippingAddressModel');
-const OrderEmail = require('./../utilities/email');
+const OrderEmail = require('./../utilities/notificationEmail');
+const Product = require('../models/productModel');
 
 // const PAYSTACK_BASE_URL = 'https://api.paystack.co/transaction/initialize';
 // const STRIPE_BASE_URL = 'https://api.stripe.com/v1/checkout/sessions';
@@ -148,6 +149,15 @@ exports.createOrder = async (req, res) => {
 
     // return array of cart created by user
     const cartItems = await Cart.find({ user }).session(session);
+
+    // Update product stocks
+    for (const item of cartItems) {
+      await Product.findByIdAndUpdate(
+        item.productId, // Use item.productId directly
+        { $inc: { productStock: -item.quantity } }, // Decrement stock
+        { session }, // Pass the session
+      );
+    }
     // console.log('cart items:', cartItems);
     if (cartItems.length === 0) {
       await session.abortTransaction();
@@ -180,7 +190,12 @@ exports.createOrder = async (req, res) => {
             name: item.productId.name,
             total: item.productId.price * item.quantity,
             paymentMethod: 'Bank Transfer',
-            deliveryDetails,
+            fullName: deliveryDetails.fullName,
+            address: deliveryDetails.address,
+            phoneNumber: deliveryDetails.phoneNumber,
+            country: deliveryDetails.country,
+            city: deliveryDetails.city,
+            region: deliveryDetails.region,
           },
         ],
         { session },
@@ -196,8 +211,6 @@ exports.createOrder = async (req, res) => {
     const adminUsers = await User.find({ role: 'admin' }).session(session);
 
     const url = `${req.protocol}://${req.get('host')}/orders`;
-
-    console.log('orders:', orders);
 
     // send emails to admin(s) is they are many or send to admin if only single
     for (const adminUser of adminUsers) {
@@ -390,7 +403,7 @@ exports.cancelOrder = async (req, res) => {
     if (order.status === 'Cancelled') {
       return res.status(400).json({
         status: 'fail',
-        message: 'Order have been cancelled',
+        message: 'Order has been cancelled',
       });
     }
 
@@ -405,7 +418,7 @@ exports.cancelOrder = async (req, res) => {
     await new OrderEmail(user, url, order).sendOrderCancelled();
 
     // add the item back to user cart
-    const backToCart = await Cart.create(
+    await Cart.create(
       [
         {
           user: user.id,
@@ -413,6 +426,12 @@ exports.cancelOrder = async (req, res) => {
           quantity: order.quantity,
         },
       ],
+      { session },
+    );
+
+    await Product.findByIdAndUpdate(
+      order.productId.id,
+      { $inc: { productStock: +order.quantity } },
       { session },
     );
 

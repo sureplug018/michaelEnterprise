@@ -1,0 +1,156 @@
+<%- include('partials/landingPageHead.ejs') %>
+
+<div class="rts-navigation-area-breadcrumb">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="navigator-breadcrumb-wrapper">
+          <a href="/">Home</a>
+          <i class="fa-regular fa-chevron-right"></i>
+          <a class="current" href="/checkout">Checkout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section-seperator">
+  <div class="container">
+    <hr class="section-seperator">
+  </div>
+</div>
+
+
+<div class="checkout-area rts-section-gap">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 pr--40 pr_md--5 pr_sm--5 order-2 order-xl-1 order-lg-2 order-md-2 order-sm-2 mt_md--30 mt_sm--30">
+        <div class="rts-billing-details-area">
+          <h3 class="title">Delivery Details</h3>
+          <% if(userDeliveryAddress){ %>
+          <form action="checkout.html#">
+            <div class="half-input-wrapper">
+              <div class="single-input">
+                <input id="fullName" value="<%= userDeliveryAddress.fullName %>" placeholder="Full Name*" type="text" disabled>
+              </div>
+              <div class="single-input">
+                <input id="phoneNumber" value="<%= userDeliveryAddress.phoneNumber %>" placeholder="Phone Number*" type="text" disabled>
+              </div>
+            </div>
+            <div class="single-input">
+              <input id="address" value="<%= userDeliveryAddress.address %>" placeholder="Address*" type="text" disabled>
+            </div>
+            <div class="single-input">
+              <input id="country" value="<%= userDeliveryAddress.country %>" placeholder="Country*" type="text" disabled>
+            </div>
+            <div class="single-input">
+              <input id="Region" value="<%= userDeliveryAddress.region %>" placeholder="Region*" type="text" disabled>
+            </div>
+
+            <div class="single-input">
+              <input id="city" value="<%= userDeliveryAddress.city %>" placeholder="City*" type="text" disabled>
+            </div>
+            <a href="/account" class="rts-btn btn-primary" style="padding: 10px 15px; line-height: 1.2;">Update Address</a>
+          </form>
+          <% }else{ %>
+          <h2 class="title">No delivery address! <a href="/account">Create One</a></h2>
+          <% } %>
+
+        </div>
+      </div>
+      <div class="col-lg-4 order-1 order-xl-2 order-lg-1 order-md-1 order-sm-1">
+        <h3 class="title-checkout">Your Order</h3>
+        <div class="right-card-sidebar-checkout">
+          <div class="top-wrapper">
+            <div class="product">
+              Products
+            </div>
+            <div class="price">
+              Price
+            </div>
+          </div>
+          <% cartItems.forEach(function(item){ %>
+          <div class="single-shop-list">
+            <div class="left-area">
+              <a href="/afro-shop/<%= item.productId.slug %>" class="thumbnail">
+                <img src="<%= item.productId.imageCover %>" alt="">
+              </a>
+              <a href="/afro-shop/<%= item.productId.slug %>" class="title">
+                <%= item.productId.name %>
+              </a>
+            </div>
+            <span class="price">$<%= item.productId.price*item.quantity %></span>
+          </div>
+          <% }) %>
+          <div class="single-shop-list">
+            <div class="left-area">
+              <span style="font-weight: 600; color: #2C3C28;">Total Price:</span>
+            </div>
+            <% let grandTotal = 0
+                 cartItems.forEach(function(cart){
+                 const cartItemTotal = cart.productId.price*cart.quantity
+                 grandTotal += cartItemTotal
+              }) %>
+            <span class="price" style="color: #9B250B;">$<%= grandTotal %></span>
+          </div>
+          <p></p>
+          <a href="/cart" class="rts-btn btn-primary" style="float: right; margin-right: 10px; padding: 10px 15px;">Modify Cart</a>
+          <div class="cottom-cart-right-area">
+            <ul>
+              <li>
+                <input type="radio" id="f-options" name="selector" checked>
+                <label for="f-options">Direct Bank Transfer</label>
+                <div class="check">
+                  <div class="inside"></div>
+                </div>
+              </li>
+            </ul>
+            <p class="disc mb--25">
+              Make your payment directly into our bank account. Please use your email address or firstName as the payment reference. Your order will not be shipped until the funds have cleared in our account.
+            </p>
+            <p class="mb--20">Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy.</p>
+            <div class="single-category mb--30">
+              <input id="cat14" type="checkbox" required>
+              <label for="cat14"> I have read and agree terms and conditions *
+              </label>
+            </div>
+            <a id="confirmCheckoutButton" href="#" class="rts-btn btn-primary">Place Order</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="checkoutConfirmModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.4);">
+  <div class="modal-content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 500px; border-radius: 10px;">
+    <span class="close" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+    <a id="modalLink" href=""><img id="modalImage" src="" alt="" style="width: 100%; height: auto;"></a>
+    <div style="text-align: center;">
+      <i class="fa-solid fa-building-columns" style="color: #9B250B; font-size: 50px; margin-bottom: 50px;"></i>
+      <p>Amount: $ <span id="modalAmount"></span></p>
+      <p>Bank: Opay</p>
+      <p>
+        Account Name: <i class="fa-solid fa-copy fa-lg" style="color: #9B250B; cursor: pointer;" onclick="copyText('accountName')"></i>
+        <span id="accountName">Eze Raphael</span>
+      </p>
+      <p>
+        Account Number: <i class="fa-solid fa-copy fa-lg" style="color: #9B250B; cursor: pointer;" onclick="copyText('accountNumber')"></i>
+        <span id="accountNumber">07080225103</span>
+      </p>
+      <p>NB: click this button if you have made payment</p>
+      <div style="text-align: center;">
+        <a href="#" class="rts-btn btn-primary" style="display: inline-block; padding: 10px 15px; line-height: 1.2; text-align: center;">I have made payment</a>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+
+
+
+
+<%- include('partials/landingPageFooter.ejs') %>

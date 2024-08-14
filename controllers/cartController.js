@@ -22,6 +22,13 @@ exports.addToCart = async (req, res) => {
       });
     }
 
+    if (product.productStock <= 0) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Product is out of stock',
+      });
+    }
+
     // check if product exists in user cart
     const productExistsInUserCart = await Cart.findOne({ user, productId });
 
@@ -77,7 +84,6 @@ exports.removeItemFromCart = async (req, res) => {
     res.status(204).json({
       status: 'success',
       message: 'Product deleted successfully',
-      data: null,
     });
   } catch (err) {
     res.status(400).json({
@@ -97,6 +103,15 @@ exports.increaseQuantity = async (req, res) => {
     });
   }
   try {
+    const product = await Product.findById(productId);
+
+    if (product.productStock <= 0) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Product is out of stock',
+      });
+    }
+
     const cart = await Cart.findOneAndUpdate(
       { user, productId }, // Query to find the correct cart item
       { $inc: { quantity: 1 } }, // Increment the quantity by 1
@@ -135,7 +150,7 @@ exports.decreaseQuantity = async (req, res) => {
   try {
     const productInCart = await Cart.findOne({ user, productId });
 
-    if (productInCart.quantity === 1) {
+    if (productInCart.quantity <= 1) {
       return res.status(400).json({
         status: 'fail',
         message: 'Cart cannot be updated',

@@ -15,18 +15,8 @@ const coverStorage = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: 'product_covers',
-    format: async (req, file) => 'jpeg', // supports promises as well
+    format: async (req, file) => 'jpeg',
     public_id: (req, file) => `cover-${Date.now()}`,
-    transformation: [{ width: 500, height: 500, crop: 'limit' }], // Cloudinary transformation
-  },
-});
-
-const imagesStorage = new CloudinaryStorage({
-  cloudinary,
-  params: {
-    folder: 'product_images',
-    format: async (req, file) => 'jpeg', // supports promises as well
-    public_id: (req, file) => `image-${Date.now()}`,
     transformation: [{ width: 500, height: 500, crop: 'limit' }],
   },
 });
@@ -39,42 +29,24 @@ const multerFilter = (req, file, cb) => {
   }
 };
 
-const uploadCover = multer({
+const upload = multer({
   storage: coverStorage,
   fileFilter: multerFilter,
   limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB limit
 });
 
-const uploadImages = multer({
-  storage: imagesStorage,
-  fileFilter: multerFilter,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB limit
-});
-
-// Use multer fields to handle both imageCover and images
-const uploadProductFiles = multer({
-  storage: coverStorage,
-  fileFilter: multerFilter,
-  limits: { fileSize: 5 * 1024 * 1024 },
-}).fields([
-  { name: 'imageCover', maxCount: 1 },
-  { name: 'images', maxCount: 10 },
-]);
-
-// upload images
-exports.uploadProductFiles = uploadProductFiles;
+exports.uploadProductFiles = upload.single('imageCover');
 
 // add product
 exports.addProduct = async (req, res) => {
   const requiredFields = [
     'name',
     'price',
-    'discount',
+    'initialPrice',
     'description',
     'summary',
     'superCategory',
     'category',
-    'productDetails',
   ];
 
   // Validate request body
@@ -87,56 +59,39 @@ exports.addProduct = async (req, res) => {
   }
 
   // Validate imageCover file
-  if (
-    !req.files ||
-    !req.files.imageCover ||
-    req.files.imageCover.length === 0
-  ) {
+  if (!req.file) {
     return res
       .status(400)
       .json({ status: 'fail', message: 'Image Cover is required' });
-  }
-
-  // Validate images field
-  if (!req.files || !req.files.images || req.files.images.length === 0) {
-    return res
-      .status(400)
-      .json({ status: 'fail', message: 'At least one image is required' });
   }
 
   try {
     const {
       name,
       price,
-      discount,
+      initialPrice,
       description,
       summary,
       superCategory,
       category,
-      productDetails,
       productStock,
       keyFeatures,
     } = req.body;
 
-    const imageCover = req.files.imageCover[0].path; // Cloudinary URL
-
-    // Extract images
-    const images = req.files.images.map((file) => file.path); // Array of Cloudinary URLs
+    const imageCover = req.file.path; // Cloudinary URL
 
     // Process the product creation here
     const newProduct = await Product.create({
       name,
       price,
-      discount,
+      initialPrice,
       description,
       summary,
       superCategory,
       category,
-      productDetails,
       productStock,
       keyFeatures,
       imageCover,
-      images,
     });
 
     res.status(201).json({
@@ -197,7 +152,7 @@ exports.editProduct = async (req, res) => {
     const updatedFields = [
       'name',
       'price',
-      'discount',
+      'initialPrice',
       'description',
       'summary',
       'superCategory',
@@ -205,6 +160,7 @@ exports.editProduct = async (req, res) => {
       'productDetails',
       'productStock',
       'keyFeatures',
+      'productStock',
     ];
 
     // Update product fields
@@ -239,4 +195,3 @@ exports.editProduct = async (req, res) => {
     });
   }
 };
-

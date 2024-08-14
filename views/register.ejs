@@ -1,0 +1,41 @@
+<%- include('partials/authPageHead.ejs') %>
+
+<h3 class="title">Register Into Your Account</h3>
+<form class="registration-form form-signup">
+  <div class="input-wrapper">
+    <label for="firstName">First Name*</label>
+    <input type="text" id="firstName" required>
+  </div>
+  <div class="input-wrapper">
+    <label for="lastName">Last Name*</label>
+    <input type="text" id="lastName" required>
+  </div>
+  <div class="input-wrapper">
+    <label for="email">Email*</label>
+    <input type="email" id="email" required>
+  </div>
+  <div class="input-wrapper">
+    <label for="phoneNumber">Phone Number*</label>
+    <input type="text" id="phoneNumber" required>
+  </div>
+  <div class="input-wrapper">
+    <label for="password">Password*</label>
+    <input type="password" id="password" required>
+  </div>
+  <div class="input-wrapper">
+    <label for="passwordConfirm">Confirm Password*</label>
+    <input type="password" id="passwordConfirm" required>
+  </div>
+  <button class="rts-btn btn-primary btn--signup">Register Account</button>
+  <div class="another-way-to-registration">
+    <p>Already Have Account? <a href="/sign-in">Login</a></p>
+  </div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- rts register area end -->
+
+<%- include('partials/authPageFooter.ejs') %>

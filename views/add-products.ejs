@@ -1,0 +1,87 @@
+<%- include('partials/adminDashboardHead.ejs') %>
+
+<div class="nk-content nk-content-fluid">
+  <div class="container-xl wide-xl">
+    <div class="nk-content-body">
+      <div class="nk-block-head nk-block-head-sm">
+        <div class="nk-block-between">
+          <div class="nk-block-head-content">
+            <h3 class="nk-block-title page-title">Add Products</h3>
+          </div>
+        </div>
+      </div>
+      <div class="nk-block">
+        <div class="card">
+          <div class="d-flex justify-content-center align-items-center" style="padding-top: 50px; padding-bottom: 50px;">
+            <form class="add-product-form">
+              <div class="wide-xs w-100">
+                <div class="row g-3">
+                  <div class="col-12">
+                    <div class="form-group"><label class="form-label" for="email">Product Name</label>
+                      <div class="form-control-wrap"><input class="form-control" type="text" id="name" placeholder="Product Name" /></div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group"><label class="form-label" for="name">Price (RUB)</label>
+                      <div class="form-control-wrap"><input class="form-control" type="text" id="price" placeholder="Price" /></div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group"><label class="form-label" for="name">Initial Price (RUB)</label>
+                      <div class="form-control-wrap"><input class="form-control" type="text" id="initialPrice" placeholder="Initial Price" /></div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group"><label class="form-label" for="name">Description (brief)</label>
+                      <div class="form-control-wrap">
+                        <textarea class="form-control" name="" id="description"></textarea>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-group"><label class="form-label" for="name">Summary</label>
+                        <div class="form-control-wrap">
+                          <textarea class="form-control" name="" id="summary"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-group"><label class="form-label">Super Category</label>
+                        <div class="form-control-wrap">
+                          <select id="superCategory" class="js-select2 form-select" data-search="true" data-sort="false">
+                            <option disabled value="">Select</option>
+                            <option value="Afro shop">Afro Shop</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-group"><label class="form-label" for="name">Category</label>
+                        <div class="form-control-wrap"><input class="form-control" type="text" id="category" placeholder="Category" /></div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-group"><label class="form-label" for="name">Product Image</label>
+                        <div class="form-control-wrap"><input class="form-control" type="file" id="image" /></div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-group"><label class="form-label" for="name">Quantity</label>
+                        <div class="form-control-wrap"><input class="form-control" type="text" id="quantity" placeholder="Quantity" /></div>
+                      </div>
+                    </div>
+                    <div style="margin-top: 15px;" class="col-12">
+                      <div class="form-group">
+                        <button class="btn btn-primary btn-block add-btn">Save</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/adminDashboardFooter.ejs') %>

@@ -13,6 +13,14 @@ const wishlistSchema = new mongoose.Schema({
   },
 });
 
+wishlistSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'productId',
+    select: 'name price imageCover slug',
+  });
+  next();
+});
+
 const Wishlist = mongoose.model('Wishlist', wishlistSchema);
 
 module.exports = Wishlist;

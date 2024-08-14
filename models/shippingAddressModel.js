@@ -21,7 +21,6 @@ const shippingAddressSchema = new mongoose.Schema({
   country: {
     type: String,
     required: true,
-    enum: ['Nigeria', 'Russia'],
   },
   region: {
     type: String,

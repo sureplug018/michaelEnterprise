@@ -1,0 +1,370 @@
+<%- include('partials/adminDashboardHead.ejs') %>
+<div class="nk-content nk-content-fluid">
+  <div class="container-xl wide-xl">
+    <div class="nk-content-body">
+      <div class="nk-block-head nk-block-head-sm">
+        <div class="nk-block-between g-3">
+          <div class="nk-block-head-content">
+            <h3 class="nk-block-title page-title">Saved Document</h3>
+            <div class="nk-block-des text-soft">
+              <p>List of documents you saved for later.</p>
+            </div>
+          </div>
+          <div class="nk-block-head-content"><a href="document-saved.html#" class="btn btn-primary d-none d-sm-inline-flex"><em class="icon ni ni-plus"></em><span>Create New</span></a><a href="document-saved.html#" class="btn btn-icon btn-primary d-inline-flex d-sm-none"><em class="icon ni ni-plus"></em></a></div>
+        </div>
+      </div>
+      <div class="nk-block">
+        <div class="card card-stretch">
+          <div class="card-inner-group">
+            <div class="card-inner">
+              <div class="card-title-group">
+                <ul class="nav nav-tabs nav-tabs-s2">
+                  <li class="nav-item"><a class="nav-link py-1 active" data-bs-toggle="tab" href="document-saved.html#recentDocuments">Recents</a></li>
+                  <li class="nav-item"><a class="nav-link py-1" data-bs-toggle="tab" href="document-saved.html#trashDocuments">Trash</a></li>
+                </ul>
+                <div class="card-tools me-n1">
+                  <ul class="btn-toolbar gx-1">
+                    <li><a href="document-saved.html#" class="search-toggle toggle-search btn btn-icon" data-target="search"><em class="icon ni ni-search"></em></a></li>
+                    <li class="btn-toolbar-sep"></li>
+                    <li>
+                      <div class="dropdown"><button class="btn btn-icon btn-trigger text-base" type="button" data-bs-toggle="dropdown"><em class="icon ni ni-filter-alt"></em></button>
+                        <div class="dropdown-menu dropdown-menu-end">
+                          <div class="dropdown-content">
+                            <ul class="link-check">
+                              <li><a href="document-saved.html#"><em class="icon ni ni-calendar-check"></em><span>Date Created</span></a></li>
+                              <li class="active"><a href="document-saved.html#"><em class="icon ni ni-edit"></em><span>Last Modified</span></a></li>
+                              <li><a href="document-saved.html#"><em class="icon ni ni-text-a"></em><span>Alphabetical</span></a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="card-search search-wrap" data-search="search">
+                  <div class="search-content"><a href="document-saved.html#" class="search-back btn btn-icon toggle-search" data-target="search"><em class="icon ni ni-arrow-left"></em></a><input type="text" class="form-control border-transparent form-focus-none" placeholder="Quick search by transaction"><button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button></div>
+                </div>
+              </div>
+            </div>
+            <div class="card-inner p-0">
+              <div class="tab-content">
+                <div class="tab-pane fade show active" id="recentDocuments">
+                  <div class="nk-tb-list nk-tb-tnx">
+                    <div class="nk-tb-item nk-tb-head">
+                      <div class="nk-tb-col">
+                        <h6 class="overline-title">Name</h6>
+                      </div>
+                      <div class="nk-tb-col tb-col-sm">
+                        <h6 class="overline-title">Type</h6>
+                      </div>
+                      <div class="nk-tb-col tb-col-md">
+                        <h6 class="overline-title">Last Modified</h6>
+                      </div>
+                      <div class="nk-tb-col"></div>
+                    </div>
+                    <div class="nk-tb-item">
+                      <div class="nk-tb-col">
+                        <div class="caption-text">The Impact of Artificial Intelligence on the Future of Work</div>
+                      </div>
+                      <div class="nk-tb-col tb-col-sm">
+                        <div class="badge badge-dim bg-dark rounded-pill">Document</div>
+                      </div>
+                      <div class="nk-tb-col tb-col-md">
+                        <div class="sub-text d-inline-flex flex-wrap gx-2">
+                          <div>Feb 15,2023 </div>
+                          <div>02:31 PM</div>
+                        </div>
+                      </div>
+                      <div class="nk-tb-col tb-col-end">
+                        <div class="dropdown"><button class="btn btn-sm btn-icon btn-trigger me-n1" type="button" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></button>
+                          <div class="dropdown-menu dropdown-menu-end">
+                            <div class="dropdown-content">
+                              <ul class="link-list-opt no-bdr">
+                                <li><a href="document-saved.html#"><em class="icon ni ni-eye"></em><span>View Document</span></a></li>
+                                <li><a href="document-saved.html#"><em class="icon ni ni-edit"></em><span>Rename</span></a></li>
+                                <li><a href="document-saved.html#"><em class="icon ni ni-trash"></em><span>Move to Trash</span></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="nk-tb-item">
+                      <div class="nk-tb-col">
+                        <div class="caption-text">How to Boost Your Online Presence with Social Media Marketing</div>
+                      </div>
+                      <div class="nk-tb-col tb-col-sm">
+                        <div class="badge badge-dim bg-info rounded-pill">Social Media</div>
+                      </div>
+                      <div class="nk-tb-col tb-col-md">
+                        <div class="sub-text d-inline-flex flex-wrap gx-2">
+                          <div>Feb 15,2023 </div>
+                          <div>02:31 PM</div>
+                        </div>
+                      </div>
+                      <div class="nk-tb-col tb-col-end">
+                        <div class="dropdown"><button class="btn btn-sm btn-icon btn-trigger me-n1" type="button" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></button>
+                          <div class="dropdown-menu dropdown-menu-end">
+                            <div class="dropdown-content">
+                              <ul class="link-list-opt no-bdr">
+                                <li><a href="document-saved.html#"><em class="icon ni ni-eye"></em><span>View Document</span></a></li>
+                                <li><a href="document-saved.html#"><em class="icon ni ni-edit"></em><span>Rename</span></a></li>
+                                <li><a href="document-saved.html#"><em class="icon ni ni-trash"></em><span>Move to Trash</span></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="nk-tb-item">
+                      <div class="nk-tb-col">
+                        <div class="caption-text">Top 10 Tips for Effective Time Management in the Workplace</div>
+                      </div>
+                      <div class="nk-tb-col tb-col-sm">
+                        <div class="badge badge-dim bg-primary rounded-pill">Blog Content</div>
+                      </div>
+                      <div class="nk-tb-col tb-col-md">
+                        <div class="sub-text d-inline-flex flex-wrap gx-2">
+                          <div>Feb 15,2023 </div>
+                          <div>02:31 PM</div>
+                        </div>
+                      </div>
+                      <div class="nk-tb-col tb-col-end">
+                        <div class="dropdown"><button class="btn btn-sm btn-icon btn-trigger me-n1" type="button" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></button>
+                          <div class="dropdown-menu dropdown-menu-end">
+                            <div class="dropdown-content">
+                              <ul class="link-list-opt no-bdr">
+                                <li><a href="document-saved.html#"><em class="icon ni ni-eye"></em><span>View Document</span></a></li>
+                                <li><a href="document-saved.html#"><em class="icon ni ni-edit"></em><span>Rename</span></a></li>
+                                <li><a href="document-saved.html#"><em class="icon ni ni-trash"></em><span>Move to Trash</span></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="nk-tb-item">
+                      <div class="nk-tb-col">
+                        <div class="caption-text">Exploring the Latest Breakthroughs and Innovations</div>
+                      </div>
+                      <div class="nk-tb-col tb-col-sm">
+                        <div class="badge badge-dim bg-warning rounded-pill">Facebook Caption</div>
+                      </div>
+                      <div class="nk-tb-col tb-col-md">
+                        <div class="sub-text d-inline-flex flex-wrap gx-2">
+                          <div>Feb 15,2023 </div>
+                          <div>02:31 PM</div>
+                        </div>
+                      </div>
+                      <div class="nk-tb-col tb-col-end">
+                        <div class="dropdown"><button class="btn btn-sm btn-icon btn-trigger me-n1" type="button" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></button>
+                          <div class="dropdown-menu dropdown-menu-end">
+                            <div class="dropdown-content">
+                              <ul class="link-list-opt no-bdr">
+                                <li><a href="document-saved.html#"><em class="icon ni ni-eye"></em><span>View Document</span></a></li>
+                                <li><a href="document-saved.html#"><em class="icon ni ni-edit"></em><span>Rename</span></a></li>
+                                <li><a href="document-saved.html#"><em class="icon ni ni-trash"></em><span>Move to Trash</span></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="nk-tb-item">
+                      <div class="nk-tb-col">
+                        <div class="caption-text">Revolutionizing Industries and Changing Way of Transact</div>
+                      </div>
+                      <div class="nk-tb-col tb-col-sm">
+                        <div class="badge badge-dim bg-secondary rounded-pill">Google Ads</div>
+                      </div>
+                      <div class="nk-tb-col tb-col-md">
+                        <div class="sub-text d-inline-flex flex-wrap gx-2">
+                          <div>Feb 15,2023 </div>
+                          <div>02:31 PM</div>
+                        </div>
+                      </div>
+                      <div class="nk-tb-col tb-col-end">
+                        <div class="dropdown"><button class="btn btn-sm btn-icon btn-trigger me-n1" type="button" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></button>
+                          <div class="dropdown-menu dropdown-menu-end">
+                            <div class="dropdown-content">
+                              <ul class="link-list-opt no-bdr">
+                                <li><a href="document-saved.html#"><em class="icon ni ni-eye"></em><span>View Document</span></a></li>
+                                <li><a href="document-saved.html#"><em class="icon ni ni-edit"></em><span>Rename</span></a></li>
+                                <li><a href="document-saved.html#"><em class="icon ni ni-trash"></em><span>Move to Trash</span></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="nk-tb-item">
+                      <div class="nk-tb-col">
+                        <div class="caption-text">Connecting Our World and Shaping the Future of Smart Living</div>
+                      </div>
+                      <div class="nk-tb-col tb-col-sm">
+                        <div class="badge badge-dim bg-danger rounded-pill">YouTube Title</div>
+                      </div>
+                      <div class="nk-tb-col tb-col-md">
+                        <div class="sub-text d-inline-flex flex-wrap gx-2">
+                          <div>Feb 15,2023 </div>
+                          <div>02:31 PM</div>
+                        </div>
+                      </div>
+                      <div class="nk-tb-col tb-col-end">
+                        <div class="dropdown"><button class="btn btn-sm btn-icon btn-trigger me-n1" type="button" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></button>
+                          <div class="dropdown-menu dropdown-menu-end">
+                            <div class="dropdown-content">
+                              <ul class="link-list-opt no-bdr">
+                                <li><a href="document-saved.html#"><em class="icon ni ni-eye"></em><span>View Document</span></a></li>
+                                <li><a href="document-saved.html#"><em class="icon ni ni-edit"></em><span>Rename</span></a></li>
+                                <li><a href="document-saved.html#"><em class="icon ni ni-trash"></em><span>Move to Trash</span></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="nk-tb-item">
+                      <div class="nk-tb-col">
+                        <div class="caption-text">Harnessing the Scalability and Efficiency of the Cloud</div>
+                      </div>
+                      <div class="nk-tb-col tb-col-sm">
+                        <div class="badge badge-dim bg-gray rounded-pill">Website Copy</div>
+                      </div>
+                      <div class="nk-tb-col tb-col-md">
+                        <div class="sub-text d-inline-flex flex-wrap gx-2">
+                          <div>Feb 15,2023 </div>
+                          <div>02:31 PM</div>
+                        </div>
+                      </div>
+                      <div class="nk-tb-col tb-col-end">
+                        <div class="dropdown"><button class="btn btn-sm btn-icon btn-trigger me-n1" type="button" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></button>
+                          <div class="dropdown-menu dropdown-menu-end">
+                            <div class="dropdown-content">
+                              <ul class="link-list-opt no-bdr">
+                                <li><a href="document-saved.html#"><em class="icon ni ni-eye"></em><span>View Document</span></a></li>
+                                <li><a href="document-saved.html#"><em class="icon ni ni-edit"></em><span>Rename</span></a></li>
+                                <li><a href="document-saved.html#"><em class="icon ni ni-trash"></em><span>Move to Trash</span></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="nk-tb-item">
+                      <div class="nk-tb-col">
+                        <div class="caption-text">Exploring the Latest Developments in Electric Vehicles and Autonomous Cars</div>
+                      </div>
+                      <div class="nk-tb-col tb-col-sm">
+                        <div class="badge badge-dim bg-primary rounded-pill">Blog Content</div>
+                      </div>
+                      <div class="nk-tb-col tb-col-md">
+                        <div class="sub-text d-inline-flex flex-wrap gx-2">
+                          <div>Feb 15,2023 </div>
+                          <div>02:31 PM</div>
+                        </div>
+                      </div>
+                      <div class="nk-tb-col tb-col-end">
+                        <div class="dropdown"><button class="btn btn-sm btn-icon btn-trigger me-n1" type="button" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></button>
+                          <div class="dropdown-menu dropdown-menu-end">
+                            <div class="dropdown-content">
+                              <ul class="link-list-opt no-bdr">
+                                <li><a href="document-saved.html#"><em class="icon ni ni-eye"></em><span>View Document</span></a></li>
+                                <li><a href="document-saved.html#"><em class="icon ni ni-edit"></em><span>Rename</span></a></li>
+                                <li><a href="document-saved.html#"><em class="icon ni ni-trash"></em><span>Move to Trash</span></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="nk-tb-item">
+                      <div class="nk-tb-col">
+                        <div class="caption-text">Protecting Data and Privacy in an Ever-Changing Landscape</div>
+                      </div>
+                      <div class="nk-tb-col tb-col-sm">
+                        <div class="badge badge-dim bg-success rounded-pill">Pros &amp; Cons</div>
+                      </div>
+                      <div class="nk-tb-col tb-col-md">
+                        <div class="sub-text d-inline-flex flex-wrap gx-2">
+                          <div>Feb 15,2023 </div>
+                          <div>02:31 PM</div>
+                        </div>
+                      </div>
+                      <div class="nk-tb-col tb-col-end">
+                        <div class="dropdown"><button class="btn btn-sm btn-icon btn-trigger me-n1" type="button" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></button>
+                          <div class="dropdown-menu dropdown-menu-end">
+                            <div class="dropdown-content">
+                              <ul class="link-list-opt no-bdr">
+                                <li><a href="document-saved.html#"><em class="icon ni ni-eye"></em><span>View Document</span></a></li>
+                                <li><a href="document-saved.html#"><em class="icon ni ni-edit"></em><span>Rename</span></a></li>
+                                <li><a href="document-saved.html#"><em class="icon ni ni-trash"></em><span>Move to Trash</span></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="nk-tb-item">
+                      <div class="nk-tb-col">
+                        <div class="caption-text">How Technology is Transforming Industries and Redefining Job Roles</div>
+                      </div>
+                      <div class="nk-tb-col tb-col-sm">
+                        <div class="badge badge-dim bg-primary rounded-pill">Blog Conclusion</div>
+                      </div>
+                      <div class="nk-tb-col tb-col-md">
+                        <div class="sub-text d-inline-flex flex-wrap gx-2">
+                          <div>Feb 15,2023 </div>
+                          <div>02:31 PM</div>
+                        </div>
+                      </div>
+                      <div class="nk-tb-col tb-col-end">
+                        <div class="dropdown"><button class="btn btn-sm btn-icon btn-trigger me-n1" type="button" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></button>
+                          <div class="dropdown-menu dropdown-menu-end">
+                            <div class="dropdown-content">
+                              <ul class="link-list-opt no-bdr">
+                                <li><a href="document-saved.html#"><em class="icon ni ni-eye"></em><span>View Document</span></a></li>
+                                <li><a href="document-saved.html#"><em class="icon ni ni-edit"></em><span>Rename</span></a></li>
+                                <li><a href="document-saved.html#"><em class="icon ni ni-trash"></em><span>Move to Trash</span></a></li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="trashDocuments">
+                  <div class="row justify-content-center py-5">
+                    <div class="col-md-7 col-lg-4">
+                      <div class="mb-3 text-center"><img src="../images/copywriter/illustrations/no-documents.svg" alt="" /></div>
+                      <div class="nk-block-head text-center">
+                        <div class="nk-block-head-content">
+                          <h3 class="nk-block-title mb-2">No documents in trash.</h3>
+                          <p>All files have been permanently removed from the trash folder and cannot be retrieved.</p>
+                        </div>
+                      </div>
+                      <div class="text-center"><a class="btn btn-primary" href="templates.html">Explore Templates</a></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-inner">
+              <ul class="pagination justify-content-center justify-content-md-start">
+                <li class="page-item"><a class="page-link" href="document-saved.html#">Prev</a></li>
+                <li class="page-item"><a class="page-link" href="document-saved.html#">1</a></li>
+                <li class="page-item"><a class="page-link" href="document-saved.html#">2</a></li>
+                <li class="page-item"><span class="page-link"><em class="icon ni ni-more-h"></em></span></li>
+                <li class="page-item"><a class="page-link" href="document-saved.html#">6</a></li>
+                <li class="page-item"><a class="page-link" href="document-saved.html#">7</a></li>
+                <li class="page-item"><a class="page-link" href="document-saved.html#">Next</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('partials/adminDashboardFooter.ejs') %>

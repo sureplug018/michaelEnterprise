@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="../images/favicon.png">
+  <title>Michael Enterprise | <%= title %></title>
+  <link rel="stylesheet" href="../assets/css/dashlite.css%3Fver=3.2.3.css">
+  <link id="skin-default" rel="stylesheet" href="../assets/css/theme.css%3Fver=3.2.3.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-91615293-4"></script>
+</head>
+
+<body class="nk-body ui-rounder has-sidebar ui-light ">
+  <div class="nk-app-root">
+    <div class="nk-main ">
+      <div class="nk-sidebar is-light nk-sidebar-fixed " data-content="sidebarMenu">
+        <div class="nk-sidebar-element nk-sidebar-head">
+          <div class="nk-sidebar-brand"><a href="#" class="logo-link nk-sidebar-logo"><img class="logo-light logo-img" src="../images/logo.png" srcset="../images/logo2x.png 2x" alt="logo"><img class="logo-dark logo-img" src="../images/logo-dark.png" srcset="../images/logo-dark2x.png 2x" alt="logo-dark"><img class="logo-small logo-img logo-img-small" src="../images/logo-small.png" srcset="../images/logo-small2x.png 2x" alt="logo-small"></a></div>
+          <div class="nk-menu-trigger me-n2"><a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu"><em class="icon ni ni-arrow-left"></em></a></div>
+        </div>
+        <div class="nk-sidebar-element">
+          <div class="nk-sidebar-content">
+            <div class="nk-sidebar-menu" data-simplebar>
+              <ul class="nk-menu">
+                <li class="nk-menu-heading">
+                  <h6 class="overline-title text-primary-alt">Dashboards</h6>
+                </li>
+                <li class="nk-menu-item"><a href="/admin/dashboard" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-presentation"></em></span><span class="nk-menu-text">Dashboard</span></a></li>
+                <li class="nk-menu-item has-sub"><a href="#" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-icon"><em class="icon ni ni-folder-list"></em></span><span class="nk-menu-text">Available Products</span></a>
+                  <ul class="nk-menu-sub">
+                    <li class="nk-menu-item"><a href="/admin/afro-shop" class="nk-menu-link"><span class="nk-menu-text">Afro Shop</span></a></li>
+                  </ul>
+                </li>
+                <li class="nk-menu-item"><a href="#" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-clock"></em></span><span class="nk-menu-text">Out of Stock</span></a></li>
+                <li class="nk-menu-item"><a href="/admin/add-products" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-layers"></em></span><span class="nk-menu-text">Add Products</span></a></li>
+                <li class="nk-menu-item"><a href="#" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-user-alt"></em></span><span class="nk-menu-text">Profile</span></a></li>
+                <li class="nk-menu-item"><a href="#" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-clock"></em></span><span class="nk-menu-text">Orders</span></a></li>
+                <li class="nk-menu-item"><a href="#" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-users"></em></span><span class="nk-menu-text">Users</span></a></li>
+                <li class="nk-menu-item"><a href="#" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-chat"></em></span><span class="nk-menu-text">Supports</span></a></li>
+                <li class="nk-menu-heading">
+                  <h6 class="overline-title text-primary-alt">Return to</h6>
+                </li>
+                <li class="nk-menu-item"><a href="#" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-signout"></em></span><span class="nk-menu-text">Sign Out</span></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="nk-wrap ">
+        <div class="nk-header is-light nk-header-fixed is-light">
+          <div class="container-xl wide-xl">
+            <div class="nk-header-wrap">
+              <div class="nk-menu-trigger d-xl-none ms-n1 me-3"><a href="index.html#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a></div>
+              <div class="nk-header-brand d-xl-none"><a href="index.html" class="logo-link"><img class="logo-light logo-img" src="../images/logo.png" srcset="../images/logo2x.png 2x" alt="logo"><img class="logo-dark logo-img" src="../images/logo-dark.png" srcset="../images/logo-dark2x.png 2x" alt="logo-dark"></a></div>
+              <div class="nk-header-tools">
+                <ul class="nk-quick-nav">
+                  <li class="dropdown user-dropdown"><a href="index.html#" class="dropdown-toggle" data-bs-toggle="dropdown">
+                      <div class="user-toggle">
+                        <div class="user-avatar sm"><em class="icon ni ni-user-alt"></em></div>
+                      </div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-md dropdown-menu-end">
+                      <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
+                        <div class="user-card">
+                          <div class="user-avatar"><span>
+                              <% const letter = user.firstName.charAt(0).toUpperCase(); %>
+                              <% const letter2 = user.lastName.charAt(0).toUpperCase(); %>
+                              <%= letter %>
+                              <%= letter2 %>
+                            </span></div>
+                          <div class="user-info"><span class="lead-text"><%= user.firstName %> <%= user.lastName %></span><span class="sub-text"><%= user.email %></span></div>
+                        </div>
+                      </div>
+                      <div class="dropdown-inner">
+                        <ul class="link-list">
+                          <li><a href="/admin-profile"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
+                        </ul>
+                      </div>
+                      <div class="dropdown-inner">
+                        <ul class="link-list">
+                          <li><a href="#"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>

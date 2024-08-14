@@ -11,6 +11,7 @@ const orderRoutes = require('./routes/orderRoutes');
 const shippingAddressRoutes = require('./routes/shippingAddressRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const supportRoutes = require('./routes/supportRoutes');
+const viewsRoutes = require('./routes/viewsRoutes');
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -48,5 +49,6 @@ app.use('/api/v1/orders', orderRoutes);
 app.use('/api/v1/shipping-address', shippingAddressRoutes);
 app.use('/api/v1/reviews', reviewRoutes);
 app.use('/api/v1/supports', supportRoutes);
+app.use('/', viewsRoutes);
 
 module.exports = app;

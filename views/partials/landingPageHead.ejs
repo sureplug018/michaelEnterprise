@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="keywords" content="Grocery, Store, stores">
+  <title>Michael Enterprise | <%= title %></title>
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/images/fav.png">
+  <!-- plugins css -->
+  <script src="https://kit.fontawesome.com/fe5872a91f.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet preload" href="/assets/css/plugins.css" as="style">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet preload" href="/assets/css/style.css" as="style">
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+
+</head>
+
+<body class="shop-main-h">
+
+
+  <!-- rts header area start -->
+  <!-- rts header area start -->
+  <div class="rts-header-one-area-one">
+    <div class="header-top-area">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="bwtween-area-header-top">
+              <div class="discount-area">
+                <p class="disc">FREE delivery & 40% Discount for next 3 orders! Place your 1st order in.</p>
+                <div class="countdown">
+                  <div class="countDown">10/05/2025 10:20:00</div>
+                </div>
+              </div>
+              <div class="contact-number-area">
+                <p>Need help? Call Us:
+                  <a href="tel:+4733378901">+258 3268 21485</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="header-mid-one-wrapper">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="header-mid-wrapper-between">
+              <div class="nav-sm-left">
+                <ul class="nav-h_top">
+                  <% if(user){ %>
+                  <li><a href="/account">My Account</a></li>
+                  <% } %>
+                  <li><a href="/wishlist">Wishlist</a></li>
+                </ul>
+                <p class="para">We deliver to your everyday from 7:00 to 22:00</p>
+              </div>
+              <div class="nav-sm-left">
+                <!-- language translator -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="search-header-area-main">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="logo-search-category-wrapper">
+              <a href="/" class="logo-area">
+                <img src="/assets/images/logo/logo-01.svg" alt="logo-main" class="logo">
+              </a>
+              <div class="category-search-wrapper">
+
+                <form class="search-header">
+                  <input type="text" placeholder="Search for products, categories or brands" required>
+                  <a href="index.html#" class="rts-btn btn-primary radious-sm with-icon">
+                    <div class="btn-text">
+                      Search
+                    </div>
+                    <div class="arrow-icon">
+                      <i class="fa-light fa-magnifying-glass"></i>
+                    </div>
+                    <div class="arrow-icon">
+                      <i class="fa-light fa-magnifying-glass"></i>
+                    </div>
+                  </a>
+                </form>
+              </div>
+              <div class="actions-area">
+                <div class="search-btn" id="searchs">
+
+                  <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.75 14.7188L11.5625 10.5312C12.4688 9.4375 12.9688 8.03125 12.9688 6.5C12.9688 2.9375 10.0312 0 6.46875 0C2.875 0 0 2.9375 0 6.5C0 10.0938 2.90625 13 6.46875 13C7.96875 13 9.375 12.5 10.5 11.5938L14.6875 15.7812C14.8438 15.9375 15.0312 16 15.25 16C15.4375 16 15.625 15.9375 15.75 15.7812C16.0625 15.5 16.0625 15.0312 15.75 14.7188ZM1.5 6.5C1.5 3.75 3.71875 1.5 6.5 1.5C9.25 1.5 11.5 3.75 11.5 6.5C11.5 9.28125 9.25 11.5 6.5 11.5C3.71875 11.5 1.5 9.28125 1.5 6.5Z" fill="#1F1F25"></path>
+                  </svg>
+
+                </div>
+                <div class="menu-btn" id="menu-btn">
+
+                  <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect y="14" width="20" height="2" fill="#1F1F25"></rect>
+                    <rect y="7" width="20" height="2" fill="#1F1F25"></rect>
+                    <rect width="20" height="2" fill="#1F1F25"></rect>
+                  </svg>
+
+                </div>
+              </div>
+              <div class="accont-wishlist-cart-area-header">
+                <% if(user){ %>
+                <a href="/account" class="btn-border-only account">
+                  <i class="fa-light fa-user"></i>
+                  <span>Account</span>
+                </a>
+                <% } else { %>
+                <a href="/register" class="btn-border-only wishlist">
+                  <i class="fa-regular fa-user"></i>
+                  Register
+                </a>
+                <a href="/sign-in" class="btn-border-only wishlist">
+                  <i class="fa-regular"></i>
+                  Sign In
+                </a>
+                <% } %>
+
+                <a href="/wishlist" class="btn-border-only wishlist">
+                  <i class="fa-regular fa-heart"></i>
+                  <span>Wishlist</span>
+                </a>
+                <div class="btn-border-only cart category-hover-header">
+                  <i class="fa-sharp fa-regular fa-cart-shopping"></i>
+                  <span class="text">My Cart</span>
+                  <a href="/cart" class="over_link"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="rts-header-nav-area-one header--sticky">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="nav-and-btn-wrapper">
+              <div class="nav-area">
+                <nav>
+                  <ul class="parent-nav">
+                    <li class="parent"><a href="/">Home</a></li>
+                    <li class="parent"><a href="/afro-shop">Afro Shop</a></li>
+                    <li class="parent"><a href="/store-locations">Store Locations</a></li>
+                    <li class="parent"><a href="/faq">Faq</a></li>
+                    <li class="parent"><a href="/contact-us">Contact</a></li>
+                  </ul>
+                </nav>
+              </div>
+              <!-- button-area -->
+              <div class="right-btn-area">
+                <button class="rts-btn btn-primary">
+                  Get 30% Discount Now
+                  <span>Sale</span>
+                </button>
+              </div>
+              <!-- button-area end -->
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <div class="logo-search-category-wrapper after-md-device-header">
+              <a href="/" class="logo-area">
+                <img src="/assets/images/logo/logo-01.svg" alt="logo-main" class="logo">
+              </a>
+              <div class="category-search-wrapper">
+
+                <form action="index.html#" class="search-header">
+                  <input type="text" placeholder="Search for products, categories or brands" required>
+                  <button class="rts-btn btn-primary radious-sm with-icon">
+                    <span class="btn-text">
+                      Search
+                    </span>
+                    <span class="arrow-icon">
+                      <i class="fa-light fa-magnifying-glass"></i>
+                    </span>
+                    <span class="arrow-icon">
+                      <i class="fa-light fa-magnifying-glass"></i>
+                    </span>
+                  </button>
+                </form>
+              </div>
+              <div class="main-wrapper-action-2 d-flex">
+                <div class="accont-wishlist-cart-area-header">
+                  <% if(user){ %>
+                  <a href="/account" class="btn-border-only account">
+                    <i class="fa-light fa-user"></i>
+                    Account
+                  </a>
+                  <% } else{ %>
+                  <a href="/register" class="btn-border-only wishlist">
+                    <i class="fa-regular fa-user"></i>
+                    Register
+                  </a>
+                  <a href="/sign-in" class="btn-border-only wishlist">
+                    <i class="fa-regular"></i>
+                    Sign In
+                  </a>
+                  <% } %>
+
+                  <a href="/wishlist" class="btn-border-only wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                    Wishlist
+                  </a>
+                  <div class="btn-border-only cart category-hover-header">
+                    <i class="fa-sharp fa-regular fa-cart-shopping"></i>
+                    <span>My Cart</span>
+                    <a href="cart" class="over_link"></a>
+                  </div>
+                </div>
+                <div class="actions-area">
+                  <div class="search-btn" id="search">
+
+                    <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M15.75 14.7188L11.5625 10.5312C12.4688 9.4375 12.9688 8.03125 12.9688 6.5C12.9688 2.9375 10.0312 0 6.46875 0C2.875 0 0 2.9375 0 6.5C0 10.0938 2.90625 13 6.46875 13C7.96875 13 9.375 12.5 10.5 11.5938L14.6875 15.7812C14.8438 15.9375 15.0312 16 15.25 16C15.4375 16 15.625 15.9375 15.75 15.7812C16.0625 15.5 16.0625 15.0312 15.75 14.7188ZM1.5 6.5C1.5 3.75 3.71875 1.5 6.5 1.5C9.25 1.5 11.5 3.75 11.5 6.5C11.5 9.28125 9.25 11.5 6.5 11.5C3.71875 11.5 1.5 9.28125 1.5 6.5Z" fill="#1F1F25"></path>
+                    </svg>
+
+                  </div>
+                  <div class="menu-btn">
+
+                    <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect y="14" width="20" height="2" fill="#1F1F25"></rect>
+                      <rect y="7" width="20" height="2" fill="#1F1F25"></rect>
+                      <rect width="20" height="2" fill="#1F1F25"></rect>
+                    </svg>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- rts header area end -->
+
+  <!-- rts header area start -->
+  <!-- header style two -->
+  <div id="side-bar" class="side-bar header-two">
+    <button class="close-icon-menu"><i class="far fa-times"></i></button>
+
+
+    <form class="search-input-area-menu mt--30">
+      <input type="text" placeholder="Search..." required>
+      <button><i class="fa-light fa-magnifying-glass"></i></button>
+    </form>
+
+    <div class="mobile-menu-nav-area tab-nav-btn mt--20">
+
+      <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Menu</button>
+        </div>
+      </nav>
+
+      <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+          <!-- mobile menu area start -->
+          <div class="mobile-menu-main">
+            <nav class="nav-main mainmenu-nav mt--30">
+              <ul class="mainmenu metismenu" id="mobile-menu-active">
+                <li><a href="/" class="main">Home</a></li>
+                <li><a href="/afro-shop" class="main">Afro Shop</a></li>
+                <li><a href="/store-locations" class="main">Store Locations</a></li>
+                <li><a href="/faq" class="main">Faq</a></li>
+                <li>
+                  <a href="/contact-us" class="main">Contact Us</a>
+                </li>
+
+                <% if(user){ %>
+                <li>
+                  <a href="/account" class="main">Account</a>
+                </li>
+                <li>
+                  <a href="#" class="main">Sign Out</a>
+                </li>
+                <% } else { %>
+                <li class="has-droupdown">
+                  <a href="#" class="main">Account</a>
+                  <ul class="submenu mm-collapse">
+                    <li><a class="mobile-menu-link" href="/sign-in">Sign In</a></li>
+                    <li><a class="mobile-menu-link" href="/register">Sign Up</a></li>
+                  </ul>
+                </li>
+                <% } %>
+
+
+              </ul>
+            </nav>
+
+          </div>
+          <!-- mobile menu area end -->
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- button area wrapper start -->
+    <div class="button-area-main-wrapper-menuy-sidebar mt--50">
+      <div class="contact-area">
+        <div class="phone">
+          <i class="fa-light fa-headset"></i>
+          <a href="index.html#">02345697871</a>
+        </div>
+        <div class="phone">
+          <i class="fa-light fa-envelope"></i>
+          <a href="index.html#">02345697871</a>
+        </div>
+      </div>
+      <% if(!user){ %>
+      <div class="buton-area-bottom">
+        <a href="/sign-in" class="rts-btn btn-primary">Sign In</a>
+        <a href="/register" class="rts-btn btn-primary">Sign Up</a>
+      </div>
+      <% } %>
+
+    </div>
+    <!-- button area wrapper end -->
+
+  </div>
+  <!-- header style two End -->
+  <!-- rts header area end -->
+  <!-- rts header area end -->

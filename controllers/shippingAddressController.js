@@ -30,12 +30,27 @@ exports.createShippingAddress = async (req, res) => {
       });
     }
     const { fullName, address, phoneNumber, country, region, city } = req.body;
+
+    // Normalize the country input to uppercase
+    const normalizedCountry = country.trim().toUpperCase();
+
+    // Define allowed countries
+    const allowedCountries = ['NIGERIA', 'RUSSIA'];
+
+    // Validate the country input
+    if (!allowedCountries.includes(normalizedCountry)) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Please input either Nigeria or Russia.',
+      });
+    }
+
     const newShippingAddress = await ShippingAddress.create({
       user,
       fullName,
       address,
       phoneNumber,
-      country,
+      country: normalizedCountry,
       region,
       city,
     });
@@ -79,6 +94,20 @@ exports.editShippingAddress = async (req, res) => {
   try {
     const { fullName, address, phoneNumber, country, region, city } = req.body;
 
+    // Normalize the country input to uppercase
+    const normalizedCountry = country.trim().toUpperCase();
+
+    // Define allowed countries
+    const allowedCountries = ['NIGERIA', 'RUSSIA'];
+
+    // Validate the country input
+    if (!allowedCountries.includes(normalizedCountry)) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Invalid country. Please select either Nigeria or Russia.',
+      });
+    }
+
     const shippingAddress = await ShippingAddress.findOneAndUpdate(
       { _id: addressId, user },
       {
@@ -86,7 +115,7 @@ exports.editShippingAddress = async (req, res) => {
         fullName,
         address,
         phoneNumber,
-        country,
+        country: normalizedCountry,
         region,
         city,
       },

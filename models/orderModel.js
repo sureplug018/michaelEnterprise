@@ -1,53 +1,78 @@
 const mongoose = require('mongoose');
 
-const orderSchema = new mongoose.Schema({
-  orderId: {
-    type: String,
-    required: true,
+const orderSchema = new mongoose.Schema(
+  {
+    orderId: {
+      type: String,
+      required: true,
+    },
+    user: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    productId: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Product',
+      required: true,
+    },
+    status: {
+      type: String,
+      required: true,
+      enum: ['Order placed', 'Confirmed', 'Shipped', 'Delivered', 'Cancelled'],
+      default: 'Order placed',
+    },
+    quantity: {
+      type: Number,
+      required: true,
+    },
+    total: {
+      type: String,
+      required: true,
+    },
+    paymentMethod: {
+      type: String,
+      required: true,
+    },
+    // deliveryFee: {
+    //   type: String,
+    //   required: true,
+    // },
+    deliveryMethod: {
+      type: String,
+      required: true,
+      default: 'Door delivery',
+    },
+    fullName: {
+      type: String,
+      required: true,
+    },
+    address: {
+      type: String,
+      required: true,
+    },
+    phoneNumber: {
+      type: String,
+      required: true,
+    },
+    country: {
+      type: String,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    region: {
+      type: String,
+      required: true,
+    },
+    dateDelivered: String,
   },
-  user: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'User',
-    required: true,
+  {
+    timestamps: true,
   },
-  productId: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Product',
-    required: true,
-  },
-  status: {
-    type: String,
-    require: true,
-    enum: ['Order placed', 'Confirmed', 'Shipped', 'Delivered', 'Cancelled'],
-    default: 'Order placed',
-  },
-  quantity: {
-    type: String,
-    required: true,
-  },
-  total: {
-    type: String,
-    required: true,
-  },
-  paymentMethod: {
-    type: String,
-    required: true,
-  },
-  // deliveryFee: {
-  //   type: String,
-  //   required: true,
-  // },
-  deliveryMethod: {
-    type: String,
-    required: true,
-    default: 'Door delivery',
-  },
-  deliveryAddress: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Address',
-  },
-  dateDelivered: String,
-});
+);
 
 orderSchema.pre(/^find/, function (next) {
   this.populate({
@@ -60,7 +85,7 @@ orderSchema.pre(/^find/, function (next) {
 orderSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'productId',
-    select: 'name category imageCover',
+    select: 'name category imageCover slug',
   });
   next();
 });
@@ -69,14 +94,6 @@ orderSchema.pre('save', function (next) {
   this.populate({
     path: 'productId',
     select: 'price name',
-  });
-  next();
-});
-
-orderSchema.pre(/^find/, function (next) {
-  this.populate({
-    path: 'deliveryAddress',
-    select: 'fullName address phoneNumber country city region',
   });
   next();
 });
