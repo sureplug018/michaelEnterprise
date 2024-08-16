@@ -116,15 +116,15 @@
               <button class="rts-btn btn-primary edit-address-btn" data-address-id="<%= shippingAddress.id %>">Save Changes</button>
             </form>
             <% } else{ %>
-            <form class="account-details-area">
+            <form class="account-details-area create-shipping-address-form">
               <h2 class="title">Shipping Address</h2>
-              <input type="text" placeholder="Full Name*" required>
-              <input type="text" placeholder="Address*" required>
-              <input type="text" placeholder="Phone Number*" required>
-              <input type="text" placeholder="Country*" required>
-              <input type="text" placeholder="Region*" required>
-              <input type="text" placeholder="City*" required>
-              <button class="rts-btn btn-primary">Save</button>
+              <input type="text" id="fullNames" placeholder="Full Name*" required>
+              <input type="text" id="addresss" placeholder="Address*" required>
+              <input type="text" id="phoneNumbers" placeholder="Phone Number*" required>
+              <input type="text" id="countrys" placeholder="Country*" required>
+              <input type="text" id="regions" placeholder="Region*" required>
+              <input type="text" id="citys" placeholder="City*" required>
+              <button class="rts-btn btn-primary save-address-btn">Save</button>
             </form>
             <% } %>
 

@@ -43,7 +43,7 @@
                 </div>
                 <input type="range" class="range">
                 <div class="filter-value-min-max">
-                  <span>Price: $10 — $90</span>
+                  <span>Price: ₽10 — ₽90</span>
                   <button class="rts-btn btn-primary">Filter</button>
                 </div>
               </form>
@@ -105,6 +105,9 @@
         <div class="tab-content" id="myTabContent">
           <div class="product-area-wrapper-shopgrid-list mt--20 tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
             <div class="row g-4">
+              <% if (afroShopItems.length === 0) { %>
+              <p>No products found matching your search criteria.</p>
+              <% } else { %>
               <% afroShopItems.forEach(function(item){ %>
               <div class="col-lg-20 col-lg-4 col-md-6 col-sm-6 col-12">
                 <div class="single-shopping-card-one">
@@ -129,8 +132,8 @@
                       <h4 class="title"><%= item.name %></h4>
                     </a>
                     <div class="price-area">
-                      <span class="current">$<%= item.price %></span>
-                      <div class="previous">$<%= item.initialPrice %></div>
+                      <span class="current">₽<%= item.price %></span>
+                      <div class="previous">₽<%= item.initialPrice %></div>
                     </div>
                     <div class="cart-counter-action">
                       <!-- <div class="quantity-edit">
@@ -141,7 +144,7 @@
                         </div>
                       </div> -->
                       <% if(user){ %>
-                        <a href="#" class="rts-btn btn-primary radious-sm with-icon add-to-cart-btn" data-product-id="<%= item.id %>">
+                      <a href="#" class="rts-btn btn-primary radious-sm with-icon add-to-cart-btn" data-product-id="<%= item.id %>">
                         <div class="btn-text btn-cart">
                           Add To Cart
                         </div>
@@ -153,26 +156,26 @@
                         </div>
                       </a>
                       <% }else{ %>
-                        <a href="/sign-in" class="rts-btn btn-primary radious-sm with-icon">
-                          <div class="btn-text">
-                            Add To Cart
-                          </div>
-                          <div class="arrow-icon">
-                            <i class="fa-regular fa-cart-shopping"></i>
-                          </div>
-                          <div class="arrow-icon">
-                            <i class="fa-regular fa-cart-shopping"></i>
-                          </div>
-                        </a>
+                      <a href="/sign-in" class="rts-btn btn-primary radious-sm with-icon">
+                        <div class="btn-text">
+                          Add To Cart
+                        </div>
+                        <div class="arrow-icon">
+                          <i class="fa-regular fa-cart-shopping"></i>
+                        </div>
+                        <div class="arrow-icon">
+                          <i class="fa-regular fa-cart-shopping"></i>
+                        </div>
+                      </a>
                       <% } %>
-                      
+
                     </div>
                   </div>
                 </div>
               </div>
               <% }) %>
 
-
+              <% } %>
 
             </div>
           </div>

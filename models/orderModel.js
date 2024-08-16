@@ -34,10 +34,10 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    // deliveryFee: {
-    //   type: String,
-    //   required: true,
-    // },
+    orderNote: {
+      type: String,
+      required: true,
+    },
     deliveryMethod: {
       type: String,
       required: true,

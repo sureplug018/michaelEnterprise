@@ -31,12 +31,21 @@
                 <div class="details-product-area">
                   <div class="product-thumb-area">
                     <div class="cursor"></div>
+                    <!-- Main Image Wrapper (first image) -->
                     <div class="thumb-wrapper one filterd-items figure">
-                      <div class="product-thumb"><img src="<%= product.imageCover %>" alt="product-thumb">
+                      <div class="product-thumb">
+                        <img src="<%= product.imageCover %>" alt="product-thumb">
                       </div>
                     </div>
+
+                    <!-- Thumbnail Filters -->
                     <div class="product-thumb-filter-group">
-                      <div class="thumb-filter filter-btn active" data-show=".one"><img src="<%= product.imageCover %>" alt="product-thumb-filter"></div>
+                      <!-- Loop through images array to create thumbnails -->
+                      <% product.images.forEach((image, index) => { %>
+                      <div class="thumb-filter filter-btn <%= index === 0 ? 'active' : '' %>" data-show=".thumb-wrapper-<%= index + 1 %>">
+                        <img src="<%= image %>" alt="product-thumb-filter">
+                      </div>
+                      <% }); %>
                     </div>
                   </div>
                   <div class="contents">
@@ -53,13 +62,13 @@
                     <p class="mt--20 mb--20">
                       <%= product.description %>
                     </p>
-                    <span class="product-price mb--15 d-block" style="color: #DC2626; font-weight: 600;"> $<%= product.price %><span class="old-price ml--15">$<%= product.initialPrice %></span></span>
+                    <span class="product-price mb--15 d-block" style="color: #DC2626; font-weight: 600;"> ₽<%= product.price %><span class="old-price ml--15">₽<%= product.initialPrice %></span></span>
                     <div class="product-bottom-action">
                       <div class="cart-edits">
                         <div class="quantity-edit action-item">
-                          <button class="button"><i class="fal fa-minus minus"></i></button>
-                          <input type="text" class="input" value="01" />
-                          <button class="button plus">+<i class="fal fa-plus plus"></i></button>
+                          <button class="button minus-detail" data-product-id="<%= product.id %>"><i class="fal fa-minus"></i></button>
+                          <input type="text" class="input input-detail" value="01" />
+                          <button class="button plus plus-detail" data-product-id="<%= product.id %>">+<i class="fal fa-plus"></i></button>
                         </div>
                       </div>
                       <% if(user){ %>
@@ -92,7 +101,96 @@
                     <div class="product-uniques">
                       <span class="catagorys product-unipue mb--10"><span style="font-weight: 400; margin-right: 10px;">Category: </span> <%= product.category %></span>
                     </div>
+                    <% if (product.productStock && product.productStock > 0) { %>
+                    <!-- Display Product Stock if it's available and greater than 0 -->
+                    <div class="product-uniques">
+                      <span class="catagorys product-unipue mb--10">
+                        <span style="font-weight: 400; margin-right: 10px;">Units Left:</span>
+                        <%= product.productStock %>
+                      </span>
+                    </div>
+                    <% } else if (product.variations && product.variations.length > 0) { %>
+                    <% 
+    // Variables to hold the filtered variations 
+    let colorVariations = [];
+    let sizeVariations = [];
+    let colorSizeVariations = [];
+
+    // Filter the variations based on the conditions
+    product.variations.forEach(variation => {
+      if (variation.quantity > 0) {
+        if (variation.color && variation.size) {
+          colorSizeVariations.push(variation);
+        } else if (variation.color && !variation.size) {
+          colorVariations.push(variation);
+        } else if (!variation.color && variation.size) {
+          sizeVariations.push(variation);
+        }
+      }
+    });
+  %>
+
+                    <% if (colorVariations.length > 0 && sizeVariations.length === 0) { %>
+                    <!-- Display Color Variations -->
+                    <div class="product-uniques">
+                      <span class="catagorys product-unipue mb--10">
+                        <span style="font-weight: 400; margin-right: 10px;">Available Colors:</span>
+                      </span>
+                      <div class="color-options">
+                        <select id="color-select" name="variation[color]">
+                          <option value="">Select Color</option>
+                          <% colorVariations.forEach(variation => { %>
+                          <option value="<%= variation._id %>">
+                            Color: <%= variation.color %> (<%= variation.quantity %> units)
+                          </option>
+                          <% }); %>
+                        </select>
+                      </div>
+                    </div>
+                    <% } %>
+
+                    <% if (sizeVariations.length > 0 && colorVariations.length === 0) { %>
+                    <!-- Display Size Variations -->
+                    <div class="product-uniques">
+                      <span class="catagorys product-unipue mb--10">
+                        <span style="font-weight: 400; margin-right: 10px;">Available Sizes:</span>
+                      </span>
+                      <div class="size-options">
+                        <select id="size-select" name="variation[size]">
+                          <option value="">Select Size</option>
+                          <% sizeVariations.forEach(variation => { %>
+                          <option value="<%= variation._id %>">
+                            Size: <%= variation.size %> (<%= variation.quantity %> units)
+                          </option>
+                          <% }); %>
+                        </select>
+                      </div>
+                    </div>
+                    <% } %>
+
+                    <% if (colorSizeVariations.length > 0) { %>
+                    <!-- Display Color and Size Variations -->
+                    <div class="product-uniques">
+                      <span class="catagorys product-unipue mb--10">
+                        <span style="font-weight: 400; margin-right: 10px;">Available Variations:</span>
+                      </span>
+                      <div class="variation-options">
+                        <select id="variation-select" name="variation[combined]">
+                          <option value="">Select Variation</option>
+                          <% colorSizeVariations.forEach(variation => { %>
+                          <option value="<%= variation._id %>">
+                            Color: <%= variation.color %>, Size: <%= variation.size %> (<%= variation.quantity %> units)
+                          </option>
+                          <% }); %>
+                        </select>
+                      </div>
+                    </div>
+                    <% } %>
+                    <% } %>
+
+
                     <% if(user){ %>
+                    <br>
                     <a href="#" class="share-option-shop-details add-to-wishlist-btn" data-product-id="<%= product.id %>">
                       <div class="single-share-option">
                         <div class="icon">
@@ -102,14 +200,14 @@
                       </div>
                     </a>
                     <% }else{ %>
-                      <a href="/sign-in" class="share-option-shop-details">
-                        <div class="single-share-option">
-                          <div class="icon">
-                            <i class="fa-regular fa-heart"></i>
-                          </div>
-                          <span>Add To Wishlist</span>
+                    <a href="/sign-in" class="share-option-shop-details">
+                      <div class="single-share-option">
+                        <div class="icon">
+                          <i class="fa-regular fa-heart"></i>
                         </div>
-                      </a>
+                        <span>Add To Wishlist</span>
+                      </div>
+                    </a>
                     <% } %>
 
                   </div>
@@ -158,7 +256,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="submit-review-area">
+                    <!-- <div class="submit-review-area">
                       <form action="shop-details.html#" class="submit-review-area">
                         <h5 class="title">Submit Your Review</h5>
                         <div class="your-rating">
@@ -182,14 +280,14 @@
                         <textarea name="#" id="#" placeholder="Write Your Review" required></textarea>
                         <button class="rts-btn btn-primary">SUBMIT REVIEW</button>
                       </form>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-xl-3 col-lg-4 col-md-12 offset-xl-1  rts-sticky-column-item">
+        <!-- <div class="col-xl-3 col-lg-4 col-md-12 offset-xl-1  rts-sticky-column-item">
           <div class="theiaStickySidebar">
             <div class="shop-sight-sticky-sidevbar  mb--20">
               <h6 class="title">Available offers</h6>
@@ -206,7 +304,7 @@
                   <img src="/assets/images/shop/02.svg" alt="icon">
                 </div>
                 <div class="details">
-                  <p>Flat $250 off on Citi-branded Credit Card EMI Transactions on orders of $30 and above T&C</p>
+                  <p>Flat ₽250 off on Citi-branded Credit Card EMI Transactions on orders of ₽30 and above T&C</p>
                 </div>
               </div>
               <div class="single-offer-area">
@@ -215,7 +313,7 @@
                 </div>
                 <div class="details">
                   <p>Free Worldwide Shipping on all
-                    orders over $100</p>
+                    orders over ₽100</p>
                 </div>
               </div>
             </div>
@@ -224,7 +322,7 @@
               <img src="/assets/images/shop/03.png" alt="">
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -304,8 +402,8 @@
                       <h4 class="title"><%= product.name %></h4>
                     </a>
                     <div class="price-area">
-                      <span class="current">$<%= product.price %></span>
-                      <div class="previous">$<%= product.initialPrice %></div>
+                      <span class="current">₽<%= product.price %></span>
+                      <div class="previous">₽<%= product.initialPrice %></div>
                     </div>
                     <div class="cart-counter-action">
                       <a href="#" class="rts-btn btn-primary radious-sm with-icon add-to-cart-btn" data-product-id="<%= product.id %>">

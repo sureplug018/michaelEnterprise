@@ -146,9 +146,19 @@ exports.createOrder = async (req, res) => {
   session.startTransaction();
   try {
     const user = req.user.id;
+    const orderNote = req.body.orderNote;
 
     // return array of cart created by user
     const cartItems = await Cart.find({ user }).session(session);
+
+    if (cartItems.length === 0) {
+      return res.status(400).json({
+        status: 'fail',
+        data: {
+          message: 'Cart is empty',
+        },
+      });
+    }
 
     // Update product stocks
     for (const item of cartItems) {
@@ -170,6 +180,13 @@ exports.createOrder = async (req, res) => {
     const deliveryDetails = await ShippingAddress.findOne({ user }).session(
       session,
     );
+
+    if (!deliveryDetails) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'Delivery address not found',
+      });
+    }
 
     // create an empty array of orders
     const orders = [];
@@ -196,6 +213,7 @@ exports.createOrder = async (req, res) => {
             country: deliveryDetails.country,
             city: deliveryDetails.city,
             region: deliveryDetails.region,
+            orderNote,
           },
         ],
         { session },

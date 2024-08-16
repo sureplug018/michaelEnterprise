@@ -212,6 +212,40 @@ const addProducts = async (formData) => {
   }
 };
 
+const createDeliveryAddress = async (
+  fullName,
+  address,
+  phoneNumber,
+  country,
+  region,
+  city,
+) => {
+  try {
+    const res = await axios({
+      method: 'POST',
+      url: '/api/v1/shipping-address/create-shipping-address',
+      data: {
+        fullName,
+        address,
+        phoneNumber,
+        country,
+        region,
+        city,
+      },
+    });
+
+    if (res.data.status === 'success') {
+      showAlert('success', 'Successfully created delivery address');
+      // Redirect
+      window.setTimeout(() => {
+        location.assign('/account');
+      }, 3000);
+    }
+  } catch (err) {
+    showAlert('error', err.response.data.message);
+  }
+};
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const loginForm = document.querySelector('.form-login');
 const signupForm = document.querySelector('.form-signup');
@@ -221,6 +255,9 @@ const adminLoginForm = document.querySelector('.admin-form-login');
 const shippingAddressForm = document.querySelector('.shipping-address-form');
 const userDataUpdateForm = document.querySelector('.update-user-data-form');
 const addProductsForm = document.querySelector('.add-product-form');
+const createShippingAddressForm = document.querySelector(
+  '.create-shipping-address-form',
+);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 if (userDataUpdateForm) {
@@ -288,6 +325,31 @@ if (loginForm) {
     await login(email, password);
     document.querySelector('.login-btn').style.opacity = '1';
     document.querySelector('.login-btn').textContent = 'Sign in';
+  });
+}
+
+if (createShippingAddressForm) {
+  createShippingAddressForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const button = document.querySelector('.save-address-btn');
+    button.style.opacity = '0.5';
+    button.textContent = 'Saving...';
+    const fullName = document.getElementById('fullNames').value;
+    const address = document.getElementById('addresss').value;
+    const phoneNumber = document.getElementById('phoneNumbers').value;
+    const country = document.getElementById('countrys').value;
+    const region = document.getElementById('regions').value;
+    const city = document.getElementById('citys').value;
+    await createDeliveryAddress(
+      fullName,
+      address,
+      phoneNumber,
+      country,
+      region,
+      city,
+    );
+    button.style.opacity = '1';
+    button.textContent = 'Save';
   });
 }
 
@@ -396,37 +458,6 @@ if (resetPasswordButton) {
     document.querySelector('.btn--reset').textContent = 'Reset password';
   });
 }
-
-document.querySelectorAll('.add-to-cart-btn').forEach((button) => {
-  button.addEventListener('click', async function (e) {
-    e.preventDefault();
-    const productId = this.dataset.productId;
-
-    try {
-      button.style.opacity = '0.5';
-      button.querySelector('.btn-text').textContent = 'Processing';
-
-      // Send a PUT request to the backend to add the product to the cart
-      const response = await axios.post(
-        `/api/v1/carts/add-to-cart/${productId}`,
-      );
-
-      // Handle success message or any further actions after successful approval
-      showAlert('success', 'Cart successfully updated!');
-      button.style.opacity = '1';
-      button.querySelector('.btn-text').textContent = 'Add To Cart';
-
-      // Close the modal after the successful API call
-      document.querySelector('.product-details-popup-wrapper').style.display =
-        'none';
-    } catch (error) {
-      // Handle errors
-      button.style.opacity = '1';
-      button.querySelector('.btn-text').textContent = 'Add To Cart';
-      showAlert('error', error.response.data.message);
-    }
-  });
-});
 
 const addToWishlistButton = document.querySelector('.add-to-wishlist-btn');
 
@@ -545,26 +576,8 @@ document.querySelectorAll('.add-to-cart-from-wishlist').forEach((button) => {
   });
 });
 
-// When the "Quick View" button is clicked
-document.querySelectorAll('.product-details-popup-btn').forEach((button) => {
-  button.addEventListener('click', function () {
-    // Get the product ID from the clicked item
-    const productId = this.closest('.single-shopping-card-one').querySelector(
-      '.add-to-cart-btn',
-    ).dataset.productId;
-
-    console.log('first', productId);
-
-    // Update the modal's Add to Cart button with the correct product ID
-    const modalAddToCartButton = document.querySelector(
-      '.modal-add-to-cart-btn',
-    );
-    modalAddToCartButton.dataset.productId = productId;
-  });
-});
-
 // For the modal "Add to Cart" button
-document.querySelectorAll('.modal-add-to-cart-btn').forEach((button) => {
+document.querySelectorAll('.add-to-cart-btn').forEach((button) => {
   button.addEventListener('click', async function (e) {
     e.preventDefault();
     const productId = this.dataset.productId;
@@ -582,15 +595,61 @@ document.querySelectorAll('.modal-add-to-cart-btn').forEach((button) => {
       showAlert('success', 'Cart successfully updated!');
       button.style.opacity = '1';
       button.querySelector('.btn-text').textContent = 'Add To Cart';
-
-      // Close the modal after the successful API call
-      document.querySelector('.product-details-popup-wrapper').style.display =
-        'none';
     } catch (error) {
       // Handle errors
       showAlert('error', error.response.data.message);
       button.style.opacity = '1';
       button.querySelector('.btn-text').textContent = 'Add To Cart';
+    }
+  });
+});
+
+document.querySelectorAll('.plus-cart').forEach((button) => {
+  button.addEventListener('click', async function (e) {
+    e.preventDefault();
+    const productId = this.dataset.productId;
+    console.log(productId);
+
+    try {
+      button.style.opacity = '0.5';
+
+      const response = await axios.patch(
+        `/api/v1/carts/increase-quantity/${productId}`,
+      );
+
+      showAlert('success', 'Cart successfully updated!');
+      button.style.opacity = '1';
+      window.setTimeout(() => {
+        location.assign('/cart');
+      });
+    } catch (err) {
+      // Handle errors
+      showAlert('error', err.response.data.message);
+    }
+  });
+});
+
+document.querySelectorAll('.minus-cart').forEach((button) => {
+  button.addEventListener('click', async function (e) {
+    e.preventDefault();
+    const productId = this.dataset.productId;
+    console.log(productId);
+
+    try {
+      button.style.opacity = '0.5';
+
+      const response = await axios.patch(
+        `/api/v1/carts/decrease-quantity/${productId}`,
+      );
+
+      showAlert('success', 'Cart successfully updated!');
+      button.style.opacity = '1';
+      window.setTimeout(() => {
+        location.assign('/cart');
+      });
+    } catch (err) {
+      // Handle errors
+      showAlert('error', err.response.data.message);
     }
   });
 });
@@ -625,5 +684,154 @@ if (singleProduct) {
         error.response ? error.response.data.message : 'Something went wrong',
       );
     }
+  });
+}
+
+// Select the buttons
+const minusButton = document.querySelector('.minus-detail');
+const plusButton = document.querySelector('.plus-detail');
+
+if (plusButton) {
+  plusButton.addEventListener('click', async function (e) {
+    e.preventDefault();
+
+    // Retrieve the product ID from the button
+    const productId = this.dataset.productId;
+
+    try {
+      if (!productId) {
+        console.error('Product ID is missing.');
+        return;
+      }
+
+      // Perform the API call
+      const response = await axios.patch(
+        `/api/v1/carts/increase-quantity/${productId}`,
+      );
+
+      // Handle success
+      showAlert('success', 'Cart successfully updated!');
+    } catch (err) {
+      // Handle error
+      showAlert('error', 'Something went wrong');
+    }
+  });
+}
+
+if (minusButton) {
+  minusButton.addEventListener('click', async function (e) {
+    e.preventDefault();
+
+    // Retrieve the product ID from the button
+    const productId = this.dataset.productId;
+
+    try {
+      if (!productId) {
+        console.error('Product ID is missing.');
+        return;
+      }
+
+      // Perform the API call
+      const response = await axios.patch(
+        `/api/v1/carts/decrease-quantity/${productId}`,
+      );
+
+      // Handle success
+      showAlert('success', 'Cart successfully updated!');
+    } catch (err) {
+      // Handle error
+      showAlert('error', 'Something went wrong');
+    }
+  });
+}
+
+const order = document.getElementById('confirmPaymentButton');
+
+if (order) {
+  order.addEventListener('click', function (event) {
+    event.preventDefault(); // Prevent the default action
+
+    // Get the value of the order notes
+    const orderNote = document.getElementById('orderNote').value;
+
+    // Prepare the data to be sent in the API request
+    const requestData = {
+      orderNote: orderNote,
+      // Add any other data needed for the request
+    };
+
+    // Make the API request using Axios and handle the response
+    axios
+      .post('/api/v1/orders/create-order', requestData)
+      .then(function (response) {
+        // Use response here
+        // Check if the status is 'success'
+        if (response.data.status === 'success') {
+          // Show a success alert or perform any action
+          showAlert('success', 'Payment confirmed successfully!');
+
+          // Redirect to the login page after a delay
+          window.setTimeout(() => {
+            location.assign('/account');
+          }, 3000);
+        } else {
+          // Handle the case where the status is not 'success'
+          showAlert('error', 'Something went wrong. Please try again.');
+          // Redirect to the login page after a delay
+          window.setTimeout(() => {
+            location.assign('/cart');
+          }, 3000);
+        }
+      })
+      .catch(function (error) {
+        // Handle error (e.g., show an error message)
+        showAlert('error', 'An error occurred. Please try again later.');
+        // Redirect to the login page after a delay
+        window.setTimeout(() => {
+          location.assign('/cart');
+        }, 3000);
+      });
+  });
+}
+
+const search = document.getElementById('searchForm');
+
+if (search) {
+  search.addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    // Get the search query
+    const query = document.getElementById('searchInput').value.trim();
+
+    // Make the API request using Axios
+    axios
+      .get('/api/v1/search/search', { params: { query: query } })
+      .then(function (response) {
+        const products = response.data.data.products;
+        let resultsHTML = '';
+
+        if (products.length > 0) {
+          products.forEach((product) => {
+            resultsHTML += `
+            <div class="product-item">
+              <a href="/product/${product.slug}">
+                <img src="${product.imageCover}" alt="${product.name}">
+                <h2>${product.name}</h2>
+                <p>${product.price}</p>
+              </a>
+            </div>
+          `;
+          });
+        } else {
+          resultsHTML = '<p>No products found</p>';
+        }
+
+        document.getElementById('searchResults').innerHTML = resultsHTML;
+      })
+      .catch(function (error) {
+        console.error('Error:', error);
+        document.getElementById('searchResults').innerHTML =
+          '<p>Error searching for products</p>';
+      });
   });
 }

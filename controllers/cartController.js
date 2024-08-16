@@ -112,18 +112,28 @@ exports.increaseQuantity = async (req, res) => {
       });
     }
 
-    const cart = await Cart.findOneAndUpdate(
-      { user, productId }, // Query to find the correct cart item
-      { $inc: { quantity: 1 } }, // Increment the quantity by 1
-      { new: true }, // Return the updated document
-    );
+    // Step 1: Find the Cart Item
+    const cart = await Cart.findOne({ user, productId });
 
+    // if the item is not in the user cart, add it
     if (!cart) {
-      return res.status(404).json({
-        status: 'fail',
-        message: 'Item not found',
+      const uploadToCart = await Cart.create({
+        user,
+        productId,
+      });
+
+      return res.status(200).json({
+        status: 'success',
+        message: 'Product added to cart successfully',
+        data: uploadToCart,
       });
     }
+
+    // Step 2: Manually Increment the Quantity and Save
+    cart.quantity += 1; // Increment the quantity by 1
+    await cart.save(); // Save the updated cart item
+
+    // Now you can work with the saved cart item
 
     res.status(200).json({
       status: 'success',

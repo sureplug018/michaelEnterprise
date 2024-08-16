@@ -930,3 +930,25 @@ function copyText(elementId) {
   // Optionally, show an alert or notification to indicate that the text was copied
   alert('Copied: ' + textToCopy);
 }
+
+///////////////////////////////////////////////////////////
+document.addEventListener('DOMContentLoaded', function () {
+  // Get all thumbnail filter buttons
+  const filterButtons = document.querySelectorAll('.thumb-filter');
+
+  filterButtons.forEach((button) => {
+    button.addEventListener('click', function () {
+      // Remove 'active' class from all buttons
+      filterButtons.forEach((btn) => btn.classList.remove('active'));
+
+      // Add 'active' class to the clicked button
+      this.classList.add('active');
+
+      // Get the new image URL from the data attribute
+      const newImage = this.getAttribute('data-image');
+
+      // Update the src attribute of the main image
+      document.getElementById('mainImage').src = newImage;
+    });
+  });
+});

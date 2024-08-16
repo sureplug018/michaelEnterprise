@@ -79,7 +79,7 @@
                 <%= item.productId.name %>
               </a>
             </div>
-            <span class="price">$<%= item.productId.price*item.quantity %></span>
+            <span class="price">₽<%= item.productId.price*item.quantity %></span>
           </div>
           <% }) %>
           <div class="single-shop-list">
@@ -91,7 +91,7 @@
                  const cartItemTotal = cart.productId.price*cart.quantity
                  grandTotal += cartItemTotal
               }) %>
-            <span class="price" style="color: #9B250B;">$<%= grandTotal %></span>
+            <span class="price" style="color: #9B250B;">₽<%= grandTotal %></span>
           </div>
           <p></p>
           <a href="/cart" class="rts-btn btn-primary" style="float: right; margin-right: 10px; padding: 10px 15px;">Modify Cart</a>
@@ -106,15 +106,21 @@
               </li>
             </ul>
             <p class="disc mb--25">
-              Make your payment directly into our bank account. Please use your email address or firstName as the payment reference. Your order will not be shipped until the funds have cleared in our account.
+              Make your payment directly into our bank account. Please use your email address or first name as the payment reference. Your order will not be shipped until the funds have cleared in our account.
             </p>
-            <p class="mb--20">Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy.</p>
-            <div class="single-category mb--30">
-              <input id="cat14" type="checkbox" required>
-              <label for="cat14"> I have read and agree terms and conditions *
-              </label>
-            </div>
-            <a id="confirmCheckoutButton" href="#" class="rts-btn btn-primary">Place Order</a>
+            <p class="mb--20">
+              <span style="font-weight: bold;">Disclaimer:</span> Please ensure that you specify the desired product variations (such as color, size, etc.) that are available before completing your purchase. We will not be responsible for any refund or return if the variations were not specified here during the order process. 
+              <br>check the product detail page to see available variations.
+            </p>
+
+            <form action="">
+              <label for="orderNote" style="font-weight: bold;">Order Notes</label>
+              <p></p>
+              <textarea name="" id="orderNote" style="border: 1px solid #ccc; width: 100%; padding: 10px;"></textarea>
+              <p></p>
+              <button id="confirmCheckoutButton" type="button" class="rts-btn btn-primary">Place Order</button>
+            </form>
+
           </div>
         </div>
       </div>
@@ -129,7 +135,7 @@
     <a id="modalLink" href=""><img id="modalImage" src="" alt="" style="width: 100%; height: auto;"></a>
     <div style="text-align: center;">
       <i class="fa-solid fa-building-columns" style="color: #9B250B; font-size: 50px; margin-bottom: 50px;"></i>
-      <p>Amount: $ <span id="modalAmount"></span></p>
+      <p>Amount: ₽ <span id="modalAmount"></span></p>
       <p>Bank: Opay</p>
       <p>
         Account Name: <i class="fa-solid fa-copy fa-lg" style="color: #9B250B; cursor: pointer;" onclick="copyText('accountName')"></i>
@@ -141,11 +147,9 @@
       </p>
       <p>NB: click this button if you have made payment</p>
       <div style="text-align: center;">
-        <a href="#" class="rts-btn btn-primary" style="display: inline-block; padding: 10px 15px; line-height: 1.2; text-align: center;">I have made payment</a>
+        <a href="#" id="confirmPaymentButton" class="rts-btn btn-primary" style="display: inline-block; padding: 10px 15px; line-height: 1.2; text-align: center;">I have made payment</a>
       </div>
     </div>
-
-
   </div>
 </div>
 
