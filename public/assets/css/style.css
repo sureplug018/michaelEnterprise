@@ -16086,6 +16086,10 @@ li.with-megamenu:hover .rts-megamenu {
   background-image: url(../images/banner/08.jpeg);
 }
 
+.bg_one-banner.three {
+  background-image: url(../images/banner/20.jpeg);
+}
+
 .category-area-main-wrapper-one {
   border-radius: 6px;
   overflow: hidden;
@@ -16460,7 +16464,7 @@ li.with-megamenu:hover .rts-megamenu {
 }
 
 .bg_store-banner {
-  background-image: url(../images/banner/07.jpg);
+  background-image: url(../images/banner/07.jpeg);
 }
 
 .banner-content-store {
@@ -25850,4 +25854,25 @@ header.header-three .sub-dropdown .submenu.third-lvl.base {
 }
 .alert--error {
   background-color: #eb4d4b;
+}
+
+.language-selector button {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 5px 10px;
+  margin: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+}
+
+.language-selector img {
+  width: 20px;
+  height: auto;
+}
+
+.language-selector button:hover {
+  background-color: #f0f0f0;
 }

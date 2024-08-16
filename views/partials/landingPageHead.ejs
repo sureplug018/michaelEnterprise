@@ -34,6 +34,47 @@
   </script>
   <noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript>
 
+  <!-- Google Translate Widget -->
+  <div id="google_translate_element" style="display: none;"></div>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en'
+      }, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <style>
+    .language-selector {
+      position: relative;
+      width: 200px;
+    }
+
+    .language-selector select {
+      width: 100%;
+      padding: 5px 10px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: #fff;
+      appearance: none;
+    }
+
+    .language-selector select option {
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    /* Hide the Google Translate Toolbar */
+    .goog-te-banner-frame.skiptranslate {
+      display: none !important;
+    }
+
+    body {
+      top: 0 !important;
+    }
+  </style>
+</head>
 
 <body class="shop-main-h">
 
@@ -124,13 +165,20 @@
                 </div>
               </div>
               <div class="accont-wishlist-cart-area-header">
-                <div class="mgm">
-                  <div id="google_translate_element">
-                    <div class="skiptranslate goog-te-gadget" dir="ltr">
-                      <div id=":0.targetLanguage"></div>
-                    </div>
-                  </div>
+                <!-- Language Selector -->
+                <div class="language-selector">
+                  <select onchange="translateLanguage(this.value)">
+                    <option value="en" data-flag="https://flagcdn.com/w20/us.png">English</option>
+                    <option value="ru" data-flag="https://flagcdn.com/w20/ru.png">Русский</option>
+                    <option value="pt" data-flag="https://flagcdn.com/w20/pt.png">Português</option>
+                    <option value="es" data-flag="https://flagcdn.com/w20/es.png">Español</option>
+                    <option value="fr" data-flag="https://flagcdn.com/w20/fr.png">Français</option>
+                    <option value="nl" data-flag="https://flagcdn.com/w20/nl.png">Nederlands</option>
+                  </select>
                 </div>
+
+
+
                 <% if(user){ %>
                 <a href="/account" class="btn-border-only account">
                   <i class="fa-light fa-user"></i>
@@ -211,13 +259,7 @@
               </div>
               <div class="main-wrapper-action-2 d-flex">
                 <div class="accont-wishlist-cart-area-header">
-                  <div class="mgm">
-                    <div id="google_translate_element">
-                      <div class="skiptranslate goog-te-gadget" dir="ltr">
-                        <div id=":0.targetLanguage"></div>
-                      </div>
-                    </div>
-                  </div>
+
                   <% if(user){ %>
                   <a href="/account" class="btn-border-only account">
                     <i class="fa-light fa-user"></i>
@@ -284,14 +326,19 @@
 
     <div class="mobile-menu-nav-area tab-nav-btn mt--20">
 
-      <div class="mgm">
-        <div id="google_translate_element">
-          <div class="skiptranslate goog-te-gadget" dir="ltr">
-            <div id=":0.targetLanguage"></div>
-          </div>
-        </div>
+      <!-- Language Selector -->
+      <p>
+      <div class="language-selector">
+        <select onchange="translateLanguage(this.value)">
+          <option value="en" data-flag="https://flagcdn.com/w20/us.png">English</option>
+          <option value="ru" data-flag="https://flagcdn.com/w20/ru.png">Русский</option>
+          <option value="pt" data-flag="https://flagcdn.com/w20/pt.png">Português</option>
+          <option value="es" data-flag="https://flagcdn.com/w20/es.png">Español</option>
+          <option value="fr" data-flag="https://flagcdn.com/w20/fr.png">Français</option>
+          <option value="nl" data-flag="https://flagcdn.com/w20/nl.png">Nederlands</option>
+        </select>
       </div>
-      <p></p>
+      </p>
       <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
           <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Menu</button>
