@@ -10,19 +10,19 @@ module.exports = class OrderEmail {
     this.to = user.email;
     this.firstName = user.firstName; // Corrected splitting method
     this.url = url;
-    this.from = 'support@firmestone.com';
+    this.from = '"Michael Enterprise" <support@michael-enterprise.com>';
     this.orders = orders;
   }
 
   newTransport() {
     if (process.env.NODE_ENV === 'production') {
       return nodemailer.createTransport({
-        host: 'smtp.hostinger.com',
+        host: 'mail.privateemail.com',
         port: 465,
         secure: true,
         auth: {
-          user: 'support@firmestone.com',
-          pass: '695372reLZ#',
+          user: process.env.MAIL_USERNAME,
+          pass: process.env.MAIL_PASSWORD,
         },
       });
     }

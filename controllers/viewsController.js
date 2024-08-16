@@ -15,11 +15,12 @@ exports.overview = async (req, res) => {
     const firstTenProducts = await Product.find()
       .sort({ createdAt: 1 })
       .limit(10);
-
+    const categories = await Category.find();
     res.status(200).render('index', {
       title: 'Home',
       user,
       firstTenProducts,
+      categories,
     });
   } catch (err) {
     res.status(500).render('error', {

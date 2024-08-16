@@ -14760,7 +14760,6 @@ body.sal-disabled [data-sal|=flip] {
   top: -10px;
   height: 16px;
   width: 16px;
-  content: "2";
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14778,7 +14777,6 @@ body.sal-disabled [data-sal|=flip] {
   top: -10px;
   height: 16px;
   width: 16px;
-  content: "5";
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16078,14 +16076,14 @@ li.with-megamenu:hover .rts-megamenu {
 }
 
 .bg_one-banner {
-  background-image: url(../images/banner/01.webp);
+  background-image: url(../images/banner/01.jpeg);
 }
 
 .bg_one-banner {
-  background-image: url(../images/banner/01.webp);
+  background-image: url(../images/banner/01.jpeg);
 }
 .bg_one-banner.two {
-  background-image: url(../images/banner/08.webp);
+  background-image: url(../images/banner/08.jpeg);
 }
 
 .category-area-main-wrapper-one {

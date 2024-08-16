@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
   secure: true,
   auth: {
     user: process.env.MAIL_USERNAME,
-    pass: '695372reLZ#',
+    pass: process.env.MAIL_PASSWORD,
   },
 });
 
@@ -85,7 +85,7 @@ exports.replySupport = async (req, res) => {
 
 async function sendReplyEmail(email, subject, message) {
   const mailOptions = {
-    from: '"Michael Enterprise" <support@firmestone.com>', // sender address
+    from: '"Michael Enterprise" <support@michael-enterprise.com>', // sender address
     to: email, // list of receivers
     subject: subject, // Subject line
     text: message, // plain text body
