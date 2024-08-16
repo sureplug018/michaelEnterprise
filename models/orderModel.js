@@ -36,7 +36,6 @@ const orderSchema = new mongoose.Schema(
     },
     orderNote: {
       type: String,
-      required: true,
     },
     deliveryMethod: {
       type: String,
