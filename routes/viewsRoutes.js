@@ -65,4 +65,6 @@ router.get('/admin/afro-shop', viewsController.afroShopItems);
 
 router.get('/admin/add-products', viewsController.addProducts);
 
+router.get('/admin/add-category', viewsController.addCategory);
+
 module.exports = router;

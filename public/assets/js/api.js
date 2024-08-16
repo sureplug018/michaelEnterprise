@@ -246,6 +246,28 @@ const createDeliveryAddress = async (
   }
 };
 
+const addCategory = async (name) => {
+  try {
+    const res = await axios({
+      method: 'POST',
+      url: '/api/v1/categories/create-category',
+      data: {
+        name,
+      },
+    });
+
+    if (res.data.status === 'success') {
+      showAlert('success', 'Successfully added category');
+      // Redirect
+      window.setTimeout(() => {
+        location.assign('/admin/add-category');
+      }, 3000);
+    }
+  } catch (err) {
+    showAlert('error', err.response.data.message);
+  }
+};
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const loginForm = document.querySelector('.form-login');
 const signupForm = document.querySelector('.form-signup');
@@ -258,6 +280,7 @@ const addProductsForm = document.querySelector('.add-product-form');
 const createShippingAddressForm = document.querySelector(
   '.create-shipping-address-form',
 );
+const addCategoryForm = document.querySelector('.add-category-form');
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 if (userDataUpdateForm) {
@@ -272,6 +295,19 @@ if (userDataUpdateForm) {
     await updateUserDetail(firstName, lastName, phoneNumber);
     updateBtn.style.opacity = '1';
     updateBtn.textContent = 'Save Changes';
+  });
+}
+
+if (addCategoryForm) {
+  addCategoryForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const button = document.querySelector('.add-category-btn');
+    button.style.opacity = '0.5';
+    button.textContent = 'Adding...';
+    const name = document.getElementById('name').value;
+    await addCategory(name);
+    button.style.opacity = '1';
+    button.textContent = 'Add Category';
   });
 }
 

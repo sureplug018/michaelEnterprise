@@ -6,6 +6,7 @@ const ShippingAddress = require('../models/shippingAddressModel');
 const Review = require('../models/reviewModel');
 const PendingReview = require('../models/pendingReviewModel');
 const Product = require('../models/productModel');
+const Category = require('../models/categoryModel');
 const Wishlist = require('../models/wishlistModel');
 
 exports.overview = async (req, res) => {
@@ -327,7 +328,7 @@ exports.account = async (req, res) => {
     }
     return res.status(302).redirect('/');
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(500).render('error', {
       title: 'Error',
       message: 'Something went wrong.',
@@ -494,8 +495,30 @@ exports.addProducts = async (req, res) => {
       return res.status(302).redirect('/');
     }
     if (user.role === 'admin') {
+      const categories = await Category.find();
       return res.status(200).render('add-products', {
         title: 'Add Products',
+        user,
+        categories,
+      });
+    }
+  } catch (err) {
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.addCategory = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    if (!user) {
+      return res.status(302).redirect('/');
+    }
+    if (user.role === 'admin') {
+      return res.status(200).render('add-category', {
+        title: 'Add Category',
         user,
       });
     }
