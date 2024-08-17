@@ -69,7 +69,7 @@ module.exports = class Email {
 
   async sendWelcome() {
     try {
-      await this.send('welcome', 'Welcome to Firmestone'); // Ensure the template name matches
+      await this.send('welcome', 'Welcome to Michael Enterprise'); // Ensure the template name matches
     } catch (error) {
       // Handle error for sendWelcome method
       console.error('Sending welcome email failed:', error);
