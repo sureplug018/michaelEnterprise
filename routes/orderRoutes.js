@@ -11,6 +11,7 @@ router.use(authController.protect);
 router.post(
   '/create-order',
   authController.restrictTo('user'),
+  orderController.uploadPaymentProof,
   orderController.createOrder,
 );
 

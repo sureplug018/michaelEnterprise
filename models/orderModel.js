@@ -67,6 +67,10 @@ const orderSchema = new mongoose.Schema(
       required: true,
     },
     dateDelivered: String,
+    paymentProof: {
+      type: String,
+      required: true
+    }
   },
   {
     timestamps: true,

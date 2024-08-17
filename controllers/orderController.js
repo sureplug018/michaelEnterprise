@@ -1,6 +1,9 @@
 // const axios = require('axios');
 // const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const mongoose = require('mongoose');
+const multer = require('multer');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const cloudinary = require('cloudinary').v2;
 const Order = require('../models/orderModel');
 const User = require('../models/userModel');
 const Cart = require('../models/cartModel');
@@ -141,17 +144,53 @@ const Product = require('../models/productModel');
 // add each products total to the metadata
 // add payment method to the metadata
 
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+// Set up multer storage with Cloudinary
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: 'payment_proofs', // Folder to store payment proofs
+    allowed_formats: ['jpg', 'jpeg', 'png'], // Allowed file formats
+    transformation: [{ width: 500, height: 500, crop: 'limit' }],
+  },
+});
+
+// Multer middleware
+const upload = multer({ storage });
+
+exports.uploadPaymentProof = upload.single('paymentProof');
+
 exports.createOrder = async (req, res) => {
   const session = await mongoose.startSession();
   session.startTransaction();
   try {
     const user = req.user.id;
     const orderNote = req.body.orderNote;
+    const paymentProof = req.file ? req.file.path : null; // Get payment proof image URL
+
+    if (!paymentProof) {
+      await session.abortTransaction();
+      session.endSession();
+      return res.status(400).json({
+        status: 'fail',
+        data: {
+          message: 'Payment proof is required',
+        },
+      });
+    }
 
     // return array of cart created by user
     const cartItems = await Cart.find({ user }).session(session);
 
     if (cartItems.length === 0) {
+      await session.abortTransaction();
+      session.endSession();
       return res.status(400).json({
         status: 'fail',
         data: {
@@ -182,6 +221,8 @@ exports.createOrder = async (req, res) => {
     );
 
     if (!deliveryDetails) {
+      await session.abortTransaction();
+      session.endSession();
       return res.status(404).json({
         status: 'fail',
         message: 'Delivery address not found',
@@ -207,6 +248,7 @@ exports.createOrder = async (req, res) => {
             name: item.productId.name,
             total: item.productId.price * item.quantity,
             paymentMethod: 'Bank Transfer',
+            paymentProof, // Save the payment proof URL
             fullName: deliveryDetails.fullName,
             address: deliveryDetails.address,
             phoneNumber: deliveryDetails.phoneNumber,

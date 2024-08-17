@@ -406,7 +406,7 @@ exports.protect = async (req, res, next) => {
     let token = DBrefreshToken.refreshToken;
     token = token.toString();
     if (token !== refreshToken) {
-      console.log(token, 'and', refreshToken)
+      console.log(token, 'and', refreshToken);
       return res.status(400).json({
         status: 'fail',
         message: 'Unauthorized - invalid token',
@@ -818,6 +818,14 @@ exports.isLoggedIn = async (req, res, next) => {
     }
 
     if (req.cookies['access-token']) {
+      const verifyToken = await User.findOne({
+        refreshToken: req.cookies['refresh-token'],
+      });
+
+      if (!verifyToken) {
+        return next();
+      }
+
       // step 2: verification of token
       const decoded = await promisify(jwt.verify)(
         req.cookies['access-token'],
