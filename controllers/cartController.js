@@ -160,10 +160,10 @@ exports.decreaseQuantity = async (req, res) => {
   try {
     const productInCart = await Cart.findOne({ user, productId });
 
-    if (productInCart.quantity <= 1) {
+    if (!productInCart) {
       return res.status(400).json({
         status: 'fail',
-        message: 'Cart cannot be updated',
+        message: 'Item is not in cart',
       });
     }
 

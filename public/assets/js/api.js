@@ -794,7 +794,7 @@ if (minusButton) {
       showAlert('success', 'Cart successfully updated!');
     } catch (err) {
       // Handle error
-      showAlert('error', 'Something went wrong');
+      showAlert('error', err.response.data.message);
     }
   });
 }
@@ -871,7 +871,6 @@ if (order) {
       });
   });
 }
-
 
 const search = document.getElementById('searchForm');
 
