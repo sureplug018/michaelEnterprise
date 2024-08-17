@@ -822,9 +822,24 @@ exports.isLoggedIn = async (req, res, next) => {
         refreshToken: req.cookies['refresh-token'],
       });
 
-      if (!verifyToken) {
-        return next();
-      }
+       if (!verifyToken) {
+         // Clear cookies if refreshToken is not found
+         res.cookie('access-token', '', {
+           maxAge: 0,
+           httpOnly: true,
+           secure: true,
+           sameSite: 'none',
+           path: '/',
+         });
+         res.cookie('refresh-token', '', {
+           maxAge: 0,
+           httpOnly: true,
+           secure: true,
+           sameSite: 'none',
+           path: '/',
+         });
+         return next();
+       }
 
       // step 2: verification of token
       const decoded = await promisify(jwt.verify)(

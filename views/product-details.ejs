@@ -66,9 +66,16 @@
                     <div class="product-bottom-action">
                       <div class="cart-edits">
                         <div class="quantity-edit action-item">
-                          <button class="button minus-detail" data-product-id="<%= product.id %>"><i class="fal fa-minus"></i></button>
+                          <% if(user){ %>
+                          <a class="button minus-detail" data-product-id="<%= product.id %>"><i class="fal fa-minus"></i></a>
                           <input type="text" class="input input-detail" value="01" />
-                          <button class="button plus plus-detail" data-product-id="<%= product.id %>">+<i class="fal fa-plus"></i></button>
+                          <a class="button plus plus-detail" data-product-id="<%= product.id %>"><i class="fal fa-plus"></i></a>
+                          <% }else{ %>
+                          <a class="button" href="/sign-in"><i class="fal fa-minus"></i></a>
+                          <input type="text" class="input input-detail" value="01" />
+                          <a class="button plus" href="/sign-in"><i class="fal fa-plus"></i></a>
+                          <% } %>
+
                         </div>
                       </div>
                       <% if(user){ %>
