@@ -2,15 +2,33 @@
 // alerts
 const hideAlert = () => {
   const el = document.querySelector('.alert');
-  if (el) el.parentElement.removeChild(el);
+  if (el) {
+    el.classList.remove('show');
+    el.classList.add('hide');
+
+    // Remove the element from the DOM after the fade-out animation
+    el.addEventListener('animationend', () => {
+      el.remove();
+    });
+  }
 };
 
 const showAlert = (type, msg) => {
-  hideAlert();
+  hideAlert(); // Ensure no existing alert is visible
+
   const markup = `<div class="alert alert--${type}">${msg}</div>`;
   document.querySelector('body').insertAdjacentHTML('afterbegin', markup);
-  window.setTimeout(hideAlert, 5000);
+
+  const alertElement = document.querySelector('.alert');
+  if (alertElement) {
+    // Trigger the drop-down effect and make it visible
+    alertElement.classList.add('show');
+
+    // Hide the alert after 5 seconds
+    window.setTimeout(hideAlert, 5000);
+  }
 };
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const login = async (email, password) => {
   try {
@@ -787,18 +805,38 @@ if (order) {
   order.addEventListener('click', function (event) {
     event.preventDefault(); // Prevent the default action
 
+    // Disable the button, change text to "Processing...", and adjust opacity
+    order.disabled = true;
+    order.textContent = 'Processing...';
+    order.style.opacity = '0.5';
+
     // Get the value of the order notes
     const orderNote = document.getElementById('orderNote').value;
 
-    // Prepare the data to be sent in the API request
-    const requestData = {
-      orderNote: orderNote,
-      // Add any other data needed for the request
-    };
+    // Get the file input element
+    const paymentProofInput = document.getElementById('paymentProof');
+
+    // Ensure a file is selected
+    if (paymentProofInput.files.length === 0) {
+      showAlert('error', 'Please upload a proof of payment.');
+      order.disabled = false; // Re-enable the button
+      order.textContent = 'I have made payment'; // Reset text content
+      order.style.opacity = '1'; // Reset opacity
+      return;
+    }
+
+    // Prepare the FormData object
+    const formData = new FormData();
+    formData.append('orderNote', orderNote);
+    formData.append('paymentProof', paymentProofInput.files[0]); // Add the file to the request
 
     // Make the API request using Axios and handle the response
     axios
-      .post('/api/v1/orders/create-order', requestData)
+      .post('/api/v1/orders/create-order', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
       .then(function (response) {
         // Use response here
         // Check if the status is 'success'
@@ -806,14 +844,16 @@ if (order) {
           // Show a success alert or perform any action
           showAlert('success', 'Payment confirmed successfully!');
 
-          // Redirect to the login page after a delay
+          // Redirect to the account page after a delay
           window.setTimeout(() => {
             location.assign('/account');
           }, 3000);
         } else {
           // Handle the case where the status is not 'success'
           showAlert('error', 'Something went wrong. Please try again.');
-          // Redirect to the login page after a delay
+          order.disabled = false; // Re-enable the button
+          order.textContent = 'I have made payment'; // Reset text content
+          order.style.opacity = '1'; // Reset opacity
           window.setTimeout(() => {
             location.assign('/cart');
           }, 3000);
@@ -822,13 +862,16 @@ if (order) {
       .catch(function (error) {
         // Handle error (e.g., show an error message)
         showAlert('error', 'An error occurred. Please try again later.');
-        // Redirect to the login page after a delay
+        order.disabled = false; // Re-enable the button
+        order.textContent = 'I have made payment'; // Reset text content
+        order.style.opacity = '1'; // Reset opacity
         window.setTimeout(() => {
           location.assign('/cart');
         }, 3000);
       });
   });
 }
+
 
 const search = document.getElementById('searchForm');
 

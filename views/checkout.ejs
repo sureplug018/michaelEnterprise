@@ -109,7 +109,7 @@
               Make your payment directly into our bank account. Please use your email address or first name as the payment reference. Your order will not be shipped until the funds have cleared in our account.
             </p>
             <p class="mb--20">
-              <span style="font-weight: bold;">Disclaimer:</span> Please ensure that you specify the desired product variations (such as color, size, etc.) that are available before completing your purchase. We will not be responsible for any refund or return if the variations were not specified here during the order process. 
+              <span style="font-weight: bold;">Disclaimer:</span> Please ensure that you specify the desired product variations (such as color, size, etc.) that are available before completing your purchase. We will not be responsible for any refund or return if the variations were not specified here during the order process.
               <br>check the product detail page to see available variations.
             </p>
 
@@ -137,14 +137,19 @@
       <i class="fa-solid fa-building-columns" style="color: #9B250B; font-size: 50px; margin-bottom: 50px;"></i>
       <p>Amount: ₽ <span id="modalAmount"></span></p>
       <p>Bank: Tinkoff</p>
-      <p>
-        Account Name: <i class="fa-solid fa-copy fa-lg" style="color: #9B250B; cursor: pointer;" onclick="copyText('accountName')"></i>
-        <span id="accountName">Ифеолува Майкл Б</span>
+      <p><span style="margin-right: 10px;">Account Name: </span>
+        <i class="fa-solid fa-copy fa-lg" style="color: #9B250B; cursor: pointer;" onclick="copyText('accountName')"></i>
+        <span id="accountName" style="margin-left: 5px;">Ифеолува Майкл Б</span>
       </p>
-      <p>
-        Account Number: <i class="fa-solid fa-copy fa-lg" style="color: #9B250B; cursor: pointer;" onclick="copyText('accountNumber')"></i>
-        <span id="accountNumber">2200701355976165</span>
+      <p><span style="margin-right: 10px;">Account Number:</span>
+        <i class="fa-solid fa-copy fa-lg" style="color: #9B250B; cursor: pointer;" onclick="copyText('accountNumber')"></i>
+        <span id="accountNumber" style="margin-left: 5px;">2200701355976165</span>
       </p>
+      <p style="font-weight: bold;">Upload Payment Proof</p>
+      <form style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <input type="file" id="paymentProof" required>
+      </form>
+      <p></p>
       <p>NB: click this button if you have made payment</p>
       <div style="text-align: center;">
         <a href="#" id="confirmPaymentButton" class="rts-btn btn-primary" style="display: inline-block; padding: 10px 15px; line-height: 1.2; text-align: center;">I have made payment</a>
