@@ -71,7 +71,7 @@
                       <td><span class="badge text-bg-danger"><%= order.status %></span></td>
                       <% } %>
 
-                      <td>$<%= order.total %> for <%= order.quantity %> <%= order.quantity === 1 ? 'item' : 'items' %></td>
+                      <td>₽<%= order.total %> for <%= order.quantity %> <%= order.quantity === 1 ? 'item' : 'items' %></td>
                       <td><a href="#" class="btn-small d-block view-details" data-order='<%= JSON.stringify(order) %>'>View Details</a></td>
                     </tr>
                     <% }) %>
@@ -92,7 +92,7 @@
               <p style="font-family: Arial, sans-serif; font-size: 18px; margin: 5px 0;"><strong>Order ID:</strong> <span id="modalOrderId"></span></p>
               <p style="font-family: Arial, sans-serif; font-size: 18px; margin: 5px 0;"><strong>Date:</strong> <span id="modalOrderDate"></span></p>
               <p style="font-family: Arial, sans-serif; font-size: 18px; margin: 5px 0;"><strong>Status:</strong> <span id="modalOrderStatus"></span></p>
-              <p style="font-family: Arial, sans-serif; font-size: 18px; margin: 5px 0;"><strong>Total:</strong> $<span id="modalOrderTotal"></span> for <span id="modalOrderQuantity"></span> items</p>
+              <p style="font-family: Arial, sans-serif; font-size: 18px; margin: 5px 0;"><strong>Total:</strong> ₽<span id="modalOrderTotal"></span> for <span id="modalOrderQuantity"></span> items</p>
               <h2 style="font-family: Arial, sans-serif; font-size: 24px; margin-bottom: 20px;">Delivery Details</h2>
               <p style="font-family: Arial, sans-serif; font-size: 18px; margin: 5px 0;"><strong>Full Name:</strong> <span id="modalFullName"></span></p>
               <p style="font-family: Arial, sans-serif; font-size: 18px; margin: 5px 0;"><strong>Address:</strong> <span id="modalAddress"></span></p>
