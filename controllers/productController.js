@@ -328,3 +328,34 @@ exports.editProduct = async (req, res) => {
     });
   }
 };
+
+exports.findProducts = async (req, res) => {
+  try {
+    const { category } = req.query;
+
+    // Create a filter object
+    const filter = {};
+
+    // If a category is provided and it's not 'all', add it to the filter
+    if (category && category.trim().toLowerCase() !== 'all') {
+      filter.category = category.trim();
+    }
+
+    // Find products based on the filter
+    const products = await Product.find(filter);
+
+    // Respond with the filtered products
+    res.status(200).json({
+      status: 'success',
+      results: products.length,
+      data: {
+        products,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: err.message,
+    });
+  }
+};
