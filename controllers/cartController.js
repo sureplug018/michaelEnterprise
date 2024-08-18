@@ -167,6 +167,14 @@ exports.decreaseQuantity = async (req, res) => {
       });
     }
 
+    if (productInCart.quantity <= 1) {
+      await Cart.findByIdAndDelete(productInCart.id);
+      return res.status(200).json({
+        status: 'success',
+        message: 'Item removed from cart',
+      });
+    }
+
     const cart = await Cart.findOneAndUpdate(
       { user, productId }, // Query to find the correct cart item
       { $inc: { quantity: -1 } }, // Increment the quantity by 1

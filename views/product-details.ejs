@@ -67,9 +67,9 @@
                       <div class="cart-edits">
                         <div class="quantity-edit action-item">
                           <% if(user){ %>
-                          <a class="button minus-detail" data-product-id="<%= product.id %>"><i class="fal fa-minus"></i></a>
+                          <button class="button minus-detail" data-product-id="<%= product.id %>"><i class="fal fa-minus"></i></button>
                           <input type="text" class="input input-detail" value="01" />
-                          <a class="button plus plus-detail" data-product-id="<%= product.id %>"><i class="fal fa-plus"></i></a>
+                          <button class="button plus plus-detail" data-product-id="<%= product.id %>">+<i class="fal fa-plus plus"></i></button>
                           <% }else{ %>
                           <a class="button" href="/sign-in"><i class="fal fa-minus"></i></a>
                           <input type="text" class="input input-detail" value="01" />
