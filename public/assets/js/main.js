@@ -834,17 +834,12 @@ function showOrderDetails(order) {
   document.getElementById('modalOrderTotal').innerText = order.total;
   document.getElementById('modalOrderQuantity').innerText =
     order.quantity + (order.quantity === 1 ? ' item' : ' items');
-  document.getElementById('modalFullName').innerText =
-    order.fullName;
-  document.getElementById('modalAddress').innerText =
-    order.address;
-  document.getElementById('modalPhoneNumber').innerText =
-    order.phoneNumber;
-  document.getElementById('modalCountry').innerText =
-    order.country;
+  document.getElementById('modalFullName').innerText = order.fullName;
+  document.getElementById('modalAddress').innerText = order.address;
+  document.getElementById('modalPhoneNumber').innerText = order.phoneNumber;
+  document.getElementById('modalCountry').innerText = order.country;
   document.getElementById('modalCity').innerText = order.city;
-  document.getElementById('modalRegion').innerText =
-    order.region;
+  document.getElementById('modalRegion').innerText = order.region;
 }
 
 // Listen for clicks on "View Details" buttons
@@ -871,11 +866,36 @@ window.addEventListener('click', (event) => {
   }
 });
 
-// Function to open the modal and set the amount
-function openModal(grandTotal) {
-  // Set the amount in the modal
-  document.getElementById('modalAmount').innerText = grandTotal;
+const bankList = document.getElementById('bankList');
 
+if (bankList) {
+  bankList.addEventListener('click', function (e) {
+    if (e.target && e.target.nodeName === 'LI') {
+      // Store the selected bank details in the button's dataset
+      confirmCheckoutButton.dataset.bankName =
+        e.target.getAttribute('data-bank-name');
+      confirmCheckoutButton.dataset.accountName =
+        e.target.getAttribute('data-account-name');
+      confirmCheckoutButton.dataset.accountNumber = e.target.getAttribute(
+        'data-account-number',
+      );
+    }
+  });
+}
+
+// Function to open the modal and set the amount
+function openModal(grandTotal, bankName, accountName, accountNumber) {
+  // Set the amount in the modal
+  const grandTotalAmount = document.getElementById('modalAmount');
+  if (grandTotalAmount) {
+    grandTotalAmount.innerText = grandTotal;
+  }
+
+  document.querySelector(
+    '#checkoutConfirmModal .fa-building-columns + p',
+  ).innerText = `Bank: ${bankName}`;
+  document.getElementById('accountName').innerText = accountName;
+  document.getElementById('accountNumber').innerText = accountNumber;
   // Display the modal
   document.getElementById('checkoutConfirmModal').style.display = 'block';
 }
@@ -896,8 +916,13 @@ if (confirmCheckoutButton) {
       .querySelector('.price[style*="color: #9B250B;"]')
       .innerText.slice(1); // Assuming it's prefixed with '$'
 
+    // Get the selected bank details from the button's dataset
+    const bankName = this.dataset.bankName;
+    const accountName = this.dataset.accountName;
+    const accountNumber = this.dataset.accountNumber;
+
     // Open the modal and pass the total amount
-    openModal(grandTotal);
+    openModal(grandTotal, bankName, accountName, accountNumber);
   });
 }
 
