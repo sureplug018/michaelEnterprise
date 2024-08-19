@@ -913,3 +913,87 @@ if (search) {
       });
   });
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function myFunction() {
+  const x = document.getElementById('categorySelect').value;
+  const url = x ? `/afro-shop?category=${x}` : '/afro-shop';
+  window.location.href = url;
+  if (x === 'all') {
+    window.location.href = '/afro-shop?category=all';
+  }
+}
+
+// Function to update the dropdown based on the URL
+function updateDropdownBasedOnURL() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const category = urlParams.get('category');
+
+  if (category) {
+    const selectElement = document.getElementById('categorySelect');
+    const optionToSelect = Array.from(selectElement.options).find(
+      (option) => option.value === category,
+    );
+
+    if (optionToSelect) {
+      selectElement.value = category;
+      optionToSelect.textContent = optionToSelect.textContent;
+    }
+  }
+}
+
+// Call this function when the page loads to set the correct dropdown value
+updateDropdownBasedOnURL();
+
+const currentPage = parseInt(
+  document.getElementById('currentPage').textContent,
+);
+const totalPages = parseInt(document.getElementById('totalPages').textContent);
+
+function updateURL(direction) {
+  const currentUrl = new URL(window.location.href);
+  let page = parseInt(currentUrl.searchParams.get('page')) || 1;
+
+  if (direction === 'next' && page < totalPages) {
+    page += 1;
+  } else if (direction === 'prev' && page > 1) {
+    page -= 1;
+  } else {
+    // Update button disabled state
+    updateButtonStates(page);
+    return; // Exit the function if the button should be disabled
+  }
+
+  currentUrl.searchParams.set('page', page);
+  window.location.href = currentUrl.toString();
+}
+
+function updateButtonStates(page) {
+  const prevBtn = document.getElementById('previous-btn');
+  const nextBtn = document.getElementById('next-btn');
+
+  if (!prevBtn || !nextBtn) {
+    console.error('Pagination buttons not found.');
+    return;
+  }
+
+  if (page <= 1) {
+    prevBtn.setAttribute('aria-disabled', 'true');
+    prevBtn.classList.add('disabled');
+  } else {
+    prevBtn.removeAttribute('aria-disabled');
+    prevBtn.classList.remove('disabled');
+  }
+
+  if (page >= totalPages) {
+    nextBtn.setAttribute('aria-disabled', 'true');
+    nextBtn.classList.add('disabled');
+  } else {
+    nextBtn.removeAttribute('aria-disabled');
+    nextBtn.classList.remove('disabled');
+  }
+}
+
+// Initialize button states on page load
+updateButtonStates(currentPage);

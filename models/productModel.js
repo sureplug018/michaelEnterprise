@@ -34,6 +34,7 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
     slug: String,
+    categorySlug: String,
     ratingsAverage: String,
     ratingsQuantity: String,
     summary: {
@@ -80,6 +81,7 @@ productSchema.index({ category: 1, price: 1 });
 productSchema.index({ category: 1, price: -1 });
 productSchema.index({ category: 1, ratingsAverage: -1 });
 productSchema.index({ slug: 1 });
+productSchema.index({ categorySlug: 1 });
 
 productSchema.virtual('reviews', {
   ref: 'Review',
@@ -94,6 +96,13 @@ productSchema.pre('save', function (next) {
 
   // Generate the slug using the lowercase name
   this.slug = slugify(lowercaseName);
+  next();
+});
+
+productSchema.pre('save', function (next) {
+  const lowercaseName = this.category.toLowerCase();
+
+  this.categorySlug = slugify(lowercaseName);
   next();
 });
 

@@ -331,23 +331,36 @@ exports.editProduct = async (req, res) => {
 
 exports.findProducts = async (req, res) => {
   try {
-    const { category } = req.query;
+    const { category, page = 1, limit = 20 } = req.query;
 
     // Create a filter object
     const filter = {};
 
-    // If a category is provided and it's not 'all', add it to the filter
+    // If a category is provided and it's not 'all', map it to categorySlug in the filter
     if (category && category.trim().toLowerCase() !== 'all') {
-      filter.category = category.trim();
+      filter.categorySlug = category.trim();
     }
 
-    // Find products based on the filter
-    const products = await Product.find(filter);
+    // Convert page and limit to numbers
+    const pageNumber = parseInt(page, 10);
+    const limitNumber = parseInt(limit, 10);
 
-    // Respond with the filtered products
+    // Calculate the skip value
+    const skip = (pageNumber - 1) * limitNumber;
+
+    // Find products based on the filter with pagination
+    const products = await Product.find(filter).skip(skip).limit(limitNumber);
+
+    // Get the total count of products for pagination metadata
+    const totalCount = await Product.countDocuments(filter);
+
+    // Respond with the paginated products and metadata
     res.status(200).json({
       status: 'success',
       results: products.length,
+      totalCount,
+      currentPage: pageNumber,
+      totalPages: Math.ceil(totalCount / limitNumber),
       data: {
         products,
       },
@@ -359,3 +372,4 @@ exports.findProducts = async (req, res) => {
     });
   }
 };
+  
