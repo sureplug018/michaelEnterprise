@@ -4,7 +4,12 @@ dotenv.config({ path: 'config.env' });
 const app = require('./app');
 const cronJob = require('./cronJob');
 
-const DB = process.env.DATABASE
+const DB = process.env.DATABASE.replace(
+  '<PASSWORD>',
+  process.env.DATABASE_PASSWORD,
+);
+
+// const DB = process.env.DATABASE
 
 // Trust only the X-Forwarded-For header
 app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']);
