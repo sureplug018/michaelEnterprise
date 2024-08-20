@@ -872,6 +872,74 @@ if (order) {
   });
 }
 
+document.querySelectorAll('.edit-afro-modal-toggler').forEach((button) => {
+  button.addEventListener('click', function () {
+    const productId = this.dataset.productId;
+
+    const submitButton = document.querySelector('.update-afro-product-btn');
+
+    submitButton.addEventListener('click', async () => {
+      submitButton.style.opacity = '0.5';
+      submitButton.textContent = 'Updating...';
+      const formData = new FormData();
+
+      formData.append('name', document.getElementById('name').value);
+      formData.append('price', document.getElementById('price').value);
+      formData.append(
+        'initialPrice',
+        document.getElementById('initialPrice').value,
+      );
+      formData.append(
+        'description',
+        document.getElementById('description').value,
+      );
+      formData.append('summary', document.getElementById('summary').value);
+      formData.append(
+        'productStock',
+        document.getElementById('productStock').value,
+      );
+
+      // Append image data
+      const imageCover = document.getElementById('imageCover').files[0];
+      const images = document.getElementById('images').files;
+
+      if (imageCover) {
+        formData.append('imageCover', imageCover);
+      }
+
+      // Append multiple images
+      if (images.length > 0) {
+        for (let i = 0; i < images.length; i++) {
+          formData.append('images', images[i]);
+        }
+      }
+
+      try {
+        const response = await axios.patch(
+          `/api/v1/products/edit-product/${productId}`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          },
+        );
+        if (response.data.status === 'success') {
+          showAlert('success', 'Product Updated Successfully!');
+
+          window.setTimeout(() => {
+            location.assign('/admin/afro-shop');
+          }, 3000);
+        }
+      } catch (err) {
+        showAlert('error', err.response.data.message);
+        submitButton.style.opacity = '1';
+        submitButton.textContent = 'Update Product';
+      }
+    });
+  });
+});
+
 const search = document.getElementById('searchForm');
 
 if (search) {
@@ -916,6 +984,8 @@ if (search) {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////         CATEGORY FOR FRONTEND AFRO SHOP            ////////////////////////////
 function myFunction() {
   const x = document.getElementById('categorySelect').value;
   const url = x ? `/afro-shop?category=${x}` : '/afro-shop';
@@ -997,3 +1067,88 @@ function updateButtonStates(page) {
 
 // Initialize button states on page load
 updateButtonStates(currentPage);
+
+////////////////////////////          CATEGORY FOR ADMIN AFRO SHOP           ///////////////////////
+// Function to handle category selection and redirection
+// Function to handle category selection and redirection
+function adminCategory() {
+  const selectedCategory = document.getElementById('categorySelectAdminAfroShop').value;
+  const url = selectedCategory ? `/admin/afro-shop?category=${selectedCategory}` : '/admin/afro-shop';
+  window.location.href = url;
+}
+
+// Function to update the dropdown based on the URL
+function updateDropdownBasedOnURLAdminAfro() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const category = urlParams.get('category');
+
+  if (category) {
+    const selectElement = document.getElementById('categorySelectAdminAfroShop');
+    const optionToSelect = Array.from(selectElement.options).find(
+      (option) => option.value === category
+    );
+
+    if (optionToSelect) {
+      selectElement.value = category;
+    }
+  }
+}
+
+// Function to update pagination buttons state based on the current page
+function updateButtonStatesAdminAfro(currentPage, totalPages) {
+  const prevBtn = document.getElementById('previous-btn-afro-shop');
+  const nextBtn = document.getElementById('next-btn-afro-shop');
+
+  if (!prevBtn || !nextBtn) {
+    console.error('Pagination buttons not found.');
+    return;
+  }
+
+  if (currentPage <= 1) {
+    prevBtn.setAttribute('aria-disabled', 'true');
+    prevBtn.classList.add('disabled');
+  } else {
+    prevBtn.removeAttribute('aria-disabled');
+    prevBtn.classList.remove('disabled');
+  }
+
+  if (currentPage >= totalPages) {
+    nextBtn.setAttribute('aria-disabled', 'true');
+    nextBtn.classList.add('disabled');
+  } else {
+    nextBtn.removeAttribute('aria-disabled');
+    nextBtn.classList.remove('disabled');
+  }
+}
+
+// Function to update the URL based on pagination
+function updateURLAdminAfro(direction) {
+  const currentUrl = new URL(window.location.href);
+  let page = parseInt(currentUrl.searchParams.get('page')) || 1;
+  const totalPages = parseInt(document.getElementById('totalPagesAdminAfro').textContent);
+
+  if (direction === 'next' && page < totalPages) {
+    page += 1;
+  } else if (direction === 'prev' && page > 1) {
+    page -= 1;
+  } else {
+    updateButtonStatesAdminAfro(page, totalPages);
+    return;
+  }
+
+  currentUrl.searchParams.set('page', page);
+  window.location.href = currentUrl.toString();
+}
+
+// Initialize on page load
+document.addEventListener("DOMContentLoaded", function() {
+  // Update dropdown based on URL on load
+  updateDropdownBasedOnURLAdminAfro();
+
+  // Get current page and total pages
+  const currentPage = parseInt(document.getElementById('currentPageAdminAfro').textContent);
+  const totalPages = parseInt(document.getElementById('totalPagesAdminAfro').textContent);
+
+  // Initialize button states
+  updateButtonStatesAdminAfro(currentPage, totalPages);
+});

@@ -67,4 +67,6 @@ router.get('/admin/add-products', viewsController.addProducts);
 
 router.get('/admin/add-category', viewsController.addCategory);
 
+router.get('/admin/categories', viewsController.categories);
+
 module.exports = router;

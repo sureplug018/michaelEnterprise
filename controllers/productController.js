@@ -255,8 +255,6 @@ exports.editProduct = async (req, res) => {
       initialPrice,
       description,
       summary,
-      superCategory,
-      category,
       productStock,
       variations, // Expecting variations to be sent as a JSON string
     } = req.body;
@@ -304,8 +302,6 @@ exports.editProduct = async (req, res) => {
         initialPrice,
         description,
         summary,
-        superCategory,
-        category,
         productStock:
           productStock !== undefined ? productStock : product.productStock,
         imageCover,

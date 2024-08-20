@@ -248,20 +248,16 @@ exports.afroShop = async (req, res) => {
     // Calculate pagination metadata
     const totalPages = Math.ceil(totalCount / limitNumber);
 
-    // Fetch user cart
-    const userCart = await Cart.find({ user });
-
     // Fetch categories from the database
     const categories = await Product.distinct('category', {
       superCategory: 'Afro shop',
     });
-    
+
     // Render view with pagination data and category filter
     res.status(200).render('afro-shop', {
       title: 'Afro shop',
       user,
       afroShopItems,
-      userCart,
       currentPage: pageNumber,
       totalPages,
       limit: limitNumber,
@@ -439,15 +435,55 @@ exports.orders = async (req, res) => {
 exports.afroShopItems = async (req, res) => {
   try {
     const user = res.locals.user;
+    const { category = 'all', page = 1, limit = 20 } = req.query;
+
+    // Convert page and limit to numbers
+    const pageNumber = parseInt(page, 10);
+    const limitNumber = parseInt(limit, 10);
+
+    // Ensure page and limit are valid numbers
+    if (pageNumber < 1 || limitNumber < 1) {
+      return res.status(400).render('error', {
+        title: 'Error',
+        message: 'Invalid page or limit value.',
+      });
+    }
+
+    // Create a filter object based on category
+    const filter =
+      category && category.trim().toLowerCase() !== 'all'
+        ? { superCategory: 'Afro shop', categorySlug: category.trim() }
+        : { superCategory: 'Afro shop' };
+
+    // Calculate skip value for pagination
+    const skip = (pageNumber - 1) * limitNumber;
     if (!user) {
       return res.status(302).redirect('/');
     }
     if (user.role === 'admin') {
-      const afroShopItems = await Product.find({ category: 'Afro shop' });
+      // Fetch products with category filter and pagination
+      const afroShopItems = await Product.find(filter)
+        .skip(skip)
+        .limit(limitNumber);
+      // Get total count of products for pagination metadata
+      const totalCount = await Product.countDocuments(filter);
+
+      // Calculate pagination metadata
+      const totalPages = Math.ceil(totalCount / limitNumber);
+
+      // Fetch categories from the database
+      const categories = await Product.distinct('category', {
+        superCategory: 'Afro shop',
+      });
       return res.status(200).render('afro-shop-items', {
-        title: 'Afro Shop',
+        title: 'Afro shop',
         user,
         afroShopItems,
+        currentPage: pageNumber,
+        totalPages,
+        limit: limitNumber,
+        currentCategory: category,
+        categories, // Pass categories to the view
       });
     }
     return res.status(302).redirect('/');
@@ -555,6 +591,7 @@ exports.addProducts = async (req, res) => {
         categories,
       });
     }
+    return res.status(302).redirect('/');
   } catch (err) {
     res.status(500).render('error', {
       title: 'Error',
@@ -575,6 +612,30 @@ exports.addCategory = async (req, res) => {
         user,
       });
     }
+    return res.status(302).redirect('/');
+  } catch (err) {
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.categories = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    if (!user) {
+      return res.status(302).redirect('/');
+    }
+    if (user.role === 'admin') {
+      const categories = await Category.find();
+      return res.status(200).render('categories', {
+        title: 'Categories',
+        user,
+        categories,
+      });
+    }
+    return res.status(302).redirect('/');
   } catch (err) {
     res.status(500).render('error', {
       title: 'Error',

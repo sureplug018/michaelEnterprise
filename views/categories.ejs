@@ -1,0 +1,46 @@
+<%- include('partials/adminDashboardHead.ejs') %>
+
+<div class="nk-content nk-content-fluid">
+  <div class="container-xl wide-xl">
+    <div class="nk-content-body">
+      <div class="nk-block-head nk-block-head-sm">
+        <div class="nk-block-between">
+          <div class="nk-block-head-content">
+            <h3 class="nk-block-title page-title">Add Products</h3>
+          </div>
+          <div class="nk-block-head-content"><a href="/admin/add-category" class="btn btn-primary d-none d-sm-inline-flex"><em class="icon ni ni-plus"></em><span>Create New</span></a><a href="document-saved.html#" class="btn btn-icon btn-primary d-inline-flex d-sm-none"><em class="icon ni ni-plus"></em></a></div>
+        </div>
+      </div>
+      <div class="nk-block">
+        <div class="card card-stretch">
+          <div class="card-inner p-0">
+            <div class="tab-content">
+              <div style="margin-top: 30px;" class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Category Name</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% categories.forEach(function(category, i){ %>
+                    <tr>
+                      <th scope="row"><%= i + 1 %></th>
+                      <td><%= category.name %></td>
+                    </tr>
+                    <% }) %>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/adminDashboardFooter.ejs') %>
