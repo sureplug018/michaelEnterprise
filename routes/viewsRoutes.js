@@ -69,4 +69,6 @@ router.get('/admin/add-category', viewsController.addCategory);
 
 router.get('/admin/categories', viewsController.categories);
 
+router.get('/admin/supports', viewsController.supports)
+
 module.exports = router;

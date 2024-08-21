@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const supportSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.ObjectId,
+    ref: 'User',
     required: true,
   },
   email: {
@@ -17,6 +18,14 @@ const supportSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+});
+
+supportSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'user',
+    select: 'firstName lastName',
+  });
+  next();
 });
 
 const Support = mongoose.model('Support', supportSchema);

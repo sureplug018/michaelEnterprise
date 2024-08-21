@@ -286,6 +286,29 @@ const addCategory = async (name) => {
   }
 };
 
+const supportFaq = async (email, subject, message) => {
+  try {
+    const res = await axios({
+      method: 'POST',
+      url: '/api/v1/supports/send-support',
+      data: {
+        email,
+        subject,
+        message,
+      },
+    });
+    if (res.data.status === 'success') {
+      showAlert('success', 'Message sent successfully!');
+
+      // window.setTimeout(() => {
+      //   location.assign('/faq');
+      // }, 3000);
+    }
+  } catch (err) {
+    showAlert('error', err.response.data.message);
+  }
+};
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const loginForm = document.querySelector('.form-login');
 const signupForm = document.querySelector('.form-signup');
@@ -299,6 +322,7 @@ const createShippingAddressForm = document.querySelector(
   '.create-shipping-address-form',
 );
 const addCategoryForm = document.querySelector('.add-category-form');
+const supportFormFaq = document.querySelector('.support-form-faq');
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 if (userDataUpdateForm) {
@@ -510,6 +534,22 @@ if (resetPasswordButton) {
 
     document.querySelector('.btn--reset').style.opacity = '1';
     document.querySelector('.btn--reset').textContent = 'Reset password';
+  });
+}
+
+if (supportFormFaq) {
+  supportFormFaq.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const button = document.querySelector('.support-faq-btn');
+
+    button.style.opacity = '0.5';
+    button.textContent = 'Sending...';
+    const email = document.getElementById('email').value;
+    const subject = document.getElementById('subject').value;
+    const message = document.getElementById('message').value;
+    await supportFaq(email, subject, message);
+    button.style.opacity = '1';
+    button.textContent = 'Send Message';
   });
 }
 
@@ -872,6 +912,78 @@ if (order) {
   });
 }
 
+document.querySelectorAll('.reply-support-modal').forEach((button) => {
+  button.addEventListener('click', function () {
+    const supportId = this.dataset.supportId;
+
+    const submitButton = document.querySelector('.reply-support-btn');
+
+    submitButton.addEventListener('click', async () => {
+      submitButton.style.opacity = '0.5';
+      submitButton.textContent = 'Sending...';
+
+      const reply = {
+        subject: document.getElementById('subject').value,
+        message: document.getElementById('message').value,
+      };
+
+      try {
+        const response = await axios.post(
+          `/api/v1/supports/reply-support/${supportId}`,
+          reply,
+        );
+        if (response.data.status === 'success') {
+          showAlert('success', 'Reply Sent!');
+          // Redirect to the plans page after a delay
+          window.setTimeout(() => {
+            location.assign('/admin/supports');
+          }, 3000);
+        }
+      } catch (err) {
+        showAlert('error', err.response.data.message);
+        submitButton.style.opacity = '1';
+        submitButton.textContent = 'Send Reply';
+      }
+    });
+  });
+});
+
+document.querySelectorAll('.send-mail-modal').forEach((button) => {
+  button.addEventListener('click', function () {
+    const userId = this.dataset.userId;
+
+    const submitButton = document.querySelector('.send-mail-btn');
+
+    submitButton.addEventListener('click', async () => {
+      submitButton.style.opacity = '0.5';
+      submitButton.textContent = 'Sending...';
+
+      const reply = {
+        subject: document.getElementById('subject').value,
+        message: document.getElementById('message').value,
+      };
+
+      try {
+        const response = await axios.post(
+          `/api/v1/supports/send-mail/${userId}`,
+          reply,
+        );
+        if (response.data.status === 'success') {
+          showAlert('success', 'Mail Sent!');
+          // Redirect to the plans page after a delay
+          window.setTimeout(() => {
+            location.assign('/admin/users');
+          }, 3000);
+        }
+      } catch (err) {
+        showAlert('error', err.response.data.message);
+        submitButton.style.opacity = '1';
+        submitButton.textContent = 'Send Mail';
+      }
+    });
+  });
+});
+
 document.querySelectorAll('.edit-afro-modal-toggler').forEach((button) => {
   button.addEventListener('click', function () {
     const productId = this.dataset.productId;
@@ -1072,8 +1184,12 @@ updateButtonStates(currentPage);
 // Function to handle category selection and redirection
 // Function to handle category selection and redirection
 function adminCategory() {
-  const selectedCategory = document.getElementById('categorySelectAdminAfroShop').value;
-  const url = selectedCategory ? `/admin/afro-shop?category=${selectedCategory}` : '/admin/afro-shop';
+  const selectedCategory = document.getElementById(
+    'categorySelectAdminAfroShop',
+  ).value;
+  const url = selectedCategory
+    ? `/admin/afro-shop?category=${selectedCategory}`
+    : '/admin/afro-shop';
   window.location.href = url;
 }
 
@@ -1083,9 +1199,11 @@ function updateDropdownBasedOnURLAdminAfro() {
   const category = urlParams.get('category');
 
   if (category) {
-    const selectElement = document.getElementById('categorySelectAdminAfroShop');
+    const selectElement = document.getElementById(
+      'categorySelectAdminAfroShop',
+    );
     const optionToSelect = Array.from(selectElement.options).find(
-      (option) => option.value === category
+      (option) => option.value === category,
     );
 
     if (optionToSelect) {
@@ -1125,7 +1243,9 @@ function updateButtonStatesAdminAfro(currentPage, totalPages) {
 function updateURLAdminAfro(direction) {
   const currentUrl = new URL(window.location.href);
   let page = parseInt(currentUrl.searchParams.get('page')) || 1;
-  const totalPages = parseInt(document.getElementById('totalPagesAdminAfro').textContent);
+  const totalPages = parseInt(
+    document.getElementById('totalPagesAdminAfro').textContent,
+  );
 
   if (direction === 'next' && page < totalPages) {
     page += 1;
@@ -1141,13 +1261,17 @@ function updateURLAdminAfro(direction) {
 }
 
 // Initialize on page load
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener('DOMContentLoaded', function () {
   // Update dropdown based on URL on load
   updateDropdownBasedOnURLAdminAfro();
 
   // Get current page and total pages
-  const currentPage = parseInt(document.getElementById('currentPageAdminAfro').textContent);
-  const totalPages = parseInt(document.getElementById('totalPagesAdminAfro').textContent);
+  const currentPage = parseInt(
+    document.getElementById('currentPageAdminAfro').textContent,
+  );
+  const totalPages = parseInt(
+    document.getElementById('totalPagesAdminAfro').textContent,
+  );
 
   // Initialize button states
   updateButtonStatesAdminAfro(currentPage, totalPages);

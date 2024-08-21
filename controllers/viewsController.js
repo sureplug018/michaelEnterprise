@@ -535,11 +535,11 @@ exports.supports = async (req, res) => {
   try {
     const user = res.locals.user;
     if (!user) {
-      res.status(302).redirect('/');
+      return res.status(302).redirect('/');
     }
     if (user.role === 'admin') {
       const supports = await Support.find();
-      res.status(200).render('supports', {
+      return res.status(200).render('supports', {
         title: 'Supports',
         user,
         supports,

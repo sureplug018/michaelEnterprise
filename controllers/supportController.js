@@ -2,6 +2,7 @@ const dotenv = require('dotenv');
 // dotenv.config({ path: 'config.env' });
 const nodemailer = require('nodemailer');
 const Support = require('../models/supportModel');
+const User = require('../models/userModel');
 
 // Create a Nodemailer transporter
 const transporter = nodemailer.createTransport({
@@ -94,9 +95,40 @@ async function sendReplyEmail(email, subject, message) {
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log(`Reply sent to ${email}`);
   } catch (error) {
     console.error(`Error sending email to ${email}:`, error);
     throw new Error('Failed to send email');
   }
 }
+
+exports.sendMail = async (req, res) => {
+  const { id } = req.params;
+  const { subject, message } = req.body;
+
+  try {
+    // Find the support message by email
+    const user = await User.findOne({ id });
+    const email = user.email;
+
+    if (!user) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'User not found',
+      });
+    }
+
+    // Send a reply email to the user
+    await sendReplyEmail(email, subject, message);
+
+    return res.status(200).json({
+      status: 'success',
+      message: 'Message Sent',
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      status: 'fail',
+      message: err.message,
+    });
+  }
+};

@@ -18,4 +18,10 @@ router.post(
   supportController.replySupport,
 );
 
+router.post(
+  '/send-mail/:email',
+  authController.restrictTo('admin'),
+  supportController.sendMail,
+);
+
 module.exports = router;

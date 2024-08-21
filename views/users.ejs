@@ -5,7 +5,7 @@
       <div class="nk-block-head nk-block-head-sm">
         <div class="nk-block-between g-3">
           <div class="nk-block-head-content">
-            <h3 class="nk-block-title page-title">Supports</h3>
+            <h3 class="nk-block-title page-title">Users</h3>
           </div>
           <div class="nk-block-head-content"><a href="/admin/add-products" class="btn btn-primary d-none d-sm-inline-flex"><em class="icon ni ni-plus"></em><span>Create New</span></a><a href="document-saved.html#" class="btn btn-icon btn-primary d-inline-flex d-sm-none"><em class="icon ni ni-plus"></em></a></div>
         </div>
@@ -14,8 +14,8 @@
         <div class="card card-stretch">
           <div class="card-inner p-0">
             <div class="tab-content">
-              <% if (supports.length === 0) { %>
-              <p style="text-align: center; font-size: large; margin-top: 50px;">No Support Message Available!</p>
+              <% if (users.length === 0) { %>
+              <p style="text-align: center; font-size: large; margin-top: 50px;">No User Found!</p>
               <% }else{ %>
               <div style="margin-top: 30px;" class="table-responsive">
                 <table class="table table-bordered">
@@ -25,21 +25,27 @@
                       <th scope="col">First Name</th>
                       <th scope="col">Last Name</th>
                       <th scope="col">Email</th>
-                      <th scope="col">Subject</th>
-                      <th scope="col">Message</th>
-                      <th scope="col">Reply</th>
+                      <th scope="col">Confirmed</th>
+                      <th scope="col">Role</th>
+                      <th scope="col">Created At</th>
+                      <th scope="col">Send Mail</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <% supports.forEach(function(support, index){ %>
+                    <% users.forEach(function(user, index){ %>
                     <tr>
                       <th scope="row"><%= index + 1 %></th>
-                      <td><%= support.user.firstName %></td>
-                      <td><%= support.user.lastName %></td>
-                      <td><%= support.email %></td>
-                      <td><%= support.subject %></td>
-                      <td><%= support.message %></td>
-                      <td><a class="reply-support-modal" href="#" data-support-id="<%= support.id %>" data-bs-toggle="modal" data-bs-target="#reply-support"><i class="fa-solid fa-reply fa-xl"></i></a></td>
+                      <td><%= user.firstName %></td>
+                      <td><%= user.lastName %></td>
+                      <td><%= user.email %></td>
+                      <td><%= user.confirmed %></td>
+                      <td><%= user.role %></td>
+                      <% const dateString = user.createdAt %>
+                      <% const dateObject = new Date(dateString); %>
+                      <% date = dateObject.toLocaleDateString() %>
+                      <% time = dateObject.toLocaleTimeString() %>
+                      <td><%= date %> (<%= time %>)</td>
+                      <td><a class="send-mail-modal" href="#" data-user-id="<%= user.id %>" data-bs-toggle="modal" data-bs-target="#reply-support"><i class="fa-solid fa-envelope fa-xl"></i></a></td>
                     </tr>
                     <% }) %>
                     <% } %>
@@ -54,7 +60,7 @@
               <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content"><a href="profile.html#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
                   <div class="modal-body modal-body-lg">
-                    <h5 class="title">Reply Support</h5>
+                    <h5 class="title">Send Mail</h5>
                     <ul class="nk-nav nav nav-tabs">
                       <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="profile.html#personal">Support</a></li>
                     </ul>
@@ -73,7 +79,7 @@
                         <p></p>
                         <div class="col-12">
                           <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
-                            <li><a href="#" class="btn btn-lg btn-primary reply-support-btn">Send Reply</a></li>
+                            <li><a href="#" class="btn btn-lg btn-primary send-mail-btn">Send Mail</a></li>
                           </ul>
                         </div>
                       </div>
@@ -84,6 +90,18 @@
             </div>
           </div>
         </div>
+
+        <div class="card-inner">
+          <ul class="pagination" style="display: flex; justify-content: space-between; width: 100%;">
+            <li class="page-item">
+              <button id="previous-btn-afro-shop" style="padding: 8px 18px; font-size: 14px; border-radius: 8px; font-weight: bold;" class="page-link" onclick="updateURLAdminAfro('prev')">Prev</button>
+            </li>
+            <li class="page-item">
+              <button id="next-btn-afro-shop" style="padding: 8px 18px; font-size: 14px; border-radius: 8px; font-weight: bold;" class="page-link" onclick="updateURLAdminAfro('next')">Next</button>
+            </li>
+          </ul>
+        </div>
+
       </div>
     </div>
   </div>
