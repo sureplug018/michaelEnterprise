@@ -13,13 +13,13 @@ router.post(
 );
 
 router.post(
-  '/reply-support/:email',
+  '/reply-support/:id',
   authController.restrictTo('admin'),
   supportController.replySupport,
 );
 
 router.post(
-  '/send-mail/:email',
+  '/send-mail/:id',
   authController.restrictTo('admin'),
   supportController.sendMail,
 );

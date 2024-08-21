@@ -51,12 +51,12 @@ exports.createSupport = async (req, res) => {
 };
 
 exports.replySupport = async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id;
   const { subject, message } = req.body;
 
   try {
     // Find the support message by email
-    const support = await Support.findOne({ id });
+    const support = await Support.findById({ _id: id });
     const email = support.email;
 
     if (!support) {
@@ -102,12 +102,12 @@ async function sendReplyEmail(email, subject, message) {
 }
 
 exports.sendMail = async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id;
   const { subject, message } = req.body;
 
   try {
     // Find the support message by email
-    const user = await User.findOne({ id });
+    const user = await User.findById({ _id: id });
     const email = user.email;
 
     if (!user) {
