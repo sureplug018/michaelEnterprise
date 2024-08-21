@@ -278,7 +278,7 @@ const addCategory = async (name) => {
       showAlert('success', 'Successfully added category');
       // Redirect
       window.setTimeout(() => {
-        location.assign('/admin/add-category');
+        location.assign('/admin/categories');
       }, 3000);
     }
   } catch (err) {

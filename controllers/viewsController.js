@@ -395,9 +395,23 @@ exports.adminDashboard = async (req, res) => {
       return res.status(302).redirect('/');
     }
     if (user.role === 'admin') {
+      const users = await User.find({ confirmed: true });
+      const orders = await Order.find();
+      const pendingOrders = await Order.find({ status: 'Order placed' });
+      const shippedOrders = await Order.find({ status: 'Shipped' });
+      const cancelledOrders = await Order.find({ status: 'Cancelled' });
+      const pendingSupports = await Support.find();
+      const outOfStockProducts = await Product.find({ productStock: 0 });
       return res.status(200).render('admin-dashboard', {
         title: 'Admin Dashboard',
         user,
+        users,
+        orders,
+        pendingOrders,
+        shippedOrders,
+        cancelledOrders,
+        pendingSupports,
+        outOfStockProducts,
       });
     }
     return res.status(302).redirect('/');
