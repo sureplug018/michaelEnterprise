@@ -145,12 +145,12 @@
               <input id="phoneNumbers" type="text" value="<%= user.phoneNumber %>" placeholder="Phone Number*">
               <button class="rts-btn btn-primary update-btn">Save Changes</button>
             </form>
-            <form style="margin-top: 50px;" class="account-details-area">
+            <form style="margin-top: 50px;" class="account-details-area user-password-update-form">
               <h2 class="title">Reset Password</h2>
-              <input type="password" placeholder="Current Password*" required>
-              <input type="password" placeholder="New Password*">
-              <input type="password" placeholder="Confirm Password*">
-              <button class="rts-btn btn-primary">Save Changes</button>
+              <input type="password" id="passwordCurrent" placeholder="Current Password*" required>
+              <input type="password" id="password" placeholder="New Password*">
+              <input type="password" id="passwordConfirm" placeholder="Confirm Password*">
+              <button class="rts-btn btn-primary update-user-password-btn">Save Changes</button>
             </form>
           </div>
           <div class="tab-pane fade" id="v-pills-settingsb" role="tabpanel" aria-labelledby="v-pills-settingsb-tab" tabindex="0">...</div>

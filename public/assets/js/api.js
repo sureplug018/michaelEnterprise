@@ -309,6 +309,84 @@ const supportFaq = async (email, subject, message) => {
   }
 };
 
+const updateUserPassword = async (
+  passwordCurrent,
+  password,
+  passwordConfirm,
+) => {
+  try {
+    const res = await axios({
+      method: 'patch',
+      url: '/api/v1/users/updateMyPassword',
+      data: {
+        passwordCurrent,
+        password,
+        passwordConfirm,
+      },
+    });
+    if (res.data.status === 'success') {
+      showAlert('success', 'Password updated successfully!');
+
+      window.setTimeout(() => {
+        location.assign('/account');
+      }, 3000);
+    }
+  } catch (err) {
+    showAlert('error', err.response.data.message);
+  }
+};
+
+const updateAdminPassword = async (
+  passwordCurrent,
+  password,
+  passwordConfirm,
+) => {
+  try {
+    const res = await axios({
+      method: 'patch',
+      url: '/api/v1/users/updateMyPassword',
+      data: {
+        passwordCurrent,
+        password,
+        passwordConfirm,
+      },
+    });
+    if (res.data.status === 'success') {
+      showAlert('success', 'Password updated successfully!');
+
+      window.setTimeout(() => {
+        location.assign('/admin/profile');
+      }, 3000);
+    }
+  } catch (err) {
+    showAlert('error', err.response.data.message);
+  }
+};
+
+const updateAdminData = async (firstName, lastName, phoneNumber) => {
+  try {
+    const res = await axios({
+      method: 'PATCH',
+      url: '/api/v1/users/update',
+      data: {
+        firstName,
+        lastName,
+        phoneNumber,
+      },
+    });
+    if (res.data.status === 'success') {
+      showAlert('success', 'Successfully updated profile!');
+
+      // Redirect to the login page after a delay
+      window.setTimeout(() => {
+        location.assign('/admin/profile');
+      }, 3000);
+    }
+  } catch (err) {
+    showAlert('error', err.response.data.message);
+  }
+};
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const loginForm = document.querySelector('.form-login');
 const signupForm = document.querySelector('.form-signup');
@@ -323,6 +401,11 @@ const createShippingAddressForm = document.querySelector(
 );
 const addCategoryForm = document.querySelector('.add-category-form');
 const supportFormFaq = document.querySelector('.support-form-faq');
+const userPasswordUpdateForm = document.querySelector(
+  '.user-password-update-form',
+);
+const updateAdminPasswordForm = document.querySelector('.admin-password-form');
+const adminProfileForm = document.querySelector('.admin-profile-form');
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 if (userDataUpdateForm) {
@@ -337,6 +420,51 @@ if (userDataUpdateForm) {
     await updateUserDetail(firstName, lastName, phoneNumber);
     updateBtn.style.opacity = '1';
     updateBtn.textContent = 'Save Changes';
+  });
+}
+
+if (userPasswordUpdateForm) {
+  userPasswordUpdateForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const button = document.querySelector('.update-user-password-btn');
+    button.style.opacity = '0.5';
+    button.textContent = 'Saving...';
+    const passwordCurrent = document.getElementById('passwordCurrent').value;
+    const password = document.getElementById('password').value;
+    const passwordConfirm = document.getElementById('passwordConfirm').value;
+    await updateUserPassword(passwordCurrent, password, passwordConfirm);
+    button.style.opacity = '1';
+    button.textContent = 'Save Changes';
+  });
+}
+
+if (adminProfileForm) {
+  adminProfileForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const button = document.querySelector('.admin-profile-btn');
+    button.style.opacity = '0.5';
+    button.textContent = 'Saving...';
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const phoneNumber = document.getElementById('phoneNumber').value;
+    await updateAdminData(firstName, lastName, phoneNumber);
+    button.style.opacity = '1';
+    button.textContent = 'Save Changes';
+  });
+}
+
+if (updateAdminPasswordForm) {
+  updateAdminPasswordForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const button = document.querySelector('.admin-password-btn');
+    button.style.opacity = '0.5';
+    button.textContent = 'Saving...';
+    const passwordCurrent = document.getElementById('passwordCurrent').value;
+    const password = document.getElementById('password').value;
+    const passwordConfirm = document.getElementById('passwordConfirm').value;
+    await updateAdminPassword(passwordCurrent, password, passwordConfirm);
+    button.style.opacity = '1';
+    button.textContent = 'Save Changes';
   });
 }
 

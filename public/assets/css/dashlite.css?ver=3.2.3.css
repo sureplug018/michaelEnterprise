@@ -13,30 +13,71 @@
 
 .alert {
   position: fixed;
-  top: 5%;
+  top: -100px; /* Start from above the viewable area */
   left: 50%;
-  -webkit-transform: translateX(-50%);
   transform: translateX(-50%);
   z-index: 9999;
   color: #fff;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 400;
   text-align: center;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   padding: 1.2rem 1.5rem;
-  -webkit-box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.25);
   box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.25);
+  opacity: 0; /* Start as invisible */
+  visibility: hidden; /* Hide it from the beginning */
+  transition: opacity 0.5s ease, visibility 0.5s ease; /* Smooth transition for fade in/out */
 }
+
+/* Animation for the alert to drop down and fade in */
+.alert.show {
+  top: 5%; /* Drop to 5% from the top */
+  opacity: 1; /* Make it visible */
+  visibility: visible; /* Show it */
+  animation: dropDown 0.5s ease-out; /* Apply drop-down animation */
+}
+
+/* Keyframes for drop-down effect */
+@keyframes dropDown {
+  from {
+    top: -100px; /* Start from above the viewable area */
+    opacity: 0;
+  }
+  to {
+    top: 5%; /* End at the specified top position */
+    opacity: 1;
+  }
+}
+
+/* Keyframes for sliding up and fading out */
+@keyframes slideUpFadeOut {
+  from {
+    top: 5%; /* Start from the current position */
+    opacity: 1;
+  }
+  to {
+    top: -100px; /* Slide back to above the viewable area */
+    opacity: 0;
+  }
+}
+
+/* Add slide-up and fade-out behavior */
+.alert.hide {
+  animation: slideUpFadeOut 1s ease forwards; /* Apply slide-up and fade-out animation */
+}
+
 /* Media query for mobile devices */
 @media (max-width: 768px) {
   .alert {
     width: 300px; /* Fixed width for mobile devices */
   }
 }
+
 .alert--success {
   background-color: #20bf6b;
 }
+
 .alert--error {
   background-color: #eb4d4b;
 }
