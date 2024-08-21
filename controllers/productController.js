@@ -368,4 +368,42 @@ exports.findProducts = async (req, res) => {
     });
   }
 };
-  
+
+exports.increaseProductStock = async (req, res) => {
+  const productId = req.params.productId;
+
+  if (!productId) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Product not found',
+    });
+  }
+  try {
+    const productStock = req.body.productStock;
+
+    if (!productStock) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'Product quantity is required',
+      });
+    }
+
+    const product = await Product.findByIdAndUpdate(
+      productId,
+      { productStock },
+      { new: true, runValidators: true },
+    );
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        product,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: err.message,
+    });
+  }
+};

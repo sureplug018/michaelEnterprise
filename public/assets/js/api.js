@@ -1075,6 +1075,35 @@ document.querySelectorAll('.reply-support-modal').forEach((button) => {
     });
   });
 });
+document.querySelectorAll('.edit-product-stock-modal').forEach((button) => {
+  button.addEventListener('click', function () {
+    const productId = this.dataset.productId;
+    const editButton = document.querySelector('.update-product-stock-btn');
+    editButton.addEventListener('click', async () => {
+      editButton.style.opacity = '0.5';
+      editButton.textContent = 'Updating...';
+      const productStock = {
+        productStock: document.getElementById('productStock').value,
+      };
+      try {
+        const response = await axios.patch(
+          `/api/v1/products/increase-product-stock/${productId}`,
+          productStock,
+        );
+        if (response.data.status === 'success') {
+          showAlert('success', 'Product quantity increased!');
+          window.setTimeout(() => {
+            location.assign('/admin/out-of-stock');
+          }, 3000);
+        }
+      } catch (err) {
+        showAlert('error', err.response.data.message);
+        editButton.style.opacity = '1';
+        editButton.textContent = 'Send Reply';
+      }
+    });
+  });
+});
 
 document.querySelectorAll('.send-mail-modal').forEach((button) => {
   button.addEventListener('click', function () {

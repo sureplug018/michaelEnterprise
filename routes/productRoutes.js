@@ -26,4 +26,9 @@ router.patch(
   productController.editProduct,
 );
 
+router.patch(
+  '/increase-product-stock/:productId',
+  productController.increaseProductStock,
+);
+
 module.exports = router;

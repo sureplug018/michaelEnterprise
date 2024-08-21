@@ -39,6 +39,7 @@
                       <th scope="col">Summary</th>
                       <th scope="col">Category</th>
                       <th scope="col">Product Stock</th>
+                      <th scope="col">View Product</th>
                       <th scope="col">Action</th>
                     </tr>
                   </thead>
@@ -56,6 +57,7 @@
                       <td><%= item.summary %></td>
                       <td><%= item.category %></td>
                       <td><%= item.productStock %></td>
+                      <td><a href="/afro-shop/<%= item.slug %>" target="_blank">View</a></td>
                       <td><a class="edit-afro-modal-toggler" href="#" data-product-id="<%= item.id %>" data-bs-toggle="modal" data-bs-target="#profile-afro-product"><i class="fa-solid fa-pen-to-square fa-xl"></i></a></td>
                     </tr>
                     <% }) %>

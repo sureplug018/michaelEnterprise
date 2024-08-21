@@ -643,3 +643,25 @@ exports.categories = async (req, res) => {
     });
   }
 };
+
+exports.outOfStock = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    if (!user) {
+      return res.status(302).redirect('/');
+    }
+    if (user.role === 'admin') {
+      const outOfStockProducts = await Product.find({ productStock: 0 });
+      return res.status(200).render('out-of-stock', {
+        title: 'Out Of Stock',
+        user,
+        outOfStockProducts,
+      });
+    }
+  } catch (err) {
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
