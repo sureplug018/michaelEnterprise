@@ -430,7 +430,7 @@ exports.orders = async (req, res) => {
       return res.status(302).redirect('/');
     }
     if (user.role === 'admin') {
-      const orders = await Order.find();
+      const orders = await Order.find().sort({ createdAt: -1 });
       return res.status(200).render('orders', {
         title: 'Orders',
         user,

@@ -93,14 +93,6 @@ orderSchema.pre(/^find/, function (next) {
   next();
 });
 
-orderSchema.pre('save', function (next) {
-  this.populate({
-    path: 'productId',
-    select: 'price name',
-  });
-  next();
-});
-
 const Order = mongoose.model('Order', orderSchema);
 
 module.exports = Order;
