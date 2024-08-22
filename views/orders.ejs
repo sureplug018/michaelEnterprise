@@ -18,9 +18,18 @@
             <div class="card-inner">
               <div class="card-title-group">
                 <ul class="nav nav-tabs nav-tabs-s2">
-                  <li class="nav-item"><a class="nav-link py-1 active" data-bs-toggle="tab" href="document-saved.html#recentDocuments">Orders</a></li>
-                 </ul>
+                  <select class="form-select" id="ordersAdmin" onchange="orderStatus()">
+                    <option value="all">All Orders</option>
+                    <option value="order-placed">Pending</option>
+                    <option value="confirmed">Confirmed</option>
+                    <option value="shipped">Shipped</option>
+                    <option value="delivered">Delivered</option>
+                    <option value="cancelled">Cancelled</option>
+                  </select>
+                </ul>
               </div>
+              <p></p>
+              <div>Showing page <span id="currentPageOrders"><%= currentPage %></span> out of <span id="totalPagesOrders"><%= totalPages %></span></div>
             </div>
             <div class="card-inner p-0">
               <div class="tab-content">
@@ -140,14 +149,13 @@
 
             </div>
             <div class="card-inner">
-              <ul class="pagination justify-content-center justify-content-md-start">
-                <li class="page-item"><a class="page-link" href="document-saved.html#">Prev</a></li>
-                <li class="page-item"><a class="page-link" href="document-saved.html#">1</a></li>
-                <li class="page-item"><a class="page-link" href="document-saved.html#">2</a></li>
-                <li class="page-item"><span class="page-link"><em class="icon ni ni-more-h"></em></span></li>
-                <li class="page-item"><a class="page-link" href="document-saved.html#">6</a></li>
-                <li class="page-item"><a class="page-link" href="document-saved.html#">7</a></li>
-                <li class="page-item"><a class="page-link" href="document-saved.html#">Next</a></li>
+              <ul class="pagination" style="display: flex; justify-content: space-between; width: 100%;">
+                <li class="page-item">
+                  <button id="previous-btn-orders" style="padding: 8px 18px; font-size: 14px; border-radius: 8px; font-weight: bold;" class="page-link" onclick="updateURLOrders('prev')">Prev</button>
+                </li>
+                <li class="page-item">
+                  <button id="next-btn-orders" style="padding: 8px 18px; font-size: 14px; border-radius: 8px; font-weight: bold;" class="page-link" onclick="updateURLOrders('next')">Next</button>
+                </li>
               </ul>
             </div>
           </div>

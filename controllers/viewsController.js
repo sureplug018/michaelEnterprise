@@ -423,20 +423,71 @@ exports.adminDashboard = async (req, res) => {
   }
 };
 
+const slugify = (text) => {
+  return text
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w\-]+/g, '');
+};
+
 exports.orders = async (req, res) => {
   try {
     const user = res.locals.user;
+    const { status = 'all', page = 1, limit = 30 } = req.query;
+
+    // Convert page and limit to numbers
+    const pageNumber = parseInt(page, 10);
+    const limitNumber = parseInt(limit, 10);
+
+    // Ensure page and limit are valid numbers
+    if (pageNumber < 1 || limitNumber < 1) {
+      return res.status(400).render('error', {
+        title: 'Error',
+        message: 'Invalid page or limit value.',
+      });
+    }
+
     if (!user) {
       return res.status(302).redirect('/');
     }
+
+    // Define the query object
+    const query = {};
+
+    // Define valid statuses and their corresponding slugified versions
+    const validStatuses = {
+      'order-placed': 'Order placed', // 'pending' is now 'order placed'
+      confirmed: 'Confirmed',
+      shipped: 'Shipped',
+      delivered: 'Delivered',
+      cancelled: 'Cancelled',
+    };
+
+    // If the status is not 'all', filter by the specified status
+    const slugifiedStatus = slugify(status);
+    if (status !== 'all' && validStatuses.hasOwnProperty(slugifiedStatus)) {
+      query.status = validStatuses[slugifiedStatus];
+    }
+
+    // Admin can view orders, possibly with a filter applied
     if (user.role === 'admin') {
-      const orders = await Order.find().sort({ createdAt: -1 });
+      const orders = await Order.find(query)
+        .sort({ createdAt: -1 }) // Sort by creation date, newest first
+        .skip((pageNumber - 1) * limitNumber) // Skip the appropriate number of records for pagination
+        .limit(limitNumber); // Limit the number of results returned
+
       return res.status(200).render('orders', {
         title: 'Orders',
         user,
         orders,
+        currentPage: pageNumber, // Pass the current page to the view for pagination controls
+        totalPages: Math.ceil(
+          (await Order.countDocuments(query)) / limitNumber,
+        ), // Calculate total pages
+        status, // Pass the current status filter to the view
       });
     }
+
     return res.status(302).redirect('/');
   } catch (err) {
     res.status(500).render('error', {

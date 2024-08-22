@@ -1462,6 +1462,10 @@ function adminCategory() {
     ? `/admin/afro-shop?category=${selectedCategory}`
     : '/admin/afro-shop';
   window.location.href = url;
+
+  if (selectedCategory === 'all') {
+    window.location.href = '/admin/afro-shop?category=all';
+  }
 }
 
 // Function to update the dropdown based on the URL
@@ -1479,6 +1483,7 @@ function updateDropdownBasedOnURLAdminAfro() {
 
     if (optionToSelect) {
       selectElement.value = category;
+      optionToSelect.textContent = optionToSelect.textContent;
     }
   }
 }
@@ -1546,4 +1551,103 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Initialize button states
   updateButtonStatesAdminAfro(currentPage, totalPages);
+});
+
+//////////////////////////////////////////////////////////////////////////////////
+//////////////    order status filter and pagination       ///////////////////////
+
+function orderStatus() {
+  const orderStatus = document.getElementById(
+    'ordersAdmin',
+  ).value;
+  const url = orderStatus
+    ? `/admin/orders?status=${orderStatus}`
+    : '/admin/orders';
+  window.location.href = url;
+}
+
+// Function to update the dropdown based on the URL
+function updateOrderDropdownBasedOnURL() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const status = urlParams.get('status');
+
+  if (status) {
+    const selectElement = document.getElementById('ordersAdmin');
+    const optionToSelect = Array.from(selectElement.options).find(
+      (option) => option.value === status,
+    );
+
+    if (optionToSelect) {
+      selectElement.value = status;
+      optionToSelect.textContent = optionToSelect.textContent;
+    }
+  }
+}
+
+// Call this function when the page loads to set the correct dropdown value
+updateOrderDropdownBasedOnURL();
+
+// Function to update pagination buttons state based on the current page
+function updateButtonStatesOrders(currentPage, totalPages) {
+  const prevBtn = document.getElementById('previous-btn-orders');
+  const nextBtn = document.getElementById('next-btn-orders');
+
+  if (!prevBtn || !nextBtn) {
+    console.error('Pagination buttons not found.');
+    return;
+  }
+
+  if (currentPage <= 1) {
+    prevBtn.setAttribute('aria-disabled', 'true');
+    prevBtn.classList.add('disabled');
+  } else {
+    prevBtn.removeAttribute('aria-disabled');
+    prevBtn.classList.remove('disabled');
+  }
+
+  if (currentPage >= totalPages) {
+    nextBtn.setAttribute('aria-disabled', 'true');
+    nextBtn.classList.add('disabled');
+  } else {
+    nextBtn.removeAttribute('aria-disabled');
+    nextBtn.classList.remove('disabled');
+  }
+}
+
+// Function to update the URL based on pagination
+function updateURLOrders(direction) {
+  const currentUrl = new URL(window.location.href);
+  let page = parseInt(currentUrl.searchParams.get('page')) || 1;
+  const totalPages = parseInt(
+    document.getElementById('totalPagesOrders').textContent,
+  );
+
+  if (direction === 'next' && page < totalPages) {
+    page += 1;
+  } else if (direction === 'prev' && page > 1) {
+    page -= 1;
+  } else {
+    updateButtonStatesOrders(page, totalPages);
+    return;
+  }
+
+  currentUrl.searchParams.set('page', page);
+  window.location.href = currentUrl.toString();
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function () {
+  // Update dropdown based on URL on load
+  updateDropdownBasedOnURLOrders();
+
+  // Get current page and total pages
+  const currentPage = parseInt(
+    document.getElementById('currentPageOrders').textContent,
+  );
+  const totalPages = parseInt(
+    document.getElementById('totalPagesOrders').textContent,
+  );
+
+  // Initialize button states
+  updateButtonStatesOrders(currentPage, totalPages);
 });
