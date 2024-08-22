@@ -1075,6 +1075,7 @@ document.querySelectorAll('.reply-support-modal').forEach((button) => {
     });
   });
 });
+
 document.querySelectorAll('.edit-product-stock-modal').forEach((button) => {
   button.addEventListener('click', function () {
     const productId = this.dataset.productId;
@@ -1102,6 +1103,120 @@ document.querySelectorAll('.edit-product-stock-modal').forEach((button) => {
         editButton.textContent = 'Send Reply';
       }
     });
+  });
+});
+
+document.querySelectorAll('.edit-order-status-modal').forEach((button) => {
+  button.addEventListener('click', function () {
+    const orderId = this.dataset.orderId;
+    const confirmButton = document.querySelector('.confirm-order-btn');
+    const shipButton = document.querySelector('.ship-order-btn');
+    const deliverButton = document.querySelector('.deliver-order-btn');
+    const cancelButton = document.querySelector('.cancel-order-btn');
+    if (confirmButton) {
+      confirmButton.addEventListener('click', async () => {
+        confirmButton.style.opacity = '0.5';
+        confirmButton.textContent = 'Confirming...';
+        try {
+          const response = await axios.patch(
+            `/api/v1/orders/confirm-order/${orderId}`,
+          );
+          if (response.data.status === 'success') {
+            showAlert('success', 'Order Confirmed and email sent to user!');
+            confirmButton.style.opacity = '1';
+            confirmButton.textContent = 'Confirm';
+            window.setTimeout(() => {
+              location.assign('/admin/orders');
+            }, 3000);
+          }
+        } catch (err) {
+          showAlert('error', err.response.data.message);
+          confirmButton.style.opacity = '1';
+          confirmButton.textContent = 'Confirm';
+          window.setTimeout(() => {
+            location.assign('/admin/orders');
+          }, 3000);
+        }
+      });
+    }
+    if (shipButton) {
+      shipButton.addEventListener('click', async () => {
+        shipButton.style.opacity = '0.5';
+        shipButton.textContent = 'Shipping...';
+        try {
+          const response = await axios.patch(
+            `/api/v1/orders/ship-order/${orderId}`,
+          );
+          if (response.data.status === 'success') {
+            showAlert('success', 'Order Shipped!');
+            confirmButton.style.opacity = '1';
+            confirmButton.textContent = 'Shipped';
+            window.setTimeout(() => {
+              location.assign('/admin/orders');
+            }, 3000);
+          }
+        } catch (err) {
+          showAlert('error', err.response.data.message);
+          shipButton.style.opacity = '1';
+          shipButton.textContent = 'Shipped';
+          window.setTimeout(() => {
+            location.assign('/admin/orders');
+          }, 3000);
+        }
+      });
+    }
+    if (deliverButton) {
+      deliverButton.addEventListener('click', async () => {
+        deliverButton.style.opacity = '0.5';
+        deliverButton.textContent = 'Delivering...';
+        try {
+          const response = await axios.patch(
+            `/api/v1/orders/deliver-order/${orderId}`,
+          );
+          if (response.data.status === 'success') {
+            showAlert('success', 'Order Delivered!');
+            confirmButton.style.opacity = '1';
+            confirmButton.textContent = 'Delivered';
+            window.setTimeout(() => {
+              location.assign('/admin/orders');
+            }, 3000);
+          }
+        } catch (err) {
+          showAlert('error', err.response.data.message);
+          deliverButton.style.opacity = '1';
+          deliverButton.textContent = 'Delivered';
+          window.setTimeout(() => {
+            location.assign('/admin/orders');
+          }, 3000);
+        }
+      });
+    }
+    if (cancelButton) {
+      cancelButton.addEventListener('click', async () => {
+        cancelButton.style.opacity = '0.5';
+        cancelButton.textContent = 'Cancelling...';
+        try {
+          const response = await axios.patch(
+            `/api/v1/orders/cancel-order/${orderId}`,
+          );
+          if (response.data.status === 'success') {
+            showAlert('success', 'Order Cancelled and email sent to user!');
+            confirmButton.style.opacity = '1';
+            confirmButton.textContent = 'Cancelled';
+            window.setTimeout(() => {
+              location.assign('/admin/orders');
+            }, 3000);
+          }
+        } catch (err) {
+          showAlert('error', err.response.data.message);
+          cancelButton.style.opacity = '1';
+          cancelButton.textContent = 'Cancelled';
+          window.setTimeout(() => {
+            location.assign('/admin/orders');
+          }, 3000);
+        }
+      });
+    }
   });
 });
 
@@ -1240,7 +1355,6 @@ if (search) {
         } else {
           resultsHTML = '<p>No products found</p>';
         }
-
         document.getElementById('searchResults').innerHTML = resultsHTML;
       })
       .catch(function (error) {

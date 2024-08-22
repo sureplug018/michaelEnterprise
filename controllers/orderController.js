@@ -270,7 +270,7 @@ exports.createOrder = async (req, res) => {
     // return array of admins
     const adminUsers = await User.find({ role: 'admin' }).session(session);
 
-    const url = `${req.protocol}://${req.get('host')}/orders`;
+    const url = `${req.protocol}://${req.get('host')}/admin/orders`;
 
     // send emails to admin(s) is they are many or send to admin if only single
     for (const adminUser of adminUsers) {
@@ -333,7 +333,7 @@ exports.confirmOrder = async (req, res) => {
 
     const user = order.user;
 
-    const url = `${req.protocol}://${req.get('host')}/user/orders`;
+    const url = `${req.protocol}://${req.get('host')}/account`;
 
     // send order confirmation email to user
     await new OrderEmail(user, url, order).sendOrderConfirmationEmail();
@@ -371,7 +371,7 @@ exports.shipOrder = async (req, res) => {
       });
     }
 
-    if (order.status === 'Sipped') {
+    if (order.status === 'Shipped') {
       return res.status(400).json({
         status: 'fail',
         message: 'Order have been shipped',
@@ -472,7 +472,7 @@ exports.cancelOrder = async (req, res) => {
 
     const user = order.user;
 
-    const url = `${req.protocol}://${req.get('host')}/user/orders`;
+    const url = `${req.protocol}://${req.get('host')}/account`;
 
     // send order cancelled email notification to user
     await new OrderEmail(user, url, order).sendOrderCancelled();

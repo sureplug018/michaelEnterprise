@@ -98,7 +98,7 @@
                         <% const date = timeStamp.toLocaleDateString() %>
                         <% const time = timeStamp.toLocaleTimeString() %>
                         <td><%= date %> (<%= time %>)</td>
-                        <td><a class="edit-order-stock-modal" href="#" data-order-id="<%= order.id %>" data-bs-toggle="modal" data-bs-target="#profile-afro-product"><i class="fa-solid fa-pen-to-square fa-xl"></i></a></td>
+                        <td><a class="edit-order-status-modal" href="#" data-order-id="<%= order.id %>" data-bs-toggle="modal" data-bs-target="#profile-afro-product"><i class="fa-solid fa-pen-to-square fa-xl"></i></a></td>
                       </tr>
                       <% }) %>
                       <% } %>
@@ -108,27 +108,24 @@
                 </div>
               </div>
 
-              <!-- <div class="modal fade" role="dialog" id="profile-afro-product">
+              <div class="modal fade" role="dialog" id="profile-afro-product">
                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                   <div class="modal-content"><a href="profile.html#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
                     <div class="modal-body modal-body-lg">
-                      <h5 class="title">Increase Quantity</h5>
+                      <h5 class="title">Change Order Status</h5>
                       <ul class="nk-nav nav nav-tabs">
-                        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="profile.html#personal">Product Quantity</a></li>
+                        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="profile.html#personal">Order Status</a></li>
                       </ul>
                       <div class="tab-content">
                         <div class="tab-pane active" id="personal">
-                          <div class="row gy-4">
-                            <div class="form-group">
-                              <label class="form-label" for="productStock">Product Quantity</label>
-                              <input type="text" class="form-control form-control-lg" id="productStock" placeholder="Product Quantity">
-                            </div>
-                          </div>
                           <p></p>
                           <div class="col-12">
                             <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
-                              <li><a href="#" class="btn btn-lg btn-primary update-product-stock-btn">Update Product</a></li>
-                              <li><a href="#" data-bs-dismiss="modal" class="link link-light">Cancel</a></li>
+                              <li><a href="#" class="btn btn-lg btn-primary confirm-order-btn">Confirmed</a></li>
+                              <li><a href="#" class="btn btn-lg btn-primary ship-order-btn">Shipped</a></li>
+                              <li><a href="#" class="btn btn-lg btn-primary deliver-order-btn">Delivered</a></li>
+                              <li><a href="#" class="btn btn-lg btn-primary cancel-order-btn">Cancelled</a></li>
+                              <li><a href="#" data-bs-dismiss="modal" class="link link-light">Close</a></li>
                             </ul>
                           </div>
                         </div>
@@ -136,7 +133,7 @@
                     </div>
                   </div>
                 </div>
-              </div> -->
+              </div>
 
 
 
