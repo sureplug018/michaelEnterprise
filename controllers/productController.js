@@ -197,16 +197,6 @@ exports.deleteProduct = async (req, res) => {
 };
 
 exports.editProduct = async (req, res) => {
-  const requiredFields = [
-    'name',
-    'price',
-    'initialPrice',
-    'description',
-    'summary',
-    'superCategory',
-    'category',
-  ];
-
   const { productId } = req.params;
 
   // Check if the product exists
