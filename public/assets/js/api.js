@@ -387,6 +387,22 @@ const updateAdminData = async (firstName, lastName, phoneNumber) => {
   }
 };
 
+const logoutUser = async () => {
+  try {
+    const res = await axios({
+      method: 'get',
+      url: '/api/v1/users/logout',
+    });
+    if (res.data.status === 'success') {
+      setTimeout(function () {
+        location.href = '/';
+      }, 2000);
+    }
+  } catch (err) {
+    showAlert('error', err.response.data.message);
+  }
+};
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const loginForm = document.querySelector('.form-login');
 const signupForm = document.querySelector('.form-signup');
@@ -406,6 +422,9 @@ const userPasswordUpdateForm = document.querySelector(
 );
 const updateAdminPasswordForm = document.querySelector('.admin-password-form');
 const adminProfileForm = document.querySelector('.admin-profile-form');
+const logoutUserBtn = document.querySelector('.signOut-user-btn');
+const logoutUserBtn1 = document.querySelector('.signOut-user-btn1');
+const logoutUserBtn2 = document.querySelector('.signOut-user-btn2');
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 if (userDataUpdateForm) {
@@ -420,6 +439,21 @@ if (userDataUpdateForm) {
     await updateUserDetail(firstName, lastName, phoneNumber);
     updateBtn.style.opacity = '1';
     updateBtn.textContent = 'Save Changes';
+  });
+}
+
+if (logoutUserBtn) {
+  logoutUserBtn.addEventListener('click', logoutUser);
+}
+
+if (logoutUserBtn1) {
+  logoutUserBtn1.addEventListener('click', logoutUser);
+}
+
+if (logoutUserBtn2) {
+  logoutUserBtn2.addEventListener('click', function (event) {
+    event.preventDefault(); // Prevents the default action
+    logoutUser(); // Call your logout logic
   });
 }
 
@@ -1357,9 +1391,7 @@ function updateDropdownBasedOnURL() {
 // Call this function when the page loads to set the correct dropdown value
 updateDropdownBasedOnURL();
 
-const currentPage = parseInt(
-  document.getElementById('currentPage').innerText,
-);
+const currentPage = parseInt(document.getElementById('currentPage').innerText);
 const totalPages = parseInt(document.getElementById('totalPages').textContent);
 
 function updateURL(direction) {
@@ -1611,5 +1643,3 @@ document.addEventListener('DOMContentLoaded', function () {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////      SEARCH FUNCTION       //////////////////////
-
-
