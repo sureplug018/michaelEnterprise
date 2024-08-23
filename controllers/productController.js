@@ -197,46 +197,49 @@ exports.deleteProduct = async (req, res) => {
 };
 
 exports.editProduct = async (req, res) => {
+  // const requiredFields = [
+  //   'name',
+  //   'price',
+  //   'initialPrice',
+  //   'description',
+  //   'summary',
+  //   'superCategory',
+  //   'category',
+  // ];
+
   const { productId } = req.params;
 
   // Check if the product exists
-  let product;
-  try {
-    product = await Product.findById(productId);
-    if (!product) {
-      return res
-        .status(404)
-        .json({ status: 'fail', message: 'Product not found' });
-    }
-  } catch (err) {
-    return res.status(400).json({
-      status: 'fail',
-      message: 'Invalid product ID',
-    });
-  }
 
-  // Validate request body fields only if they exist
-  for (const field of requiredFields) {
-    if (req.body[field] && !req.body[field].trim()) {
-      return res
-        .status(400)
-        .json({ status: 'fail', message: `${field} cannot be empty` });
-    }
-  }
-
-  // Validate imageCover file if provided
-  if (req.files && req.files.imageCover && req.files.imageCover.length === 0) {
+  const product = await Product.findById(productId);
+  if (!product) {
     return res
-      .status(400)
-      .json({ status: 'fail', message: 'Image Cover cannot be empty' });
+      .status(404)
+      .json({ status: 'fail', message: 'Product not found' });
   }
 
-  // Validate images field if provided
-  if (req.files && req.files.images && req.files.images.length === 0) {
-    return res
-      .status(400)
-      .json({ status: 'fail', message: 'At least one image is required' });
-  }
+  // // Validate request body fields only if they exist
+  // for (const field of requiredFields) {
+  //   if (req.body[field] && !req.body[field].trim()) {
+  //     return res
+  //       .status(400)
+  //       .json({ status: 'fail', message: `${field} cannot be empty` });
+  //   }
+  // }
+
+  // // Validate imageCover file if provided
+  // if (req.files && req.files.imageCover && req.files.imageCover.length === 0) {
+  //   return res
+  //     .status(400)
+  //     .json({ status: 'fail', message: 'Image Cover cannot be empty' });
+  // }
+
+  // // Validate images field if provided
+  // if (req.files && req.files.images && req.files.images.length === 0) {
+  //   return res
+  //     .status(400)
+  //     .json({ status: 'fail', message: 'At least one image is required' });
+  // }
 
   try {
     const {
@@ -272,39 +275,77 @@ exports.editProduct = async (req, res) => {
     }
 
     // Validate productStock based on variations only if productStock is provided
-    if (
-      !parsedVariations.length &&
-      productStock === undefined &&
-      !product.productStock
-    ) {
-      return res.status(400).json({
-        status: 'fail',
-        message: 'Product stock is required when there are no variations',
-      });
-    }
+    // if (
+    //   !parsedVariations.length &&
+    //   productStock === undefined &&
+    //   !product.productStock
+    // ) {
+    //   return res.status(400).json({
+    //     status: 'fail',
+    //     message: 'Product stock is required when there are no variations',
+    //   });
+    // }
 
     // Update the product
-    const updatedProduct = await Product.findByIdAndUpdate(
-      productId,
-      {
-        name,
-        price,
-        initialPrice,
-        description,
-        summary,
-        productStock:
-          productStock !== undefined ? productStock : product.productStock,
-        imageCover,
-        images,
-        variations: parsedVariations,
-      },
-      { new: true, runValidators: true },
-    );
+    // const updatedProduct = await Product.findByIdAndUpdate(
+    //   productId,
+    //   {
+    //     name,
+    //     price,
+    //     initialPrice,
+    //     description,
+    //     summary,
+    //     productStock:
+    //       productStock !== undefined ? productStock : product.productStock,
+    //     imageCover,
+    //     images,
+    //     variations: parsedVariations,
+    //   },
+    //   { new: true, runValidators: true },
+    // );
+
+    if (name) {
+      product.name = name;
+    }
+
+    if (price) {
+      product.price = price;
+    }
+
+    if (initialPrice) {
+      product.initialPrice = initialPrice;
+    }
+
+    if (description) {
+      product.description = description;
+    }
+
+    if (summary) {
+      product.summary = summary;
+    }
+
+    if (productStock) {
+      product.productStock = productStock;
+    }
+
+    if (imageCover) {
+      product.imageCover = imageCover;
+    }
+
+    if (images) {
+      product.images = images;
+    }
+
+    if (variations) {
+      product.variations = variations;
+    }
+
+    await product.save();
 
     res.status(200).json({
       status: 'success',
       message: 'Product updated successfully',
-      data: updatedProduct,
+      data: product,
     });
   } catch (err) {
     console.log(err);
