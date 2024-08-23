@@ -1324,49 +1324,7 @@ document.querySelectorAll('.edit-afro-modal-toggler').forEach((button) => {
   });
 });
 
-const search = document.getElementById('searchForm');
-
-if (search) {
-  search.addEventListener('submit', function (event) {
-    event.preventDefault(); // Prevent the default form submission
-
-    // Get the search query
-    const query = document.getElementById('searchInput').value.trim();
-
-    // Make the API request using Axios
-    axios
-      .get('/api/v1/search/search', { params: { query: query } })
-      .then(function (response) {
-        const products = response.data.data.products;
-        let resultsHTML = '';
-
-        if (products.length > 0) {
-          products.forEach((product) => {
-            resultsHTML += `
-            <div class="product-item">
-              <a href="/product/${product.slug}">
-                <img src="${product.imageCover}" alt="${product.name}">
-                <h2>${product.name}</h2>
-                <p>${product.price}</p>
-              </a>
-            </div>
-          `;
-          });
-        } else {
-          resultsHTML = '<p>No products found</p>';
-        }
-        document.getElementById('searchResults').innerHTML = resultsHTML;
-      })
-      .catch(function (error) {
-        console.error('Error:', error);
-        document.getElementById('searchResults').innerHTML =
-          '<p>Error searching for products</p>';
-      });
-  });
-}
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////         CATEGORY FOR FRONTEND AFRO SHOP            ////////////////////////////
 function myFunction() {
@@ -1400,7 +1358,7 @@ function updateDropdownBasedOnURL() {
 updateDropdownBasedOnURL();
 
 const currentPage = parseInt(
-  document.getElementById('currentPage').textContent,
+  document.getElementById('currentPage').innerText,
 );
 const totalPages = parseInt(document.getElementById('totalPages').textContent);
 
@@ -1451,6 +1409,8 @@ function updateButtonStates(page) {
 // Initialize button states on page load
 updateButtonStates(currentPage);
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////          CATEGORY FOR ADMIN AFRO SHOP           ///////////////////////
 // Function to handle category selection and redirection
 // Function to handle category selection and redirection
@@ -1554,12 +1514,11 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 //////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
 //////////////    order status filter and pagination       ///////////////////////
 
 function orderStatus() {
-  const orderStatus = document.getElementById(
-    'ordersAdmin',
-  ).value;
+  const orderStatus = document.getElementById('ordersAdmin').value;
   const url = orderStatus
     ? `/admin/orders?status=${orderStatus}`
     : '/admin/orders';
@@ -1583,9 +1542,6 @@ function updateOrderDropdownBasedOnURL() {
     }
   }
 }
-
-// Call this function when the page loads to set the correct dropdown value
-updateOrderDropdownBasedOnURL();
 
 // Function to update pagination buttons state based on the current page
 function updateButtonStatesOrders(currentPage, totalPages) {
@@ -1638,7 +1594,7 @@ function updateURLOrders(direction) {
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function () {
   // Update dropdown based on URL on load
-  updateDropdownBasedOnURLOrders();
+  updateOrderDropdownBasedOnURL();
 
   // Get current page and total pages
   const currentPage = parseInt(
@@ -1651,3 +1607,9 @@ document.addEventListener('DOMContentLoaded', function () {
   // Initialize button states
   updateButtonStatesOrders(currentPage, totalPages);
 });
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////      SEARCH FUNCTION       //////////////////////
+
+

@@ -84,14 +84,29 @@
           <% }) %>
           <div class="single-shop-list">
             <div class="left-area">
-              <span style="font-weight: 600; color: #2C3C28;">Total Price:</span>
+              <span style="font-weight: 600; color: #2C3C28;">10% Discount:</span>
             </div>
-            <% let grandTotal = 0
+            <% let discountPrice = 0
+              let formattedNumber
                  cartItems.forEach(function(cart){
                  const cartItemTotal = cart.productId.price*cart.quantity
-                 grandTotal += cartItemTotal
+                 discountPrice = 10/100*cartItemTotal
+                 formattedNumber = discountPrice.toFixed(1);
               }) %>
-            <span class="price" style="color: #9B250B;">₽<%= grandTotal %></span>
+            <span class="price" style="color: #0b9b25;">-₽<%= formattedNumber %></span>
+          </div>
+          <div class="single-shop-list">
+            <div class="left-area">
+              <span style="font-weight: 600; color: #2C3C28;">Total Price:</span>
+            </div>
+            <% let discountTotal = 0
+               let total = 0
+                 cartItems.forEach(function(cart){
+                 const cartItemTotal = cart.productId.price*cart.quantity
+                 discountTotal = cartItemTotal - (10/100*cartItemTotal)
+                 total = discountTotal.toFixed(1)
+              }) %>
+            <span class="price" style="color: #9B250B;">₽<%= total %></span>
           </div>
           <p></p>
           <a href="/cart" class="rts-btn btn-primary" style="float: right; margin-right: 10px; padding: 10px 15px;">Modify Cart</a>

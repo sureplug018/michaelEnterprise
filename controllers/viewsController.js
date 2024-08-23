@@ -730,3 +730,32 @@ exports.outOfStock = async (req, res) => {
     });
   }
 };
+
+// Search endpoint
+exports.search = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    const { query } = req.query;
+    const regex = new RegExp(query, 'i'); // 'i' makes it case-insensitive
+    const products = await Product.find({
+      $or: [
+        { name: regex },
+        { description: regex },
+        { category: regex },
+        // Add other fields you want to search through
+      ],
+    });
+
+    // Render the search results page with the found products
+    res.status(200).render('search', {
+      title: 'Search Results',
+      user,
+      products,
+    });
+  } catch (err) {
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};

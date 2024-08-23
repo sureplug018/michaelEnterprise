@@ -12,7 +12,6 @@ const shippingAddressRoutes = require('./routes/shippingAddressRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const supportRoutes = require('./routes/supportRoutes');
 const viewsRoutes = require('./routes/viewsRoutes');
-const searchRoutes = require('./routes/searchRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 
 const app = express();
@@ -51,7 +50,6 @@ app.use('/api/v1/orders', orderRoutes);
 app.use('/api/v1/shipping-address', shippingAddressRoutes);
 app.use('/api/v1/reviews', reviewRoutes);
 app.use('/api/v1/supports', supportRoutes);
-app.use('/api/v1/search', searchRoutes);
 app.use('/api/v1/categories', categoryRoutes);
 app.use('/', viewsRoutes);
 

@@ -407,3 +407,28 @@ exports.increaseProductStock = async (req, res) => {
     });
   }
 };
+
+// Search endpoint
+exports.search = async (req, res) => {
+  try {
+    const { query } = req.query;
+    const regex = new RegExp(query, 'i'); // 'i' makes it case-insensitive
+    const products = await Product.find({
+      $or: [
+        { name: regex },
+        { description: regex },
+        { category: regex },
+        // Add other fields you want to search through
+      ],
+    });
+    res.status(200).json({
+      status: 'success',
+      length: products.length,
+      data: {
+        products,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

@@ -16,6 +16,8 @@ router.get(
   viewsController.emailConfirmed,
 );
 
+router.get('/search', viewsController.search)
+
 router.get('/reset-password/:token', viewsController.resetPassword);
 
 router.get('/confirm-email', viewsController.confirmEmail);

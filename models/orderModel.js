@@ -11,6 +11,9 @@ const orderSchema = new mongoose.Schema(
       ref: 'User',
       required: true,
     },
+    name: {
+      type: String,
+    },
     productId: {
       type: mongoose.Schema.ObjectId,
       ref: 'Product',
@@ -69,8 +72,8 @@ const orderSchema = new mongoose.Schema(
     dateDelivered: String,
     paymentProof: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   {
     timestamps: true,
