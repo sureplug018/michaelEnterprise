@@ -91,20 +91,31 @@ module.exports = class OrderEmail {
     }
   }
 
-  async sendReviewEmail() {
-    try {
-      await this.send('pendingReview', 'Rate our order');
-    } catch (error) {
-      // Handle error for sendPasswordReset method
-      console.error('Sending pending review email failed:', error);
-      // Optionally, you can throw the error again for higher-level handling
-      throw new Error('Failed to send pending review email');
-    }
-  }
+  // async sendReviewEmail() {
+  //   try {
+  //     await this.send('pendingReview', 'Rate our order');
+  //   } catch (error) {
+  //     // Handle error for sendPasswordReset method
+  //     console.error('Sending pending review email failed:', error);
+  //     // Optionally, you can throw the error again for higher-level handling
+  //     throw new Error('Failed to send pending review email');
+  //   }
+  // }
 
   async sendOrderCancelled() {
     try {
       await this.send('orderCancelled', 'Order cancelled');
+    } catch (error) {
+      // Handle error for sendPasswordReset method
+      console.error('Sending order cancellation email failed:', error);
+      // Optionally, you can throw the error again for higher-level handling
+      throw new Error('Failed to send order cancellation email');
+    }
+  }
+
+  async sendDelivery() {
+    try {
+      await this.send('deliveryNotification', 'Order delivered');
     } catch (error) {
       // Handle error for sendPasswordReset method
       console.error('Sending order cancellation email failed:', error);

@@ -403,6 +403,28 @@ const logoutUser = async () => {
   }
 };
 
+const createReview = async (review, rating, productId) => {
+  try {
+    const res = await axios({
+      method: 'post',
+      url: `/api/v1/reviews/create-review/${productId}`,
+      data: {
+        review,
+        rating,
+      },
+    });
+    if (res.data.status === 'success') {
+      showAlert('success', 'Thanks for your feedback!');
+
+      window.setTimeout(() => {
+        location.assign('/account');
+      }, 3000);
+    }
+  } catch (err) {
+    showAlert('error', err.response.data.message);
+  }
+};
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const loginForm = document.querySelector('.form-login');
 const signupForm = document.querySelector('.form-signup');
@@ -425,6 +447,7 @@ const adminProfileForm = document.querySelector('.admin-profile-form');
 const logoutUserBtn = document.querySelector('.signOut-user-btn');
 const logoutUserBtn1 = document.querySelector('.signOut-user-btn1');
 const logoutUserBtn2 = document.querySelector('.signOut-user-btn2');
+const reviewForm = document.querySelector('.review-form');
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 if (userDataUpdateForm) {
@@ -454,6 +477,21 @@ if (logoutUserBtn2) {
   logoutUserBtn2.addEventListener('click', function (event) {
     event.preventDefault(); // Prevents the default action
     logoutUser(); // Call your logout logic
+  });
+}
+
+if (reviewForm) {
+  reviewForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const reviewBtn = document.querySelector('.review-btn');
+    reviewBtn.style.opacity = '0.5';
+    reviewBtn.textContent = 'Sending...';
+    const review = document.getElementById('review').value;
+    const rating = parseInt(document.getElementById('rating').value, 10);
+    const urlParams = window.location.pathname.split('/').pop();
+    await createReview(review, rating, urlParams);
+    reviewBtn.style.opacity = '1';
+    reviewBtn.textContent = 'Submit Review';
   });
 }
 

@@ -368,11 +368,13 @@ exports.account = async (req, res) => {
     if (user.role === 'user') {
       const shippingAddress = await ShippingAddress.findOne({ user: user.id });
       const orders = await Order.find({ user: user.id });
+      const pendingReviews = await PendingReview.find({ user: user.id });
       return res.status(200).render('account', {
         title: 'Account',
         user,
         orders,
         shippingAddress,
+        pendingReviews,
       });
     }
     return res.status(302).redirect('/');
@@ -721,6 +723,29 @@ exports.outOfStock = async (req, res) => {
         title: 'Out Of Stock',
         user,
         outOfStockProducts,
+      });
+    }
+  } catch (err) {
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.review = async (req, res) => {
+  try {
+    const productId = req.params.productId;
+    const user = res.locals.user;
+    if (!user) {
+      return res.status(302).redirect('/');
+    }
+    if (user.role === 'user') {
+      const product = await Product.findById(productId);
+      return res.status(200).render('review', {
+        title: 'Submit a Review',
+        user,
+        product,
       });
     }
   } catch (err) {

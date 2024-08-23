@@ -22,6 +22,16 @@ exports.createReview = async (req, res) => {
       productId,
     });
 
+    // Check if the user has already reviewed this product
+    const existingReview = await Review.findOne({ user, productId });
+
+    if (existingReview) {
+      return res.status(403).json({
+        status: 'fail',
+        message: 'You have already reviewed this product',
+      });
+    }
+
     if (!deletePendingReview) {
       return res.status(404).json({
         status: 'fail',

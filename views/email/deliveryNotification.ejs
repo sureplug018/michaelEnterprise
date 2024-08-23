@@ -21,22 +21,21 @@
             <!-- Rest of your HTML content -->
             <p>Hi <%= firstName %>,</p>
             </p>
-            <p>
-              Please be informed that new order has been placed:<br>
-
-            </p>
+           <p>
+             Your order #<%= orders.orderId %> has been successfully delivered! We hope you are satisfied with your purchase.<br>
+             We'd love to hear your thoughts. Could you please take a moment to leave us a review? Your feedback helps us improve and serve you better.<br>
+             Thank you for choosing us!
+           </p>
 
             <p style="font-weight: bold;">Order details</p>
 
-            <% orders.forEach(function(item){ %>
             <ul>
-              <li>Order id: <%= item.orderId %></li>
-              <li>Product name: <%= item.name %></li>
-              <li>Quantity: <%= item.quantity %></li>
-              <li>Total: <%= item.total %></li>
-              <li>Payment method: <%= item.paymentMethod %></li>
+              <li>Order id: <%= orders.orderId %></li>
+              <li>Product name: <%= orders.productId.name %></li>
+              <li>Quantity: <%= orders.quantity %></li>
+              <li>Total: <%= orders.total %></li>
+              <li>Payment method: <%= orders.paymentMethod %></li>
             </ul>
-            <% }) %>
 
             <table class="btn btn-primary" role="presentation" border="0" cellpadding="0" cellspacing="0">
               <tbody>
@@ -46,7 +45,7 @@
                       <tbody>
                         <tr>
                           <td>
-                            <a href="<%= url %>" target="_blank">View Orders</a>
+                            <a href="<%= url %>" target="_blank">Review</a>
                           </td>
                         </tr>
                       </tbody>

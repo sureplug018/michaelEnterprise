@@ -26,6 +26,8 @@ router.get('/forgot-password', viewsController.forgotPassword);
 
 router.use(authController.isLoggedIn);
 
+router.get('/review/:productId', viewsController.review);
+
 router.get('/', viewsController.overview);
 
 router.get('/faq', viewsController.faq);

@@ -10,6 +10,7 @@ const Cart = require('../models/cartModel');
 const ShippingAddress = require('../models/shippingAddressModel');
 const OrderEmail = require('./../utilities/notificationEmail');
 const Product = require('../models/productModel');
+const PendingReview = require('../models/pendingReviewModel');
 
 // const PAYSTACK_BASE_URL = 'https://api.paystack.co/transaction/initialize';
 // const STRIPE_BASE_URL = 'https://api.stripe.com/v1/checkout/sessions';
@@ -424,6 +425,20 @@ exports.deliverOrder = async (req, res) => {
     order.status = 'Delivered';
     order.dateDelivered = Date.now();
     await order.save();
+
+    await PendingReview.create({
+      productId: order.productId,
+      user: order.user,
+      deliveredOn: Date.now(),
+    });
+    const user = order.user;
+
+    const reviewId = order.productId.id;
+
+    const url = `${req.protocol}://${req.get('host')}/review/${reviewId}`;
+
+    // send order cancelled email notification to user
+    await new OrderEmail(user, url, order).sendDelivery();
 
     res.status(200).json({
       status: 'success',
