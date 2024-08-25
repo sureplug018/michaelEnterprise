@@ -159,4 +159,53 @@
   <!-- rts category area end -->
 </div>
 
+ <!-- Modal HTML -->
+ <div id="myModal-1" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+   <div class="modal-dialog bg_image">
+     <div class="modal-content">
+       <div class="modal-header">
+         <button type="button" class="close" data-bs-dismiss="modal"><i class="fa-light fa-x"></i></button>
+       </div>
+       <div class="modal-body text-center">
+         <div class="inner-content">
+           <div class="content">
+             <span class="pre-title">Get up to 10% discount on your purchase till 31st of August</span>
+             <h1 class="title">Afro-Shop Relaunch with<br> Michael Enterprise</h1>
+             <p class="disc">
+               We have prepared special discounts for you on grocery products. Don't <br> miss these opportunities...
+             </p>
+             <div class="rts-btn-banner-area">
+               <a href="/afro-shop" class="rts-btn btn-primary radious-sm with-icon">
+                 <div class="btn-text">
+                   Shop Now
+                 </div>
+                 <div class="arrow-icon">
+                   <i class="fa-light fa-arrow-right"></i>
+                 </div>
+                 <div class="arrow-icon">
+                   <i class="fa-light fa-arrow-right"></i>
+                 </div>
+               </a>
+               <div class="price-area">
+                 <!-- <span>from</span>
+                 <h3 class="title animated fadeIn">$80.99</h3> -->
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
+ </div>
+
+ <!-- Script to show the modal after 2 seconds -->
+ <script>
+   document.addEventListener('DOMContentLoaded', function() {
+     setTimeout(function() {
+       const modal = new bootstrap.Modal(document.getElementById('myModal-1'));
+       modal.show();
+     }, 1000); // Delay of 2 seconds (2000 milliseconds)
+   });
+ </script>
+
 <%- include('partials/landingPageFooter.ejs') %>
