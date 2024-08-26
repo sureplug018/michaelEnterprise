@@ -27,44 +27,46 @@
                 <div>Showing page <span id="currentPageAdminAfro"><%= currentPage %></span> out of <span id="totalPagesAdminAfro"><%= totalPages %></span></div>
               </div>
 
-              <div style="margin-top: 30px;" class="table-responsive">
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Product Name</th>
-                      <th scope="col">Price</th>
-                      <th scope="col">Initial Price</th>
-                      <th scope="col">Description</th>
-                      <th scope="col">Summary</th>
-                      <th scope="col">Category</th>
-                      <th scope="col">Product Stock</th>
-                      <th scope="col">View Product</th>
-                      <th scope="col">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% if (afroShopItems.length === 0) { %>
-                    <p style="text-align: center; font-size: large; margin-top: 50px;">No products found matching your search criteria.</p>
-                    <% }else{ %>
-                    <% afroShopItems.forEach(function(item, index){ %>
-                    <tr>
-                      <th scope="row"><%= index + 1 %></th>
-                      <td><%= item.name %></td>
-                      <td><%= item.price %></td>
-                      <td><%= item.initialPrice %></td>
-                      <td><%= item.description %></td>
-                      <td><%= item.summary %></td>
-                      <td><%= item.category %></td>
-                      <td><%= item.productStock %></td>
-                      <td><a href="/afro-shop/<%= item.slug %>" target="_blank">View</a></td>
-                      <td><a class="edit-afro-modal-toggler" href="#" data-product-id="<%= item.id %>" data-bs-toggle="modal" data-bs-target="#profile-afro-product"><i class="fa-solid fa-pen-to-square fa-xl"></i></a></td>
-                    </tr>
-                    <% }) %>
-                    <% } %>
+              <div style="overflow-x: auto;">
+                <div style="margin-top: 30px;" class="table-responsive">
+                  <table class="table table-bordered" style="min-width: 1000px;width: 2526px;">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Initial Price</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Summary</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Product Stock</th>
+                        <th scope="col">View Product</th>
+                        <th scope="col">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% if (afroShopItems.length === 0) { %>
+                      <p style="text-align: center; font-size: large; margin-top: 50px;">No products found matching your search criteria.</p>
+                      <% }else{ %>
+                      <% afroShopItems.forEach(function(item, index){ %>
+                      <tr style="height: 60px;">
+                        <th scope="row"><%= index + 1 %></th>
+                        <td><%= item.name %></td>
+                        <td><%= item.price %></td>
+                        <td><%= item.initialPrice %></td>
+                        <td><%= item.description %></td>
+                        <td><%= item.summary %></td>
+                        <td><%= item.category %></td>
+                        <td><%= item.productStock %></td>
+                        <td><a href="/afro-shop/<%= item.slug %>" target="_blank">View</a></td>
+                        <td><a class="edit-afro-modal-toggler" href="#" data-product-id="<%= item.id %>" data-bs-toggle="modal" data-bs-target="#profile-afro-product"><i class="fa-solid fa-pen-to-square fa-xl"></i></a></td>
+                      </tr>
+                      <% }) %>
+                      <% } %>
 
-                  </tbody>
-                </table>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
 
