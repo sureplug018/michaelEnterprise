@@ -447,34 +447,9 @@ exports.deliverOrder = async (req, res) => {
       });
     }
 
-    if (order.status === 'Shipped') {
-      order.status = 'Delivered';
-      order.dateDelivered = Date.now();
-      await order.save();
-
-      await PendingReview.create({
-        productId: order.productId,
-        user: order.user,
-        deliveredOn: Date.now(),
-      });
-      const user = order.user;
-
-      const reviewId = order.productId.id;
-
-      const url = `${req.protocol}://${req.get('host')}/review/${reviewId}`;
-
-      // send order cancelled email notification to user
-      await new OrderEmail(user, url, order).sendDelivery();
-
-      res.status(200).json({
-        status: 'success',
-        data: {
-          order,
-        },
-      });
-    } else if (
-      order.status === 'Confirmed' &&
-      order.paymentMethod === 'pick-up'
+    if (
+      order.status === 'Shipped' ||
+      (order.paymentMethod === 'delivery' && order.status === 'Confirmed')
     ) {
       order.status = 'Delivered';
       order.dateDelivered = Date.now();
