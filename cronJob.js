@@ -23,23 +23,26 @@ async function deleteUnconfirmedUsers() {
   }
 }
 
-// async function deleteProductsOutOfStockFromCart() {
-//   try {
-//     const carts = await Cart.find();
-//     const outOfStockProducts = await Product.find({ productStock: 0 });
-//     const outOfStockProductIds = outOfStockProducts.map(
-//       (product) => product._id,
-//     );
-    
-//   } catch (err) {
-//     console.error('Error deleting product from cart:', err);
-//   }
-// }
+async function deleteProductsOutOfStockFromCart() {
+  try {
+    const outOfStockProducts = await Product.find({ productStock: 0 });
+    const outOfStockProductIds = outOfStockProducts.map(
+      (product) => product._id,
+    );
+
+    // Delete all cart items that reference any out-of-stock product
+    await Cart.deleteMany({ productId: { $in: outOfStockProductIds } });
+    console.log('Deleted out-of-stock products from cart');
+  } catch (err) {
+    console.error('Error deleting product from cart:', err);
+  }
+}
 
 // Schedule the cron job to run every 10 minutes
 module.exports = function () {
   // Schedule the cron job to run every 10 minutes
   cron.schedule('* * * * *', () => {
     deleteUnconfirmedUsers();
+    deleteProductsOutOfStockFromCart()
   });
 };

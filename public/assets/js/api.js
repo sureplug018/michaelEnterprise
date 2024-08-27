@@ -1090,20 +1090,11 @@ if (order) {
           window.setTimeout(() => {
             location.assign('/account');
           }, 3000);
-        } else {
-          // Handle the case where the status is not 'success'
-          showAlert('error', 'Something went wrong. Please try again.');
-          order.disabled = false; // Re-enable the button
-          order.textContent = 'I have made payment'; // Reset text content
-          order.style.opacity = '1'; // Reset opacity
-          window.setTimeout(() => {
-            location.assign('/cart');
-          }, 3000);
         }
       })
       .catch(function (error) {
         // Handle error (e.g., show an error message)
-        showAlert('error', 'An error occurred. Please try again later.');
+        showAlert('error', err.response.data.message);
         order.disabled = false; // Re-enable the button
         order.textContent = 'I have made payment'; // Reset text content
         order.style.opacity = '1'; // Reset opacity
