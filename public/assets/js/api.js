@@ -1052,6 +1052,7 @@ if (order) {
 
     // Get the value of the order notes
     const orderNote = document.getElementById('orderNote').value;
+    const deliveryMethod = document.getElementById('deliveryMethod').value;
 
     // Get the file input element
     const paymentProofInput = document.getElementById('paymentProof');
@@ -1068,6 +1069,7 @@ if (order) {
     // Prepare the FormData object
     const formData = new FormData();
     formData.append('orderNote', orderNote);
+    formData.append('deliveryMethod', deliveryMethod);
     formData.append('paymentProof', paymentProofInput.files[0]); // Add the file to the request
 
     // Make the API request using Axios and handle the response

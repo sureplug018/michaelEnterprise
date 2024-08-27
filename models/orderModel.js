@@ -40,11 +40,10 @@ const orderSchema = new mongoose.Schema(
     orderNote: {
       type: String,
     },
-    // deliveryMethod: {
-    //   type: String,
-    //   required: true,
-    //   default: 'Door delivery',
-    // },
+    deliveryMethod: {
+      type: String,
+      required: true,
+    },
     fullName: {
       type: String,
       required: true,

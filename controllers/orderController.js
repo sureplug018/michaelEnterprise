@@ -173,6 +173,7 @@ exports.createOrder = async (req, res) => {
   try {
     const user = req.user.id;
     const orderNote = req.body.orderNote;
+    const deliveryMethod = req.body.deliveryMethod;
     const paymentProof = req.file ? req.file.path : null; // Get payment proof image URL
 
     if (!paymentProof) {
@@ -257,6 +258,7 @@ exports.createOrder = async (req, res) => {
             city: deliveryDetails.city,
             region: deliveryDetails.region,
             orderNote,
+            deliveryMethod,
           },
         ],
         { session },
@@ -342,8 +344,8 @@ exports.confirmOrder = async (req, res) => {
     } else {
       return res.status(404).json({
         status: 'fail',
-        message: 'Cannot perform this action'
-      })
+        message: 'Cannot perform this action',
+      });
     }
   } catch (err) {
     console.log(err);
