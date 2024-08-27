@@ -33,6 +33,14 @@ exports.addToCart = async (req, res) => {
     const productExistsInUserCart = await Cart.findOne({ user, productId });
 
     if (productExistsInUserCart) {
+      // Check if the new quantity would exceed productStock
+      if (productExistsInUserCart.quantity + 1 > product.productStock) {
+        return res.status(400).json({
+          status: 'fail',
+          message:
+            'Stock limit reached.',
+        });
+      }
       // Product already in the cart, increment quantity
       productExistsInUserCart.quantity += 1;
       await productExistsInUserCart.save();

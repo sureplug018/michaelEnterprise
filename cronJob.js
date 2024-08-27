@@ -1,6 +1,8 @@
 /*const mongoose = require('mongoose');*/
-const cron = require("node-cron");
-const User = require("./models/userModel");
+const cron = require('node-cron');
+const User = require('./models/userModel');
+const Product = require('./models/productModel');
+const Cart = require('./models/cartModel');
 
 // Function to delete unconfirmed users after a specific time
 async function deleteUnconfirmedUsers() {
@@ -17,14 +19,27 @@ async function deleteUnconfirmedUsers() {
       console.log(`Deleted unconfirmed user with ID: ${user._id}`);
     }
   } catch (error) {
-    console.error("Error deleting unconfirmed users:", error);
+    console.error('Error deleting unconfirmed users:', error);
   }
 }
+
+// async function deleteProductsOutOfStockFromCart() {
+//   try {
+//     const carts = await Cart.find();
+//     const outOfStockProducts = await Product.find({ productStock: 0 });
+//     const outOfStockProductIds = outOfStockProducts.map(
+//       (product) => product._id,
+//     );
+    
+//   } catch (err) {
+//     console.error('Error deleting product from cart:', err);
+//   }
+// }
 
 // Schedule the cron job to run every 10 minutes
 module.exports = function () {
   // Schedule the cron job to run every 10 minutes
-  cron.schedule("* * * * *", () => {
+  cron.schedule('* * * * *', () => {
     deleteUnconfirmedUsers();
   });
 };
