@@ -86,26 +86,32 @@
             <div class="left-area">
               <span style="font-weight: 600; color: #2C3C28;">10% Discount:</span>
             </div>
-            <% let discountPrice = 0
-              let formattedNumber
-                 cartItems.forEach(function(cart){
-                 const cartItemTotal = cart.productId.price*cart.quantity
-                 discountPrice = 10/100*cartItemTotal
-                 formattedNumber = discountPrice.toFixed(1);
-              }) %>
-            <span class="price" style="color: #0b9b25;">-₽<%= formattedNumber %></span>
+            <% 
+            let discount
+            let = formattedNumber = 0;
+            cartItems.forEach(function(item){
+              formattedNumber += item.productId.price * item.quantity
+              discount = formattedNumber * 10 / 100
+              discount = discount.toFixed(2)
+            });
+             %>
+            <span class="price" style="color: #0b9b25;">-₽<%= discount %></span>
           </div>
           <div class="single-shop-list">
             <div class="left-area">
               <span style="font-weight: 600; color: #2C3C28;">Total Price:</span>
             </div>
-            <% let discountTotal = 0
-               let total = 0
-                 cartItems.forEach(function(cart){
-                 const cartItemTotal = cart.productId.price*cart.quantity
-                 discountTotal = cartItemTotal - (10/100*cartItemTotal)
-                 total = discountTotal.toFixed(1)
-              }) %>
+            <% 
+            let discountPrice
+            let total
+            let itemPrices = 0;
+            cartItems.forEach(function(item){
+            itemPrices += item.productId.price * item.quantity
+            discountPrice = itemPrices * 10 / 100
+            total = itemPrices - discountPrice
+            total = total.toFixed(2)
+            });
+            %>
             <span class="price" style="color: #9B250B;">₽<%= total %></span>
           </div>
           <p></p>
