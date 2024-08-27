@@ -112,7 +112,7 @@
             total = total.toFixed(2)
             });
             %>
-            <span class="price" style="color: #9B250B;">₽<%= total %></span>
+            <span data-value="totalAmount" class="price" style="color: #9B250B;">₽<%= total %></span>
           </div>
           <p></p>
           <a href="/cart" class="rts-btn btn-primary" style="float: right; margin-right: 10px; padding: 10px 15px;">Modify Cart</a>
@@ -163,8 +163,9 @@
     <span class="close" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
     <a id="modalLink" href=""><img id="modalImage" src="" alt="" style="width: 100%; height: auto;"></a>
     <div style="text-align: center;">
+      <p style="font-size: 30px; font-weight: bolder;">₽<span id="modalAmount"></span></p>
       <i class="fa-solid fa-building-columns" style="color: #9B250B; font-size: 50px; margin-bottom: 50px;"></i>
-      <p>Amount: ₽ <span id="modalAmount"></span></p>
+
       <p></p>
       <p><span style="margin-right: 10px;">Account Name: </span>
         <i class="fa-solid fa-copy fa-lg" style="color: #9B250B; cursor: pointer;" onclick="copyText('accountName')"></i>
