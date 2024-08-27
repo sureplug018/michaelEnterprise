@@ -449,7 +449,7 @@ exports.deliverOrder = async (req, res) => {
 
     if (
       order.status === 'Shipped' ||
-      (order.paymentMethod === 'delivery' && order.status === 'Confirmed')
+      (order.deliveryMethod === 'pick-up' && order.status === 'Confirmed')
     ) {
       order.status = 'Delivered';
       order.dateDelivered = Date.now();
