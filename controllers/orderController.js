@@ -387,18 +387,6 @@ exports.shipOrder = async (req, res) => {
       });
     }
 
-    if (
-      order.status === 'Order placed' ||
-      order.status === 'Shipped' ||
-      order.status === 'Delivered' ||
-      order.status === 'Cancelled'
-    ) {
-      return res.status(400).json({
-        status: 'fail',
-        message: 'Cannot perform this action',
-      });
-    }
-
     if (order.status === 'Confirmed' && order.deliveryMethod === 'delivery') {
       order.status = 'Shipped';
       await order.save();
