@@ -123,6 +123,13 @@ exports.increaseQuantity = async (req, res) => {
     // Step 1: Find the Cart Item
     const cart = await Cart.findOne({ user, productId });
 
+    if (cart.quantity + 1 > product.productStock) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Stock limit reached.',
+      });
+    }
+
     // if the item is not in the user cart, add it
     if (!cart) {
       const uploadToCart = await Cart.create({
