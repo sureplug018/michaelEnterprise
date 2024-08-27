@@ -1215,14 +1215,16 @@ document.querySelectorAll('.edit-order-status-modal').forEach((button) => {
     }
     if (shipButton) {
       shipButton.addEventListener('click', async () => {
+        const url = document.getElementById('trackingId').value.trim();
         shipButton.style.opacity = '0.5';
         shipButton.textContent = 'Shipping...';
         try {
           const response = await axios.patch(
             `/api/v1/orders/ship-order/${orderId}`,
+            { url }, // Include tracking ID in the request body
           );
           if (response.data.status === 'success') {
-            showAlert('success', 'Order Shipped!');
+            showAlert('success', 'Order Shipped And Email Sent!');
             confirmButton.style.opacity = '1';
             confirmButton.textContent = 'Shipped';
             window.setTimeout(() => {

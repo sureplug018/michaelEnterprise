@@ -123,4 +123,15 @@ module.exports = class OrderEmail {
       throw new Error('Failed to send order cancellation email');
     }
   }
+
+  async shipDelivery() {
+    try {
+      await this.send('shipNotification', 'Order Shipped');
+    } catch (error) {
+      // Handle error for sendPasswordReset method
+      console.error('Sending order cancellation email failed:', error);
+      // Optionally, you can throw the error again for higher-level handling
+      throw new Error('Failed to send order cancellation email');
+    }
+  }
 };

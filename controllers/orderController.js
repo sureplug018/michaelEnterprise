@@ -335,7 +335,11 @@ exports.confirmOrder = async (req, res) => {
       // send order confirmation email to user
       await new OrderEmail(user, url, order).sendOrderConfirmationEmail();
 
-      res.status(200).json({
+      await Product.findByIdAndUpdate(order.productId.id, {
+        $inc: { productStock: -order.quantity },
+      });
+
+      return res.status(200).json({
         status: 'success',
         data: {
           order,
@@ -344,7 +348,7 @@ exports.confirmOrder = async (req, res) => {
     } else {
       return res.status(404).json({
         status: 'fail',
-        message: 'Cannot perform this action',
+        message: 'Cannot perform this action again',
       });
     }
   } catch (err) {
@@ -359,12 +363,21 @@ exports.confirmOrder = async (req, res) => {
 exports.shipOrder = async (req, res) => {
   try {
     const { orderId } = req.params;
+    const url = req.body.url;
     if (!orderId) {
       return res.status(400).json({
         status: 'fail',
         message: 'Order ID is required',
       });
     }
+
+    if (!url) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'Tracking Id is required',
+      });
+    }
+
     const order = await Order.findById(orderId);
 
     if (!order) {
@@ -374,22 +387,39 @@ exports.shipOrder = async (req, res) => {
       });
     }
 
-    if (order.status === 'Shipped') {
+    if (
+      order.status === 'Order placed' ||
+      order.status === 'Shipped' ||
+      order.status === 'Delivered' ||
+      order.status === 'Cancelled'
+    ) {
       return res.status(400).json({
         status: 'fail',
-        message: 'Order have been shipped',
+        message: 'Cannot perform this action',
       });
     }
 
-    order.status = 'Shipped';
-    await order.save();
+    if (order.status === 'Confirmed' && order.deliveryMethod === 'delivery') {
+      order.status = 'Shipped';
+      await order.save();
 
-    res.status(200).json({
-      status: 'success',
-      data: {
-        order,
-      },
-    });
+      const user = order.user;
+
+      // send order confirmation email to user
+      await new OrderEmail(user, url, order).shipDelivery();
+
+      return res.status(200).json({
+        status: 'success',
+        data: {
+          order,
+        },
+      });
+    } else {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'Cannot perform this action again',
+      });
+    }
   } catch (err) {
     res.status(500).json({
       status: 'fail',
@@ -417,37 +447,65 @@ exports.deliverOrder = async (req, res) => {
       });
     }
 
-    if (order.status === 'Delivered') {
+    if (order.status === 'Shipped') {
+      order.status = 'Delivered';
+      order.dateDelivered = Date.now();
+      await order.save();
+
+      await PendingReview.create({
+        productId: order.productId,
+        user: order.user,
+        deliveredOn: Date.now(),
+      });
+      const user = order.user;
+
+      const reviewId = order.productId.id;
+
+      const url = `${req.protocol}://${req.get('host')}/review/${reviewId}`;
+
+      // send order cancelled email notification to user
+      await new OrderEmail(user, url, order).sendDelivery();
+
+      res.status(200).json({
+        status: 'success',
+        data: {
+          order,
+        },
+      });
+    } else if (
+      order.status === 'Confirmed' &&
+      order.paymentMethod === 'pick-up'
+    ) {
+      order.status = 'Delivered';
+      order.dateDelivered = Date.now();
+      await order.save();
+
+      await PendingReview.create({
+        productId: order.productId,
+        user: order.user,
+        deliveredOn: Date.now(),
+      });
+      const user = order.user;
+
+      const reviewId = order.productId.id;
+
+      const url = `${req.protocol}://${req.get('host')}/review/${reviewId}`;
+
+      // send order cancelled email notification to user
+      await new OrderEmail(user, url, order).sendDelivery();
+
+      res.status(200).json({
+        status: 'success',
+        data: {
+          order,
+        },
+      });
+    } else {
       return res.status(400).json({
         status: 'fail',
-        message: 'Order have been delivered',
+        message: 'Cannot perform this action',
       });
     }
-
-    order.status = 'Delivered';
-    order.dateDelivered = Date.now();
-    await order.save();
-
-    await PendingReview.create({
-      productId: order.productId,
-      user: order.user,
-      deliveredOn: Date.now(),
-    });
-    const user = order.user;
-
-    const reviewId = order.productId.id;
-
-    const url = `${req.protocol}://${req.get('host')}/review/${reviewId}`;
-
-    // send order cancelled email notification to user
-    await new OrderEmail(user, url, order).sendDelivery();
-
-    res.status(200).json({
-      status: 'success',
-      data: {
-        order,
-      },
-    });
   } catch (err) {
     res.status(500).json({
       status: 'fail',
@@ -477,50 +535,50 @@ exports.cancelOrder = async (req, res) => {
       });
     }
 
-    if (order.status === 'Cancelled') {
-      return res.status(400).json({
+    if (order.status === 'Order placed') {
+      order.status = 'Cancelled';
+      await order.save({ session });
+
+      const user = order.user;
+
+      const url = `${req.protocol}://${req.get('host')}/account`;
+
+      // send order cancelled email notification to user
+      await new OrderEmail(user, url, order).sendOrderCancelled();
+
+      // add the item back to user cart
+      await Cart.create(
+        [
+          {
+            user: user.id,
+            productId: order.productId.id,
+            quantity: order.quantity,
+          },
+        ],
+        { session },
+      );
+
+      await Product.findByIdAndUpdate(
+        order.productId.id,
+        { $inc: { productStock: +order.quantity } },
+        { session },
+      );
+
+      await session.commitTransaction();
+      session.endSession();
+
+      return res.status(200).json({
+        status: 'success',
+        data: {
+          order,
+        },
+      });
+    } else {
+      return res.status(500).json({
         status: 'fail',
-        message: 'Order has been cancelled',
+        message: 'Cannot perform this action',
       });
     }
-
-    order.status = 'Cancelled';
-    await order.save({ session });
-
-    const user = order.user;
-
-    const url = `${req.protocol}://${req.get('host')}/account`;
-
-    // send order cancelled email notification to user
-    await new OrderEmail(user, url, order).sendOrderCancelled();
-
-    // add the item back to user cart
-    await Cart.create(
-      [
-        {
-          user: user.id,
-          productId: order.productId.id,
-          quantity: order.quantity,
-        },
-      ],
-      { session },
-    );
-
-    await Product.findByIdAndUpdate(
-      order.productId.id,
-      { $inc: { productStock: +order.quantity } },
-      { session },
-    );
-
-    await session.commitTransaction();
-    session.endSession();
-
-    res.status(200).json({
-      status: 'success',
-      data: {
-        order,
-      },
-    });
   } catch (err) {
     await session.abortTransaction();
     session.endSession();
