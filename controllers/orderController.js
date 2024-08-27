@@ -322,29 +322,29 @@ exports.confirmOrder = async (req, res) => {
       });
     }
 
-    if (order.status === 'Confirmed') {
-      return res.status(400).json({
-        status: 'fail',
-        message: 'Order have been confirmed',
+    if (order.status === 'Order placed') {
+      order.status = 'Confirmed';
+      await order.save();
+
+      const user = order.user;
+
+      const url = `${req.protocol}://${req.get('host')}/account`;
+
+      // send order confirmation email to user
+      await new OrderEmail(user, url, order).sendOrderConfirmationEmail();
+
+      res.status(200).json({
+        status: 'success',
+        data: {
+          order,
+        },
       });
+    } else {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'Cannot perform this action'
+      })
     }
-
-    order.status = 'Confirmed';
-    await order.save();
-
-    const user = order.user;
-
-    const url = `${req.protocol}://${req.get('host')}/account`;
-
-    // send order confirmation email to user
-    await new OrderEmail(user, url, order).sendOrderConfirmationEmail();
-
-    res.status(200).json({
-      status: 'success',
-      data: {
-        order,
-      },
-    });
   } catch (err) {
     console.log(err);
     res.status(500).json({
