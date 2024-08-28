@@ -155,15 +155,25 @@ cloudinary.config({
 // Set up multer storage with Cloudinary
 const storage = new CloudinaryStorage({
   cloudinary,
-  params: {
-    folder: 'payment_proofs', // Folder to store payment proofs
-    allowed_formats: ['jpg', 'jpeg', 'png'], // Allowed file formats
-    transformation: [{ width: 500, height: 500, crop: 'limit' }],
+  params: async (req, file) => {
+    let transformation = [];
+
+    // Apply transformation only if the file is an image
+    if (file.mimetype.startsWith('image')) {
+      transformation = [{ width: 500, height: 500, crop: 'limit' }];
+    }
+
+    return {
+      folder: 'payment_proofs', // Folder to store payment proofs
+      allowed_formats: ['jpg', 'jpeg', 'png', 'pdf', 'doc', 'docx'], // Allowed file formats including documents
+      transformation, // Apply transformations if it's an image
+    };
   },
 });
 
 // Multer middleware
 const upload = multer({ storage });
+
 
 exports.uploadPaymentProof = upload.single('paymentProof');
 
