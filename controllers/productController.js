@@ -249,7 +249,8 @@ exports.editProduct = async (req, res) => {
       description,
       summary,
       productStock,
-      variations, // Expecting variations to be sent as a JSON string
+      variations,
+      availability, // Expecting variations to be sent as a JSON string
     } = req.body;
 
     // Handle imageCover update
@@ -338,6 +339,10 @@ exports.editProduct = async (req, res) => {
 
     if (variations) {
       product.variations = variations;
+    }
+
+    if (req.body.availability) {
+      product.availability = availability;
     }
 
     await product.save();

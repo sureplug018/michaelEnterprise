@@ -229,10 +229,13 @@ exports.afroShop = async (req, res) => {
     }
 
     // Create a filter object based on category
-    const filter =
-      category && category.trim().toLowerCase() !== 'all'
-        ? { superCategory: 'Afro shop', categorySlug: category.trim() }
-        : { superCategory: 'Afro shop' };
+    const filter = {
+      superCategory: 'Afro shop',
+      availability: true,
+      ...(category.trim().toLowerCase() !== 'all' && {
+        categorySlug: category.trim(),
+      }),
+    };
 
     // Calculate skip value for pagination
     const skip = (pageNumber - 1) * limitNumber;

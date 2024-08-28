@@ -67,6 +67,10 @@ const productSchema = new mongoose.Schema(
       type: [variationSchema],
       default: [],
     },
+    availability: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     toJSON: { virtuals: true },

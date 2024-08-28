@@ -32,9 +32,26 @@ async function deleteProductsOutOfStockFromCart() {
 
     // Delete all cart items that reference any out-of-stock product
     await Cart.deleteMany({ productId: { $in: outOfStockProductIds } });
-    console.log('Deleted out-of-stock products from cart');
   } catch (err) {
     console.error('Error deleting product from cart:', err);
+  }
+}
+
+async function makeProductAvailable() {
+  try {
+    const products = await Product.find(); // Fetch all products
+
+    // Update each product's availability and save it
+    await Promise.all(
+      products.map(async (product) => {
+        product.availability = true;
+        await product.save(); // Save the updated product
+      }),
+    );
+
+    console.log('All products are now available.');
+  } catch (err) {
+    console.error('Error making products available:', err);
   }
 }
 
@@ -43,6 +60,7 @@ module.exports = function () {
   // Schedule the cron job to run every 10 minutes
   cron.schedule('* * * * *', () => {
     deleteUnconfirmedUsers();
-    deleteProductsOutOfStockFromCart()
+    deleteProductsOutOfStockFromCart();
+    makeProductAvailable();
   });
 };

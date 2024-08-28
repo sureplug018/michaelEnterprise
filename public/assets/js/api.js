@@ -1350,6 +1350,12 @@ document.querySelectorAll('.edit-afro-modal-toggler').forEach((button) => {
         document.getElementById('productStock').value,
       );
 
+      const availability = document.getElementById('availability').value;
+
+      if (availability) {
+        formData.append('availability', availability);
+      }
+
       // Append image data
       const imageCover = document.getElementById('imageCover').files[0];
       const images = document.getElementById('images').files;

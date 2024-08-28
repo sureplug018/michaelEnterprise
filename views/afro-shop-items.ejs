@@ -36,6 +36,7 @@
                         <th scope="col">Product Name</th>
                         <th scope="col">Price</th>
                         <th scope="col">Initial Price</th>
+                        <th scope="col">Availability</th>
                         <th scope="col">Description</th>
                         <th scope="col">Summary</th>
                         <th scope="col">Category</th>
@@ -54,6 +55,7 @@
                         <td><%= item.name %></td>
                         <td><%= item.price %></td>
                         <td><%= item.initialPrice %></td>
+                        <td><%= item.availability %></td>
                         <td><%= item.description %></td>
                         <td><%= item.summary %></td>
                         <td><%= item.category %></td>
@@ -93,6 +95,16 @@
                           <div class="form-group">
                             <label class="form-label" for="initialPrice">Initial Price</label>
                             <input type="text" class="form-control form-control-lg" id="initialPrice" placeholder="Initial Price">
+                          </div>
+                          <div class="form-group">
+                            <label class="form-label">Availability</label>
+                            <div class="form-control-wrap">
+                              <select id="availability" class="js-select2 form-select" data-search="true" data-sort="false">
+                                <option disabled value="" selected>Select</option>
+                                <option value="true">True</option>
+                                <option value="false">False</option>
+                              </select>
+                            </div>
                           </div>
                           <div class="form-group">
                             <label class="form-label" for="description">Description</label>
