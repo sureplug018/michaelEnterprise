@@ -1042,7 +1042,7 @@ if (minusButton) {
 const order = document.getElementById('confirmPaymentButton');
 
 if (order) {
-  order.addEventListener('click', function (event) {
+  order.addEventListener('click', async function (event) {
     event.preventDefault(); // Prevent the default action
 
     // Disable the button, change text to "Processing...", and adjust opacity
@@ -1050,7 +1050,7 @@ if (order) {
     order.textContent = 'Processing...';
     order.style.opacity = '0.5';
 
-    // Get the value of the order notes
+    // Get the value of the order notes and delivery method
     const orderNote = document.getElementById('orderNote').value;
     const deliveryMethod = document.getElementById('deliveryMethod').value;
 
@@ -1072,36 +1072,38 @@ if (order) {
     formData.append('deliveryMethod', deliveryMethod);
     formData.append('paymentProof', paymentProofInput.files[0]); // Add the file to the request
 
-    // Make the API request using Axios and handle the response
-    axios
-      .post('/api/v1/orders/create-order', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
+    try {
+      // Make the API request using Axios and await the response
+      const response = await axios.post(
+        '/api/v1/orders/create-order',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
         },
-      })
-      .then(function (response) {
-        // Use response here
-        // Check if the status is 'success'
-        if (response.data.status === 'success') {
-          // Show a success alert or perform any action
-          showAlert('success', 'Payment confirmed successfully!');
+      );
 
-          // Redirect to the account page after a delay
-          window.setTimeout(() => {
-            location.assign('/account');
-          }, 3000);
-        }
-      })
-      .catch(function (error) {
-        // Handle error (e.g., show an error message)
-        showAlert('error', err.response.data.message);
-        order.disabled = false; // Re-enable the button
-        order.textContent = 'I have made payment'; // Reset text content
-        order.style.opacity = '1'; // Reset opacity
+      // Use response here
+      if (response.data.status === 'success') {
+        // Show a success alert or perform any action
+        showAlert('success', 'Payment confirmed successfully!');
+
+        // Redirect to the account page after a delay
         window.setTimeout(() => {
-          location.assign('/cart');
+          location.assign('/account');
         }, 3000);
-      });
+      }
+    } catch (err) {
+      // Handle error (e.g., show an error message)
+      showAlert('error', err.response.data.message);
+      order.disabled = false; // Re-enable the button
+      order.textContent = 'I have made payment'; // Reset text content
+      order.style.opacity = '1'; // Reset opacity
+      window.setTimeout(() => {
+        location.assign('/cart');
+      }, 3000);
+    }
   });
 }
 
