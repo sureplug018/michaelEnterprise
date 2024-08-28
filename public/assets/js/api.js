@@ -150,11 +150,9 @@ const resetPassword = async (password, passwordConfirm, resetToken) => {
 
 const editShippingAddress = async (
   fullName,
-  address,
-  phoneNumber,
-  country,
-  region,
-  city,
+  postalCode,
+  postOfficeAddress,
+  passportNumber,
   addressId,
 ) => {
   try {
@@ -163,11 +161,9 @@ const editShippingAddress = async (
       url: `/api/v1/shipping-address/edit-shipping-address/${addressId}`,
       data: {
         fullName,
-        address,
-        phoneNumber,
-        country,
-        region,
-        city,
+        postalCode,
+        postOfficeAddress,
+        passportNumber,
       },
     });
 
@@ -232,11 +228,9 @@ const addProducts = async (formData) => {
 
 const createDeliveryAddress = async (
   fullName,
-  address,
-  phoneNumber,
-  country,
-  region,
-  city,
+  postalCode,
+  postOfficeAddress,
+  passportNumber,
 ) => {
   try {
     const res = await axios({
@@ -244,11 +238,9 @@ const createDeliveryAddress = async (
       url: '/api/v1/shipping-address/create-shipping-address',
       data: {
         fullName,
-        address,
-        phoneNumber,
-        country,
-        region,
-        city,
+        postalCode,
+        postOfficeAddress,
+        passportNumber,
       },
     });
 
@@ -613,18 +605,15 @@ if (createShippingAddressForm) {
     button.style.opacity = '0.5';
     button.textContent = 'Saving...';
     const fullName = document.getElementById('fullNames').value;
-    const address = document.getElementById('addresss').value;
-    const phoneNumber = document.getElementById('phoneNumbers').value;
-    const country = document.getElementById('countrys').value;
-    const region = document.getElementById('regions').value;
-    const city = document.getElementById('citys').value;
+    const postalCode = document.getElementById('postalCodes').value;
+    const postOfficeAddress =
+      document.getElementById('postOfficeAddresses').value;
+    const passportNumber = document.getElementById('passportNumbers').value;
     await createDeliveryAddress(
       fullName,
-      address,
-      phoneNumber,
-      country,
-      region,
-      city,
+      postalCode,
+      postOfficeAddress,
+      passportNumber,
     );
     button.style.opacity = '1';
     button.textContent = 'Save';
@@ -640,18 +629,15 @@ if (shippingAddressForm) {
     button.style.opacity = '0.5';
     button.textContent = 'saving...';
     const fullName = document.getElementById('fullName').value;
-    const address = document.getElementById('address').value;
-    const phoneNumber = document.getElementById('phoneNumber').value;
-    const country = document.getElementById('country').value;
-    const region = document.getElementById('region').value;
-    const city = document.getElementById('city').value;
+    const postalCode = document.getElementById('postalCode').value;
+    const postOfficeAddress =
+      document.getElementById('postOfficeAddress').value;
+    const passportNumber = document.getElementById('passportNumber').value;
     await editShippingAddress(
       fullName,
-      address,
-      phoneNumber,
-      country,
-      region,
-      city,
+      postalCode,
+      postOfficeAddress,
+      passportNumber,
       addressId,
     );
     button.style.opacity = '1';
@@ -1087,7 +1073,7 @@ if (order) {
       // Use response here
       if (response.data.status === 'success') {
         // Show a success alert or perform any action
-        showAlert('success', 'Payment confirmed successfully!');
+        showAlert('success', 'Order successful!');
 
         // Redirect to the account page after a delay
         window.setTimeout(() => {

@@ -835,11 +835,11 @@ function showOrderDetails(order) {
   document.getElementById('modalOrderQuantity').innerText =
     order.quantity + (order.quantity === 1 ? ' item' : ' items');
   document.getElementById('modalFullName').innerText = order.fullName;
-  document.getElementById('modalAddress').innerText = order.address;
-  document.getElementById('modalPhoneNumber').innerText = order.phoneNumber;
-  document.getElementById('modalCountry').innerText = order.country;
-  document.getElementById('modalCity').innerText = order.city;
-  document.getElementById('modalRegion').innerText = order.region;
+  document.getElementById('modalPostalCode').innerText = order.postalCode;
+  document.getElementById('modalPostOfficeAddress').innerText =
+    order.postOfficeAddress;
+  document.getElementById('modalPassportNumber').innerText =
+    order.passportNumber;
 }
 
 // Listen for clicks on "View Details" buttons

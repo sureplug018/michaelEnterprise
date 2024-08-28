@@ -5,11 +5,9 @@ exports.createShippingAddress = async (req, res) => {
 
   const requiredFields = [
     'fullName',
-    'address',
-    'phoneNumber',
-    'country',
-    'region',
-    'city',
+    'postalCode',
+    'postOfficeAddress',
+    'passportNumber',
   ];
 
   // Validate request body
@@ -29,35 +27,34 @@ exports.createShippingAddress = async (req, res) => {
         message: 'User already has a shipping address',
       });
     }
-    const { fullName, address, phoneNumber, country, region, city } = req.body;
+    const { fullName, postalCode, postOfficeAddress, passportNumber } =
+      req.body;
 
-    // Normalize the country input to uppercase
-    const normalizedCountry = country.trim().toUpperCase();
+    // // Normalize the country input to uppercase
+    // const normalizedCountry = country.trim().toUpperCase();
 
-    // Define allowed countries
-    const allowedCountries = ['NIGERIA', 'RUSSIA'];
+    // // Define allowed countries
+    // const allowedCountries = ['NIGERIA', 'RUSSIA'];
 
-    // Validate the country input
-    if (!allowedCountries.includes(normalizedCountry)) {
-      return res.status(400).json({
-        status: 'fail',
-        message: 'Please input either Nigeria or Russia.',
-      });
-    }
+    // // Validate the country input
+    // if (!allowedCountries.includes(normalizedCountry)) {
+    //   return res.status(400).json({
+    //     status: 'fail',
+    //     message: 'Please input either Nigeria or Russia.',
+    //   });
+    // }
 
     const newShippingAddress = await ShippingAddress.create({
       user,
       fullName,
-      address,
-      phoneNumber,
-      country: normalizedCountry,
-      region,
-      city,
+      postalCode,
+      postOfficeAddress,
+      passportNumber,
     });
 
     res.status(201).json({
       status: 'success',
-      message: 'SHipping address added',
+      message: 'Shipping address added',
       data: {
         newShippingAddress,
       },
@@ -76,11 +73,9 @@ exports.editShippingAddress = async (req, res) => {
 
   const requiredFields = [
     'fullName',
-    'address',
-    'phoneNumber',
-    'country',
-    'region',
-    'city',
+    'postalCode',
+    'postOfficeAddress',
+    'passportNumber',
   ];
 
   // Validate request body
@@ -92,32 +87,30 @@ exports.editShippingAddress = async (req, res) => {
     }
   }
   try {
-    const { fullName, address, phoneNumber, country, region, city } = req.body;
+    const { fullName, postalCode, postOfficeAddress, passportNumber } =
+      req.body;
 
-    // Normalize the country input to uppercase
-    const normalizedCountry = country.trim().toUpperCase();
+    // // Normalize the country input to uppercase
+    // const normalizedCountry = country.trim().toUpperCase();
 
-    // Define allowed countries
-    const allowedCountries = ['NIGERIA', 'RUSSIA'];
+    // // Define allowed countries
+    // const allowedCountries = ['NIGERIA', 'RUSSIA'];
 
-    // Validate the country input
-    if (!allowedCountries.includes(normalizedCountry)) {
-      return res.status(400).json({
-        status: 'fail',
-        message: 'Invalid country. Please select either Nigeria or Russia.',
-      });
-    }
+    // // Validate the country input
+    // if (!allowedCountries.includes(normalizedCountry)) {
+    //   return res.status(400).json({
+    //     status: 'fail',
+    //     message: 'Invalid country. Please select either Nigeria or Russia.',
+    //   });
+    // }
 
     const shippingAddress = await ShippingAddress.findOneAndUpdate(
       { _id: addressId, user },
       {
-        user,
         fullName,
-        address,
-        phoneNumber,
-        country: normalizedCountry,
-        region,
-        city,
+        postalCode,
+        postOfficeAddress,
+        passportNumber,
       },
       { new: true, runValidators: true },
     );

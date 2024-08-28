@@ -174,7 +174,6 @@ const storage = new CloudinaryStorage({
 // Multer middleware
 const upload = multer({ storage });
 
-
 exports.uploadPaymentProof = upload.single('paymentProof');
 
 exports.createOrder = async (req, res) => {
@@ -219,78 +218,131 @@ exports.createOrder = async (req, res) => {
         { session }, // Pass the session
       );
     }
-    
-    const deliveryDetails = await ShippingAddress.findOne({ user }).session(
-      session,
-    );
 
-    if (!deliveryDetails) {
-      await session.abortTransaction();
-      session.endSession();
-      return res.status(404).json({
-        status: 'fail',
-        message: 'Delivery address not found',
-      });
-    }
-
-    // create an empty array of orders
-    const orders = [];
-    for (const item of cartItems) {
-      // Generate a random 10-digit number as the orderId
-      const orderId = Math.floor(
-        1000000000 + Math.random() * 9000000000,
-      ).toString();
-
-      const order = await Order.create(
-        [
-          {
-            orderId,
-            user,
-            productId: item.productId.id,
-            quantity: item.quantity,
-            price: item.productId.price,
-            name: item.productId.name,
-            total: item.productId.price * item.quantity,
-            paymentMethod: 'Bank Transfer',
-            paymentProof, // Save the payment proof URL
-            fullName: deliveryDetails.fullName,
-            address: deliveryDetails.address,
-            phoneNumber: deliveryDetails.phoneNumber,
-            country: deliveryDetails.country,
-            city: deliveryDetails.city,
-            region: deliveryDetails.region,
-            orderNote,
-            deliveryMethod,
-          },
-        ],
-        { session },
+    if (deliveryMethod === 'delivery') {
+      const deliveryDetails = await ShippingAddress.findOne({ user }).session(
+        session,
       );
 
-      orders.push(order[0]); //flatten the array by pushing the first element
+      if (!deliveryDetails) {
+        await session.abortTransaction();
+        session.endSession();
+        return res.status(404).json({
+          status: 'fail',
+          message: 'Delivery address not found',
+        });
+      }
+
+      // create an empty array of orders
+      const orders = [];
+      for (const item of cartItems) {
+        // Generate a random 10-digit number as the orderId
+        const orderId = Math.floor(
+          1000000000 + Math.random() * 9000000000,
+        ).toString();
+
+        const order = await Order.create(
+          [
+            {
+              orderId,
+              user,
+              productId: item.productId.id,
+              quantity: item.quantity,
+              price: item.productId.price,
+              name: item.productId.name,
+              total: item.productId.price * item.quantity,
+              paymentMethod: 'Bank Transfer',
+              paymentProof, // Save the payment proof URL
+              fullName: deliveryDetails.fullName,
+              postalCode: deliveryDetails.postalCode,
+              postOfficeAddress: deliveryDetails.postOfficeAddress,
+              passportNumber: deliveryDetails.passportNumber,
+              orderNote,
+              deliveryMethod,
+            },
+          ],
+          { session },
+        );
+
+        orders.push(order[0]); //flatten the array by pushing the first element
+      }
+
+      // also delete those items that were ordered from user cart after a successful order
+      await Cart.deleteMany({ user }, { session });
+
+      // return array of admins
+      const adminUsers = await User.find({ role: 'admin' }).session(session);
+
+      const url = `${req.protocol}://${req.get('host')}/admin/orders`;
+
+      // send emails to admin(s) is they are many or send to admin if only single
+      for (const adminUser of adminUsers) {
+        await new OrderEmail(adminUser, url, orders).sendOrderNotification();
+      }
+
+      await session.commitTransaction();
+      session.endSession();
+
+      res.status(201).json({
+        status: 'success',
+        data: {
+          orders,
+        },
+      });
+    } else {
+      // create an empty array of orders
+      const orders = [];
+      for (const item of cartItems) {
+        // Generate a random 10-digit number as the orderId
+        const orderId = Math.floor(
+          1000000000 + Math.random() * 9000000000,
+        ).toString();
+
+        const order = await Order.create(
+          [
+            {
+              orderId,
+              user,
+              productId: item.productId.id,
+              quantity: item.quantity,
+              price: item.productId.price,
+              name: item.productId.name,
+              total: item.productId.price * item.quantity,
+              paymentMethod: 'Bank Transfer',
+              paymentProof, // Save the payment proof URL
+              orderNote,
+              deliveryMethod,
+            },
+          ],
+          { session },
+        );
+
+        orders.push(order[0]); //flatten the array by pushing the first element
+      }
+
+      // also delete those items that were ordered from user cart after a successful order
+      await Cart.deleteMany({ user }, { session });
+
+      // return array of admins
+      const adminUsers = await User.find({ role: 'admin' }).session(session);
+
+      const url = `${req.protocol}://${req.get('host')}/admin/orders`;
+
+      // send emails to admin(s) is they are many or send to admin if only single
+      for (const adminUser of adminUsers) {
+        await new OrderEmail(adminUser, url, orders).sendOrderNotification();
+      }
+
+      await session.commitTransaction();
+      session.endSession();
+
+      res.status(201).json({
+        status: 'success',
+        data: {
+          orders,
+        },
+      });
     }
-
-    // also delete those items that were ordered from user cart after a successful order
-    await Cart.deleteMany({ user }, { session });
-
-    // return array of admins
-    const adminUsers = await User.find({ role: 'admin' }).session(session);
-
-    const url = `${req.protocol}://${req.get('host')}/admin/orders`;
-
-    // send emails to admin(s) is they are many or send to admin if only single
-    for (const adminUser of adminUsers) {
-      await new OrderEmail(adminUser, url, orders).sendOrderNotification();
-    }
-
-    await session.commitTransaction();
-    session.endSession();
-
-    res.status(201).json({
-      status: 'success',
-      data: {
-        orders,
-      },
-    });
   } catch (err) {
     await session.abortTransaction();
     session.endSession();

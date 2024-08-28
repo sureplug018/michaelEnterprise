@@ -31,24 +31,17 @@
           <form action="checkout.html#">
             <div class="half-input-wrapper">
               <div class="single-input">
-                <input id="fullName" value="<%= userDeliveryAddress.fullName %>" placeholder="Full Name*" type="text" disabled>
+                <input id="fullName" value="<%= userDeliveryAddress.fullName %>" placeholder="Full Name In Russia*" type="text" disabled>
               </div>
               <div class="single-input">
-                <input id="phoneNumber" value="<%= userDeliveryAddress.phoneNumber %>" placeholder="Phone Number*" type="text" disabled>
+                <input id="phoneNumber" value="<%= userDeliveryAddress.postalCode %>" placeholder="Postal Code*" type="text" disabled>
               </div>
             </div>
             <div class="single-input">
-              <input id="address" value="<%= userDeliveryAddress.address %>" placeholder="Address*" type="text" disabled>
+              <input id="address" value="<%= userDeliveryAddress.postOfficeAddress %>" placeholder="Postal Office Address*" type="text" disabled>
             </div>
             <div class="single-input">
-              <input id="country" value="<%= userDeliveryAddress.country %>" placeholder="Country*" type="text" disabled>
-            </div>
-            <div class="single-input">
-              <input id="Region" value="<%= userDeliveryAddress.region %>" placeholder="Region*" type="text" disabled>
-            </div>
-
-            <div class="single-input">
-              <input id="city" value="<%= userDeliveryAddress.city %>" placeholder="City*" type="text" disabled>
+              <input id="country" value="<%= userDeliveryAddress.passportNumber %>" placeholder="Passport Number*" type="text" disabled>
             </div>
             <a href="/account" class="rts-btn btn-primary" style="padding: 10px 15px; line-height: 1.2;">Update Address</a>
           </form>

@@ -10,23 +10,15 @@ const shippingAddressSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  address: {
+  postalCode: {
     type: String,
     required: true,
   },
-  phoneNumber: {
+  postOfficeAddress: {
     type: String,
     required: true,
   },
-  country: {
-    type: String,
-    required: true,
-  },
-  region: {
-    type: String,
-    required: true,
-  },
-  city: {
+  passportNumber: {
     type: String,
     required: true,
   },
@@ -40,6 +32,9 @@ shippingAddressSchema.pre(/^find/, function (next) {
   next();
 });
 
-const ShippingAddress = mongoose.model('ShippingAddress', shippingAddressSchema);
+const ShippingAddress = mongoose.model(
+  'ShippingAddress',
+  shippingAddressSchema,
+);
 
 module.exports = ShippingAddress;

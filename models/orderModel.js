@@ -46,27 +46,15 @@ const orderSchema = new mongoose.Schema(
     },
     fullName: {
       type: String,
-      required: true,
     },
-    address: {
+    postalCode: {
       type: String,
-      required: true,
     },
-    phoneNumber: {
+    postOfficeAddress: {
       type: String,
-      required: true,
     },
-    country: {
+    passportNumber: {
       type: String,
-      required: true,
-    },
-    city: {
-      type: String,
-      required: true,
-    },
-    region: {
-      type: String,
-      required: true,
     },
     dateDelivered: String,
     paymentProof: {
