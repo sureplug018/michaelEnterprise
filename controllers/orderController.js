@@ -209,15 +209,7 @@ exports.createOrder = async (req, res) => {
         { session }, // Pass the session
       );
     }
-    // console.log('cart items:', cartItems);
-    if (cartItems.length === 0) {
-      await session.abortTransaction();
-      session.endSession();
-      return res.status(404).json({
-        status: 'fail',
-        message: 'No item in the current user cart',
-      });
-    }
+    
     const deliveryDetails = await ShippingAddress.findOne({ user }).session(
       session,
     );
