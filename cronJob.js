@@ -37,30 +37,11 @@ async function deleteProductsOutOfStockFromCart() {
   }
 }
 
-async function makeProductAvailable() {
-  try {
-    const products = await Product.find(); // Fetch all products
-
-    // Update each product's availability and save it
-    await Promise.all(
-      products.map(async (product) => {
-        product.availability = true;
-        await product.save(); // Save the updated product
-      }),
-    );
-
-    console.log('All products are now available.');
-  } catch (err) {
-    console.error('Error making products available:', err);
-  }
-}
-
 // Schedule the cron job to run every 10 minutes
 module.exports = function () {
   // Schedule the cron job to run every 10 minutes
   cron.schedule('* * * * *', () => {
     deleteUnconfirmedUsers();
     deleteProductsOutOfStockFromCart();
-    makeProductAvailable();
   });
 };
