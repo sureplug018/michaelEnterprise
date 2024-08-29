@@ -47,6 +47,21 @@ const orderSchema = new mongoose.Schema(
     fullName: {
       type: String,
     },
+    address: {
+      type: String,
+    },
+    phoneNumber: {
+      type: String,
+    },
+    country: {
+      type: String,
+    },
+    region: {
+      type: String,
+    },
+    city: {
+      type: String,
+    },
     postalCode: {
       type: String,
     },

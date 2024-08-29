@@ -150,6 +150,11 @@ const resetPassword = async (password, passwordConfirm, resetToken) => {
 
 const editShippingAddress = async (
   fullName,
+  address,
+  phoneNumber,
+  country,
+  region,
+  city,
   postalCode,
   postOfficeAddress,
   passportNumber,
@@ -161,6 +166,11 @@ const editShippingAddress = async (
       url: `/api/v1/shipping-address/edit-shipping-address/${addressId}`,
       data: {
         fullName,
+        address,
+        phoneNumber,
+        country,
+        region,
+        city,
         postalCode,
         postOfficeAddress,
         passportNumber,
@@ -228,6 +238,11 @@ const addProducts = async (formData) => {
 
 const createDeliveryAddress = async (
   fullName,
+  address,
+  phoneNumber,
+  country,
+  region,
+  city,
   postalCode,
   postOfficeAddress,
   passportNumber,
@@ -238,6 +253,11 @@ const createDeliveryAddress = async (
       url: '/api/v1/shipping-address/create-shipping-address',
       data: {
         fullName,
+        address,
+        phoneNumber,
+        country,
+        region,
+        city,
         postalCode,
         postOfficeAddress,
         passportNumber,
@@ -605,12 +625,23 @@ if (createShippingAddressForm) {
     button.style.opacity = '0.5';
     button.textContent = 'Saving...';
     const fullName = document.getElementById('fullNames').value;
+    const address = document.getElementById('addresses').value;
+    const phoneNumber = document.getElementById('phoneNumbers').value;
+    const country = document.getElementById('countries').value;
+    const region = document.getElementById('regions').value;
+    const city = document.getElementById('cities').value;
     const postalCode = document.getElementById('postalCodes').value;
-    const postOfficeAddress =
-      document.getElementById('postOfficeAddresses').value;
+    const postOfficeAddress = document.getElementById(
+      'postOfficeAddresses',
+    ).value;
     const passportNumber = document.getElementById('passportNumbers').value;
     await createDeliveryAddress(
       fullName,
+      address,
+      phoneNumber,
+      country,
+      region,
+      city,
       postalCode,
       postOfficeAddress,
       passportNumber,
@@ -629,12 +660,22 @@ if (shippingAddressForm) {
     button.style.opacity = '0.5';
     button.textContent = 'saving...';
     const fullName = document.getElementById('fullName').value;
+    const address = document.getElementById('address').value;
+    const phoneNumber = document.getElementById('phoneNumber').value;
+    const country = document.getElementById('country').value;
+    const region = document.getElementById('region').value;
+    const city = document.getElementById('city').value;
     const postalCode = document.getElementById('postalCode').value;
     const postOfficeAddress =
       document.getElementById('postOfficeAddress').value;
     const passportNumber = document.getElementById('passportNumber').value;
     await editShippingAddress(
       fullName,
+      address,
+      phoneNumber,
+      country,
+      region,
+      city,
       postalCode,
       postOfficeAddress,
       passportNumber,

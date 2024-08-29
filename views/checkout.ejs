@@ -31,17 +31,32 @@
           <form action="checkout.html#">
             <div class="half-input-wrapper">
               <div class="single-input">
-                <input id="fullName" value="<%= userDeliveryAddress.fullName %>" placeholder="Full Name In Russia*" type="text" disabled>
+                <input value="<%= userDeliveryAddress.fullName %>" type="text" disabled>
               </div>
               <div class="single-input">
-                <input id="phoneNumber" value="<%= userDeliveryAddress.postalCode %>" placeholder="Postal Code*" type="text" disabled>
+                <input value="<%= userDeliveryAddress.address %>" type="text" disabled>
+              </div>
+              <div class="single-input">
+                <input value="<%= userDeliveryAddress.phoneNumber %>" type="text" disabled>
+              </div>
+              <div class="single-input">
+                <input value="<%= userDeliveryAddress.country %>" type="text" disabled>
+              </div>
+              <div class="single-input">
+                <input value="<%= userDeliveryAddress.region %>" type="text" disabled>
+              </div>
+              <div class="single-input">
+                <input value="<%= userDeliveryAddress.city %>" type="text" disabled>
+              </div>
+              <div class="single-input">
+                <input value="<%= userDeliveryAddress.postalCode %>" type="text" disabled>
               </div>
             </div>
             <div class="single-input">
-              <input id="address" value="<%= userDeliveryAddress.postOfficeAddress %>" placeholder="Postal Office Address*" type="text" disabled>
+              <input value="<%= userDeliveryAddress.postOfficeAddress %>" type="text" disabled>
             </div>
             <div class="single-input">
-              <input id="country" value="<%= userDeliveryAddress.passportNumber %>" placeholder="Passport Number*" type="text" disabled>
+              <input value="<%= userDeliveryAddress.passportNumber %>" type="text" disabled>
             </div>
             <a href="/account" class="rts-btn btn-primary" style="padding: 10px 15px; line-height: 1.2;">Update Address</a>
           </form>

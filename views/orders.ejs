@@ -57,6 +57,9 @@
                         <th scope="col">Country</th>
                         <th scope="col">City</th>
                         <th scope="col">Region</th>
+                        <th scope="col">Postal Code</th>
+                        <th scope="col">Post Office Address</th>
+                        <th scope="col">Passport Number</th>
                         <th scope="col">Payment Proof</th>
                         <th scope="col">Created At</th>
                         <th scope="col">Action</th>
@@ -102,6 +105,9 @@
                         <td><%= order.country %></td>
                         <td><%= order.city %></td>
                         <td><%= order.region %></td>
+                        <td><%= order.postalCode %></td>
+                        <td><%= order.postOfficeAddress %></td>
+                        <td><%= order.passportNumber %></td>
                         <td><a href="<%= order.paymentProof %>" target="_blank">View</a></td>
                         <% const timeStamp = order.createdAt %>
                         <% const date = timeStamp.toLocaleDateString() %>

@@ -254,6 +254,11 @@ exports.createOrder = async (req, res) => {
               paymentMethod: 'Bank Transfer',
               paymentProof, // Save the payment proof URL
               fullName: deliveryDetails.fullName,
+              address: deliveryDetails.address,
+              phoneNumber: deliveryDetails.phoneNumber,
+              country: deliveryDetails.country,
+              region: deliveryDetails.region,
+              city: deliveryDetails.city,
               postalCode: deliveryDetails.postalCode,
               postOfficeAddress: deliveryDetails.postOfficeAddress,
               passportNumber: deliveryDetails.passportNumber,

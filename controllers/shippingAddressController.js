@@ -5,6 +5,11 @@ exports.createShippingAddress = async (req, res) => {
 
   const requiredFields = [
     'fullName',
+    'address',
+    'phoneNumber',
+    'country',
+    'region',
+    'city',
     'postalCode',
     'postOfficeAddress',
     'passportNumber',
@@ -27,8 +32,17 @@ exports.createShippingAddress = async (req, res) => {
         message: 'User already has a shipping address',
       });
     }
-    const { fullName, postalCode, postOfficeAddress, passportNumber } =
-      req.body;
+    const {
+      fullName,
+      address,
+      phoneNumber,
+      country,
+      region,
+      city,
+      postalCode,
+      postOfficeAddress,
+      passportNumber,
+    } = req.body;
 
     // // Normalize the country input to uppercase
     // const normalizedCountry = country.trim().toUpperCase();
@@ -47,6 +61,11 @@ exports.createShippingAddress = async (req, res) => {
     const newShippingAddress = await ShippingAddress.create({
       user,
       fullName,
+      address,
+      phoneNumber,
+      country,
+      region,
+      city,
       postalCode,
       postOfficeAddress,
       passportNumber,
@@ -73,6 +92,11 @@ exports.editShippingAddress = async (req, res) => {
 
   const requiredFields = [
     'fullName',
+    'address',
+    'phoneNumber',
+    'country',
+    'region',
+    'city',
     'postalCode',
     'postOfficeAddress',
     'passportNumber',
@@ -87,8 +111,17 @@ exports.editShippingAddress = async (req, res) => {
     }
   }
   try {
-    const { fullName, postalCode, postOfficeAddress, passportNumber } =
-      req.body;
+    const {
+      fullName,
+      address,
+      phoneNumber,
+      country,
+      region,
+      city,
+      postalCode,
+      postOfficeAddress,
+      passportNumber,
+    } = req.body;
 
     // // Normalize the country input to uppercase
     // const normalizedCountry = country.trim().toUpperCase();
@@ -108,6 +141,11 @@ exports.editShippingAddress = async (req, res) => {
       { _id: addressId, user },
       {
         fullName,
+        address,
+        phoneNumber,
+        country,
+        region,
+        city,
         postalCode,
         postOfficeAddress,
         passportNumber,

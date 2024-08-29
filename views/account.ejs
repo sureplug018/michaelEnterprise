@@ -21,7 +21,7 @@
         <div class="nav accout-dashborard-nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
           <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true"><i class="fa-regular fa-chart-line"></i>Dashboard</button>
           <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false"><i class="fa-regular fa-bag-shopping"></i>Order</button>
-          <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false"><i class="fa-sharp fa-regular fa-location-dot"></i>My Address</button>
+          <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false"><i class="fa-sharp fa-regular fa-location-dot"></i>Delivery Address</button>
           <button class="nav-link" id="v-pills-settingsa-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settingsa" type="button" role="tab" aria-controls="v-pills-settingsa" aria-selected="false"><i class="fa-light fa-user"></i>Account Details</button>
           <button class="nav-link" id="v-pills-review-tab" data-bs-toggle="pill" data-bs-target="#v-pills-review" type="button" role="tab" aria-controls="v-pills-settingsa" aria-selected="false"><i class="fa-light fa-bag-shopping"></i>Pending Reviews</button>
           <button class="nav-link signOut-user-btn2" id="v-pills-settingsb-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settingsb" type="button" role="tab" aria-controls="v-pills-settingsb" aria-selected="false"><a href="#"><i class="fa-light fa-right-from-bracket"></i>log Out</a></button>
@@ -96,6 +96,11 @@
               <p style="font-family: Arial, sans-serif; font-size: 18px; margin: 5px 0;"><strong>Total:</strong> ₽<span id="modalOrderTotal"></span> for <span id="modalOrderQuantity"></span> items</p>
               <h2 style="font-family: Arial, sans-serif; font-size: 24px; margin-bottom: 20px;">Delivery Details</h2>
               <p style="font-family: Arial, sans-serif; font-size: 18px; margin: 5px 0;"><strong>Full Name:</strong> <span id="modalFullName"></span></p>
+              <p style="font-family: Arial, sans-serif; font-size: 18px; margin: 5px 0;"><strong>Address:</strong> <span id="modalAddress"></span></p>
+              <p style="font-family: Arial, sans-serif; font-size: 18px; margin: 5px 0;"><strong>Phone Number:</strong> <span id="modalPhoneNumber"></span></p>
+              <p style="font-family: Arial, sans-serif; font-size: 18px; margin: 5px 0;"><strong>Country:</strong> <span id="modalCountry"></span></p>
+              <p style="font-family: Arial, sans-serif; font-size: 18px; margin: 5px 0;"><strong>Region:</strong> <span id="modalRegion"></span></p>
+              <p style="font-family: Arial, sans-serif; font-size: 18px; margin: 5px 0;"><strong>City:</strong> <span id="modalCity"></span></p>
               <p style="font-family: Arial, sans-serif; font-size: 18px; margin: 5px 0;"><strong>Postal Code:</strong> <span id="modalPostalCode"></span></p>
               <p style="font-family: Arial, sans-serif; font-size: 18px; margin: 5px 0;"><strong>Post Office Address:</strong> <span id="modalPostOfficeAddress"></span></p>
               <p style="font-family: Arial, sans-serif; font-size: 18px; margin: 5px 0;"><strong>Passport Number:</strong> <span id="modalPassportNumber"></span></p>
@@ -107,6 +112,11 @@
             <form class="account-details-area shipping-address-form">
               <h2 class="title">Shipping Address</h2>
               <input type="text" id="fullName" value="<%= shippingAddress.fullName %>" placeholder="Full Name In Russian*" required>
+              <input type="text" id="address" value="<%= shippingAddress.address %>" placeholder="Address*" required>
+              <input type="text" id="phoneNumber" value="<%= shippingAddress.phoneNumber %>" placeholder="Phone Number*" required>
+              <input type="text" id="country" value="<%= shippingAddress.country %>" placeholder="Country*" required>
+              <input type="text" id="region" value="<%= shippingAddress.region %>" placeholder="Region*" required>
+              <input type="text" id="city" value="<%= shippingAddress.city %>" placeholder="City*" required>
               <input type="text" id="postalCode" value="<%= shippingAddress.postalCode %>" placeholder="Postal Code*" required>
               <input type="text" id="postOfficeAddress" value="<%= shippingAddress.postOfficeAddress %>" placeholder="Post Office Address*" required>
               <input type="text" id="passportNumber" value="<%= shippingAddress.passportNumber %>" placeholder="Passport Number*" required>
@@ -116,6 +126,11 @@
             <form class="account-details-area create-shipping-address-form">
               <h2 class="title">Shipping Address</h2>
               <input type="text" id="fullNames" placeholder="Full Name In Russian*" required>
+              <input type="text" id="addresses" placeholder="Address*" required>
+              <input type="text" id="phoneNumbers" placeholder="Phone Number*" required>
+              <input type="text" id="countries" placeholder="Country*" required>
+              <input type="text" id="regions" placeholder="Region*" required>
+              <input type="text" id="cities" placeholder="City*" required>
               <input type="text" id="postalCodes" placeholder="Postal Code*" required>
               <input type="text" id="postOfficeAddresses" placeholder="Post Office Address*" required>
               <input type="text" id="passportNumbers" placeholder="Passport Number*" required>
