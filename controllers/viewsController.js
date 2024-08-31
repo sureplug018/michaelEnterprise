@@ -532,12 +532,19 @@ exports.orders = async (req, res) => {
         totalOrders.length > 0 ? totalOrders[0].totalUniqueReferences : 0;
       const totalPages = Math.ceil(totalUniqueReferences / limitNumber);
 
+      const ordersWithoutReference = await Order.find({
+        reference: { $exists: false },
+      });
+
+      console.log(ordersWithoutReference);
+
       return res.status(200).render('orders', {
         title: 'Orders',
         user,
         orders,
         currentPage: pageNumber, // Pass current page to the view
         totalPages, // Total pages for pagination
+        ordersWithoutReference,
       });
     }
 
