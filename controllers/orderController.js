@@ -11,6 +11,7 @@ const ShippingAddress = require('../models/shippingAddressModel');
 const OrderEmail = require('./../utilities/notificationEmail');
 const Product = require('../models/productModel');
 const PendingReview = require('../models/pendingReviewModel');
+const crypto = require('crypto');
 
 // const PAYSTACK_BASE_URL = 'https://api.paystack.co/transaction/initialize';
 // const STRIPE_BASE_URL = 'https://api.stripe.com/v1/checkout/sessions';
@@ -145,6 +146,34 @@ const PendingReview = require('../models/pendingReviewModel');
 // add each products total to the metadata
 // add payment method to the metadata
 
+// generating unique random string for reference
+// Function to generate a random alphanumeric string
+const generateRandomString = (length) => {
+  return crypto
+    .randomBytes(Math.ceil(length / 2))
+    .toString('hex') // Convert to hexadecimal format
+    .slice(0, length); // Return the required number of characters
+};
+
+const generateUniqueReference = async () => {
+  let isUnique = false;
+  let reference;
+
+  // Keep generating until a unique reference is found
+  while (!isUnique) {
+    const randomString = generateRandomString(10); // 10 characters
+    reference = `${randomString}${Date.now()}`;
+
+    // Check if reference is unique
+    const existingOrder = await Order.findOne({ reference });
+    if (!existingOrder) {
+      isUnique = true;
+    }
+  }
+
+  return reference;
+};
+
 // Configure Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -219,6 +248,8 @@ exports.createOrder = async (req, res) => {
       );
     }
 
+    const reference = await generateUniqueReference(); // Generate and ensure unique reference
+
     if (deliveryMethod === 'delivery') {
       const deliveryDetails = await ShippingAddress.findOne({ user }).session(
         session,
@@ -264,6 +295,7 @@ exports.createOrder = async (req, res) => {
               passportNumber: deliveryDetails.passportNumber,
               orderNote,
               deliveryMethod,
+              reference,
             },
           ],
           { session },
@@ -317,6 +349,7 @@ exports.createOrder = async (req, res) => {
               paymentProof, // Save the payment proof URL
               orderNote,
               deliveryMethod,
+              reference,
             },
           ],
           { session },

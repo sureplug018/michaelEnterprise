@@ -71,10 +71,17 @@ const orderSchema = new mongoose.Schema(
     passportNumber: {
       type: String,
     },
-    dateDelivered: String,
+    dateDelivered: {
+      type: String,
+    },
     paymentProof: {
       type: String,
       required: true,
+    },
+    reference: {
+      type: String,
+      required: true,
+      unique: true,
     },
   },
   {
@@ -82,6 +89,10 @@ const orderSchema = new mongoose.Schema(
   },
 );
 
+// Add index on the reference field
+orderSchema.index({ reference: 1 }, { unique: true });
+
+// Populate user details when querying
 orderSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'user',
@@ -90,6 +101,7 @@ orderSchema.pre(/^find/, function (next) {
   next();
 });
 
+// Populate product details when querying
 orderSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'productId',

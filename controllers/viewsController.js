@@ -428,23 +428,16 @@ exports.adminDashboard = async (req, res) => {
   }
 };
 
-const slugify = (text) => {
-  return text
-    .toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace(/[^\w\-]+/g, '');
-};
-
 exports.orders = async (req, res) => {
   try {
     const user = res.locals.user;
-    const { status = 'all', page = 1, limit = 30 } = req.query;
+    const { page = 1, limit = 30 } = req.query;
 
     // Convert page and limit to numbers
     const pageNumber = parseInt(page, 10);
     const limitNumber = parseInt(limit, 10);
 
-    // Ensure page and limit are valid numbers
+    // Validate page and limit numbers
     if (pageNumber < 1 || limitNumber < 1) {
       return res.status(400).render('error', {
         title: 'Error',
@@ -452,50 +445,133 @@ exports.orders = async (req, res) => {
       });
     }
 
+    // Redirect if user is not authenticated
     if (!user) {
       return res.status(302).redirect('/');
     }
 
-    // Define the query object
-    const query = {};
+    // Define the aggregation pipeline
+    const pipeline = [
+      {
+        $sort: { createdAt: -1 }, // Sort by creation date, newest first
+      },
+      {
+        $group: {
+          _id: '$reference', // Group by reference
+          order: { $first: '$$ROOT' }, // Get the first order from each reference group
+        },
+      },
+      {
+        $replaceRoot: { newRoot: '$order' }, // Replace root with the order document
+      },
+      {
+        $lookup: {
+          from: 'users', // Name of the collection to join with
+          localField: 'user', // Field from 'Order' collection
+          foreignField: '_id', // Field from 'User' collection
+          as: 'userDetails', // The name of the array field to add
+        },
+      },
+      {
+        $unwind: '$userDetails', // Deconstruct the array field to output a document for each element
+      },
+      {
+        $project: {
+          _id: 1,
+          orderId: 1,
+          user: 1,
+          productId: 1,
+          quantity: 1,
+          total: 1,
+          paymentMethod: 1,
+          orderNote: 1,
+          deliveryMethod: 1,
+          fullName: 1,
+          address: 1,
+          phoneNumber: 1,
+          country: 1,
+          region: 1,
+          city: 1,
+          postalCode: 1,
+          postOfficeAddress: 1,
+          passportNumber: 1,
+          dateDelivered: 1,
+          paymentProof: 1,
+          reference: 1,
+          createdAt: 1,
+          'userDetails.firstName': 1, // Include user.firstName
+          'userDetails.lastName': 1,
+          'userDetails.email': 1, // Include user.email
+        },
+      },
+      {
+        $skip: (pageNumber - 1) * limitNumber, // Skip records for pagination
+      },
+      {
+        $limit: limitNumber, // Limit the number of results returned
+      },
+    ];
 
-    // Define valid statuses and their corresponding slugified versions
-    const validStatuses = {
-      'order-placed': 'Order placed', // 'pending' is now 'order placed'
-      confirmed: 'Confirmed',
-      shipped: 'Shipped',
-      delivered: 'Delivered',
-      cancelled: 'Cancelled',
-    };
-
-    // If the status is not 'all', filter by the specified status
-    const slugifiedStatus = slugify(status);
-    if (status !== 'all' && validStatuses.hasOwnProperty(slugifiedStatus)) {
-      query.status = validStatuses[slugifiedStatus];
-    }
-
-    // Admin can view orders, possibly with a filter applied
     if (user.role === 'admin') {
-      const orders = await Order.find(query)
-        .sort({ createdAt: -1 }) // Sort by creation date, newest first
-        .skip((pageNumber - 1) * limitNumber) // Skip the appropriate number of records for pagination
-        .limit(limitNumber); // Limit the number of results returned
+      // Get the orders with the aggregation pipeline
+      const orders = await Order.aggregate(pipeline);
+
+      // Calculate total pages
+      const totalOrders = await Order.aggregate([
+        {
+          $group: {
+            _id: '$reference', // Group by reference for unique count
+          },
+        },
+        {
+          $count: 'totalUniqueReferences', // Count unique references
+        },
+      ]);
+
+      const totalUniqueReferences =
+        totalOrders.length > 0 ? totalOrders[0].totalUniqueReferences : 0;
+      const totalPages = Math.ceil(totalUniqueReferences / limitNumber);
 
       return res.status(200).render('orders', {
         title: 'Orders',
         user,
         orders,
-        currentPage: pageNumber, // Pass the current page to the view for pagination controls
-        totalPages: Math.ceil(
-          (await Order.countDocuments(query)) / limitNumber,
-        ), // Calculate total pages
-        status, // Pass the current status filter to the view
+        currentPage: pageNumber, // Pass current page to the view
+        totalPages, // Total pages for pagination
       });
     }
 
+    // Redirect if the user is not an admin
     return res.status(302).redirect('/');
   } catch (err) {
-    res.status(500).render('error', {
+    console.error('Error fetching orders:', err); // Log the error for debugging
+    return res.status(500).render('error', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.orderDetails = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    if (!user) {
+      res.status(302).redirect('/');
+    }
+    if (user.role === 'admin') {
+      const orders = await Order.find({ reference: req.params.reference });
+
+      return res.status(200).render('orderDetails', {
+        title: 'Order Details',
+        user,
+        orders,
+      });
+    }
+    // Redirect if the user is not an admin
+    return res.status(302).redirect('/');
+  } catch (err) {
+    console.error('Error fetching orders:', err); // Log the error for debugging
+    return res.status(500).render('error', {
       title: 'Error',
       message: 'Something went wrong.',
     });

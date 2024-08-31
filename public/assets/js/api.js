@@ -1220,7 +1220,7 @@ document.querySelectorAll('.edit-order-status-modal').forEach((button) => {
             confirmButton.style.opacity = '1';
             confirmButton.textContent = 'Confirm';
             window.setTimeout(() => {
-              location.assign('/admin/orders');
+              location.reload();
             }, 3000);
           }
         } catch (err) {
@@ -1228,7 +1228,7 @@ document.querySelectorAll('.edit-order-status-modal').forEach((button) => {
           confirmButton.style.opacity = '1';
           confirmButton.textContent = 'Confirm';
           window.setTimeout(() => {
-            location.assign('/admin/orders');
+            location.reload();
           }, 3000);
         }
       });
@@ -1248,7 +1248,7 @@ document.querySelectorAll('.edit-order-status-modal').forEach((button) => {
             confirmButton.style.opacity = '1';
             confirmButton.textContent = 'Shipped';
             window.setTimeout(() => {
-              location.assign('/admin/orders');
+              location.reload();
             }, 3000);
           }
         } catch (err) {
@@ -1256,7 +1256,7 @@ document.querySelectorAll('.edit-order-status-modal').forEach((button) => {
           shipButton.style.opacity = '1';
           shipButton.textContent = 'Shipped';
           window.setTimeout(() => {
-            location.assign('/admin/orders');
+            location.reload();
           }, 3000);
         }
       });
@@ -1274,7 +1274,7 @@ document.querySelectorAll('.edit-order-status-modal').forEach((button) => {
             confirmButton.style.opacity = '1';
             confirmButton.textContent = 'Delivered';
             window.setTimeout(() => {
-              location.assign('/admin/orders');
+              location.reload();
             }, 3000);
           }
         } catch (err) {
@@ -1282,7 +1282,7 @@ document.querySelectorAll('.edit-order-status-modal').forEach((button) => {
           deliverButton.style.opacity = '1';
           deliverButton.textContent = 'Delivered';
           window.setTimeout(() => {
-            location.assign('/admin/orders');
+            location.reload();
           }, 3000);
         }
       });
@@ -1300,7 +1300,7 @@ document.querySelectorAll('.edit-order-status-modal').forEach((button) => {
             confirmButton.style.opacity = '1';
             confirmButton.textContent = 'Cancelled';
             window.setTimeout(() => {
-              location.assign('/admin/orders');
+              location.reload();
             }, 3000);
           }
         } catch (err) {
@@ -1308,7 +1308,7 @@ document.querySelectorAll('.edit-order-status-modal').forEach((button) => {
           cancelButton.style.opacity = '1';
           cancelButton.textContent = 'Cancelled';
           window.setTimeout(() => {
-            location.assign('/admin/orders');
+            location.reload();
           }, 3000);
         }
       });

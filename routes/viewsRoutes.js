@@ -16,7 +16,7 @@ router.get(
   viewsController.emailConfirmed,
 );
 
-router.get('/search', viewsController.search)
+router.get('/search', viewsController.search);
 
 router.get('/reset-password/:token', viewsController.resetPassword);
 
@@ -76,5 +76,7 @@ router.get('/admin/categories', viewsController.categories);
 router.get('/admin/supports', viewsController.supports);
 
 router.get('/admin/out-of-stock', viewsController.outOfStock);
+
+router.get('/admin/orderDetails/:reference', viewsController.orderDetails);
 
 module.exports = router;

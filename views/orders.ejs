@@ -17,7 +17,7 @@
           <div class="card-inner-group">
             <div class="card-inner">
               <div class="card-title-group">
-                <ul class="nav nav-tabs nav-tabs-s2">
+                <!-- <ul class="nav nav-tabs nav-tabs-s2">
                   <select class="form-select" id="ordersAdmin" onchange="orderStatus()">
                     <option value="all">All Orders</option>
                     <option value="order-placed">Pending</option>
@@ -26,7 +26,7 @@
                     <option value="delivered">Delivered</option>
                     <option value="cancelled">Cancelled</option>
                   </select>
-                </ul>
+                </ul> -->
               </div>
               <p></p>
               <div>Showing page <span id="currentPageOrders"><%= currentPage %></span> out of <span id="totalPagesOrders"><%= totalPages %></span></div>
@@ -37,84 +37,40 @@
                 <p style="text-align: center; font-size: large; margin-top: 50px;">No orders yet!</p>
                 <% }else{ %>
                 <div style="margin-top: 30px;" class="table-responsive">
-                  <table class="table table-bordered" style="width: auto; table-layout: auto; white-space: nowrap;">
+                  <table class="table table-bordered">
                     <thead>
                       <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Order Id</th>
                         <th scope="col">User</th>
                         <th scope="col">Email</th>
-                        <th scope="col">Product Name</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Total</th>
                         <th scope="col">Payment Method</th>
-                        <th scope="col">Order Note</th>
+                        <th scope="col">Reference</th>
                         <th scope="col">Delivery Method</th>
-                        <th scope="col">Receiver</th>
-                        <th scope="col">Delivery Address</th>
-                        <th scope="col">Receiver Contact</th>
-                        <th scope="col">Country</th>
-                        <th scope="col">City</th>
-                        <th scope="col">Region</th>
-                        <th scope="col">Postal Code</th>
-                        <th scope="col">Post Office Address</th>
-                        <th scope="col">Passport Number</th>
                         <th scope="col">Payment Proof</th>
                         <th scope="col">Created At</th>
-                        <th scope="col">Action</th>
+                        <th scope="col">View Details</th>
                       </tr>
                     </thead>
                     <tbody>
 
-                      <% orders.forEach(function(order, index){ %> <tr>
-                        <th scope="row"><%= index + 1 %></th>
-                        <td><%= order.orderId %></td>
-                        <td><%= order.user.firstName %> <%= order.user.lastName %></td>
-                        <td><%= order.user.email %></td>
-                        <td><%= order.productId.name %></td>
-                        <% if(order.status === 'Order placed'){ %>
-                        <td>
-                          <div class="badge badge-dim bg-warning rounded-pill"><%= order.status %></div>
-                        </td>
-                        <% } else if(order.status === 'Shipped'){ %>
-                        <td>
-                          <div class="badge badge-dim bg-info rounded-pill"><%= order.status %></div>
-                        </td>
-                        <% }else if(order.status === 'Confirmed'){ %>
-                        <td>
-                          <div class="badge badge-dim bg-info rounded-pill"><%= order.status %></div>
-                        </td>
-                        <% }else if(order.status === 'Delivered'){ %>
-                        <td>
-                          <div class="badge badge-dim bg-success rounded-pill"><%= order.status %></div>
-                        </td>
-                        <% }else if(order.status === 'Cancelled'){ %>
-                        <td>
-                          <div class="badge badge-dim bg-dark rounded-pill"><%= order.status %></div>
-                        </td>
-                        <% } %>
-                        <td><%= order.quantity %></td>
-                        <td><%= order.total %></td>
-                        <td><%= order.paymentMethod %></td>
-                        <td><%= order.orderNote %></td>
-                        <td><%= order.deliveryMethod %></td>
-                        <td><%= order.fullName %></td>
-                        <td><%= order.address %></td>
-                        <td><%= order.phoneNumber %></td>
-                        <td><%= order.country %></td>
-                        <td><%= order.city %></td>
-                        <td><%= order.region %></td>
-                        <td><%= order.postalCode %></td>
-                        <td><%= order.postOfficeAddress %></td>
-                        <td><%= order.passportNumber %></td>
-                        <td><a href="<%= order.paymentProof %>" target="_blank">View</a></td>
-                        <% const timeStamp = order.createdAt %>
-                        <% const date = timeStamp.toLocaleDateString() %>
-                        <% const time = timeStamp.toLocaleTimeString() %>
-                        <td><%= date %> (<%= time %>)</td>
-                        <td><a class="edit-order-status-modal" href="#" data-order-id="<%= order.id %>" data-bs-toggle="modal" data-bs-target="#profile-afro-product"><i class="fa-solid fa-pen-to-square fa-xl"></i></a></td>
-                      </tr>
+                      <% orders.forEach(function(order, index){ %>
+
+                      <tr>
+                          <th scope="row"><%= index + 1 %></th>
+                          <td><%= order.userDetails.firstName %> <%= order.userDetails.lastName %></td>
+                          <td><%= order.userDetails.email %></td>
+                          <td><%= order.paymentMethod %></td>
+                          <td><%= order.reference %></td>
+                          <td><%= order.deliveryMethod %></td>
+                          <td><a href="<%= order.paymentProof %>" target="_blank">View</a></td>
+                          <% const timeStamp = order.createdAt %>
+                          <% const date = timeStamp.toLocaleDateString() %>
+                          <% const time = timeStamp.toLocaleTimeString() %>
+                          <td><%= date %> (<%= time %>)</td>
+                          <td>
+                            <a href="/admin/orderDetails/<%= order.reference %>" target="_blank">Details</a>
+                          </td>
+                        </a>
                       <% }) %>
                       <% } %>
 
