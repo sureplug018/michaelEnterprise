@@ -453,6 +453,11 @@ exports.orders = async (req, res) => {
     // Define the aggregation pipeline
     const pipeline = [
       {
+        $match: {
+          reference: { $exists: true, $ne: null }, // Ensure the reference field exists and is not null
+        },
+      },
+      {
         $sort: { createdAt: -1 }, // Sort by creation date, newest first
       },
       {
@@ -535,8 +540,6 @@ exports.orders = async (req, res) => {
       const ordersWithoutReference = await Order.find({
         reference: { $exists: false },
       });
-
-      console.log(ordersWithoutReference);
 
       return res.status(200).render('orders', {
         title: 'Orders',
