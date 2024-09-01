@@ -40,12 +40,7 @@
             <% grandTotal += parseFloat(item.total); %>
             <% }) %>
 
-            <% let discount = 0.10; %>
-            <!-- 10% discount -->
-            <% let discountedTotal = grandTotal * (1 - discount); %>
-            <!-- Apply discount -->
-
-            <p><strong>Grand Total (after 10% discount): ₽<%= discountedTotal.toFixed(2) %></strong></p>
+            <p><strong>Grand Total: ₽<%= grandTotal %></strong></p>
 
             <table class="btn btn-primary" role="presentation" border="0" cellpadding="0" cellspacing="0">
               <tbody>

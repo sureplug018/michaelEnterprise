@@ -92,35 +92,15 @@
           <% }) %>
           <div class="single-shop-list">
             <div class="left-area">
-              <span style="font-weight: 600; color: #2C3C28;">10% Discount:</span>
-            </div>
-            <% 
-            let discount
-            let = formattedNumber = 0;
-            cartItems.forEach(function(item){
-              formattedNumber += item.productId.price * item.quantity
-              discount = formattedNumber * 10 / 100
-              discount = discount.toFixed(2)
-            });
-             %>
-            <span class="price" style="color: #0b9b25;">-₽<%= discount %></span>
-          </div>
-          <div class="single-shop-list">
-            <div class="left-area">
               <span style="font-weight: 600; color: #2C3C28;">Total Price:</span>
             </div>
             <% 
-            let discountPrice
-            let total
             let itemPrices = 0;
             cartItems.forEach(function(item){
             itemPrices += item.productId.price * item.quantity
-            discountPrice = itemPrices * 10 / 100
-            total = itemPrices - discountPrice
-            total = total.toFixed(2)
             });
             %>
-            <span data-value="totalAmount" class="price" style="color: #9B250B;">₽<%= total %></span>
+            <span data-value="totalAmount" class="price" style="color: #9B250B;">₽<%= itemPrices %></span>
           </div>
           <p></p>
           <a href="/cart" class="rts-btn btn-primary" style="float: right; margin-right: 10px; padding: 10px 15px;">Modify Cart</a>
