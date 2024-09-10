@@ -44,24 +44,26 @@
         </div>
       </div>
       <div class="col-lg-8 pl--50 pl_sm--5 pl_md--5">
-        <div id="map" style="height: 540px; width: 600px;"></div>
-        <script src="https://api-maps.yandex.com/2.1/?lang=en_US" type="text/javascript"></script>
-        <script>
-          ymaps.ready(function() {
-            var location = [47.243521, 39.801808];
-            var map = new ymaps.Map('map', {
-              center: location,
-              zoom: 18
-            });
+        <div class="google-map-iframe">
+          <div id="map" style="height: 100%; width: 100%;"></div>
+          <script src="https://api-maps.yandex.com/2.1/?lang=en_US" type="text/javascript"></script>
+          <script>
+            ymaps.ready(function() {
+              var location = [47.243521, 39.801808];
+              var map = new ymaps.Map('map', {
+                center: location,
+                zoom: 18
+              });
 
-            var marker = new ymaps.Placemark(location, {
-              hintContent: 'Marker Location',
-              balloonContent: 'This is a marker at the specified coordinates'
-            });
+              var marker = new ymaps.Placemark(location, {
+                hintContent: 'Marker Location',
+                balloonContent: 'This is a marker at the specified coordinates'
+              });
 
-            map.geoObjects.add(marker);
-          });
-        </script>
+              map.geoObjects.add(marker);
+            });
+          </script>
+        </div>
       </div>
     </div>
   </div>
