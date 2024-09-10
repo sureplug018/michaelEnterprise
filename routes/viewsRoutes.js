@@ -28,7 +28,13 @@ router.use(authController.isLoggedIn);
 
 router.get('/review/:productId', viewsController.review);
 
-router.get('/', viewsController.overview);
+router.get('/', viewsController.home);
+
+router.get('/contact', viewsController.homeContact);
+
+router.get('/about', viewsController.homeAbout);
+
+router.get('/afro-shop/index', viewsController.overview);
 
 router.get('/faq', viewsController.faq);
 

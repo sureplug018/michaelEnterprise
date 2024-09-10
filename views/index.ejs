@@ -1,211 +1,713 @@
-<%- include('partials/landingPageHead.ejs') %>
+<%- include('partials/homePageHead.ejs') %>
 
-<div class="background-light-gray-color rts-section-gap bg_light-1 pt_sm--20">
-  <!-- rts banner area start -->
-  <h2 style="text-align: center;">Michael Afro Shop</h2>
-  <div class="rts-banner-area-one mb--30">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="category-area-main-wrapper-one">
-            <div class="swiper mySwiper-category-1 swiper-data" data-swiper='{
-                                "spaceBetween":1,
-                                "slidesPerView":1,
-                                "loop": true,
-                                "speed": 2000,
-                                "autoplay":{
-                                    "delay":"4000"
-                                },
-                                "navigation":{
-                                    "nextEl":".swiper-button-next",
-                                    "prevEl":".swiper-button-prev"
-                                },
-                                "breakpoints":{
-                                "0":{
-                                    "slidesPerView":1,
-                                    "spaceBetween": 0},
-                                "320":{
-                                    "slidesPerView":1,
-                                    "spaceBetween":0},
-                                "480":{
-                                    "slidesPerView":1,
-                                    "spaceBetween":0},
-                                "640":{
-                                    "slidesPerView":1,
-                                    "spaceBetween":0},
-                                "840":{
-                                    "slidesPerView":1,
-                                    "spaceBetween":0},
-                                "1140":{
-                                    "slidesPerView":1,
-                                    "spaceBetween":0}
-                                }
-                            }'>
-              <div class="swiper-wrapper">
-                <!-- single swiper start -->
-                <div class="swiper-slide">
-                  <div class="banner-bg-image bg_image bg_one-banner  ptb--120 ptb_md--80 ptb_sm--60">
-                    <div class="banner-one-inner-content">
-                      <h1 class="title">
-                        Do not miss our amazing <br>
-                        grocery deals
-                      </h1>
-                      <a href="/afro-shop" class="rts-btn btn-primary radious-sm with-icon">
-                        <div class="btn-text">
-                          Shop Now
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <!-- single swiper start -->
-                <!-- single swiper start -->
-                <div class="swiper-slide">
-                  <div class="banner-bg-image bg_image bg_one-banner two  ptb--120 ptb_md--80 ptb_sm--60">
-                    <div class="banner-one-inner-content">
-                      <h1 class="title">
-                        Discover the rich flavors of Africa <br> with our exclusive products!
-                      </h1>
-                      <a href="/afro-shop" class="rts-btn btn-primary radious-sm with-icon">
-                        <div class="btn-text">
-                          Shop Now
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <!-- single swiper start -->
-                <!-- single swiper start -->
-                <div class="swiper-slide">
-                  <div class="banner-bg-image bg_image bg_one-banner three  ptb--120 ptb_md--80 ptb_sm--60">
-                    <div class="banner-one-inner-content">
-                      <h1 class="title">
-                        Explore Africa’s essence with our curated <br>collection of unique and authentic products!
-                      </h1>
-                      <a href="/afro-shop" class="rts-btn btn-primary radious-sm with-icon">
-                        <div class="btn-text">
-                          Shop Now
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <!-- single swiper start -->
-              </div>
-
-              <button class="swiper-button-next"></button>
-              <button class="swiper-button-prev"></button>
+<!-- Hero Section Start -->
+<div class="hero bg-section hero-slider">
+  <div class="hero-slider-layout">
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <!-- Hero Slide Start -->
+        <div class="swiper-slide">
+          <div class="hero-slide">
+            <!-- Slider Image Start -->
+            <div class="hero-slider-image">
+              <img src="/assets/images/main-logo.jpg" alt="">
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- rts banner area end -->
-  <!-- rts category area start -->
-  <div class="rts-category-area-one">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="category-area-main-wrapper-one">
-            <div class="swiper mySwiper-category-1 swiper-data" data-swiper='{
-                            "spaceBetween":12,
-                            "slidesPerView":10,
-                            "loop": true,
-                            "speed": 1000,
-                            "autoplay": {
-                              "delay": 3000,
-                              "disableOnInteraction": false
-                            },
-                            "breakpoints":{
-                            "0":{
-                                "slidesPerView":2,
-                                "spaceBetween": 12},
-                            "320":{
-                                "slidesPerView":2,
-                                "spaceBetween":12},
-                            "480":{
-                                "slidesPerView":3,
-                                "spaceBetween":12},
-                            "640":{
-                                "slidesPerView":4,
-                                "spaceBetween":12},
-                            "840":{
-                                "slidesPerView":4,
-                                "spaceBetween":12},
-                            "1140":{
-                                "slidesPerView":10,
-                                "spaceBetween":12}
-                            }
-                        }'>
-              <div class="swiper-wrapper">
-                <!-- single swiper start -->
-                <% firstTenProducts.forEach(function(product){ %>
-                <div class="swiper-slide">
-                  <a href="/afro-shop/<%= product.slug %>" class="single-category-one">
-                    <img src="<%= product.imageCover %>" alt="category">
-                    <p><%= product.name %></p>
-                  </a>
+            <!-- Slider Image End -->
+
+            <!-- Slider Content Start -->
+            <div class="container">
+              <div class="row align-items-center">
+                <div class="col-lg-12">
+                  <!-- Hero Content Start -->
+                  <div class="hero-content">
+                    <div class="section-title">
+                      <h1 class="text-anime-style-3">Welcome to Michael Enterprise</h1>
+                      <p class="wow fadeInUp" data-wow-delay="0.25s"> where tradition meets innovation. Discover our carefully curated selection of Afrocentric products and the latest gadgets, all in one place.</p>
+                    </div>
+
+                    <% if(!user){ %>
+                    <div class="hero-content-body wow fadeInUp" data-wow-delay="0.5s">
+                      <a href="/register" class="btn-default">get started</a>
+                    </div>
+                    <% } %>
+                  </div>
+                  <!-- Hero Content End -->
                 </div>
-                <% }) %>
-                <!-- single swiper start -->
               </div>
             </div>
+            <!-- Slider Content End -->
           </div>
         </div>
+        <!-- Hero Slide End -->
+
+        <!-- Hero Slide Start -->
+        <div class="swiper-slide">
+          <div class="hero-slide">
+            <!-- Slider Image Start -->
+            <div class="hero-slider-image">
+              <img src="/assets/images/banner-2.jpg" alt="">
+            </div>
+            <!-- Slider Image End -->
+
+            <!-- Slider Content Start -->
+            <div class="container">
+              <div class="row align-items-center">
+                <div class="col-lg-12">
+                  <!-- Hero Content Start -->
+                  <div class="hero-content">
+                    <div class="section-title">
+                      <h1 class="text-anime-style-3">Elevate Your Everyday with Quality and Convenience</h1>
+                      <p class="wow fadeInUp" data-wow-delay="0.25s">Enhance your lifestyle with our diverse offerings, from top-quality kitchen essentials to seamless exchange services. Your satisfaction is our priority.</p>
+                    </div>
+
+                    <% if(!user){ %>
+                    <div class="hero-content-body wow fadeInUp" data-wow-delay="0.5s">
+                      <a href="/register" class="btn-default">get started</a>
+                    </div>
+                    <% } %>
+
+                  </div>
+                  <!-- Hero Content End -->
+                </div>
+              </div>
+            </div>
+            <!-- Slider Content End -->
+          </div>
+        </div>
+        <!-- Hero Slide End -->
       </div>
+      <div class="swiper-pagination"></div>
     </div>
   </div>
-  <!-- rts category area end -->
 </div>
+<!-- Hero Section End -->
 
- <!-- Modal HTML -->
- <!-- <div id="myModal-1" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-   <div class="modal-dialog bg_image">
-     <div class="modal-content">
-       <div class="modal-header">
-         <button type="button" class="close" data-bs-dismiss="modal"><i class="fa-light fa-x"></i></button>
-       </div>
-       <div class="modal-body text-center">
-         <div class="inner-content">
-           <div class="content">
-             <span class="pre-title">Get up to 10% discount on your purchase till 31st of August</span>
-             <h1 class="title">Afro-Shop Relaunch with<br> Michael Enterprise</h1>
-             <p class="disc">
-               We have prepared special discounts for you on grocery products. Don't <br> miss these opportunities...
-             </p>
-             <div class="rts-btn-banner-area">
-               <a href="/afro-shop" class="rts-btn btn-primary radious-sm with-icon">
-                 <div class="btn-text">
-                   Shop Now
-                 </div>
-                 <div class="arrow-icon">
-                   <i class="fa-light fa-arrow-right"></i>
-                 </div>
-                 <div class="arrow-icon">
-                   <i class="fa-light fa-arrow-right"></i>
-                 </div>
-               </a>
-               <div class="price-area"> -->
-                 <!-- <span>from</span>
-                 <h3 class="title animated fadeIn">$80.99</h3> -->
-               <!-- </div>
-             </div>
-           </div>
-         </div>
-       </div>
-     </div>
-   </div>
- </div> -->
+<!-- About Section Start -->
+<div class="about-us">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-5">
+        <!-- About Us Image Start -->
+        <div class="about-image">
+          <div class="about-img">
+            <figure class="reveal">
+              <img src="/assets/images/about-short.jpg" alt="">
+            </figure>
+          </div>
+        </div>
+        <!-- About Us Image End -->
+      </div>
 
- <!-- Script to show the modal after 2 seconds -->
- <script>
-   document.addEventListener('DOMContentLoaded', function() {
-     setTimeout(function() {
-       const modal = new bootstrap.Modal(document.getElementById('myModal-1'));
-       modal.show();
-     }, 1000); // Delay of 2 seconds (2000 milliseconds)
-   });
- </script>
+      <div class="col-lg-7">
+        <!-- About Content Start -->
+        <div class="about-content">
+          <!-- Section Title Start -->
+          <div class="section-title">
+            <h3 class="wow fadeInUp">about us</h3>
+            <!-- <h2 class="text-anime-style-3" >Crafting structures that last a lifetime</h2> -->
+            <p class="wow fadeInUp" data-wow-delay="0.25s">Michael Enterprise is your trusted partner for a unique shopping experience that blends tradition, innovation, and quality. We offer a carefully curated selection of Afrocentric products that celebrate African heritage, alongside the latest in cutting-edge gadgets to keep you ahead in a fast-paced world. Our kitchen essentials bring style and convenience to your home, and our reliable exchange services ensure smooth, hassle-free transactions. At Michael Enterprise, we are committed to delivering exceptional products and service, meeting your diverse needs with a focus on quality, variety, and customer satisfaction.</p>
+          </div>
+          <!-- Section Title End -->
 
-<%- include('partials/landingPageFooter.ejs') %>
+          <!-- About Content Body Start -->
+          <div class="about-content-body wow fadeInUp" data-wow-delay="0.5s">
+            <ul>
+              <li>Authentic Afrocentric Products</li>
+              <li>Innovative Gadgets</li>
+              <li>Premium Kitchen Essentials</li>
+              <li>Seamless Exchange Services</li>
+            </ul>
+          </div>
+          <!-- About Content Body End -->
+
+          <!-- About Content Footer Start -->
+          <div class="about-content-footer wow fadeInUp" data-wow-delay="0.75s">
+            <div class="about-footer-btn">
+              <a href="about.html" class="btn-default">Learn more</a>
+            </div>
+            <div class="about-contact-support">
+              <div class="icon-box">
+                <img src="/assets/images/icon-phone.svg" alt="">
+              </div>
+              <div class="about-support-content">
+                <p>call support center 24X7</p>
+                <h3><a style="color: var(--accent-color);" href="tel:+79954459255">+79954459255</a></h3>
+              </div>
+            </div>
+          </div>
+          <!-- About Content Footer End -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- About Section End -->
+
+<!-- Our Service Section Start -->
+<div class="our-service">
+  <div class="light-bg-section">
+    <div class="container-fluid">
+      <div class="row section-row">
+        <div class="col-lg-12">
+          <!-- Section Title Start -->
+          <div class="section-title">
+            <h3 class="wow fadeInUp">our services</h3>
+            <h2 class="text-anime-style-3">Our services</h2>
+            <p class="wow fadeInUp" data-wow-delay="0.25s">Our services are designed to provide you with a seamless and satisfying shopping experience, offering quality products, reliable transactions, and exceptional customer support every step of the way.</p>
+          </div>
+          <!-- Section Title End -->
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-3 col-md-6">
+          <!-- Service Item Start -->
+          <div class="service-item wow fadeInUp" data-wow-delay="0.25s">
+            <!-- Service Image Start -->
+            <div class="service-image" data-cursor-text="View">
+              <a href="/afro-shop">
+                <figure>
+                  <img src="/assets/images/afro-shop-small.jpg" alt="">
+                </figure>
+              </a>
+            </div>
+            <!-- Service Image End -->
+
+            <!-- Service Body Start -->
+            <div class="service-body">
+              <!-- Service Body Title Start -->
+              <div class="service-body-title">
+                <h3>Afro Shop</h3>
+              </div>
+              <!-- Service Body Title End -->
+
+              <!-- Service Content Start -->
+              <div class="service-content">
+                <p>Explore a diverse range of everyday items from Africa, including foodstuffs and other essentials that bring the essence of local markets to your home.</p>
+                <div class="service-content-footer">
+                  <a href="/afro-shop" class="readmore-btn">view more</a>
+                </div>
+              </div>
+              <!-- Service Content End -->
+            </div>
+            <!-- Service Body End -->
+          </div>
+          <!-- Service Item End -->
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <!-- Service Item Start -->
+          <div class="service-item wow fadeInUp" data-wow-delay="0.5s">
+            <!-- Service Image Start -->
+            <div class="service-image" data-cursor-text="View">
+              <a href="#">
+                <figure>
+                  <img src="/assets/images/gadgets-small.jpg" alt="">
+                </figure>
+              </a>
+            </div>
+            <!-- Service Image End -->
+
+            <!-- Service Body Start -->
+            <div class="service-body">
+              <!-- Service Body Title Start -->
+              <div class="service-body-title">
+                <h3>Innovative Gadgets</h3>
+              </div>
+              <!-- Service Body Title End -->
+
+              <!-- Service Content Start -->
+              <div class="service-content">
+                <p>Stay ahead with our selection of the latest gadgets and tech innovations designed to enhance your lifestyle and keep you connected.</p>
+                <div class="service-content-footer">
+                  <a href="#" class="readmore-btn">view more</a>
+                </div>
+              </div>
+              <!-- Service Content End -->
+            </div>
+            <!-- Service Body End -->
+          </div>
+          <!-- Service Item End -->
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <!-- Service Item Start -->
+          <div class="service-item wow fadeInUp" data-wow-delay="0.75s">
+            <!-- Service Image Start -->
+            <div class="service-image" data-cursor-text="View">
+              <a href="#">
+                <figure>
+                  <img src="/assets/images/kitcken-small.jpg" alt="">
+                </figure>
+              </a>
+            </div>
+            <!-- Service Image End -->
+
+            <!-- Service Body Start -->
+            <div class="service-body">
+              <!-- Service Body Title Start -->
+              <div class="service-body-title">
+                <h3>Kitchen</h3>
+              </div>
+              <!-- Service Body Title End -->
+
+              <!-- Service Content Start -->
+              <div class="service-content">
+                <p>Elevate your cooking experience with our high-quality kitchenware and appliances, perfect for both everyday use and special occasions.</p>
+                <div class="service-content-footer">
+                  <a href="#" class="readmore-btn">view more</a>
+                </div>
+              </div>
+              <!-- Service Content End -->
+            </div>
+            <!-- Service Body End -->
+          </div>
+          <!-- Service Item End -->
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <!-- Service Item Start -->
+          <div class="service-item wow fadeInUp" data-wow-delay="1s">
+            <!-- Service Image Start -->
+            <div class="service-image" data-cursor-text="View">
+              <a href="#">
+                <figure>
+                  <img src="/assets/images/exchange-small.jpg" alt="">
+                </figure>
+              </a>
+            </div>
+            <!-- Service Image End -->
+
+            <!-- Service Body Start -->
+            <div class="service-body">
+              <!-- Service Body Title Start -->
+              <div class="service-body-title">
+                <h3>Exchange Services</h3>
+              </div>
+              <!-- Service Body Title End -->
+
+              <!-- Service Content Start -->
+              <div class="service-content">
+                <p>Enjoy seamless and reliable exchange services, making your transactions smooth and hassle-free every time.</p>
+                <div class="service-content-footer">
+                  <a href="#" class="readmore-btn">view more</a>
+                </div>
+              </div>
+              <!-- Service Content End -->
+            </div>
+            <!-- Service Body End -->
+          </div>
+          <!-- Service Item End -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Our Service Section End -->
+
+<!-- Cta Box Section Start -->
+<div class="cta-box">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-7 col-md-8">
+        <!-- Section Title Start -->
+        <div class="section-title">
+          <h2 class="text-anime-style-3">Let's achieve something exceptional together!</h2>
+          <p class="wow fadeInUp">Don't wait any longer to elevate your lifestyle. Partner with Michael Enterprise and enjoy unmatched service and quality in every product we offer.</p>
+        </div>
+        <!-- Section Title End -->
+        <!-- Section Btn Start -->
+        <div class="section-btn wow fadeInUp" data-wow-delay="0.25s">
+          <a href="/about" class="btn-default btn-large">Learn more</a>
+        </div>
+        <!-- Section Btn End -->
+      </div>
+
+      <div class="col-lg-5 col-md-4">
+        <!-- Cta Box Image Start -->
+        <div class="cta-box-image">
+          <figure>
+            <img src="/assets/images/woman.jpg" alt="">
+          </figure>
+        </div>
+        <!-- Cta Box Image End -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Cta Box Section End -->
+
+<!-- Our Testiminial Start -->
+<div class="our-testimonial">
+  <div class="container">
+    <div class="row section-row">
+      <div class="col-lg-12">
+        <!-- Section Title Start -->
+        <div class="section-title">
+          <h3 class="wow fadeInUp">testimonials</h3>
+          <h2 class="text-anime-style-3">What people are saying about us</h2>
+          <p class="wow fadeInUp" data-wow-delay="0.25s">At Michael Enterprise, we specialize in providing top-quality products and services, from Afrocentric essentials to cutting-edge gadgets, making everyday living better for our valued customers.</p>
+        </div>
+        <!-- Section Title End -->
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <!-- Testimonial Slider Start -->
+        <div class="testimonial-slider">
+          <div class="swiper">
+            <div class="swiper-wrapper" data-cursor-text="Drag">
+              <!-- Testimonial Slide Start -->
+              <div class="swiper-slide">
+                <div class="testimonial-item">
+                  <div class="testimonial-header">
+                    <div class="testimonial-rating">
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                    </div>
+                    <div class="testimonial-content">
+                      <p>Michael Enterprise has truly become my go-to for authentic Afrocentric products. Their quality and attention to detail are unmatched.</p>
+                    </div>
+                  </div>
+                  <div class="testimonial-body">
+                    <div class="author-image">
+                      <figure class="image-anime">
+                        <img src="/assets/images/author-1.jpg" alt="">
+                      </figure>
+                    </div>
+                    <div class="author-content">
+                      <h3>Ivan Petrov</h3>
+                      <p>Client</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Testimonial Slide End -->
+
+              <!-- Testimonial Slide Start -->
+              <div class="swiper-slide">
+                <div class="testimonial-item">
+                  <div class="testimonial-header">
+                    <div class="testimonial-rating">
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                    </div>
+                    <div class="testimonial-content">
+                      <p>I’ve bought gadgets and delicious Afrocentric food from Michael Enterprise, and they never disappoint. Everything arrives on time and in perfect condition.</p>
+                    </div>
+                  </div>
+                  <div class="testimonial-body">
+                    <div class="author-image">
+                      <figure class="image-anime">
+                        <img src="/assets/images/author-2.jpg" alt="">
+                      </figure>
+                    </div>
+                    <div class="author-content">
+                      <h3>Maria Ivanova</h3>
+                      <p>Client</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Testimonial Slide End -->
+
+              <!-- Testimonial Slide Start -->
+              <div class="swiper-slide">
+                <div class="testimonial-item">
+                  <div class="testimonial-header">
+                    <div class="testimonial-rating">
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                    </div>
+                    <div class="testimonial-content">
+                      <p>Whether I need something for a hearty meal or a unique Afrocentric item, Michael Enterprise always has what I'm looking for. Highly recommended!</p>
+                    </div>
+                  </div>
+                  <div class="testimonial-body">
+                    <div class="author-image">
+                      <figure class="image-anime">
+                        <img src="/assets/images/author-3.jpg" alt="">
+                      </figure>
+                    </div>
+                    <div class="author-content">
+                      <h3>Dmitry Sokolov</h3>
+                      <p>Client</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Testimonial Slide End -->
+
+              <!-- Testimonial Slide Start -->
+              <div class="swiper-slide">
+                <div class="testimonial-item">
+                  <div class="testimonial-header">
+                    <div class="testimonial-rating">
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                    </div>
+                    <div class="testimonial-content">
+                      <p>I was hesitant about making an international purchase, but Michael Enterprise made it so easy. Their exchange service is reliable and stress-free.</p>
+                    </div>
+                  </div>
+                  <div class="testimonial-body">
+                    <div class="author-image">
+                      <figure class="image-anime">
+                        <img src="/assets/images/author-4.jpg" alt="">
+                      </figure>
+                    </div>
+                    <div class="author-content">
+                      <h3>Anastasia Kuznetsova</h3>
+                      <p>Client</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Testimonial Slide End -->
+            </div>
+            <div class="swiper-pagination"></div>
+          </div>
+        </div>
+        <!-- Testimonial Slider End -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Our Testiminial End -->
+
+<!-- Our FAQs Section Start -->
+<div class="our-faqs">
+  <div class="container">
+    <div class="row section-row">
+      <div class="col-lg-12">
+        <!-- Section Title Start -->
+        <div class="section-title">
+          <h3 class="wow fadeInUp">faqs</h3>
+          <h2 class="text-anime-style-3">Got questions? we've got answers</h2>
+          <p class="wow fadeInUp" data-wow-delay="0.25s">We specialize in a wide range of construction services, including residential, commercial, and industrial projects.</p>
+        </div>
+        <!-- Section Title End -->
+      </div>
+    </div>
+
+    <div class="row align-items-center">
+      <div class="col-lg-5">
+        <!-- Our FAQs Images Start -->
+        <div class="our-faqs-images">
+          <div class="row align-items-end">
+            <div class="col-md-6 col-6">
+              <!-- FAQs Img Start -->
+              <div class="faqs-img-1">
+                <figure class="image-anime reveal">
+                  <img src="/assets/images/kitchen-tiny.jpg" alt="">
+                </figure>
+              </div>
+              <!-- FAQs Img End -->
+            </div>
+            <div class="col-md-6 col-6">
+              <!-- FAQs Img Start -->
+              <div class="faqs-img-2">
+                <figure class="image-anime reveal">
+                  <img src="/assets/images/afro-shop-tiny.jpg" alt="">
+                </figure>
+              </div>
+              <!-- FAQs Img End -->
+            </div>
+          </div>
+
+          <div class="row align-items-start">
+            <div class="col-md-6 col-6">
+              <!-- FAQs Img Start -->
+              <div class="faqs-img-1">
+                <figure class="image-anime reveal">
+                  <img src="/assets/images/exchange-tiny.jpg" alt="">
+                </figure>
+              </div>
+              <!-- FAQs Img End -->
+            </div>
+            <div class="col-md-6 col-6">
+              <!-- FAQs Img Start -->
+              <div class="faqs-img-2">
+                <figure class="image-anime reveal">
+                  <img src="/assets/images/gadgets-tiny.jpg" alt="">
+                </figure>
+              </div>
+              <!-- FAQs Img End -->
+            </div>
+          </div>
+
+          <div class="our-faqs-bulitup">
+            <img src="/assets/images/favmike.png" alt="">
+          </div>
+        </div>
+        <!-- Our FAQs Images End -->
+      </div>
+
+      <div class="col-lg-7">
+        <!-- FAQ Accordion Start -->
+        <div class="faq-accordion" id="accordion">
+          <!-- FAQ Item Start -->
+          <div class="accordion-item wow fadeInUp" data-wow-delay="0.25s">
+            <h2 class="accordion-header" id="headingOne">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                What types of products do you offer?
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordion">
+              <div class="accordion-body">
+                <p>Michael Enterprise offers a diverse range of products, including Afrocentric items, the latest gadgets, authentic Afrocentric food, kitchen essentials, and reliable exchange services.</p>
+              </div>
+            </div>
+          </div>
+          <!-- FAQ Item End -->
+
+          <!-- FAQ Item Start -->
+          <div class="accordion-item wow fadeInUp" data-wow-delay="0.5s">
+            <h2 class="accordion-header" id="headingTwo">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                How can I place an order?
+              </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordion">
+              <div class="accordion-body">
+                <p>You can easily place an order through our website by browsing our products, adding items to your cart, and proceeding to checkout. We also offer customer support if you need assistance during the process.</p>
+              </div>
+            </div>
+          </div>
+          <!-- FAQ Item End -->
+
+          <!-- FAQ Item Start -->
+          <div class="accordion-item wow fadeInUp" data-wow-delay="0.75s">
+            <h2 class="accordion-header" id="headingThree">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                What payment methods do you accept?
+              </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordion">
+              <div class="accordion-body">
+                <p>We accept payments through direct bank transfers</p>
+              </div>
+            </div>
+          </div>
+          <!-- FAQ Item End -->
+
+          <!-- FAQ Item Start -->
+          <div class="accordion-item wow fadeInUp" data-wow-delay="1s">
+            <h2 class="accordion-header" id="headingfour">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsefour" aria-expanded="false" aria-controls="collapsefour">
+                How can I contact customer support?
+              </button>
+            </h2>
+            <div id="collapsefour" class="accordion-collapse collapse" aria-labelledby="headingfour" data-bs-parent="#accordion">
+              <div class="accordion-body">
+                <p>You can reach our customer support team via email, phone, or live chat on our website. We’re here to help with any questions or issues you may have.</p>
+              </div>
+            </div>
+          </div>
+          <!-- FAQ Item End -->
+        </div>
+        <!-- FAQ Accordion End -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Our FAQs Section End -->
+
+<!-- Contact Us Section Start -->
+<div class="contact-us">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-4 col-md-5">
+        <!-- Contact Sidebar Start -->
+        <div class="contact-sidebar wow fadeInUp" data-wow-delay="0.25s">
+          <!-- Contact Info Start -->
+          <div class="contact-info">
+            <div class="icon-box">
+              <img src="/assets/images/icon-phone.svg" alt="">
+            </div>
+            <div class="contact-info-content">
+              <p>call support center 24/7</p>
+              <h3><a style="color: white;" href="tel:+79954459255">+79954459255</a></h3>
+            </div>
+          </div>
+          <!-- Contact Info End -->
+
+          <!-- Contact Info Start -->
+          <div class="contact-info">
+            <div class="icon-box">
+              <img src="/assets/images/icon-mail.svg" alt="">
+            </div>
+            <div class="contact-info-content">
+              <p>write to us</p>
+              <h3><a style="color: white;" href="mailto:support@michael-enterprise.com">support@michael-enterprise.com</a></h3>
+            </div>
+          </div>
+          <!-- Contact Info End -->
+
+          <!-- Contact Info Image Start -->
+          <div class="contact-info-image">
+            <figure>
+              <img src="/assets/images/contact-info-img.png" alt="">
+            </figure>
+          </div>
+          <!-- Contact Info Image End -->
+        </div>
+        <!-- Contact Sidebar End -->
+      </div>
+
+      <div class="col-lg-8 col-md-7">
+        <!-- Contact Form start -->
+        <div class="contact-form wow fadeInUp" data-wow-delay="0.25s">
+          <!-- Section Title Start -->
+          <div class="section-title">
+            <h3 class="wow fadeInUp">contact us</h3>
+            <h2 class="text-anime-style-3">Get in touch with us</h2>
+          </div>
+          <!-- Section Title End -->
+
+          <form id="contactForm" action="index-2.html#" method="POST" data-toggle="validator">
+            <div class="row">
+
+              <div class="form-group col-md-6 mb-4">
+                <input type="email" name="email" class="form-control" id="email" placeholder="Enter Your email" required="">
+                <div class="help-block with-errors"></div>
+              </div>
+
+              <div class="form-group col-md-6 mb-4">
+                <input type="text" name="website" class="form-control" id="website" placeholder="Subject" required="">
+                <div class="help-block with-errors"></div>
+              </div>
+
+              <div class="form-group col-md-12 mb-5">
+                <textarea name="msg" class="form-control" id="msg" rows="3" placeholder="Message" required=""></textarea>
+                <div class="help-block with-errors"></div>
+              </div>
+
+              <div class="col-md-12">
+                <button type="submit" class="btn-default">submit</button>
+                <div id="msgSubmit" class="h3 hidden"></div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <!-- Contact Form end -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Contact Us Section End -->
+
+<%- include('partials/homePageFooter.ejs') %>

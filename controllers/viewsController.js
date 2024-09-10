@@ -9,6 +9,51 @@ const Product = require('../models/productModel');
 const Category = require('../models/categoryModel');
 const Wishlist = require('../models/wishlistModel');
 
+exports.home = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    res.status(200).render('index', {
+      title: 'Home',
+      user,
+    });
+  } catch (err) {
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'Something went wrong',
+    });
+  }
+};
+
+exports.homeContact = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    res.status(200).render('contact-home', {
+      title: 'Contact Us',
+      user,
+    });
+  } catch (err) {
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'Something went wrong',
+    });
+  }
+};
+
+exports.homeAbout = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    res.status(200).render('about', {
+      title: 'About ss',
+      user,
+    });
+  } catch (err) {
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'Something went wrong',
+    });
+  }
+};
+
 exports.overview = async (req, res) => {
   try {
     const user = res.locals.user;
@@ -16,8 +61,8 @@ exports.overview = async (req, res) => {
       .sort({ createdAt: 1 })
       .limit(10);
     const categories = await Category.find();
-    res.status(200).render('index', {
-      title: 'Home',
+    res.status(200).render('afro-home', {
+      title: 'Afro shop',
       user,
       firstTenProducts,
       categories,

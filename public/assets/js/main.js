@@ -913,7 +913,7 @@ if (confirmCheckoutButton) {
 
     // Get the total amount from the page
     const grandTotal = document
-      .querySelector('.price[style*="color: #9B250B;"]')
+      .querySelector('.price[style*="color: #5F1303;"]')
       .innerText.slice(1); // Assuming it's prefixed with '$'
 
     // Get the selected bank details from the button's dataset

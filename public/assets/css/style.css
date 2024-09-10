@@ -47,13 +47,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 :root {
-  --color-primary: #9b250b;
+  --color-primary: #5f1303;
   --color-policy: #ff7400;
   --color-secondary: #1f1f25;
   --color-body: #6e777d;
   --color-heading-1: #2c0f02;
   --color-white: #fff;
-  --color-success: #9b250b;
+  --color-success: #5f1303;
   --color-danger: #dc2626;
   --color-warning: #ff8f3c;
   --color-info: #1ba2db;
@@ -16829,7 +16829,7 @@ li.with-megamenu:hover .rts-megamenu {
   }
 }
 .banner-left-five-area-start .inner-content-banner-five span {
-  color: #9b250b;
+  color: #5f1303;
   font-size: 16px;
   font-weight: 600;
 }
@@ -17217,7 +17217,7 @@ li.with-megamenu:hover .rts-megamenu {
   text-transform: uppercase;
 }
 .single-category-one:hover {
-  border: 1px solid #9b250b;
+  border: 1px solid #5f1303;
 }
 
 .cover-card-main-over {
@@ -17359,7 +17359,7 @@ li.with-megamenu:hover .rts-megamenu {
   border: none !important;
 }
 .rts-btn.btn-primary {
-  background: #9b250b;
+  background: #5f1303;
   border-radius: 6px;
   display: block;
   max-width: max-content;
@@ -17774,8 +17774,8 @@ li.with-megamenu:hover .rts-megamenu {
   font-size: 14px;
   padding: 8px 16px !important;
   background: transparent;
-  color: #9b250b;
-  border: 1px solid #9b250b;
+  color: #5f1303;
+  border: 1px solid #5f1303;
 }
 .single-shopping-card-one .cart-counter-action .rts-btn i {
   transition: transform 0.6s 0.125s cubic-bezier(0.1, 0.75, 0.25, 1);
@@ -17829,9 +17829,9 @@ li.with-megamenu:hover .rts-megamenu {
   transform: scale(1.01);
 }
 .single-shopping-card-one.deals-of-day .cart-counter-action .rts-btn {
-  background: #9b250b;
-  color: #9b250b;
-  border: 1px solid #9b250b;
+  background: #5f1303;
+  color: #5f1303;
+  border: 1px solid #5f1303;
   width: 100%;
   max-width: 100%;
   display: flex;
@@ -17841,7 +17841,7 @@ li.with-megamenu:hover .rts-megamenu {
 }
 .single-shopping-card-one.deals-of-day .cart-counter-action .rts-btn:hover {
   background: var(--color-heading-1);
-  color: #9b250b;
+  color: #5f1303;
   border: 1px solid #2c3c28;
 }
 .single-shopping-card-one.deals-of-day .cart-counter-action .rts-btn .btn-text {
@@ -19109,7 +19109,7 @@ li.with-megamenu:hover .rts-megamenu {
   .comment-information
   .top-area
   .replay {
-  color: #9b250b;
+  color: #5f1303;
   text-transform: uppercase;
   font-size: 14px;
   font-weight: 600;
@@ -19174,7 +19174,7 @@ li.with-megamenu:hover .rts-megamenu {
   color: #74787c;
 }
 .single-footer-wized .call-area .info .number {
-  color: #9b250b;
+  color: #5f1303;
   font-size: 24px;
   font-weight: 600;
 }
@@ -20218,7 +20218,7 @@ body.modal-open {
 }
 .single-new-offer-area .new-offer-wized-title-between .rts-btn:hover {
   background: var(--color-heading-1);
-  color: #9b250b;
+  color: #5f1303;
   border: 1px solid #2c3c28;
 }
 .single-new-offer-area .new-offer-wized-title-between .title {
@@ -21002,7 +21002,7 @@ body.modal-open {
   }
 }
 .single-store-area-start .right-content .location-area .icon {
-  background: #9b250b;
+  background: #5f1303;
   height: 60px;
   width: 60px;
   border-radius: 50%;
@@ -21023,7 +21023,7 @@ body.modal-open {
   height: 60px;
   width: 60px;
   border-radius: 50%;
-  background: #9b250b;
+  background: #5f1303;
   content: '';
   position: absolute;
   left: 50%;
@@ -21483,8 +21483,8 @@ body.modal-open {
   font-size: 14px;
   padding: 6px 4px !important;
   background: transparent;
-  color: #9b250b;
-  border: 1px solid #9b250b;
+  color: #5f1303;
+  border: 1px solid #5f1303;
 }
 
 .category-active-menu-sidebar {
@@ -22234,7 +22234,7 @@ body.modal-open {
 }
 
 .cart-total-area-start-right {
-  border: 2px solid #9b250b;
+  border: 2px solid #5f1303;
   border-radius: 6px;
 }
 .cart-total-area-start-right .title {

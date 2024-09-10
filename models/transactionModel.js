@@ -2,21 +2,47 @@ const mongoose = require('mongoose');
 
 const transactionSchema = new mongoose.Schema(
   {
-    email: {
-      type: String,
+    user: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
       required: true,
     },
     status: {
       type: String,
       required: true,
-      enum: ['success', 'pending', 'declined'],
+      enum: ['Success', 'Pending', 'Declined'],
+      default: 'Pending',
+    },
+    accountName: {
+      type: String,
+      required: true,
+    },
+    bankName: {
+      type: String,
+      required: true,
+    },
+    accountNumber: {
+      type: String,
+      required: true,
     },
     reference: {
       type: String,
       required: true,
       unique: true,
     },
-    currency: {
+    amountSent: {
+      type: String,
+      required: true,
+    },
+    amountToReceive: {
+      type: String,
+      required: true,
+    },
+    currencyPair: {
+      type: String,
+      required: true,
+    },
+    paymentProof: {
       type: String,
       required: true,
     },
@@ -24,6 +50,14 @@ const transactionSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-const TransactionModel = mongoose.model('Transaction', transactionSchema);
+transactionSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'user',
+    select: 'firstName lastName email',
+  });
+  next();
+});
 
-module.exports = TransactionModel;
+const Transaction = mongoose.model('Transaction', transactionSchema);
+
+module.exports = Transaction;

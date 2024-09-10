@@ -1,0 +1,211 @@
+<%- include('partials/landingPageHead.ejs') %>
+
+<div class="background-light-gray-color rts-section-gap bg_light-1 pt_sm--20">
+  <!-- rts banner area start -->
+  <h2 style="text-align: center;">Michael Afro Shop</h2>
+  <div class="rts-banner-area-one mb--30">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="category-area-main-wrapper-one">
+            <div class="swiper mySwiper-category-1 swiper-data" data-swiper='{
+                                "spaceBetween":1,
+                                "slidesPerView":1,
+                                "loop": true,
+                                "speed": 2000,
+                                "autoplay":{
+                                    "delay":"4000"
+                                },
+                                "navigation":{
+                                    "nextEl":".swiper-button-next",
+                                    "prevEl":".swiper-button-prev"
+                                },
+                                "breakpoints":{
+                                "0":{
+                                    "slidesPerView":1,
+                                    "spaceBetween": 0},
+                                "320":{
+                                    "slidesPerView":1,
+                                    "spaceBetween":0},
+                                "480":{
+                                    "slidesPerView":1,
+                                    "spaceBetween":0},
+                                "640":{
+                                    "slidesPerView":1,
+                                    "spaceBetween":0},
+                                "840":{
+                                    "slidesPerView":1,
+                                    "spaceBetween":0},
+                                "1140":{
+                                    "slidesPerView":1,
+                                    "spaceBetween":0}
+                                }
+                            }'>
+              <div class="swiper-wrapper">
+                <!-- single swiper start -->
+                <div class="swiper-slide">
+                  <div class="banner-bg-image bg_image bg_one-banner  ptb--120 ptb_md--80 ptb_sm--60">
+                    <div class="banner-one-inner-content">
+                      <h1 class="title">
+                        Do not miss our amazing <br>
+                        grocery deals
+                      </h1>
+                      <a href="/afro-shop" class="rts-btn btn-primary radious-sm with-icon">
+                        <div class="btn-text">
+                          Shop Now
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <!-- single swiper start -->
+                <!-- single swiper start -->
+                <div class="swiper-slide">
+                  <div class="banner-bg-image bg_image bg_one-banner two  ptb--120 ptb_md--80 ptb_sm--60">
+                    <div class="banner-one-inner-content">
+                      <h1 class="title">
+                        Discover the rich flavors of Africa <br> with our exclusive products!
+                      </h1>
+                      <a href="/afro-shop" class="rts-btn btn-primary radious-sm with-icon">
+                        <div class="btn-text">
+                          Shop Now
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <!-- single swiper start -->
+                <!-- single swiper start -->
+                <div class="swiper-slide">
+                  <div class="banner-bg-image bg_image bg_one-banner three  ptb--120 ptb_md--80 ptb_sm--60">
+                    <div class="banner-one-inner-content">
+                      <h1 class="title">
+                        Explore Africa’s essence with our curated <br>collection of unique and authentic products!
+                      </h1>
+                      <a href="/afro-shop" class="rts-btn btn-primary radious-sm with-icon">
+                        <div class="btn-text">
+                          Shop Now
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <!-- single swiper start -->
+              </div>
+
+              <button class="swiper-button-next"></button>
+              <button class="swiper-button-prev"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- rts banner area end -->
+  <!-- rts category area start -->
+  <div class="rts-category-area-one">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="category-area-main-wrapper-one">
+            <div class="swiper mySwiper-category-1 swiper-data" data-swiper='{
+                            "spaceBetween":12,
+                            "slidesPerView":10,
+                            "loop": true,
+                            "speed": 1000,
+                            "autoplay": {
+                              "delay": 3000,
+                              "disableOnInteraction": false
+                            },
+                            "breakpoints":{
+                            "0":{
+                                "slidesPerView":2,
+                                "spaceBetween": 12},
+                            "320":{
+                                "slidesPerView":2,
+                                "spaceBetween":12},
+                            "480":{
+                                "slidesPerView":3,
+                                "spaceBetween":12},
+                            "640":{
+                                "slidesPerView":4,
+                                "spaceBetween":12},
+                            "840":{
+                                "slidesPerView":4,
+                                "spaceBetween":12},
+                            "1140":{
+                                "slidesPerView":10,
+                                "spaceBetween":12}
+                            }
+                        }'>
+              <div class="swiper-wrapper">
+                <!-- single swiper start -->
+                <% firstTenProducts.forEach(function(product){ %>
+                <div class="swiper-slide">
+                  <a href="/afro-shop/<%= product.slug %>" class="single-category-one">
+                    <img src="<%= product.imageCover %>" alt="category">
+                    <p><%= product.name %></p>
+                  </a>
+                </div>
+                <% }) %>
+                <!-- single swiper start -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- rts category area end -->
+</div>
+
+ <!-- Modal HTML -->
+ <!-- <div id="myModal-1" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+   <div class="modal-dialog bg_image">
+     <div class="modal-content">
+       <div class="modal-header">
+         <button type="button" class="close" data-bs-dismiss="modal"><i class="fa-light fa-x"></i></button>
+       </div>
+       <div class="modal-body text-center">
+         <div class="inner-content">
+           <div class="content">
+             <span class="pre-title">Get up to 10% discount on your purchase till 31st of August</span>
+             <h1 class="title">Afro-Shop Relaunch with<br> Michael Enterprise</h1>
+             <p class="disc">
+               We have prepared special discounts for you on grocery products. Don't <br> miss these opportunities...
+             </p>
+             <div class="rts-btn-banner-area">
+               <a href="/afro-shop" class="rts-btn btn-primary radious-sm with-icon">
+                 <div class="btn-text">
+                   Shop Now
+                 </div>
+                 <div class="arrow-icon">
+                   <i class="fa-light fa-arrow-right"></i>
+                 </div>
+                 <div class="arrow-icon">
+                   <i class="fa-light fa-arrow-right"></i>
+                 </div>
+               </a>
+               <div class="price-area"> -->
+                 <!-- <span>from</span>
+                 <h3 class="title animated fadeIn">$80.99</h3> -->
+               <!-- </div>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
+ </div> -->
+
+ <!-- Script to show the modal after 2 seconds -->
+ <script>
+   document.addEventListener('DOMContentLoaded', function() {
+     setTimeout(function() {
+       const modal = new bootstrap.Modal(document.getElementById('myModal-1'));
+       modal.show();
+     }, 1000); // Delay of 2 seconds (2000 milliseconds)
+   });
+ </script>
+
+<%- include('partials/landingPageFooter.ejs') %>
