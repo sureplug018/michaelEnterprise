@@ -38,7 +38,11 @@ const transactionSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    currencyPair: {
+    baseCurrency: {
+      type: String,
+      required: true,
+    },
+    targetCurrency: {
       type: String,
       required: true,
     },

@@ -36,7 +36,8 @@ exports.createTransaction = async (req, res) => {
     accountNumber,
     amount,
     amountToReceive,
-    currencyPair,
+    baseCurrency,
+    targetCurrency,
   } = req.body;
   const paymentProof = req.file ? req.file.path : null; // Get payment proof image URL
 
@@ -94,10 +95,17 @@ exports.createTransaction = async (req, res) => {
     });
   }
 
-  if (!currencyPair) {
+  if (!baseCurrency) {
     return res.status(400).json({
       status: 'fail',
-      message: 'Currency pair is required',
+      message: 'Base currency pair is required',
+    });
+  }
+
+  if (!targetCurrency) {
+    return res.status(400).json({
+      status: 'fail',
+      message: 'Target currency pair is required',
     });
   }
 
@@ -112,7 +120,8 @@ exports.createTransaction = async (req, res) => {
       reference,
       amountSent,
       amountToReceive,
-      currencyPair,
+      baseCurrency,
+      targetCurrency,
       paymentProof,
     });
 
