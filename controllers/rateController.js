@@ -1,4 +1,4 @@
-const Currency = require('../models/Currency');
+const Currency = require('../models/currencyModel');
 const Rate = require('../models/rateModel');
 
 // Add a new exchange rate
