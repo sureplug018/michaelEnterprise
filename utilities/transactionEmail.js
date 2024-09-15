@@ -5,7 +5,7 @@ dotenv.config({ path: 'config.env' });
 const ejs = require('ejs');
 const path = require('path'); // Import path module
 
-module.exports = class OrderEmail {
+module.exports = class TransactionEmail {
   constructor(user, url, transaction) {
     this.to = user.email;
     this.firstName = user.firstName; // Corrected splitting method

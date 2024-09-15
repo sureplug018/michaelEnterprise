@@ -8,6 +8,6 @@ router.use(authController.protect, authController.restrictTo('admin'));
 
 router.post('/add-currency', currencyController.addCurrency);
 
-router.patch('/edit-currency', currencyController.editCurrency);
+router.patch('/edit-currency/:currencyId', currencyController.editCurrency);
 
 module.exports = router;

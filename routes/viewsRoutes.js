@@ -85,4 +85,17 @@ router.get('/admin/out-of-stock', viewsController.outOfStock);
 
 router.get('/admin/orderDetails/:reference', viewsController.orderDetails);
 
+//////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////       EXCHANGE                /////////////////////////////////////
+
+router.get('/exchange/index', viewsController.exchangeHome);
+
+router.get('/exchange/history', viewsController.history);
+
+router.get('/exchange/account', viewsController.accounts);
+
+router.get('/exchange/beneficiaries', viewsController.beneficiary);
+
+router.get('/exchange/money-exchange', viewsController.exchange);
+
 module.exports = router;

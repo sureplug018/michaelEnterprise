@@ -20,6 +20,14 @@ const beneficiarySchema = new mongoose.Schema({
   },
 });
 
+beneficiarySchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'user',
+    select: 'firstName lastName email',
+  });
+  next();
+});
+
 const Beneficiary = mongoose.model('Beneficiary', beneficiarySchema);
 
 module.exports = Beneficiary;

@@ -83,6 +83,7 @@ exports.deleteBeneficiary = async (req, res) => {
 };
 
 exports.addBeneficiary = async (req, res) => {
+  const user = req.user.id;
   const { accountName, bankName, accountNumber } = req.body;
 
   if (!accountName) {
@@ -105,7 +106,17 @@ exports.addBeneficiary = async (req, res) => {
   }
 
   try {
+    const verifyBeneficiary = await Beneficiary.findOne({ accountNumber });
+
+    if (verifyBeneficiary) {
+      return res.status(200).json({
+        status: 'success',
+        message: 'Beneficiary already exists',
+      });
+    }
+
     const beneficiary = await Beneficiary.create({
+      user,
       accountName,
       bankName,
       accountNumber,
