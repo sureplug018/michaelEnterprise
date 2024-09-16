@@ -19,17 +19,28 @@
         <td class="container">
           <div class="content">
             <!-- Rest of your HTML content -->
+            <p style="text-align: center;">
+              <img src="https://res.cloudinary.com/ditgbhb8w/image/upload/v1726522517/fav_xai0el.png" alt="Michael Enterprise Logo" width="75" style="height: auto;" />
+            </p>
             <p>Hi <%= firstName %>,</p>
+            <p>Thank you for choosing Michael Enterprise for your exchange needs!</p>
             </p>
             <p>
-              Thank you for shopping with Michael Enterprise!<br> We're
-              excited to confirm that your transaction <%= transaction.reference %> has been successfully received.<br>
+              We are delighted to inform you that your transaction with reference number <%= transaction.reference %>
+              has been successfully processed. Your funds have been securely exchanged, and we're excited to continue providing you with excellent service.
             </p>
 
-            <p style="font-weight: bold;">Order details</p>
+            <p style="font-weight: bold;">Transaction Details:</p>
             <ul>
               <li>Transaction reference: <%= transaction.reference %></li>
               <li>PaymentProof: <a href="<%= transaction.confirmationProof %>">View</a></li>
+              <li>Amount Sent: <%= transaction.baseCurrency %> <%= transaction.amountSent %></li>
+              <li>Amount Received: <%= transaction.targetCurrency %> <%= transaction.amountToReceive %></li>
+              <% const timeStamp = transaction.createdAt %>
+              <% const date = timeStamp.toLocaleDateString() %>
+              <% const time = timeStamp.toLocaleTimeString() %>
+              <li>Time Stamp: <%= date %> (<%= time %>)</li>
+              <li>Status: <%= transaction.status %> ✅</li>
             </ul>
 
             <table class="btn btn-primary" role="presentation" border="0" cellpadding="0" cellspacing="0">
@@ -40,7 +51,7 @@
                       <tbody>
                         <tr>
                           <td>
-                            <a href="<%= url %>" target="_blank">View Transactions</a>
+                            <a href="<%= url %>" target="_blank">Transactions History</a>
                           </td>
                         </tr>
                       </tbody>
@@ -49,11 +60,11 @@
                 </tr>
               </tbody>
             </table>
-            <p>If you need any help, please don't
-              hesitate to contact us: support@michael-enterprise.com</p>
-            <p>
-
-            </p>
+            <p>Should you have any questions or require further assistance, 
+              please don't hesitate to reach out to our support 
+              team at <a href="mailto:support@michael-enterprise.com">support@michael-enterprise.com</a> or start a live chat with our <a href="https://widget-page.smartsupp.com/widget/7a1b2eb2f432cd25169fab42945dff48342736a8">support here.</a></p>
+              Michael Enterprise <br>
+              Your gateway to convenience...
             <!-- Footer section -->
             <div class="footer">
               <table class="content-block" role="presentation" border="0" cellpadding="0" cellspacing="0">
