@@ -186,9 +186,11 @@
                             <div class="input-group mb-3">
                               <div style="display: flex; align-items: center; border: 1px solid #ced4da; border-radius: 4px; overflow: hidden; width: 100%;">
                                 <select id="target-currency" class="form-select" name="currency" style="flex: 0.5; border: none; padding: 0 10px; height: 40px; outline: none; box-shadow: none; appearance: none; background-color: white;">
-                                  <% currencies.forEach(currency => { %>
+                                  <% currencies.slice(1).forEach(currency => { %>
                                   <option value="<%= currency.code %>"><%= currency.code %></option>
                                   <% }); %>
+                                  <!-- Adding the first currency last -->
+                                  <option value="<%= currencies[0].code %>"><%= currencies[0].code %></option>
                                 </select>
                                 <input id="target-amount" type="number" class="form-control" name="amount" placeholder="Amount to receive" style="flex: 2.5; border: none; padding: 0 10px; height: 40px; outline: none; box-shadow: none;" disabled>
                               </div>
@@ -224,7 +226,7 @@
                     <p style="color: black; font-weight: bolder;">Setup your account</p>
                     <ul>
                       <li>
-                        Register an account with Michael Enterprise and login you account
+                        Register an account with Michael Enterprise and login your account
                       </li>
                     </ul>
                   </div>
@@ -363,62 +365,62 @@
     </section>
   </div>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const baseCurrencySelect = document.getElementById('base-currency');
-        const targetCurrencySelect = document.getElementById('target-currency');
-        const baseAmountInput = document.getElementById('base-amount');
-        const targetAmountInput = document.getElementById('target-amount');
-        const exchangeRateDisplay = document.getElementById('exchange-rate');
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const baseCurrencySelect = document.getElementById('base-currency');
+      const targetCurrencySelect = document.getElementById('target-currency');
+      const baseAmountInput = document.getElementById('base-amount');
+      const targetAmountInput = document.getElementById('target-amount');
+      const exchangeRateDisplay = document.getElementById('exchange-rate');
 
-        let exchangeRate = 0; // Initialize exchange rate
+      let exchangeRate = 0; // Initialize exchange rate
 
-        async function fetchExchangeRate(baseCurrency, targetCurrency) {
-          try {
-            const response = await fetch(`/api/v1/rates/get-rate?base=${baseCurrency}&target=${targetCurrency}`);
-            if (response.ok) {
-              const data = await response.json();
-              if (data.status === 'success') {
-                exchangeRate = data.rate ? data.rate : 0;
-                exchangeRateDisplay.textContent = exchangeRate ? exchangeRate : 'Rate not found';
-                updateTargetAmount(); // Update target amount based on the new rate
-              } else {
-                exchangeRateDisplay.textContent = 'Error fetching rate';
-              }
+      async function fetchExchangeRate(baseCurrency, targetCurrency) {
+        try {
+          const response = await fetch(`/api/v1/rates/get-rate?base=${baseCurrency}&target=${targetCurrency}`);
+          if (response.ok) {
+            const data = await response.json();
+            if (data.status === 'success') {
+              exchangeRate = data.rate ? data.rate : 0;
+              exchangeRateDisplay.textContent = exchangeRate ? exchangeRate : 'Rate not found';
+              updateTargetAmount(); // Update target amount based on the new rate
             } else {
               exchangeRateDisplay.textContent = 'Error fetching rate';
             }
-          } catch (error) {
+          } else {
             exchangeRateDisplay.textContent = 'Error fetching rate';
-            console.error('Error:', error);
           }
+        } catch (error) {
+          exchangeRateDisplay.textContent = 'Error fetching rate';
+          console.error('Error:', error);
         }
+      }
 
-        function updateTargetAmount() {
-          const baseAmount = parseFloat(baseAmountInput.value) || 0;
-          const targetAmount = baseAmount * exchangeRate;
-          targetAmountInput.value = targetAmount.toFixed(2); // Update target amount with 2 decimal places
-        }
+      function updateTargetAmount() {
+        const baseAmount = parseFloat(baseAmountInput.value) || 0;
+        const targetAmount = baseAmount * exchangeRate;
+        targetAmountInput.value = targetAmount.toFixed(2); // Update target amount with 2 decimal places
+      }
 
-        baseCurrencySelect.addEventListener('change', () => {
-          const baseCurrency = baseCurrencySelect.value;
-          const targetCurrency = targetCurrencySelect.value;
-          fetchExchangeRate(baseCurrency, targetCurrency);
-        });
-
-        targetCurrencySelect.addEventListener('change', () => {
-          const baseCurrency = baseCurrencySelect.value;
-          const targetCurrency = targetCurrencySelect.value;
-          fetchExchangeRate(baseCurrency, targetCurrency);
-        });
-
-        baseAmountInput.addEventListener('input', updateTargetAmount);
-
-        const initialBaseCurrency = baseCurrencySelect.value;
-        const initialTargetCurrency = targetCurrencySelect.value;
-        fetchExchangeRate(initialBaseCurrency, initialTargetCurrency);
+      baseCurrencySelect.addEventListener('change', () => {
+        const baseCurrency = baseCurrencySelect.value;
+        const targetCurrency = targetCurrencySelect.value;
+        fetchExchangeRate(baseCurrency, targetCurrency);
       });
-    </script>
+
+      targetCurrencySelect.addEventListener('change', () => {
+        const baseCurrency = baseCurrencySelect.value;
+        const targetCurrency = targetCurrencySelect.value;
+        fetchExchangeRate(baseCurrency, targetCurrency);
+      });
+
+      baseAmountInput.addEventListener('input', updateTargetAmount);
+
+      const initialBaseCurrency = baseCurrencySelect.value;
+      const initialTargetCurrency = targetCurrencySelect.value;
+      fetchExchangeRate(initialBaseCurrency, initialTargetCurrency);
+    });
+  </script>
 
 
 
