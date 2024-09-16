@@ -67,8 +67,8 @@ exports.deleteBeneficiary = async (req, res) => {
       });
     }
 
-    // If the beneficiary exists, proceed to delete
-    await beneficiary.remove();
+    // If the beneficiary exists, proceed to delete using deleteOne
+    await Beneficiary.deleteOne({ _id: beneficiaryId });
 
     return res.status(200).json({
       status: 'success',

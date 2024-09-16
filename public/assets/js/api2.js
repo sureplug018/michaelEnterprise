@@ -1,4 +1,5 @@
 ////////////////////////////////////////
+
 // alerts
 const hideAlert = () => {
   const el = document.querySelector('.alert');
@@ -29,29 +30,6 @@ const showAlert = (type, msg) => {
   }
 };
 
-// Function to add to beneficiary
-const addToBeneficiary = async (accountName, bankName, accountNumber) => {
-  try {
-    const res = await axios({
-      method: 'POST',
-      url: '/api/v1/beneficiaries/create-beneficiary',
-      data: {
-        accountName,
-        bankName,
-        accountNumber,
-      },
-    });
-    // if (res.data.status === 'success') {
-    //   showAlert('success', 'Beneficiary added successfully!');
-    // } else {
-    //   showAlert('error', 'Failed to add beneficiary.');
-    // }
-  } catch (err) {
-    showAlert('error', err.response.data.message);
-    console.log(err);
-  }
-};
-
 const makePayment = async (formData) => {
   try {
     const res = await axios({
@@ -79,7 +57,112 @@ const makePayment = async (formData) => {
   }
 };
 
+// Function to add to beneficiary
+const addToBeneficiary = async (accountName, bankName, accountNumber) => {
+  try {
+    const res = await axios({
+      method: 'POST',
+      url: '/api/v1/beneficiaries/create-beneficiary',
+      data: {
+        accountName,
+        bankName,
+        accountNumber,
+      },
+    });
+    // if (res.data.status === 'success') {
+    //   showAlert('success', 'Beneficiary added successfully!');
+    // } else {
+    //   showAlert('error', 'Failed to add beneficiary.');
+    // }
+  } catch (err) {
+    showAlert('error', err.response.data.message);
+    console.log(err);
+  }
+};
+
+const updateUserDetailsExchange = async (firstName, lastName, phoneNumber) => {
+  try {
+    const res = await axios({
+      method: 'PATCH',
+      url: '/api/v1/users/update',
+      data: {
+        firstName,
+        lastName,
+        phoneNumber,
+      },
+    });
+    if (res.data.status === 'success') {
+      showAlert('success', 'Successfully updated profile!');
+
+      // Redirect to the login page after a delay
+      window.setTimeout(() => {
+        location.assign('/exchange/account');
+      }, 3000);
+    }
+  } catch (err) {
+    showAlert('error', err.response.data.message);
+  }
+};
+
+const updateUserPassword = async (
+  passwordCurrent,
+  password,
+  passwordConfirm,
+) => {
+  try {
+    const res = await axios({
+      method: 'patch',
+      url: '/api/v1/users/updateMyPassword',
+      data: {
+        passwordCurrent,
+        password,
+        passwordConfirm,
+      },
+    });
+    if (res.data.status === 'success') {
+      showAlert('success', 'Password updated successfully!');
+
+      window.setTimeout(() => {
+        location.assign('/exchange/account');
+      }, 3000);
+    }
+  } catch (err) {
+    showAlert('error', err.response.data.message);
+  }
+};
+
+const logoutUser = async () => {
+  try {
+    const res = await axios({
+      method: 'get',
+      url: '/api/v1/users/logout',
+    });
+    if (res.data.status === 'success') {
+      setTimeout(function () {
+        location.href = '/';
+      }, 2000);
+    }
+  } catch (err) {
+    showAlert('error', err.response.data.message);
+  }
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 const paymentForm = document.querySelector('.exchange-form');
+
+const updateUserDetailsExchangeForm = document.querySelector(
+  '.update-user-data-forms',
+);
+const userPasswordUpdateForm = document.querySelector(
+  '.user-password-update-form',
+);
+const logoutUserBtn = document.querySelector('.signOut-user-btn');
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 if (paymentForm) {
   paymentForm.addEventListener('submit', async (e) => {
@@ -156,88 +239,6 @@ if (paymentForm) {
   });
 }
 
-const updateUserDetailsExchange = async (firstName, lastName, phoneNumber) => {
-  try {
-    const res = await axios({
-      method: 'PATCH',
-      url: '/api/v1/users/update',
-      data: {
-        firstName,
-        lastName,
-        phoneNumber,
-      },
-    });
-    if (res.data.status === 'success') {
-      showAlert('success', 'Successfully updated profile!');
-
-      // Redirect to the login page after a delay
-      window.setTimeout(() => {
-        location.assign('/exchange/account');
-      }, 3000);
-    }
-  } catch (err) {
-    showAlert('error', err.response.data.message);
-  }
-};
-
-const updateUserPassword = async (
-  passwordCurrent,
-  password,
-  passwordConfirm,
-) => {
-  try {
-    const res = await axios({
-      method: 'patch',
-      url: '/api/v1/users/updateMyPassword',
-      data: {
-        passwordCurrent,
-        password,
-        passwordConfirm,
-      },
-    });
-    if (res.data.status === 'success') {
-      showAlert('success', 'Password updated successfully!');
-
-      window.setTimeout(() => {
-        location.assign('/exchange/account');
-      }, 3000);
-    }
-  } catch (err) {
-    showAlert('error', err.response.data.message);
-  }
-};
-
-const logoutUser = async () => {
-  try {
-    const res = await axios({
-      method: 'get',
-      url: '/api/v1/users/logout',
-    });
-    if (res.data.status === 'success') {
-      setTimeout(function () {
-        location.href = '/';
-      }, 2000);
-    }
-  } catch (err) {
-    showAlert('error', err.response.data.message);
-  }
-};
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-const updateUserDetailsExchangeForm = document.querySelector(
-  '.update-user-data-forms',
-);
-const userPasswordUpdateForm = document.querySelector(
-  '.user-password-update-form',
-);
-const logoutUserBtn = document.querySelector('.signOut-user-btn');
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////
-
 if (updateUserDetailsExchangeForm) {
   updateUserDetailsExchangeForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -271,3 +272,63 @@ if (userPasswordUpdateForm) {
     button.textContent = 'Update Password';
   });
 }
+
+document.querySelectorAll('.edit-beneficiary-modal').forEach((button) => {
+  button.addEventListener('click', function (e) {
+    e.preventDefault();
+    const beneficiaryId = this.dataset.beneficiaryId;
+    const editButton = document.querySelector('.update-beneficiary-btn');
+    editButton.addEventListener('click', async () => {
+      editButton.style.opacity = '0.5';
+      editButton.textContent = 'Updating...';
+      const beneficiary = {
+        accountName: document.getElementById('accountNames').value,
+        bankName: document.getElementById('bankNames').value,
+        accountNumber: document.getElementById('accountNumbers').value,
+      };
+      try {
+        const response = await axios.patch(
+          `/api/v1/beneficiaries/edit-beneficiary/${beneficiaryId}`,
+          beneficiary,
+        );
+        if (response.data.status === 'success') {
+          showAlert('success', 'Beneficiary updated!');
+          window.setTimeout(() => {
+            location.assign('/exchange/beneficiaries');
+          }, 3000);
+        }
+      } catch (err) {
+        showAlert('error', err.response.data.message);
+        editButton.style.opacity = '1';
+        editButton.textContent = 'Save Changes';
+      }
+    });
+  });
+});
+
+document.querySelectorAll('.delete-beneficiary-modal').forEach((button) => {
+  button.addEventListener('click', function (e) {
+    e.preventDefault();
+    const beneficiaryId = this.dataset.beneficiaryId;
+    const editButton = document.querySelector('.delete-beneficiary-btn');
+    editButton.addEventListener('click', async () => {
+      editButton.style.opacity = '0.5';
+      editButton.textContent = 'Deleting...';
+      try {
+        const response = await axios.delete(
+          `/api/v1/beneficiaries/delete-beneficiary/${beneficiaryId}`,
+        );
+        if (response.data.status === 'success') {
+          showAlert('success', 'Beneficiary deleted!');
+          window.setTimeout(() => {
+            location.assign('/exchange/beneficiaries');
+          }, 3000);
+        }
+      } catch (err) {
+        showAlert('error', err.response.data.message);
+        editButton.style.opacity = '1';
+        editButton.textContent = 'yes, delete';
+      }
+    });
+  });
+});

@@ -15,8 +15,12 @@ router.post(
 
 router.use(authController.restrictTo('admin'));
 
-router.patch('/confirm-transaction', transactionController.confirmTransaction);
+router.patch(
+  '/confirm-transaction/:transactionId',
+  orderController.uploadPaymentProof,
+  transactionController.confirmTransaction,
+);
 
-router.patch('/decline-transaction', transactionController.declineTransaction);
+router.patch('/decline-transaction/:transactionId', transactionController.declineTransaction);
 
 module.exports = router;

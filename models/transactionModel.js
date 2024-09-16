@@ -62,6 +62,7 @@ const transactionSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    confirmationProof: String,
   },
   { timestamps: true },
 );

@@ -231,8 +231,22 @@
                                     Show Beneficiaries
                                   </a>
                                   <ul class="dropdown-menu" aria-labelledby="beneficiariesDropdown">
-                                    <li><a class="dropdown-item" style="cursor: pointer;" onclick="fillDetails('Bank A', 'John Doe', '123456789')">John Doe - Account No: 123456789</a></li>
-                                    <li><a class="dropdown-item" style="cursor: pointer;" onclick="fillDetails('Bank B', 'Jane Smith', '987654321')">Jane Smith - Account No: 987654321</a></li>
+                                    <% if(beneficiaries.length === 0){ %>
+                                    <li>
+                                      <a class="dropdown-item">
+                                        <p style="text-align: center; padding: 5px 10px;">No beneficiaries yet!</p>
+                                      </a>
+                                    </li>
+                                    <% } else{ %>
+                                    <% beneficiaries.forEach(function(beneficiary){ %>
+                                    <li>
+                                      <a class="dropdown-item" style="cursor: pointer;" onclick="fillDetails('<%= beneficiary.bankName %>', '<%= beneficiary.accountName %>', '<%= beneficiary.accountNumber %>')">
+                                        <%= beneficiary.bankName %> - <%= beneficiary.accountName %> - <%= beneficiary.accountNumber %>
+                                      </a>
+                                    </li>
+
+                                    <% }) %>
+                                    <% } %>
                                     <!-- Add more beneficiaries as needed -->
                                   </ul>
                                 </div>
@@ -279,36 +293,6 @@
                           </div>
 
 
-
-
-
-                          <!-- Beneficiary Modal -->
-                          <div class="modal fade" id="beneficiariesModal" tabindex="-1" aria-labelledby="beneficiariesModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title" id="beneficiariesModalLabel">Beneficiaries</h5>
-                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                  <!-- Beneficiaries list goes here -->
-                                  <ul id="beneficiariesList">
-                                    <li>John Doe - Account No: 123456789</li>
-                                    <li>Jane Smith - Account No: 987654321</li>
-                                    <!-- Add more beneficiaries as needed -->
-                                  </ul>
-                                </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-
-
-
-
                           <!-- third page -->
                           <div id="page3" style="display: none;">
                             <div style="height: 30px;"></div>
@@ -351,10 +335,21 @@
                             <div style="height: 50px;"></div>
                             <h3 id="finalAmount" style="text-align: center;"></h3>
                             <P></P>
-
-                            <p style="text-align: center; font-size: large;">Bank Name: <span style="width: 5px;"></span> Access Bank</p>
-                            <p style="text-align: center; font-size: large;">Bank Name: <span style="width: 5px;"></span> Eze Raphael Somtochukwu</p>
-                            <p style="text-align: center; font-size: large;">Account Number: <span style="width: 5px;"></span> 1477482463</p>
+                            <div id="ghana-cedis" style="display: none;">
+                              <p style="text-align: center; font-size: large;">Bank Name: <span style="width: 5px;"></span> MTN Mobile Money</p>
+                              <p style="text-align: center; font-size: large;">Bank Name: <span style="width: 5px;"></span> Geek Consult Enterprise(Jemima)</p>
+                              <p style="text-align: center; font-size: large;">Account Number: <span style="width: 5px;"></span> 0598932801</p>
+                            </div>
+                            <div id="nigerian-naira" style="display: none;">
+                              <p style="text-align: center; font-size: large;">Bank Name: <span style="width: 5px;"></span> Opay</p>
+                              <p style="text-align: center; font-size: large;">Bank Name: <span style="width: 5px;"></span> Babajide Bolade</p>
+                              <p style="text-align: center; font-size: large;">Account Number: <span style="width: 5px;"></span> 8160612477</p>
+                            </div>
+                            <div id="russian-rubles" style="display: none;">
+                              <p style="text-align: center; font-size: large;">Bank Name: <span style="width: 5px;"></span> Сбербанк</p>
+                              <p style="text-align: center; font-size: large;">Bank Name: <span style="width: 5px;"></span> Бабаджиде ифеолува Майкл</p>
+                              <p style="text-align: center; font-size: large;">Account Number: <span style="width: 5px;"></span> 5228600509063535</p>
+                            </div>
 
                             <div style="height: 30px;"></div>
                             <div class="form-group">
@@ -397,6 +392,9 @@
       const baseAmountInput = document.getElementById('base-amount');
       const targetAmountInput = document.getElementById('target-amount');
       const exchangeRateDisplay = document.getElementById('exchange-rate');
+      const ghanaCedis = document.getElementById('ghana-cedis');
+      const nigerianNaira = document.getElementById('nigerian-naira');
+      const russianRubbles = document.getElementById('russian-rubles');
 
       let exchangeRate = 0; // Initialize exchange rate
 
@@ -430,6 +428,19 @@
       baseCurrencySelect.addEventListener('change', () => {
         const baseCurrency = baseCurrencySelect.value;
         const targetCurrency = targetCurrencySelect.value;
+        if (baseCurrency === 'GHS') {
+          ghanaCedis.style.display = 'block';
+          nigerianNaira.style.display = 'none';
+          russianRubbles.style.display = 'none'
+        } else if (baseCurrency === 'NGN') {
+          ghanaCedis.style.display = 'none';
+          nigerianNaira.style.display = 'block';
+          russianRubbles.style.display = 'none'
+        } else if (baseCurrency === 'RUB') {
+          ghanaCedis.style.display = 'none';
+          nigerianNaira.style.display = 'none';
+          russianRubbles.style.display = 'block'
+        }
         fetchExchangeRate(baseCurrency, targetCurrency);
       });
 
@@ -440,7 +451,6 @@
       });
 
       baseAmountInput.addEventListener('input', updateTargetAmount);
-
       // Initial fetch to set up the exchange rate
       const initialBaseCurrency = baseCurrencySelect.value;
       const initialTargetCurrency = targetCurrencySelect.value;

@@ -437,6 +437,50 @@ const createReview = async (review, rating, productId) => {
   }
 };
 
+const addCurrency = async (code, name, symbol) => {
+  try {
+    const res = await axios({
+      method: 'post',
+      url: '/api/v1/currencies/add-currency',
+      data: {
+        code,
+        name,
+        symbol,
+      },
+    });
+    if (res.data.status === 'success') {
+      showAlert('success', 'Currency added successfully!');
+      setTimeout(function () {
+        location.href = '/admin/add-currency';
+      }, 3000);
+    }
+  } catch (err) {
+    showAlert('error', err.response.data.message);
+  }
+};
+
+const addRate = async (baseCurrencyCode, targetCurrencyCode, rate) => {
+  try {
+    const res = await axios({
+      method: 'post',
+      url: '/api/v1/rates/create-rate',
+      data: {
+        baseCurrencyCode,
+        targetCurrencyCode,
+        rate,
+      },
+    });
+    if (res.data.status === 'success') {
+      showAlert('success', 'Rate added successfully!');
+      setTimeout(function () {
+        location.href = '/admin/rates';
+      }, 3000);
+    }
+  } catch (err) {
+    showAlert('error', err.response.data.message);
+  }
+};
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const loginForm = document.querySelector('.form-login');
 const signupForm = document.querySelector('.form-signup');
@@ -460,6 +504,8 @@ const logoutUserBtn = document.querySelector('.signOut-user-btn');
 const logoutUserBtn1 = document.querySelector('.signOut-user-btn1');
 const logoutUserBtn2 = document.querySelector('.signOut-user-btn2');
 const reviewForm = document.querySelector('.review-form');
+const addCurrencyForm = document.querySelector('.add-currency-form');
+const addRateForm = document.querySelector('.add-rate-form');
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 if (userDataUpdateForm) {
@@ -474,6 +520,36 @@ if (userDataUpdateForm) {
     await updateUserDetail(firstName, lastName, phoneNumber);
     updateBtn.style.opacity = '1';
     updateBtn.textContent = 'Save Changes';
+  });
+}
+
+if (addCurrencyForm) {
+  addCurrencyForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitBtn = document.querySelector('.add-currency-btn');
+    submitBtn.style.opacity = '0.5';
+    submitBtn.textContent = 'Processing...';
+    const code = document.getElementById('currencyCode').value;
+    const name = document.getElementById('currencyName').value;
+    const symbol = document.getElementById('currencySymbol').value;
+    await addCurrency(code, name, symbol);
+    submitBtn.style.opacity = '1';
+    submitBtn.textContent = 'Save';
+  });
+}
+
+if (addRateForm) {
+  addRateForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitButton = document.querySelector('.add-rate-btn');
+    submitButton.style.opacity = '0.5';
+    submitButton.textContent = 'Processing...';
+    const baseCurrency = document.getElementById('baseCurrency').value;
+    const targetCurrency = document.getElementById('targetCurrency').value;
+    const rate = document.getElementById('rate').value;
+    await addRate(baseCurrency, targetCurrency, rate);
+    submitButton.style.opacity = '1';
+    submitButton.textContent = 'Save';
   });
 }
 
@@ -1088,7 +1164,7 @@ if (order) {
     if (paymentProofInput.files.length === 0) {
       showAlert('error', 'Please upload a proof of payment.');
       order.disabled = false; // Re-enable the button
-      order.textContent = 'I have made payment'; // Reset text content
+      order.textContent = 'Confirm'; // Reset text content
       order.style.opacity = '1'; // Reset opacity
       return;
     }
@@ -1199,6 +1275,89 @@ document.querySelectorAll('.edit-product-stock-modal').forEach((button) => {
     });
   });
 });
+
+document
+  .querySelectorAll('.edit-transaction-status-modal')
+  .forEach((button) => {
+    button.addEventListener('click', function () {
+      const transactionId = this.dataset.transactionId;
+      const paymentProofInput = document.getElementById('sentProof');
+      const confirmBtn = document.querySelector('.confirm-transaction-btn');
+      const cancelBtn = document.querySelector('.cancel-transaction-btn');
+      if (confirmBtn) {
+        confirmBtn.addEventListener('click', async (e) => {
+          e.preventDefault();
+          confirmBtn.style.opacity = '0.5';
+          confirmBtn.textContent = 'Processing...';
+          confirmBtn.disabled = true;
+          // Ensure a file is selected
+          if (paymentProofInput.files.length === 0) {
+            showAlert('error', 'Please upload a proof of payment.');
+            confirmBtn.disabled = false; // Re-enable the button
+            confirmBtn.textContent = 'Confirm'; // Reset text content
+            confirmBtn.style.opacity = '1'; // Reset opacity
+            return;
+          }
+          // Prepare the FormData object
+          const formData = new FormData();
+          formData.append('paymentProof', paymentProofInput.files[0]); // Add the file to the request
+          try {
+            const response = await axios.patch(
+              `/api/v1/transactions/confirm-transaction/${transactionId}`,
+              formData,
+              {
+                headers: {
+                  'Content-Type': 'multipart/form-data',
+                },
+              },
+            );
+            if (response.data.status === 'success') {
+              // Show a success alert or perform any action
+              showAlert('success', 'successful!');
+
+              // Redirect to the account page after a delay
+              window.setTimeout(() => {
+                location.reload();
+              }, 3000);
+            }
+          } catch (err) {
+            showAlert('error', err.response.data.message);
+            confirmBtn.disabled = false; // Re-enable the button
+            confirmBtn.textContent = 'Confirm'; // Reset text content
+            confirmBtn.style.opacity = '1'; // Reset opacity
+          }
+        });
+      }
+      if (cancelBtn) {
+        cancelBtn.addEventListener('click', async (e) => {
+          e.preventDefault();
+          cancelBtn.disabled = true;
+          cancelBtn.style.opacity = '0.5';
+          cancelBtn.textContent = 'Processing...';
+          try {
+            const response = await axios.patch(
+              `/api/v1/transactions/decline-transaction/${transactionId}`,
+            );
+            if (response.data.status === 'success') {
+              // Show a success alert or perform any action
+              showAlert('success', 'successful!');
+
+              // Redirect to the account page after a delay
+              window.setTimeout(() => {
+                location.reload();
+              }, 3000);
+            }
+          } catch (err) {
+            console.log(err);
+            showAlert('error', err.response.data.message);
+            cancelBtn.disabled = false;
+            cancelBtn.style.opacity = '1';
+            cancelBtn.textContent = 'Cancel';
+          }
+        });
+      }
+    });
+  });
 
 document.querySelectorAll('.edit-order-status-modal').forEach((button) => {
   button.addEventListener('click', function () {
@@ -1421,6 +1580,40 @@ document.querySelectorAll('.edit-afro-modal-toggler').forEach((button) => {
         showAlert('error', err.response.data.message);
         submitButton.style.opacity = '1';
         submitButton.textContent = 'Update Product';
+      }
+    });
+  });
+});
+
+document.querySelectorAll('.edit-currency-modal').forEach((button) => {
+  button.addEventListener('click', function (e) {
+    e.preventDefault();
+    const currencyId = this.dataset.currencyId;
+    const editButton = document.querySelector('.edit-currency-btn');
+    editButton.addEventListener('click', async () => {
+      editButton.style.opacity = '0.5';
+      editButton.textContent = 'Updating...';
+      const currency = {
+        code: document.getElementById('currencyCode').value,
+        name: document.getElementById('currencyName').value,
+        symbol: document.getElementById('currencySymbol').value,
+        status: document.getElementById('status').value,
+      };
+      try {
+        const response = await axios.patch(
+          `/api/v1/currencies/edit-currency/${currencyId}`,
+          currency,
+        );
+        if (response.data.status === 'success') {
+          showAlert('success', 'currency updated!');
+          window.setTimeout(() => {
+            location.assign('/admin/currencies');
+          }, 3000);
+        }
+      } catch (err) {
+        showAlert('error', err.response.data.message);
+        editButton.style.opacity = '1';
+        editButton.textContent = 'Save Changes';
       }
     });
   });

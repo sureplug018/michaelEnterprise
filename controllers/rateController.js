@@ -5,6 +5,13 @@ const Rate = require('../models/rateModel');
 exports.addRate = async (req, res) => {
   const { baseCurrencyCode, targetCurrencyCode, rate } = req.body;
 
+  if (baseCurrencyCode === targetCurrencyCode) {
+    return res.status(400).json({
+      status: 'fail',
+      message: 'Base currency and target currency cannot be the same',
+    });
+  }
+
   try {
     // Find the base and target currencies
     const baseCurrency = await Currency.findOne({ code: baseCurrencyCode });
@@ -14,13 +21,6 @@ exports.addRate = async (req, res) => {
       return res.status(400).json({
         status: 'fail',
         message: 'One of the currency pairs not found',
-      });
-    }
-
-    if (baseCurrency === targetCurrency) {
-      return res.status(400).json({
-        status: 'fail',
-        message: 'Base currency and target currency cannot be the same',
       });
     }
 

@@ -1,0 +1,132 @@
+<%- include('partials/adminDashboardHead.ejs') %>
+<div class="nk-content nk-content-fluid">
+  <div class="container-xl wide-xl">
+    <div class="nk-content-body">
+      <div class="nk-block-head nk-block-head-sm">
+        <div class="nk-block-between g-3">
+          <div class="nk-block-head-content">
+            <h3 class="nk-block-title page-title">View Currencies</h3>
+            <div class="nk-block-des text-soft">
+              <p>Currencies</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="nk-block">
+        <div class="card card-stretch">
+          <div class="card-inner-group">
+            <div class="card-inner">
+              <div class="card-title-group">
+              </div>
+              <p></p>
+            </div>
+            <div class="card-inner p-0">
+              <div class="tab-content">
+                <% if (currencies.length === 0) { %>
+                <p style="text-align: center; font-size: large; margin-top: 50px;">No currencies yet!</p>
+                <% }else{ %>
+                <div style="margin-top: 30px;" class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Currency Code</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Symbol</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <% currencies.forEach(function(currency, index){ %> <tr>
+                        <th scope="row"><%= index + 1 %></th>
+                        <td><%= currency.code %></td>
+                        <td><%= currency.name %></td>
+                        <td><%= currency.symbol %></td>
+                        <% if(currency.status === 'Enabled'){ %>
+                        <td>
+                          <div class="badge badge-dim bg-success rounded-pill"><%= currency.status %></div>
+                        </td>
+                        <% } else if(currency.status === 'Disabled'){ %>
+                        <td>
+                          <div class="badge badge-dim bg-danger rounded-pill"><%= currency.status %></div>
+                        </td>
+                        <% } %>
+                        <td><a class="edit-currency-modal" href="#" data-currency-id="<%= currency.id %>" data-bs-toggle="modal" data-bs-target="#profile-afro-product"><i class="fa-solid fa-pen-to-square fa-xl"></i></a></td>
+                      </tr>
+                      <% }) %>
+                      <% } %>
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="modal fade" role="dialog" id="profile-afro-product">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                  <div class="modal-content"><a href="profile.html#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
+                    <div class="modal-body modal-body-lg">
+                      <h5 class="title">Edit Currency</h5>
+                      <!-- <ul class="nk-nav nav nav-tabs">
+                        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="profile.html#personal">Order Status</a></li>
+                      </ul> -->
+                      <div class="tab-content">
+                        <div class="tab-pane active" id="personal">
+                          <p></p>
+                          <div class="col-12">
+                            <div class="form-group"><label class="form-label" for="email">Currency Code</label>
+                              <div class="form-control-wrap"><input class="form-control" type="text" id="currencyCode" placeholder="'NGN', 'RUB',..." /></div>
+                            </div>
+                          </div>
+                          <p></p>
+                          <div class="col-12">
+                            <div class="form-group"><label class="form-label" for="email">Currency Name</label>
+                              <div class="form-control-wrap"><input class="form-control" type="text" id="currencyName" placeholder="Currency Name" /></div>
+                            </div>
+                          </div>
+                          <p></p>
+                          <div class="col-12">
+                            <div class="form-group"><label class="form-label" for="email">Currency Symbol</label>
+                              <div class="form-control-wrap"><input class="form-control" type="text" id="currencySymbol" placeholder="Currency Symbol" /></div>
+                            </div>
+                          </div>
+                          <p></p>
+                          <div class="col-12">
+                            <div class="form-group"><label class="form-label">Currency Status</label>
+                              <div class="form-control-wrap">
+                                <select id="status" class="js-select2 form-select" data-search="true" data-sort="false">
+                                  <option value="Enabled">Enable</option>
+                                  <option value="Disabled">Disable</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                          <p></p>
+                          <div class="col-12">
+                            <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
+                              <li><a href="#" class="btn btn-lg btn-primary edit-currency-btn">Update Currency</a></li>
+                              <li><a href="#" data-bs-dismiss="modal" class="link link-light">Cancel</a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+            </div>
+            <div class="card-inner">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('partials/adminDashboardFooter.ejs') %>

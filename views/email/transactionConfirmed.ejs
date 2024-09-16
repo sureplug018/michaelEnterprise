@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>
+    <%= subject %>
+  </title>
+
+  <%- include('styles/_style') %>
+</head>
+
+<body>
+  <table class="body" role="presentation" border="0" cellpadding="0" cellspacing="0">
+    <tbody>
+      <tr>
+        <td></td>
+        <td class="container">
+          <div class="content">
+            <!-- Rest of your HTML content -->
+            <p>Hi <%= firstName %>,</p>
+            </p>
+            <p>
+              Thank you for shopping with Michael Enterprise!<br> We're
+              excited to confirm that your transaction <%= transaction.reference %> has been successfully received.<br>
+            </p>
+
+            <p style="font-weight: bold;">Order details</p>
+            <ul>
+              <li>Transaction reference: <%= transaction.reference %></li>
+              <li>PaymentProof: <a href="<%= transaction.confirmationProof %>">View</a></li>
+            </ul>
+
+            <table class="btn btn-primary" role="presentation" border="0" cellpadding="0" cellspacing="0">
+              <tbody>
+                <tr>
+                  <td align="left">
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                      <tbody>
+                        <tr>
+                          <td>
+                            <a href="<%= url %>" target="_blank">View Transactions</a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <p>If you need any help, please don't
+              hesitate to contact us: support@michael-enterprise.com</p>
+            <p>
+
+            </p>
+            <!-- Footer section -->
+            <div class="footer">
+              <table class="content-block" role="presentation" border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                  <tr>
+                    <td>
+                      <span class="apple-link">Michael Enterprise, Берберовская 6с2, Rostov on Don, Russia</span>
+                      <br />
+                      Don't like these emails? <a href="#">Unsubscribe</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+
+</html>

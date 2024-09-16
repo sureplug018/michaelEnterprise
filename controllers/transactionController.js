@@ -145,7 +145,7 @@ exports.createTransaction = async (req, res) => {
     });
 
     // return array of admins
-    const adminUsers = await User.find({ role: 'admin' }) //.session(session);
+    const adminUsers = await User.find({ role: 'admin' }); //.session(session);
 
     const url = `${req.protocol}://${req.get('host')}/admin/transactions`;
 
@@ -184,13 +184,24 @@ exports.createTransaction = async (req, res) => {
 
 exports.confirmTransaction = async (req, res) => {
   const { transactionId } = req.params;
+
+  const paymentProof = req.file ? req.file.path : null; // Get payment proof image URL
   if (!transactionId) {
     return res.status(400).json({
       status: 'fail',
       message: 'Transaction Id not found',
     });
   }
-
+  if (!paymentProof) {
+    // await session.abortTransaction();
+    // session.endSession();
+    return res.status(400).json({
+      status: 'fail',
+      data: {
+        message: 'Payment proof is required',
+      },
+    });
+  }
   try {
     const transaction = await Transaction.findById(transactionId);
     if (!transaction) {
@@ -200,15 +211,33 @@ exports.confirmTransaction = async (req, res) => {
       });
     }
 
-    transaction.status = 'Success';
-    const update = await transaction.save();
+    if (transaction.status === 'Pending') {
+      transaction.status = 'Success';
+      transaction.confirmationProof = paymentProof;
+      const update = await transaction.save();
 
-    return res.status(200).json({
-      status: 'success',
-      data: {
-        update,
-      },
-    });
+      const user = transaction.user;
+
+      const url = `${req.protocol}://${req.get('host')}/exchange/history`;
+
+      await new TransactionEmail(
+        user,
+        url,
+        transaction,
+      ).sendTransactionConfirmationEmail();
+
+      return res.status(200).json({
+        status: 'success',
+        data: {
+          update,
+        },
+      });
+    } else {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Cannot perform this action here',
+      });
+    }
   } catch (err) {
     return res.status(500).json({
       status: 'error',
@@ -234,16 +263,32 @@ exports.declineTransaction = async (req, res) => {
         message: 'Transaction not found',
       });
     }
+    if (transaction.status === 'Pending') {
+      transaction.status = 'Declined';
+      const update = await transaction.save();
 
-    transaction.status = 'Declined';
-    const update = await transaction.save();
+      const user = transaction.user;
 
-    return res.status(200).json({
-      status: 'success',
-      data: {
-        update,
-      },
-    });
+      const url = `${req.protocol}://${req.get('host')}/exchange/history`;
+
+      await new TransactionEmail(
+        user,
+        url,
+        transaction,
+      ).sendTransactionDeclined();
+
+      return res.status(200).json({
+        status: 'success',
+        data: {
+          update,
+        },
+      });
+    } else {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Cannot perform this action here',
+      });
+    }
   } catch (err) {
     return res.status(500).json({
       status: 'error',

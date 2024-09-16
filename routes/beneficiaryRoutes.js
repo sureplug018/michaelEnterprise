@@ -8,8 +8,14 @@ router.use(authController.protect);
 
 router.post('/create-beneficiary', beneficiaryController.addBeneficiary);
 
-router.patch('/edit-beneficiary', beneficiaryController.editBeneficiary);
+router.patch(
+  '/edit-beneficiary/:beneficiaryId',
+  beneficiaryController.editBeneficiary,
+);
 
-router.delete('/delete-beneficiary', beneficiaryController.deleteBeneficiary);
+router.delete(
+  '/delete-beneficiary/:beneficiaryId',
+  beneficiaryController.deleteBeneficiary,
+);
 
 module.exports = router;

@@ -1044,3 +1044,116 @@ exports.exchange = async (req, res) => {
     });
   }
 };
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////        ADMIN EXCHANGE            ////////////////////////////////////////
+
+exports.addCurrency = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    if (!user) {
+      return res.status(302).redirect('/sign-in');
+    }
+    if (user.role === 'admin') {
+      return res.status(200).render('currencyAdd', {
+        user,
+        title: 'Add Currency',
+      });
+    }
+  } catch (err) {
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.addRate = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    if (!user) {
+      return res.status(302).redirect('/sign-in');
+    }
+    if (user.role === 'admin') {
+      const currencies = await Currency.find();
+      return res.status(200).render('addRate', {
+        user,
+        title: 'Add Rate',
+        currencies,
+      });
+    }
+  } catch (err) {
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.editCurrency = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    if (!user) {
+      return res.status(302).redirect('/sign-in');
+    }
+    if (user.role === 'admin') {
+      const currencies = await Currency.find();
+      return res.status(200).render('editCurrency', {
+        user,
+        currencies,
+        title: 'Edit Currency',
+      });
+    }
+  } catch (err) {
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.editRate = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    if (!user) {
+      return res.status(302).redirect('/sign-in');
+    }
+    if (user.role === 'admin') {
+      const rates = await Rate.find();
+      const currencies = await Currency.find();
+      return res.status(200).render('editRate', {
+        user,
+        rates,
+        title: 'Edit Rate',
+        currencies,
+      });
+    }
+  } catch (err) {
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.transactions = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    if (!user) {
+      return res.status(302).redirect('/sign-in');
+    }
+    if (user.role === 'admin') {
+      const transactions = await Transaction.find();
+      return res.status(200).render('transactions', {
+        user,
+        transactions,
+        title: 'Transactions',
+      });
+    }
+  } catch (err) {
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
