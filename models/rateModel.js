@@ -19,6 +19,28 @@ const rateSchema = new mongoose.Schema(
   },
 );
 
+rateSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'baseCurrency',
+    select: 'code name symbol',
+  }).populate({
+    path: 'targetCurrency',
+    select: 'code name symbol',
+  });
+  next();
+  rateSchema.pre(/^find/, function (next) {
+    this.populate({
+      path: 'baseCurrency',
+      select: 'code name symbol',
+    }).populate({
+      path: 'targetCurrency',
+      select: 'code name symbol',
+    });
+
+    next();
+  });
+});
+
 const Rate = mongoose.model('Rate', rateSchema);
 
 module.exports = Rate;

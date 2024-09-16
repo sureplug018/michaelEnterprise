@@ -85,4 +85,27 @@ router.get('/admin/out-of-stock', viewsController.outOfStock);
 
 router.get('/admin/orderDetails/:reference', viewsController.orderDetails);
 
+router.get('/admin/transactions', viewsController.transactions);
+
+router.get('/admin/add-rate', viewsController.addRate);
+
+router.get('/admin/rates', viewsController.editRate);
+
+router.get('/admin/currencies', viewsController.editCurrency);
+
+router.get('/admin/add-currency', viewsController.addCurrency);
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////       EXCHANGE                /////////////////////////////////////
+
+router.get('/exchange/index', viewsController.exchangeHome);
+
+router.get('/exchange/history', viewsController.history);
+
+router.get('/exchange/account', viewsController.accounts);
+
+router.get('/exchange/beneficiaries', viewsController.beneficiary);
+
+router.get('/exchange/money-exchange', viewsController.exchange);
+
 module.exports = router;

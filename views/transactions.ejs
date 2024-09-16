@@ -1,0 +1,128 @@
+<%- include('partials/adminDashboardHead.ejs') %>
+<div class="nk-content nk-content-fluid">
+  <div class="container-xl wide-xl">
+    <div class="nk-content-body">
+      <div class="nk-block-head nk-block-head-sm">
+        <div class="nk-block-between g-3">
+          <div class="nk-block-head-content">
+            <h3 class="nk-block-title page-title">User Order Details</h3>
+            <div class="nk-block-des text-soft">
+              <p>Orders</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="nk-block">
+        <div class="card card-stretch">
+          <div class="card-inner-group">
+            <div class="card-inner">
+              <div class="card-title-group">
+              </div>
+              <p></p>
+            </div>
+            <div class="card-inner p-0">
+              <div class="tab-content">
+                <% if (transactions.length === 0) { %>
+                <p style="text-align: center; font-size: large; margin-top: 50px;">No transactions yet!</p>
+                <% }else{ %>
+                <div style="margin-top: 30px;" class="table-responsive">
+                  <table class="table table-bordered" style="width: auto; table-layout: auto; white-space: nowrap;">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Reference</th>
+                        <th scope="col">User</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Sender Name</th>
+                        <th scope="col">Sender Number</th>
+                        <th scope="col">Expected Amount</th>
+                        <th scope="col">Amount to Send</th>
+                        <th scope="col">Receiver bank Name</th>
+                        <th scope="col">Receiver Account Name</th>
+                        <th scope="col">Receiver Account Number</th>
+                        <th scope="col">Payment Proof</th>
+                        <th scope="col">Created At</th>
+                        <th scope="col">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <% transactions.forEach(function(transaction, index){ %> <tr>
+                        <th scope="row"><%= index + 1 %></th>
+                        <td><%= transaction.reference %></td>
+                        <td><%= transaction.user.firstName %> <%= transaction.user.lastName %></td>
+                        <td><%= transaction.user.email %></td>
+                        <% if(transaction.status === 'Pending'){ %>
+                        <td>
+                          <div class="badge badge-dim bg-warning rounded-pill"><%= transaction.status %></div>
+                        </td>
+                        <% } else if(transaction.status === 'Success'){ %>
+                        <td>
+                          <div class="badge badge-dim bg-success rounded-pill"><%= transaction.status %></div>
+                        </td>
+                        <% }else if(transaction.status === 'Declined'){ %>
+                        <td>
+                          <div class="badge badge-dim bg-danger rounded-pill"><%= transaction.status %></div>
+                        </td>
+                        <% } %>
+                        <td><%= transaction.senderName %></td>
+                        <td><%= transaction.senderPhoneNumber %></td>
+                        <td><%= transaction.baseCurrency %> <%= transaction.amountSent %></td>
+                        <td><%= transaction.targetCurrency %> <%= transaction.amountToReceive %></td>
+                        <td><%= transaction.bankName %></td>
+                        <td><%= transaction.accountName %></td>
+                        <td><%= transaction.accountNumber %></td>
+                        <td><a href="<%= transaction.paymentProof %>" target="_blank">View</a></td>
+                        <% const timeStamp = transaction.createdAt %>
+                        <% const date = timeStamp.toLocaleDateString() %>
+                        <% const time = timeStamp.toLocaleTimeString() %>
+                        <td><%= date %> (<%= time %>)</td>
+                        <td><a class="edit-transaction-status-modal" href="#" data-transaction-id="<%= transaction.id %>" data-bs-toggle="modal" data-bs-target="#profile-afro-product"><i class="fa-solid fa-pen-to-square fa-xl"></i></a></td>
+                      </tr>
+                      <% }) %>
+                      <% } %>
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="modal fade" role="dialog" id="profile-afro-product">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                  <div class="modal-content"><a href="profile.html#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
+                    <div class="modal-body modal-body-lg">
+                      <h5 class="title">Change Transaction Status</h5>
+                      <ul class="nk-nav nav nav-tabs">
+                        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="profile.html#personal">Transaction Status</a></li>
+                      </ul>
+                      <div class="tab-content">
+                        <div class="tab-pane active" id="personal">
+                          <p></p>
+                          <div class="col-12">
+                            <input placeholder="Payment Proof" id="sentProof" type="file" class="form-control">
+                            <p></p>
+                            <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
+                              <li><a href="#" class="btn btn-lg btn-primary confirm-transaction-btn">Confirm</a></li>
+                              <li><a href="#" class="btn btn-lg btn-primary cancel-transaction-btn">Decline</a></li>
+                              <li><a href="#" data-bs-dismiss="modal" class="link link-light">Close</a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="card-inner">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('partials/adminDashboardFooter.ejs') %>

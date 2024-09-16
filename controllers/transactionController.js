@@ -1,4 +1,8 @@
+const crypto = require('crypto');
+const mongoose = require('mongoose');
 const Transaction = require('../models/transactionModel');
+const User = require('../models/userModel');
+const TransactionEmail = require('../utilities/transactionEmail');
 
 // generating unique random string for reference
 // Function to generate a random alphanumeric string
@@ -19,7 +23,7 @@ const generateUniqueReference = async () => {
     reference = `${randomString}${Date.now()}`;
 
     // Check if reference is unique
-    const existingOrder = await Order.findOne({ reference });
+    const existingOrder = await Transaction.findOne({ reference });
     if (!existingOrder) {
       isUnique = true;
     }
@@ -29,20 +33,26 @@ const generateUniqueReference = async () => {
 };
 
 exports.createTransaction = async (req, res) => {
+  // const session = await mongoose.startSession();
+  // session.startTransaction();
   const user = req.user.id;
   const {
+    senderName,
+    senderPhoneNumber,
     accountName,
     bankName,
     accountNumber,
-    amount,
+    amountSent,
     amountToReceive,
-    currencyPair,
+    baseCurrency,
+    targetCurrency,
+    rate,
   } = req.body;
   const paymentProof = req.file ? req.file.path : null; // Get payment proof image URL
 
   if (!paymentProof) {
-    await session.abortTransaction();
-    session.endSession();
+    // await session.abortTransaction();
+    // session.endSession();
     return res.status(400).json({
       status: 'fail',
       data: {
@@ -80,7 +90,7 @@ exports.createTransaction = async (req, res) => {
     });
   }
 
-  if (!amount || isNaN(amount) || amount <= 0) {
+  if (!amountSent || isNaN(amountSent) || amountSent <= 0) {
     return res.status(400).json({
       status: 'fail',
       message: 'A valid amount is required',
@@ -94,10 +104,24 @@ exports.createTransaction = async (req, res) => {
     });
   }
 
-  if (!currencyPair) {
+  if (!baseCurrency) {
     return res.status(400).json({
       status: 'fail',
-      message: 'Currency pair is required',
+      message: 'Base currency pair is required',
+    });
+  }
+
+  if (!targetCurrency) {
+    return res.status(400).json({
+      status: 'fail',
+      message: 'Target currency pair is required',
+    });
+  }
+
+  if (!rate) {
+    return res.status(400).json({
+      status: 'fail',
+      message: 'Rate is required',
     });
   }
 
@@ -106,15 +130,36 @@ exports.createTransaction = async (req, res) => {
   try {
     const transaction = await Transaction.create({
       user,
+      senderName,
+      senderPhoneNumber,
       accountName,
       bankName,
       accountNumber,
       reference,
       amountSent,
       amountToReceive,
-      currencyPair,
+      baseCurrency,
+      targetCurrency,
       paymentProof,
+      rate,
     });
+
+    // return array of admins
+    const adminUsers = await User.find({ role: 'admin' }); //.session(session);
+
+    const url = `${req.protocol}://${req.get('host')}/admin/transactions`;
+
+    // send emails to admin(s) is they are many or send to admin if only single
+    for (const adminUser of adminUsers) {
+      await new TransactionEmail(
+        adminUser,
+        url,
+        transaction,
+      ).sendTransactionNotification();
+    }
+
+    // await session.commitTransaction();
+    // session.endSession();
 
     return res.status(200).json({
       status: 'success',
@@ -123,8 +168,15 @@ exports.createTransaction = async (req, res) => {
       },
     });
   } catch (err) {
-    return res.status(500).json({
-      status: 'error',
+    // await session.abortTransaction();
+    // session.endSession();
+    console.log(err);
+    if (err.hasErrorLabel('TransientTransactionError')) {
+      // Retry logic here
+      return exports.createOrder(req, res);
+    }
+    res.status(500).json({
+      status: 'fail',
       message: err.message,
     });
   }
@@ -132,13 +184,24 @@ exports.createTransaction = async (req, res) => {
 
 exports.confirmTransaction = async (req, res) => {
   const { transactionId } = req.params;
+
+  const paymentProof = req.file ? req.file.path : null; // Get payment proof image URL
   if (!transactionId) {
     return res.status(400).json({
       status: 'fail',
       message: 'Transaction Id not found',
     });
   }
-
+  if (!paymentProof) {
+    // await session.abortTransaction();
+    // session.endSession();
+    return res.status(400).json({
+      status: 'fail',
+      data: {
+        message: 'Payment proof is required',
+      },
+    });
+  }
   try {
     const transaction = await Transaction.findById(transactionId);
     if (!transaction) {
@@ -148,15 +211,33 @@ exports.confirmTransaction = async (req, res) => {
       });
     }
 
-    transaction.status = 'Success';
-    const update = await transaction.save();
+    if (transaction.status === 'Pending') {
+      transaction.status = 'Success';
+      transaction.confirmationProof = paymentProof;
+      const update = await transaction.save();
 
-    return res.status(200).json({
-      status: 'success',
-      data: {
-        update,
-      },
-    });
+      const user = transaction.user;
+
+      const url = `${req.protocol}://${req.get('host')}/exchange/history`;
+
+      await new TransactionEmail(
+        user,
+        url,
+        transaction,
+      ).sendTransactionConfirmationEmail();
+
+      return res.status(200).json({
+        status: 'success',
+        data: {
+          update,
+        },
+      });
+    } else {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Cannot perform this action here',
+      });
+    }
   } catch (err) {
     return res.status(500).json({
       status: 'error',
@@ -182,16 +263,32 @@ exports.declineTransaction = async (req, res) => {
         message: 'Transaction not found',
       });
     }
+    if (transaction.status === 'Pending') {
+      transaction.status = 'Declined';
+      const update = await transaction.save();
 
-    transaction.status = 'Declined';
-    const update = await transaction.save();
+      const user = transaction.user;
 
-    return res.status(200).json({
-      status: 'success',
-      data: {
-        update,
-      },
-    });
+      const url = `${req.protocol}://${req.get('host')}/exchange/history`;
+
+      await new TransactionEmail(
+        user,
+        url,
+        transaction,
+      ).sendTransactionDeclined();
+
+      return res.status(200).json({
+        status: 'success',
+        data: {
+          update,
+        },
+      });
+    } else {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Cannot perform this action here',
+      });
+    }
   } catch (err) {
     return res.status(500).json({
       status: 'error',

@@ -8,6 +8,10 @@ const PendingReview = require('../models/pendingReviewModel');
 const Product = require('../models/productModel');
 const Category = require('../models/categoryModel');
 const Wishlist = require('../models/wishlistModel');
+const Currency = require('../models/currencyModel');
+const Rate = require('../models/rateModel');
+const Transaction = require('../models/transactionModel');
+const Beneficiary = require('../models/beneficiaryModel');
 
 exports.home = async (req, res) => {
   try {
@@ -859,6 +863,7 @@ exports.outOfStock = async (req, res) => {
         outOfStockProducts,
       });
     }
+    return res.status(302).redirect('/');
   } catch (err) {
     res.status(500).render('error', {
       title: 'Error',
@@ -911,6 +916,240 @@ exports.search = async (req, res) => {
       user,
       products,
     });
+  } catch (err) {
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+
+exports.exchangeHome = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    const currencies = await Currency.find({ status: 'Enabled' });
+    const rates = await Rate.find();
+    return res.status(200).render('exchangeHome', {
+      title: 'Exchange',
+      user,
+      rates,
+      currencies,
+    });
+  } catch (err) {
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.accounts = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    if (!user) {
+      return res.status(302).redirect('/sign-in');
+    }
+
+    if (user.role === 'user') {
+      return res.status(200).render('accounts', {
+        title: 'Account',
+        user,
+      });
+    }
+    return res.status(302).redirect('/');
+  } catch (err) {
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.history = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    if (!user) {
+      return res.status(302).redirect('/sign-in');
+    }
+
+    if (user.role === 'user') {
+      const transactionHistory = await Transaction.find({ user: user.id });
+      return res.status(200).render('history', {
+        title: 'History',
+        user,
+        transactionHistory,
+      });
+    }
+    return res.status(302).redirect('/');
+  } catch (err) {
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.beneficiary = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    if (!user) {
+      return res.status(302).redirect('/sign-in');
+    }
+
+    if (user.role === 'user') {
+      const beneficiaries = await Beneficiary.find({ user: user.id });
+      return res.status(200).render('beneficiary', {
+        title: 'Beneficiary',
+        user,
+        beneficiaries,
+      });
+    }
+    return res.status(302).redirect('/');
+  } catch (err) {
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.exchange = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    if (!user) {
+      return res.status(302).redirect('/sign-in');
+    }
+
+    if (user.role === 'user') {
+      const currencies = await Currency.find({ status: 'Enabled' });
+      const rates = await Rate.find();
+      const beneficiaries = await Beneficiary.find({ user: user.id });
+      return res.status(200).render('exchange', {
+        title: 'Exchange',
+        user,
+        rates,
+        currencies,
+        beneficiaries,
+      });
+    }
+    return res.status(302).redirect('/');
+  } catch (err) {
+    console.log(err);
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////        ADMIN EXCHANGE            ////////////////////////////////////////
+
+exports.addCurrency = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    if (!user) {
+      return res.status(302).redirect('/sign-in');
+    }
+    if (user.role === 'admin') {
+      return res.status(200).render('currencyAdd', {
+        user,
+        title: 'Add Currency',
+      });
+    }
+  } catch (err) {
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.addRate = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    if (!user) {
+      return res.status(302).redirect('/sign-in');
+    }
+    if (user.role === 'admin') {
+      const currencies = await Currency.find();
+      return res.status(200).render('addRate', {
+        user,
+        title: 'Add Rate',
+        currencies,
+      });
+    }
+  } catch (err) {
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.editCurrency = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    if (!user) {
+      return res.status(302).redirect('/sign-in');
+    }
+    if (user.role === 'admin') {
+      const currencies = await Currency.find();
+      return res.status(200).render('editCurrency', {
+        user,
+        currencies,
+        title: 'Edit Currency',
+      });
+    }
+  } catch (err) {
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.editRate = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    if (!user) {
+      return res.status(302).redirect('/sign-in');
+    }
+    if (user.role === 'admin') {
+      const rates = await Rate.find();
+      const currencies = await Currency.find();
+      return res.status(200).render('editRate', {
+        user,
+        rates,
+        title: 'Edit Rate',
+        currencies,
+      });
+    }
+  } catch (err) {
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.transactions = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    if (!user) {
+      return res.status(302).redirect('/sign-in');
+    }
+    if (user.role === 'admin') {
+      const transactions = await Transaction.find();
+      return res.status(200).render('transactions', {
+        user,
+        transactions,
+        title: 'Transactions',
+      });
+    }
   } catch (err) {
     res.status(500).render('error', {
       title: 'Error',

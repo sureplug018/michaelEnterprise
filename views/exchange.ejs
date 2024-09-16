@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Treemium</title>
+  <!-- Favicon icon -->
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/fav1.png">
+  <!-- toastr -->
+  <link rel="stylesheet" href="/assets/plugins/toastr/toastr.min.css">
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="/assets/css/styleExchange.css">
+</head>
+
+<body>
+  <div id="preloader">
+
+    <!-- <div class="sk-three-bounce">
+      <div class="sk-child sk-bounce1"></div>
+      <div class="sk-child sk-bounce2"></div>
+      <div class="sk-child sk-bounce3"></div>
+    </div> -->
+  </div>
+
+  <div class="main-wrapper">
+    <!--===================== Sidebar Start =====================-->
+    <section class="sidebar">
+      <nav class="navbar navbar-expand-lg navbar-light flex-nowrap flex-column justify-content-between align-items-start p-0">
+        <div class="mb-lg-5 w-100">
+          <div class="d-none d-lg-block">
+            <a class="navbar-brand d-flex align-items-start mb-5" href="/">
+              <img style="width: 150px; height: auto;" src="/assets/images/logo-01.png" alt="" class="mb-2">
+              <!-- <span class="fw-bold ms-2">Treemium</span> -->
+            </a>
+          </div>
+          <div class="collapse navbar-collapse collapse show" id="navbarNavAltMarkup">
+            <ul class="navbar-nav flex-row flex-lg-column justify-content-between align-items-center align-items-lg-start">
+              <li>
+                <a class="nav-link d-flex align-items-center" href="/exchange/index" data-tooltip="home" data-placement="top">
+                  <i class="mdi mdi-home-circle"></i>
+                  <div class="nav-text d-none d-md-block">Home</div>
+                </a>
+              </li>
+              <li>
+                <a class="nav-link d-flex align-items-center @@buy-sell active" href="/exchange/money-exchange" data-tooltip="exchange" data-placement="top">
+                  <i class="mdi mdi-repeat"></i>
+                  <div class="nav-text d-none d-md-block">exchange</div>
+                </a>
+              </li>
+              <li>
+                <a class="nav-link d-flex align-items-center @@accounts" href="/exchange/history" data-tooltip="history" data-placement="top">
+                  <i class="mdi mdi-clock-outline"></i>
+                  <div class="nav-text d-none d-md-block">History</div>
+                </a>
+              </li>
+              <li>
+                <a class="nav-link d-flex align-items-center @@settings" href="/exchange/beneficiaries" data-tooltip="beneficiary" data-placement="top">
+                  <i class="mdi mdi-account-multiple"></i>
+                  <div class="nav-text d-none d-md-block">Beneficiary</div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="d-none d-lg-block w-100 pb-5">
+          <div class="social_icon ms-0 ps-0 mb-2">
+            <a target="_blank" href="https://www.instagram.com/michael_enterprise?igsh=d3EzMTAyZ3VpZHdl"><i class="fab fa-instagram"></i></a>
+            <a target="_blank" href="#"><i class="fab fa-facebook-f"></i></a>
+            <a target="_blank" href=" https://vk.com/club227320115"><i class="fab fa-vk"></i></a>
+            <a target="_blank" href="https://wa.me/+79954459255"><i class="fab fa-whatsapp"></i></a>
+            <a target="_blank" href="https://t.me/micenterprise"><i class="fab fa-telegram"></i></a>
+          </div>
+          <div class="copyright">
+            <p>&copy;
+              2024
+              <a href="https://michael-enetprise.com" target="_blank">Michael Enterprise</a>
+            </p>
+          </div>
+        </div>
+      </nav>
+    </section>
+    <!--===================== Sidebar End =====================-->
+    <section class="ms-lg-240 px-lg-4 px-xl-0 mb-100 mb-lg-0">
+      <!--===================== Navigation Start =====================-->
+      <div class="navigation-2 d-flex sticky-top px-lg-4 px-xl-0">
+        <div class="container">
+          <div class="row">
+            <div class="col-12 d-flex justify-content-between align-items-center">
+              <div class="d-block d-lg-none">
+                <a class="navbar-brand d-flex align-items-start" href="/">
+                  <img style="width: 100px; height: auto;" src="/assets/images/logo-01.png" alt="" class="mb-2">
+                </a>
+              </div>
+              <div class="search-form">
+
+              </div>
+              <!-- search form end -->
+              <div class="d-flex align-items-center">
+
+                <div class="dropdown text-center text-sm-start">
+                  <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown">
+                    <span class="user-icon rounded-circle text-white"><i class="mdi mdi-account"></i></span>
+                    <span class="user-name fw-medium ms-2 d-none d-sm-inline-block"><%= user.firstName %> <%= user.lastName %></span>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-light w-100 box-shadow border-0 p-0 mt-2 rounded" aria-labelledby="dropdownMenuButton2">
+                    <li><a class="dropdown-item" href="/exchange/account"><i class="mdi mdi-account"></i>account</a></li>
+                    <li><a class="dropdown-item" href="/exchange/history"><i class="la la-book"></i>history</a></li>
+                    <li><a class="dropdown-item logout signOut-user-btn" style="cursor: pointer;"><i class="mdi mdi-logout"></i>logout</a></li>
+                  </ul>
+                </div>
+                <!-- dropdown end -->
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--===================== Navigation End =====================-->
+      <!--===================== Content body Start =====================-->
+      <div class="content-body" style="margin-bottom: 50px;">
+        <!--===================== Page title Start =====================-->
+        <div class="page_title">
+          <div class="container">
+            <div class="row">
+              <div class="col-12">
+                <div class="page_title-content">
+                  <!-- <p>Welcome Back,<span> Carla Pascle</span></p> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--===================== Page title End =====================-->
+
+        <div class="container">
+          <div class="row">
+            <div class="col-xl-7 col-lg-7 col-md-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="buy-sell-widget">
+                    <!-- <ul class="nav nav-pills nav-tabs justify-content-center flex-lg-nowrap" id="pills-tab" role="tablist">
+                      <li class="nav-item text-center" role="presentation">
+                        <a class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" href="buy-sell.html#buy" aria-selected="true">Buy</a>
+                      </li>
+                      <li class="nav-item text-center" role="presentation">
+                        <a class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" href="buy-sell.html#sell" aria-selected="false">Sell</a>
+                      </li>
+                    </ul> -->
+                    <div class="tab-content tab-content-default">
+                      <div class="tab-pane fade show active" id="buy" role="tabpanel">
+
+                        <!-- first page -->
+                        <div id="page1" style="display: block;">
+                          <form name="myform" class="currency_validate">
+                            <div style="height: 40px;"></div>
+                            <p style="text-align: center; font-weight: bolder; font-size: larger; color: black;">Exchange</p>
+                            <div class="form-group">
+                              <label class="me-sm-2">Send</label>
+                              <div class="input-group mb-3">
+                                <div style="display: flex; align-items: center; border: 1px solid #ced4da; border-radius: 4px; overflow: hidden; width: 100%;">
+                                  <select id="base-currency" class="form-select" name="currency" style="flex: 0.5; border: none; padding: 0 10px; height: 40px; outline: none; box-shadow: none; appearance: none; background-color: white;">
+                                    <% currencies.forEach(currency => { %>
+                                    <option value="<%= currency.code %>"><%= currency.code %></option>
+                                    <% }); %>
+                                  </select>
+                                  <input id="base-amount" type="number" class="form-control" name="amount" placeholder="Enter amount" style="flex: 2.5; border: none; padding: 0 10px; height: 40px; outline: none; box-shadow: none;" oninput="updateTargetAmount()">
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="form-group">
+                              <label class="me-sm-2">Receive</label>
+                              <div class="input-group mb-3">
+                                <div style="display: flex; align-items: center; border: 1px solid #ced4da; border-radius: 4px; overflow: hidden; width: 100%;">
+                                  <select id="target-currency" class="form-select" name="currency" style="flex: 0.5; border: none; padding: 0 10px; height: 40px; outline: none; box-shadow: none; appearance: none; background-color: white;">
+                                    <% currencies.forEach(currency => { %>
+                                    <option value="<%= currency.code %>"><%= currency.code %></option>
+                                    <% }); %>
+                                  </select>
+                                  <input id="target-amount" type="number" class="form-control" name="amount" placeholder="Amount to receive" style="flex: 2.5; border: none; padding: 0 10px; height: 40px; outline: none; box-shadow: none;" disabled>
+                                </div>
+                              </div>
+                            </div>
+
+                            <!-- Display the exchange rate here -->
+                            <p style="text-align: center;">Rate: <span id="exchange-rate">0</span></p>
+
+                            <button type="button" id="nextToPage2" style="background-color: #5F1303; border-color: #5F1303;" class="btn btn-success w-100">Next</button>
+                            <div style="height: 40px;"></div>
+                          </form>
+                        </div>
+
+                        <form class="exchange-form">
+                          <!-- second page -->
+                          <div id="page2" style="display: none;">
+                            <div style="height: 30px;"></div>
+                            <p style="font-size: larger; font-weight: bold; color: black;">Sender Details</p>
+                            <div class="form-group">
+                              <label for="fullName">Full Name</label>
+                              <input type="text" class="form-control" id="fullName" value="<%= user.firstName %> <%= user.lastName %>" placeholder="Full Name" disabled>
+                            </div>
+                            <P></P>
+                            <div class="form-group">
+                              <label for="email">Email Address</label>
+                              <input type="email" class="form-control" value="<%= user.email %>" id="email" placeholder="Email Address" disabled>
+                            </div>
+                            <P></P>
+                            <div class="form-group">
+                              <label for="senderFullName">Sender Full Name</label>
+                              <input type="text" class="form-control" id="senderFullName" placeholder="Sender Full Name">
+                            </div>
+                            <p></p>
+                            <div class="form-group">
+                              <label for="phoneNumber">Phone Number</label>
+                              <input type="text" class="form-control" id="phoneNumber" placeholder="Phone Number">
+                            </div>
+                            <div style="height: 40px;"></div>
+                            <p style="font-size: larger; font-weight: bold; color: black;">Receiver Details</p>
+                            <div class="form-group row align-items-center">
+                              <!-- Label for Bank Name -->
+                              <div class="col">
+                                <label for="bankName">Bank Name</label>
+                              </div>
+
+                              <!-- Dropdown for Beneficiaries -->
+                              <div class="col-auto">
+                                <div class="dropdown">
+                                  <a href="#" class="dropdown-toggle" id="beneficiariesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Show Beneficiaries
+                                  </a>
+                                  <ul class="dropdown-menu" aria-labelledby="beneficiariesDropdown">
+                                    <% if(beneficiaries.length === 0){ %>
+                                    <li>
+                                      <a class="dropdown-item">
+                                        <p style="text-align: center; padding: 5px 10px;">No beneficiaries yet!</p>
+                                      </a>
+                                    </li>
+                                    <% } else{ %>
+                                    <% beneficiaries.forEach(function(beneficiary){ %>
+                                    <li>
+                                      <a class="dropdown-item" style="cursor: pointer;" onclick="fillDetails('<%= beneficiary.bankName %>', '<%= beneficiary.accountName %>', '<%= beneficiary.accountNumber %>')">
+                                        <%= beneficiary.bankName %> - <%= beneficiary.accountName %> - <%= beneficiary.accountNumber %>
+                                      </a>
+                                    </li>
+
+                                    <% }) %>
+                                    <% } %>
+                                    <!-- Add more beneficiaries as needed -->
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+
+                            <!-- Input field for Bank Name -->
+                            <div class="form-group">
+                              <input type="text" class="form-control" id="bankName" placeholder="Bank Name">
+                            </div>
+                            <div class="form-group">
+                              <label for="fullName">Account Name</label>
+                              <input type="text" class="form-control" id="accountName" placeholder="Account Name">
+                            </div>
+                            <div class="form-group">
+                              <label for="fullName">Account Number</label>
+                              <input type="text" class="form-control" id="accountNumber" placeholder="Account Number">
+                              <br>
+                              <input id="checkbox" type="checkbox"> Add to beneficiary
+                            </div>
+
+                            <div style="height: 30px;"></div>
+                            <div class="row">
+                              <div class="col-6" style="display: flex; justify-content: left;">
+                                <button type="button" id="previousToPage1" style="background-color: #5F1303; border-color: #5F1303; width: auto; padding: 10px 20px;" class="btn btn-success">Previous</button>
+                              </div>
+                              <div class="col-6" style="display: flex; justify-content: right;">
+                                <button type="button" id="nextToPage3" style="background-color: #5F1303; border-color: #5F1303; width: auto; padding: 10px 20px;" class="btn btn-success">Next</button>
+                              </div>
+                            </div>
+
+                            <div style="height: 50px;"></div>
+
+                            <!-- JavaScript to auto-fill form fields -->
+                            <script>
+                              function fillDetails(bankName, accountName, accountNumber) {
+                                // Fill input fields with selected beneficiary details
+                                document.getElementById('bankName').value = bankName;
+                                document.getElementById('accountName').value = accountName;
+                                document.getElementById('accountNumber').value = accountNumber;
+                              }
+                            </script>
+
+                          </div>
+
+
+                          <!-- third page -->
+                          <div id="page3" style="display: none;">
+                            <div style="height: 30px;"></div>
+                            <h3 style="text-align: center; color: black; font-weight: bold;">Summary</h3>
+                            <div style="height: 20px;"></div>
+                            <div class="form-group">
+                              <label for="amountToSend">You send</label>
+                              <input type="text" class="form-control" id="amountToSend" placeholder="Amount to send" disabled>
+                            </div>
+                            <P></P>
+                            <div class="form-group">
+                              <label for="amountToReceive">Receiver gets</label>
+                              <input type="text" class="form-control" id="amountToReceive" placeholder="Amount to receive" disabled>
+                            </div>
+                            <P></P>
+                            <div class="form-group">
+                              <label for="rate">Rate</label>
+                              <input type="text" class="form-control" id="rate" placeholder="Rate" disabled>
+                            </div>
+                            <div style="height: 30px;"></div>
+                            <div class="row">
+                              <div class="col-6" style="display: flex; justify-content: left;">
+                                <button type="button" id="previousToPage2" style="background-color: #5F1303; border-color: #5F1303; width: auto; padding: 10px 20px;" class="btn btn-success">Previous</button>
+                              </div>
+                              <div class="col-6" style="display: flex; justify-content: right;">
+                                <button type="button" id="nextToPage4" style="background-color: #5F1303; border-color: #5F1303; width: auto; padding: 10px 20px;" class="btn btn-success">Proceed to Payment</button>
+                              </div>
+                            </div>
+                            <div style="height: 50px;"></div>
+                          </div>
+
+                          <!-- Forth page -->
+                          <div id="page4" style="display: none;">
+                            <div style="height: 30px;"></div>
+                            <div style="display: flex; justify-content: center;">
+                              <div style="width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-university" style="color: #5F1303; font-size: 5em;"></i>
+                              </div>
+                            </div>
+                            <div style="height: 50px;"></div>
+                            <h3 id="finalAmount" style="text-align: center;"></h3>
+                            <P></P>
+                            <div id="ghana-cedis" style="display: none;">
+                              <p style="text-align: center; font-size: large;">Bank Name: <span style="width: 5px;"></span> MTN Mobile Money</p>
+                              <p style="text-align: center; font-size: large;">Bank Name: <span style="width: 5px;"></span> Geek Consult Enterprise(Jemima)</p>
+                              <p style="text-align: center; font-size: large;">Account Number: <span style="width: 5px;"></span> 0598932801</p>
+                            </div>
+                            <div id="nigerian-naira" style="display: none;">
+                              <p style="text-align: center; font-size: large;">Bank Name: <span style="width: 5px;"></span> Opay</p>
+                              <p style="text-align: center; font-size: large;">Bank Name: <span style="width: 5px;"></span> Babajide Bolade</p>
+                              <p style="text-align: center; font-size: large;">Account Number: <span style="width: 5px;"></span> 8160612477</p>
+                            </div>
+                            <div id="russian-rubles" style="display: none;">
+                              <p style="text-align: center; font-size: large;">Bank Name: <span style="width: 5px;"></span> Сбербанк</p>
+                              <p style="text-align: center; font-size: large;">Bank Name: <span style="width: 5px;"></span> Бабаджиде ифеолува Майкл</p>
+                              <p style="text-align: center; font-size: large;">Account Number: <span style="width: 5px;"></span> 5228600509063535</p>
+                            </div>
+
+                            <div style="height: 30px;"></div>
+                            <div class="form-group">
+                              <div class="file-upload-wrapper" data-text="Payment Proof">
+                                <input id="paymentProof" name="file-upload-field" type="file" class="file-upload-field">
+                              </div>
+                            </div>
+                            <div style="height: 30px;"></div>
+                            <div class="row">
+                              <div class="col-6" style="display: flex; justify-content: left;">
+                                <button type="button" id="previousToPage3" style="background-color: #5F1303; border-color: #5F1303; width: auto; padding: 10px 20px;" class="btn btn-success">Previous</button>
+                              </div>
+                              <div class="col-6" style="display: flex; justify-content: right;">
+                                <button style="background-color: #5F1303; border-color: #5F1303; width: auto; padding: 10px 20px;" class="btn btn-success make-payment">Submit</button>
+                              </div>
+                            </div>
+                            <div style="height: 50px;"></div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+        </div>
+      </div>
+      <!--===================== Content body End =====================-->
+    </section>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const baseCurrencySelect = document.getElementById('base-currency');
+      const targetCurrencySelect = document.getElementById('target-currency');
+      const baseAmountInput = document.getElementById('base-amount');
+      const targetAmountInput = document.getElementById('target-amount');
+      const exchangeRateDisplay = document.getElementById('exchange-rate');
+      const ghanaCedis = document.getElementById('ghana-cedis');
+      const nigerianNaira = document.getElementById('nigerian-naira');
+      const russianRubbles = document.getElementById('russian-rubles');
+
+      let exchangeRate = 0; // Initialize exchange rate
+
+      async function fetchExchangeRate(baseCurrency, targetCurrency) {
+        try {
+          const response = await fetch(`/api/v1/rates/get-rate?base=${baseCurrency}&target=${targetCurrency}`);
+          if (response.ok) {
+            const data = await response.json();
+            if (data.status === 'success') {
+              exchangeRate = data.rate || 0;
+              exchangeRateDisplay.textContent = exchangeRate ? exchangeRate : 'Rate not found';
+              updateTargetAmount(); // Update target amount based on the new rate
+            } else {
+              exchangeRateDisplay.textContent = 'Error fetching rate';
+            }
+          } else {
+            exchangeRateDisplay.textContent = 'Error fetching rate';
+          }
+        } catch (error) {
+          exchangeRateDisplay.textContent = 'Error fetching rate';
+          console.error('Error:', error);
+        }
+      }
+
+      function updateTargetAmount() {
+        const baseAmount = parseFloat(baseAmountInput.value) || 0;
+        const targetAmount = baseAmount * exchangeRate;
+        targetAmountInput.value = targetAmount.toFixed(2); // Update target amount with 2 decimal places
+      }
+
+      baseCurrencySelect.addEventListener('change', () => {
+        const baseCurrency = baseCurrencySelect.value;
+        const targetCurrency = targetCurrencySelect.value;
+        if (baseCurrency === 'GHS') {
+          ghanaCedis.style.display = 'block';
+          nigerianNaira.style.display = 'none';
+          russianRubbles.style.display = 'none'
+        } else if (baseCurrency === 'NGN') {
+          ghanaCedis.style.display = 'none';
+          nigerianNaira.style.display = 'block';
+          russianRubbles.style.display = 'none'
+        } else if (baseCurrency === 'RUB') {
+          ghanaCedis.style.display = 'none';
+          nigerianNaira.style.display = 'none';
+          russianRubbles.style.display = 'block'
+        }
+        fetchExchangeRate(baseCurrency, targetCurrency);
+      });
+
+      targetCurrencySelect.addEventListener('change', () => {
+        const baseCurrency = baseCurrencySelect.value;
+        const targetCurrency = targetCurrencySelect.value;
+        fetchExchangeRate(baseCurrency, targetCurrency);
+      });
+
+      baseAmountInput.addEventListener('input', updateTargetAmount);
+      // Initial fetch to set up the exchange rate
+      const initialBaseCurrency = baseCurrencySelect.value;
+      const initialTargetCurrency = targetCurrencySelect.value;
+      fetchExchangeRate(initialBaseCurrency, initialTargetCurrency);
+
+      // References to form pages
+      const pages = {
+        page1: document.getElementById('page1'),
+        page2: document.getElementById('page2'),
+        page3: document.getElementById('page3'),
+        page4: document.getElementById('page4')
+      };
+
+      // Reference to input fields
+      const baseAmount = document.getElementById('base-amount');
+      const targetAmount = document.getElementById('target-amount');
+      const baseCode = document.getElementById('base-currency');
+      const targetCode = document.getElementById('target-currency');
+      const exchangeRateSpan = document.getElementById('exchange-rate');
+      const amountToSend = document.getElementById('amountToSend');
+      const amountToReceive = document.getElementById('amountToReceive');
+      const rate = document.getElementById('rate');
+      const finalAmount = document.getElementById('finalAmount');
+
+      // Show and hide pages
+      function showPage(currentPageId, nextPageId) {
+        Object.values(pages).forEach(page => page.style.display = 'none');
+        pages[nextPageId].style.display = 'block';
+      }
+
+      // Validation function to check if an input is not empty
+      function validateInput(input) {
+        return input && input.value.trim() !== '';
+      }
+
+      // Button event listeners for "Next" and "Previous"
+      document.getElementById('nextToPage2').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Validate fields before proceeding to Page 2
+        if (validateInput(baseAmount) && validateInput(targetAmount)) {
+          showPage('page1', 'page2');
+        } else {
+          alert('Please fill in both the amount fields to proceed.');
+        }
+      });
+
+      document.getElementById('previousToPage1').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent default form submission
+        showPage('page2', 'page1');
+      });
+
+      document.getElementById('nextToPage3').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Validate all fields on Page 2 before proceeding to Page 3
+        if (validateInput(document.getElementById('senderFullName')) &&
+          validateInput(document.getElementById('phoneNumber')) &&
+          validateInput(document.getElementById('bankName')) &&
+          validateInput(document.getElementById('accountName')) &&
+          validateInput(document.getElementById('accountNumber'))) {
+
+          // Pass the values to summary inputs
+          amountToSend.value = baseCode.value + ' ' + baseAmount.value;
+          amountToReceive.value = targetCode.value + ' ' + targetAmount.value;
+          rate.value = targetCode.value + ' ' + exchangeRateSpan.textContent + ' per ' + baseCode.value; // Updated to use textContent
+
+          showPage('page2', 'page3');
+        } else {
+          alert('Please fill all sender and receiver details before proceeding.');
+        }
+      });
+
+      document.getElementById('previousToPage2').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent default form submission
+        showPage('page3', 'page2');
+      });
+
+      document.getElementById('nextToPage4').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent default form submission
+        finalAmount.textContent = baseCode.value + ' ' + baseAmount.value;
+        showPage('page3', 'page4');
+      });
+
+      document.getElementById('previousToPage3').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent default form submission
+        showPage('page4', 'page3');
+      });
+    });
+  </script>
+  <%- include('partials/exchangeFooter.ejs') %>
