@@ -50,39 +50,39 @@ exports.addRate = async (req, res) => {
 
 // Edit an existing exchange rate
 exports.editExchangeRate = async (req, res) => {
-  const { baseCurrencyCode, targetCurrencyCode, newRate } = req.body;
+  const { newRate } = req.body;
+
+  if (!newRate) {
+    return res.status(400).json({
+      status: 'fail',
+      message: 'Not rate entered',
+    });
+  }
+
+  const rateId = req.params.rateId;
 
   try {
-    // Find the base and target currencies
-    const baseCurrency = await Currency.findOne({ code: baseCurrencyCode });
-    const targetCurrency = await Currency.findOne({ code: targetCurrencyCode });
+    const rate = await Rate.findById(rateId);
 
-    if (!baseCurrency || !targetCurrency) {
-      return res.status(400).json({
-        status: 'fail',
-        message: 'One or both currencies not found',
-      });
-    }
-
-    // Find the existing exchange rate
-    let exchangeRate = await Rate.findOne({
-      baseCurrency: baseCurrency._id,
-      targetCurrency: targetCurrency._id,
-    });
-
-    if (!exchangeRate) {
+    if (!rate) {
       return res.status(404).json({
         status: 'fail',
-        message: 'Exchange rate not found',
+        message: 'Rate not found',
       });
     }
 
-    // Update the exchange rate
-    exchangeRate.rate = newRate;
-    exchangeRate.date = Date.now();
-    await exchangeRate.save();
+    if (newRate) {
+      rate.rate = newRate;
+    }
 
-    res.status(200).json({ message: 'Exchange rate updated successfully' });
+    await rate.save();
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        rate,
+      },
+    });
   } catch (error) {
     console.error('Error editing exchange rate:', error);
     res.status(500).json({ message: 'Internal server error' });

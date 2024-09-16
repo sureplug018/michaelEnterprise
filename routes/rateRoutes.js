@@ -10,6 +10,6 @@ router.use(authController.protect, authController.restrictTo('admin'));
 
 router.post('/create-rate', rateController.addRate);
 
-router.post('/edit-rate', rateController.editExchangeRate);
+router.patch('/edit-rate/:rateId', rateController.editExchangeRate);
 
 module.exports = router;

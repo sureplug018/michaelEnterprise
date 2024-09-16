@@ -447,6 +447,19 @@
       targetCurrencySelect.addEventListener('change', () => {
         const baseCurrency = baseCurrencySelect.value;
         const targetCurrency = targetCurrencySelect.value;
+        if (baseCurrency === 'GHS') {
+          ghanaCedis.style.display = 'block';
+          nigerianNaira.style.display = 'none';
+          russianRubbles.style.display = 'none'
+        } else if (baseCurrency === 'NGN') {
+          ghanaCedis.style.display = 'none';
+          nigerianNaira.style.display = 'block';
+          russianRubbles.style.display = 'none'
+        } else if (baseCurrency === 'RUB') {
+          ghanaCedis.style.display = 'none';
+          nigerianNaira.style.display = 'none';
+          russianRubbles.style.display = 'block'
+        }
         fetchExchangeRate(baseCurrency, targetCurrency);
       });
 

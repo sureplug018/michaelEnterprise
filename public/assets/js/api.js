@@ -1359,6 +1359,38 @@ document
     });
   });
 
+document.querySelectorAll('.edit-rate-modal').forEach((button) => {
+  button.addEventListener('click', function () {
+    const rateId = this.dataset.rateId;
+    const editButton = document.querySelector('.edit-rate-btn');
+    editButton.addEventListener('click', async (e) => {
+      e.preventDefault();
+      editButton.style.opacity = '0.5';
+      editButton.textContent = 'Processing...';
+      const rate = {
+        newRate: document.getElementById('rate').value,
+      };
+      try {
+        const res = await axios.patch(
+          `/api/v1/rates/edit-rate/${rateId}`,
+          rate,
+        );
+        if (res.data.status === 'success') {
+          showAlert('success', 'Rate updated successfully!');
+          window.setTimeout(() => {
+            location.assign('/admin/rates');
+          }, 3000);
+        }
+      } catch (err) {
+        console.log(err);
+        showAlert('error', err.response.data.message);
+        editButton.style.opacity = '1';
+        editButton.textContent = 'Update Rate';
+      }
+    });
+  });
+});
+
 document.querySelectorAll('.edit-order-status-modal').forEach((button) => {
   button.addEventListener('click', function () {
     const orderId = this.dataset.orderId;
