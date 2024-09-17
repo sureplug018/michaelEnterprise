@@ -507,7 +507,7 @@ exports.orders = async (req, res) => {
         },
       },
       {
-        $sort: { createdAt: -1 }, // Sort by creation date, newest first
+        $sort: { createdAt: 1 }, // Sort by creation date, newest first
       },
       {
         $group: {
@@ -976,7 +976,9 @@ exports.history = async (req, res) => {
     }
 
     if (user.role === 'user') {
-      const transactionHistory = await Transaction.find({ user: user.id });
+      const transactionHistory = await Transaction.find({ user: user.id }).sort(
+        { createdAt: 1 },
+      );
       return res.status(200).render('history', {
         title: 'History',
         user,
@@ -1143,7 +1145,7 @@ exports.transactions = async (req, res) => {
       return res.status(302).redirect('/sign-in');
     }
     if (user.role === 'admin') {
-      const transactions = await Transaction.find();
+      const transactions = await Transaction.find().sort({ createdAt: 1 });
       return res.status(200).render('transactions', {
         user,
         transactions,
