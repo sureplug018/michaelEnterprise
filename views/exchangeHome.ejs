@@ -198,7 +198,8 @@
                           </div>
 
                           <!-- Display the exchange rate here -->
-                          <p style="text-align: center;">Rate: <span id="exchange-rate">0</span></p>
+                          <p style="text-align: center;">Rate: <span id="exchange-rate-visible">0</span></p>
+                          <p style="text-align: center; display: none;">Rate: <span id="exchange-rate">0</span></p>
 
 
                           <div style="height: 40px;"></div>
@@ -372,8 +373,10 @@
       const baseAmountInput = document.getElementById('base-amount');
       const targetAmountInput = document.getElementById('target-amount');
       const exchangeRateDisplay = document.getElementById('exchange-rate');
+      const exchangeRateVisible = document.getElementById('exchange-rate-visible');
 
       let exchangeRate = 0; // Initialize exchange rate
+      let visibleRate = 0; // Initialize visible rate
 
       async function fetchExchangeRate(baseCurrency, targetCurrency) {
         try {
@@ -382,7 +385,9 @@
             const data = await response.json();
             if (data.status === 'success') {
               exchangeRate = data.rate ? data.rate : 0;
+              visibleRate = data.visibleRate ? data.visibleRate : 0;
               exchangeRateDisplay.textContent = exchangeRate ? exchangeRate : 'Rate not found';
+              exchangeRateVisible.textContent = visibleRate ? visibleRate : 'Rate not found';
               updateTargetAmount(); // Update target amount based on the new rate
             } else {
               exchangeRateDisplay.textContent = 'Error fetching rate';

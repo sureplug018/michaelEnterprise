@@ -13,6 +13,14 @@ const rateSchema = new mongoose.Schema(
       required: true,
     },
     rate: { type: Number, required: true }, // Exchange rate from baseCurrency to targetCurrency
+    visibleRate: {
+      type: Number,
+      required: true,
+    },
+    direction: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
@@ -28,17 +36,6 @@ rateSchema.pre(/^find/, function (next) {
     select: 'code name symbol',
   });
   next();
-  rateSchema.pre(/^find/, function (next) {
-    this.populate({
-      path: 'baseCurrency',
-      select: 'code name symbol',
-    }).populate({
-      path: 'targetCurrency',
-      select: 'code name symbol',
-    });
-
-    next();
-  });
 });
 
 const Rate = mongoose.model('Rate', rateSchema);

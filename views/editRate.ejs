@@ -33,6 +33,8 @@
                         <th scope="col">Base Currency</th>
                         <th scope="col">Target Currency</th>
                         <th scope="col">Current Rate</th>
+                        <th scope="col">Visible Rate</th>
+                        <th scope="col">Direction</th>
                         <th scope="col">Action</th>
                       </tr>
                     </thead>
@@ -43,6 +45,8 @@
                         <td><%= rate.baseCurrency.name %></td>
                         <td><%= rate.targetCurrency.name %></td>
                         <td><%= rate.rate %></td>
+                        <td><%= rate.visibleRate %></td>
+                        <td><%= rate.direction %></td>
                         <td><a class="edit-rate-modal" href="#" data-rate-id="<%= rate.id %>" data-bs-toggle="modal" data-bs-target="#profile-afro-product"><i class="fa-solid fa-pen-to-square fa-xl"></i></a></td>
                       </tr>
                       <% }) %>
@@ -65,8 +69,25 @@
                         <div class="tab-pane active" id="personal">
                           <p></p>
                           <div class="col-12">
-                            <div class="form-group"><label class="form-label" for="email">Rate</label>
+                            <div class="form-group"><label class="form-label" for="rate">Rate</label>
                               <div class="form-control-wrap"><input class="form-control" type="text" id="rate" placeholder="Rate" /></div>
+                            </div>
+                          </div>
+                          <p></p>
+                          <div class="col-12">
+                            <div class="form-group"><label class="form-label" for="visibleRate">Visible Rate</label>
+                              <div class="form-control-wrap"><input class="form-control" type="text" id="visibleRate" placeholder="Visible Rate" /></div>
+                            </div>
+                          </div>
+                          <p></p>
+                          <div class="col-12">
+                            <div class="form-group"><label class="form-label">Direction</label>
+                              <div class="form-control-wrap">
+                                <select id="direction" class="js-select2 form-select" data-search="true" data-sort="false">
+                                  <option value="forward">Forward</option>
+                                  <option value="reverse">Reverse</option>
+                                </select>
+                              </div>
                             </div>
                           </div>
                           <p></p>

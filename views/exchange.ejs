@@ -188,7 +188,8 @@
                             </div>
 
                             <!-- Display the exchange rate here -->
-                            <p style="text-align: center;">Rate: <span id="exchange-rate">0</span></p>
+                            <p style="text-align: center; display: none;">Rate: <span id="exchange-rate">0</span></p>
+                            <p style="text-align: center;">Rate: <span id="exchange-rate-visible">0</span></p>
 
                             <button type="button" id="nextToPage2" style="background-color: #5F1303; border-color: #5F1303;" class="btn btn-success w-100">Next</button>
                             <div style="height: 40px;"></div>
@@ -395,11 +396,13 @@
       const baseAmountInput = document.getElementById('base-amount');
       const targetAmountInput = document.getElementById('target-amount');
       const exchangeRateDisplay = document.getElementById('exchange-rate');
+      const exchangeRateVisible = document.getElementById('exchange-rate-visible');
       const ghanaCedis = document.getElementById('ghana-cedis');
       const nigerianNaira = document.getElementById('nigerian-naira');
       const russianRubbles = document.getElementById('russian-rubles');
 
       let exchangeRate = 0; // Initialize exchange rate
+      let visibleRate = 0; // Initialize visible rate
 
       async function fetchExchangeRate(baseCurrency, targetCurrency) {
         try {
@@ -407,8 +410,10 @@
           if (response.ok) {
             const data = await response.json();
             if (data.status === 'success') {
-              exchangeRate = data.rate || 0;
+              exchangeRate = data.rate ? data.rate : 0;
+              visibleRate = data.visibleRate ? data.visibleRate : 0;
               exchangeRateDisplay.textContent = exchangeRate ? exchangeRate : 'Rate not found';
+              exchangeRateVisible.textContent = visibleRate ? visibleRate : 'Rate not found';
               updateTargetAmount(); // Update target amount based on the new rate
             } else {
               exchangeRateDisplay.textContent = 'Error fetching rate';
@@ -532,7 +537,7 @@
           // Pass the values to summary inputs
           amountToSend.value = baseCode.value + ' ' + baseAmount.value;
           amountToReceive.value = targetCode.value + ' ' + targetAmount.value;
-          rate.value = targetCode.value + ' ' + exchangeRateSpan.textContent + ' per ' + baseCode.value; // Updated to use textContent
+          rate.value = visibleRate // Updated to use textContent
 
           showPage('page2', 'page3');
         } else {

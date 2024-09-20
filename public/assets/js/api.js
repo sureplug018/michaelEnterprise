@@ -459,7 +459,13 @@ const addCurrency = async (code, name, symbol) => {
   }
 };
 
-const addRate = async (baseCurrencyCode, targetCurrencyCode, rate) => {
+const addRate = async (
+  baseCurrencyCode,
+  targetCurrencyCode,
+  rate,
+  visibleRate,
+  direction,
+) => {
   try {
     const res = await axios({
       method: 'post',
@@ -468,6 +474,8 @@ const addRate = async (baseCurrencyCode, targetCurrencyCode, rate) => {
         baseCurrencyCode,
         targetCurrencyCode,
         rate,
+        visibleRate,
+        direction,
       },
     });
     if (res.data.status === 'success') {
@@ -547,7 +555,9 @@ if (addRateForm) {
     const baseCurrency = document.getElementById('baseCurrency').value;
     const targetCurrency = document.getElementById('targetCurrency').value;
     const rate = document.getElementById('rate').value;
-    await addRate(baseCurrency, targetCurrency, rate);
+    const visibleRate = document.getElementById('visibleRate').value;
+    const direction = document.getElementById('direction').value;
+    await addRate(baseCurrency, targetCurrency, rate, visibleRate, direction);
     submitButton.style.opacity = '1';
     submitButton.textContent = 'Save';
   });
@@ -1369,6 +1379,8 @@ document.querySelectorAll('.edit-rate-modal').forEach((button) => {
       editButton.textContent = 'Processing...';
       const rate = {
         newRate: document.getElementById('rate').value,
+        visibleRate: document.getElementById('visibleRate').value,
+        direction: document.getElementById('direction').value,
       };
       try {
         const res = await axios.patch(

@@ -3,14 +3,8 @@ const Rate = require('../models/rateModel');
 
 // Add a new exchange rate
 exports.addRate = async (req, res) => {
-  const { baseCurrencyCode, targetCurrencyCode, rate } = req.body;
-
-  // if (baseCurrencyCode === targetCurrencyCode) {
-  //   return res.status(400).json({
-  //     status: 'fail',
-  //     message: 'Base currency and target currency cannot be the same',
-  //   });
-  // }
+  const { baseCurrencyCode, targetCurrencyCode, rate, visibleRate, direction } =
+    req.body;
 
   try {
     // Find the base and target currencies
@@ -28,7 +22,9 @@ exports.addRate = async (req, res) => {
     const newRate = new Rate({
       baseCurrency: baseCurrency._id,
       targetCurrency: targetCurrency._id,
-      rate: rate,
+      rate,
+      visibleRate,
+      direction,
     });
 
     await newRate.save();
@@ -50,14 +46,7 @@ exports.addRate = async (req, res) => {
 
 // Edit an existing exchange rate
 exports.editExchangeRate = async (req, res) => {
-  const { newRate } = req.body;
-
-  if (!newRate) {
-    return res.status(400).json({
-      status: 'fail',
-      message: 'Not rate entered',
-    });
-  }
+  const { newRate, visibleRate, direction } = req.body;
 
   const rateId = req.params.rateId;
 
@@ -73,6 +62,14 @@ exports.editExchangeRate = async (req, res) => {
 
     if (newRate) {
       rate.rate = newRate;
+    }
+
+    if (visibleRate) {
+      rate.visibleRate = visibleRate;
+    }
+
+    if (direction) {
+      rate.direction = direction;
     }
 
     await rate.save();
@@ -124,10 +121,21 @@ exports.getExchangeRate = async (req, res) => {
     });
 
     if (exchangeRate) {
-      res.status(200).json({
-        status: 'success',
-        rate: exchangeRate.rate,
-      });
+      if (exchangeRate.direction === 'forward') {
+        return res.status(200).json({
+          status: 'success',
+          rate: exchangeRate.rate,
+          visibleRate: `1 ${base} = ${exchangeRate.visibleRate} ${target}`,
+        });
+      }
+
+      if (exchangeRate.direction === 'reverse') {
+        return res.status(200).json({
+          status: 'success',
+          rate: exchangeRate.rate,
+          visibleRate: `${exchangeRate.visibleRate} ${base} = 1 ${target}`,
+        });
+      }
     }
   } catch (error) {
     res.status(500).json({
