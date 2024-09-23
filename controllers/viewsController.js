@@ -568,7 +568,7 @@ exports.orders = async (req, res) => {
 
     if (user.role === 'admin') {
       // Get the orders with the aggregation pipeline
-      const orders = await Order.aggregate(pipeline);
+      const orders = await Order.aggregate(pipeline).sort({createdAt: -1});
 
       // Calculate total pages
       const totalOrders = await Order.aggregate([
