@@ -710,4 +710,55 @@
 </div>
 <!-- Contact Us Section End -->
 
+<!-- Modal HTML -->
+<div id="myModal-1" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog bg_image">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-bs-dismiss="modal"><i class="fa-light fa-x"></i></button>
+      </div>
+      <!-- <div class="modal-body text-center">
+        <div class="inner-content">
+          <div class="content">
+            <span class="pre-title">Get up to 10% discount on your purchase till 31st of August</span>
+            <h1 class="title">Afro-Shop Relaunch with<br> Michael Enterprise</h1>
+            <p class="disc">
+              We have prepared special discounts for you on grocery products. Don't <br> miss these opportunities...
+            </p>
+            <div class="rts-btn-banner-area">
+              <a href="/afro-shop" class="rts-btn btn-primary radious-sm with-icon">
+                <div class="btn-text">
+                  Shop Now
+                </div>
+                <div class="arrow-icon">
+                  <i class="fa-light fa-arrow-right"></i>
+                </div>
+                <div class="arrow-icon">
+                  <i class="fa-light fa-arrow-right"></i>
+                </div>
+              </a>
+              <div class="price-area">
+                <span>from</span>
+                <h3 class="title animated fadeIn">$80.99</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+<!-- Add this JavaScript snippet at the end of your HTML body or inside a script tag -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Show the modal automatically after page load
+    setTimeout(function() {
+      const modal = new bootstrap.Modal(document.getElementById('myModal-1'));
+      modal.show();
+    }, 1000); // Adjust the delay as needed (1000 ms = 1 second)
+  });
+</script>
+
+
 <%- include('partials/homePageFooter.ejs') %>
