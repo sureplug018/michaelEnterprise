@@ -90,6 +90,10 @@ router.get('/admin/orders', viewsController.orders);
 
 router.get('/admin/afro-shop', viewsController.afroShopItems);
 
+router.get('/admin/gadgets', viewsController.gadgetItems);
+
+router.get('/admin/kitchen', viewsController.kitchenItems);
+
 router.get('/admin/add-products', viewsController.addProducts);
 
 router.get('/admin/add-category', viewsController.addCategory);

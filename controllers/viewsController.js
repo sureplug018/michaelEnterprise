@@ -961,6 +961,132 @@ exports.afroShopItems = async (req, res) => {
   }
 };
 
+exports.gadgetItems = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    const { category = 'all', page = 1, limit = 20 } = req.query;
+
+    // Convert page and limit to numbers
+    const pageNumber = parseInt(page, 10);
+    const limitNumber = parseInt(limit, 10);
+
+    // Ensure page and limit are valid numbers
+    if (pageNumber < 1 || limitNumber < 1) {
+      return res.status(400).render('404', {
+        title: 'Error',
+        message: 'Invalid page or limit value.',
+      });
+    }
+
+    // Create a filter object based on category
+    const filter =
+      category && category.trim().toLowerCase() !== 'all'
+        ? { superCategory: 'Gadgets', categorySlug: category.trim() }
+        : { superCategory: 'Gadgets' };
+
+    // Calculate skip value for pagination
+    const skip = (pageNumber - 1) * limitNumber;
+    if (!user) {
+      return res.status(302).redirect('/');
+    }
+    if (user.role === 'admin' || user.role === 'super-admin') {
+      // Fetch products with category filter and pagination
+      const afroShopItems = await Product.find(filter)
+        .skip(skip)
+        .limit(limitNumber);
+      // Get total count of products for pagination metadata
+      const totalCount = await Product.countDocuments(filter);
+
+      // Calculate pagination metadata
+      const totalPages = Math.ceil(totalCount / limitNumber);
+
+      // Fetch categories from the database
+      const categories = await Product.distinct('category', {
+        superCategory: 'Gadgets',
+      });
+      return res.status(200).render('afro-shop-items', {
+        title: 'Gadgets',
+        user,
+        afroShopItems,
+        currentPage: pageNumber,
+        totalPages,
+        limit: limitNumber,
+        currentCategory: category,
+        categories, // Pass categories to the view
+      });
+    }
+    return res.status(302).redirect('/');
+  } catch (err) {
+    res.status(500).render('404', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.kitchenItems = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    const { category = 'all', page = 1, limit = 20 } = req.query;
+
+    // Convert page and limit to numbers
+    const pageNumber = parseInt(page, 10);
+    const limitNumber = parseInt(limit, 10);
+
+    // Ensure page and limit are valid numbers
+    if (pageNumber < 1 || limitNumber < 1) {
+      return res.status(400).render('404', {
+        title: 'Error',
+        message: 'Invalid page or limit value.',
+      });
+    }
+
+    // Create a filter object based on category
+    const filter =
+      category && category.trim().toLowerCase() !== 'all'
+        ? { superCategory: 'Kitchen', categorySlug: category.trim() }
+        : { superCategory: 'Kitchen' };
+
+    // Calculate skip value for pagination
+    const skip = (pageNumber - 1) * limitNumber;
+    if (!user) {
+      return res.status(302).redirect('/');
+    }
+    if (user.role === 'admin' || user.role === 'super-admin') {
+      // Fetch products with category filter and pagination
+      const afroShopItems = await Product.find(filter)
+        .skip(skip)
+        .limit(limitNumber);
+      // Get total count of products for pagination metadata
+      const totalCount = await Product.countDocuments(filter);
+
+      // Calculate pagination metadata
+      const totalPages = Math.ceil(totalCount / limitNumber);
+
+      // Fetch categories from the database
+      const categories = await Product.distinct('category', {
+        superCategory: 'Kitchen',
+      });
+      return res.status(200).render('kitchen-items', {
+        title: 'Kitchen',
+        user,
+        afroShopItems,
+        currentPage: pageNumber,
+        totalPages,
+        limit: limitNumber,
+        currentCategory: category,
+        categories, // Pass categories to the view
+      });
+    }
+    return res.status(302).redirect('/');
+  } catch (err) {
+    res.status(500).render('404', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
 exports.adminProfile = async (req, res) => {
   try {
     const user = res.locals.user;

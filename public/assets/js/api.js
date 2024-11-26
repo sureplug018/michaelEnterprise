@@ -2068,13 +2068,16 @@ function adminCategory() {
   const selectedCategory = document.getElementById(
     'categorySelectAdminAfroShop',
   ).value;
+  const currentSuperCategory = document.getElementById(
+    'currentSuperCategory',
+  ).textContent;
   const url = selectedCategory
-    ? `/admin/afro-shop?category=${selectedCategory}`
-    : '/admin/afro-shop';
+    ? `/admin/${currentSuperCategory}?category=${selectedCategory}`
+    : `/admin/${currentSuperCategory}`;
   window.location.href = url;
 
   if (selectedCategory === 'all') {
-    window.location.href = '/admin/afro-shop?category=all';
+    window.location.href = `/admin/${currentSuperCategory}?category=all`;
   }
 }
 
