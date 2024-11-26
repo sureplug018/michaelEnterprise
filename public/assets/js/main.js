@@ -813,167 +813,115 @@ function zoom(e) {
   zoomer.style.backgroundPosition = x + '% ' + y + '%';
 }
 
-// Get modal element
-const modal = document.getElementById('orderDetailsModal');
-const closeModalBtn = document.getElementsByClassName('close')[0];
+// const bankList = document.getElementById('bankList');
 
-// Function to display order details in the modal
-function showOrderDetails(order) {
-  document.getElementById('modalLink').href =
-    `/afro-shop/${order.productId.slug}`;
-  document.getElementById('modalImage').src = order.productId.imageCover;
-  document.getElementById('modalOrderId').innerText = order.orderId;
-  document.getElementById('modalOrderDate').innerText = new Date(
-    order.createdAt,
-  ).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-  document.getElementById('modalOrderStatus').innerText = order.status;
-  document.getElementById('modalOrderTotal').innerText = order.total;
-  document.getElementById('modalOrderQuantity').innerText =
-    order.quantity + (order.quantity === 1 ? ' item' : ' items');
-  document.getElementById('modalFullName').innerText = order.fullName;
-  document.getElementById('modalPostalCode').innerText = order.postalCode;
-  document.getElementById('modalPostOfficeAddress').innerText =
-    order.postOfficeAddress;
-  document.getElementById('modalPassportNumber').innerText =
-    order.passportNumber;
-}
+// if (bankList) {
+//   bankList.addEventListener('change', function (e) {
+//     // if (e.target && e.target.nodeName === 'LI') {
+//     // Store the selected bank details in the button's dataset
+//     confirmCheckoutButton.dataset.bankName =
+//       e.target.getAttribute('data-bank-name');
+//     confirmCheckoutButton.dataset.accountName =
+//       e.target.getAttribute('data-account-name');
+//     confirmCheckoutButton.dataset.accountNumber = e.target.getAttribute(
+//       'data-account-number',
+//     );
+//     // }
+//   });
+// }
 
-// Listen for clicks on "View Details" buttons
-document.querySelectorAll('.view-details').forEach((button) => {
-  button.addEventListener('click', (event) => {
-    event.preventDefault();
-    const order = JSON.parse(button.getAttribute('data-order'));
-    showOrderDetails(order);
-    modal.style.display = 'block';
-  });
-});
+// // Function to open the modal and set the amount
+// function openModal(grandTotal, bankName, accountName, accountNumber) {
+//   // Set the amount in the modal
+//   const grandTotalAmount = document.getElementById('modalAmount');
+//   if (grandTotalAmount) {
+//     grandTotalAmount.innerText = grandTotal;
+//   }
 
-// Listen for close click (X button)
-if (closeModalBtn) {
-  closeModalBtn.addEventListener('click', () => {
-    modal.style.display = 'none';
-  });
-}
+//   // document.querySelector(
+//   //   '#checkoutConfirmModal .fa-building-columns + p',
+//   // ).innerText = `Bank: ${bankName}`;
+//   document.getElementById('accountName').innerText = accountName;
+//   document.getElementById('accountNumber').innerText = accountNumber;
+//   document.getElementById('bankName').innerText = bankName;
+//   // Display the modal
+//   document.getElementById('checkoutConfirmModal').style.display = 'block';
+// }
 
-// Listen for outside click
-window.addEventListener('click', (event) => {
-  if (event.target === modal) {
-    modal.style.display = 'none';
-  }
-});
-
-const bankList = document.getElementById('bankList');
-
-if (bankList) {
-  bankList.addEventListener('click', function (e) {
-    if (e.target && e.target.nodeName === 'LI') {
-      // Store the selected bank details in the button's dataset
-      confirmCheckoutButton.dataset.bankName =
-        e.target.getAttribute('data-bank-name');
-      confirmCheckoutButton.dataset.accountName =
-        e.target.getAttribute('data-account-name');
-      confirmCheckoutButton.dataset.accountNumber = e.target.getAttribute(
-        'data-account-number',
-      );
-    }
-  });
-}
-
-// Function to open the modal and set the amount
-function openModal(grandTotal, bankName, accountName, accountNumber) {
-  // Set the amount in the modal
-  const grandTotalAmount = document.getElementById('modalAmount');
-  if (grandTotalAmount) {
-    grandTotalAmount.innerText = grandTotal;
-  }
-
-  document.querySelector(
-    '#checkoutConfirmModal .fa-building-columns + p',
-  ).innerText = `Bank: ${bankName}`;
-  document.getElementById('accountName').innerText = accountName;
-  document.getElementById('accountNumber').innerText = accountNumber;
-  // Display the modal
-  document.getElementById('checkoutConfirmModal').style.display = 'block';
-}
-
-// Function to close the modal
-function closeModal() {
-  document.getElementById('checkoutConfirmModal').style.display = 'none';
-}
+// // Function to close the modal
+// function closeModal() {
+//   document.getElementById('checkoutConfirmModal').style.display = 'none';
+// }
 
 // Add event listener to the "Place Order" button
-const confirmCheckoutButton = document.getElementById('confirmCheckoutButton');
-if (confirmCheckoutButton) {
-  confirmCheckoutButton.addEventListener('click', function (event) {
-    event.preventDefault(); // Prevent default action
+// const confirmCheckoutButton = document.getElementById('confirmCheckoutButton');
+// if (confirmCheckoutButton) {
+//   confirmCheckoutButton.addEventListener('click', function (event) {
+//     event.preventDefault(); // Prevent default action
 
-    // Get the total amount from the page
-    const grandTotal = document
-      .querySelector('.price[style*="color: #5F1303;"]')
-      .innerText.slice(1); // Assuming it's prefixed with '$'
+//     console.log('Hello');
 
-    // Get the selected bank details from the button's dataset
-    const bankName = this.dataset.bankName;
-    const accountName = this.dataset.accountName;
-    const accountNumber = this.dataset.accountNumber;
+//     // // Get the total amount from the page
+//     // const grandTotal = document.querySelector('.price').innerText.slice(1); // Assuming it's prefixed with '$'
 
-    // Open the modal and pass the total amount
-    openModal(grandTotal, bankName, accountName, accountNumber);
-  });
-}
+//     // // Get the selected bank details from the button's dataset
+//     // const bankName = this.dataset.bankName;
+//     // const accountName = this.dataset.accountName;
+//     // const accountNumber = this.dataset.accountNumber;
 
-// Get the close button inside the modal
-const checkoutButton = document.querySelector('#checkoutConfirmModal .close');
+//     // // Open the modal and pass the total amount
+//     // openModal(grandTotal, bankName, accountName, accountNumber);
+//   });
+// }
 
-// Add event listener to the close button inside the modal
-if (checkoutButton) {
-  checkoutButton.addEventListener('click', function () {
-    closeModal();
-  });
-}
+// // Get the close button inside the modal
+// const checkoutButton = document.querySelector('#checkoutConfirmModal .close');
 
-function copyText(elementId) {
-  // Get the text from the specified element
-  var textToCopy = document.getElementById(elementId).innerText;
+// // Add event listener to the close button inside the modal
+// if (checkoutButton) {
+//   checkoutButton.addEventListener('click', function () {
+//     closeModal();
+//   });
+// }
 
-  // Create a temporary textarea element to hold the text
-  var tempTextArea = document.createElement('textarea');
-  tempTextArea.value = textToCopy;
-  document.body.appendChild(tempTextArea);
+// function copyText(elementId) {
+//   // Get the text from the specified element
+//   var textToCopy = document.getElementById(elementId).innerText;
 
-  // Select the text in the textarea and copy it to the clipboard
-  tempTextArea.select();
-  document.execCommand('copy');
+//   // Create a temporary textarea element to hold the text
+//   var tempTextArea = document.createElement('textarea');
+//   tempTextArea.value = textToCopy;
+//   document.body.appendChild(tempTextArea);
 
-  // Remove the temporary textarea from the DOM
-  document.body.removeChild(tempTextArea);
+//   // Select the text in the textarea and copy it to the clipboard
+//   tempTextArea.select();
+//   document.execCommand('copy');
 
-  // Optionally, show an alert or notification to indicate that the text was copied
-  alert('Copied: ' + textToCopy);
-}
+//   // Remove the temporary textarea from the DOM
+//   document.body.removeChild(tempTextArea);
 
-///////////////////////////////////////////////////////////
-document.addEventListener('DOMContentLoaded', function () {
-  // Get all thumbnail filter buttons
-  const filterButtons = document.querySelectorAll('.thumb-filter');
+//   // Optionally, show an alert or notification to indicate that the text was copied
+//   alert('Copied: ' + textToCopy);
+// }
 
-  filterButtons.forEach((button) => {
-    button.addEventListener('click', function () {
-      // Remove 'active' class from all buttons
-      filterButtons.forEach((btn) => btn.classList.remove('active'));
+// ///////////////////////////////////////////////////////////
+// document.addEventListener('DOMContentLoaded', function () {
+//   // Get all thumbnail filter buttons
+//   const filterButtons = document.querySelectorAll('.thumb-filter');
 
-      // Add 'active' class to the clicked button
-      this.classList.add('active');
+//   filterButtons.forEach((button) => {
+//     button.addEventListener('click', function () {
+//       // Remove 'active' class from all buttons
+//       filterButtons.forEach((btn) => btn.classList.remove('active'));
 
-      // Get the new image URL from the data attribute
-      const newImage = this.getAttribute('data-image');
+//       // Add 'active' class to the clicked button
+//       this.classList.add('active');
 
-      // Update the src attribute of the main image
-      document.getElementById('mainImage').src = newImage;
-    });
-  });
-});
+//       // Get the new image URL from the data attribute
+//       const newImage = this.getAttribute('data-image');
+
+//       // Update the src attribute of the main image
+//       document.getElementById('mainImage').src = newImage;
+//     });
+//   });
+// });

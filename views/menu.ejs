@@ -1,0 +1,106 @@
+<%- include('partials/kitchenHeader.ejs') %>
+<!-- Breadcumb Section   S T A R T -->
+<div class="breadcumb-section">
+  <div class="breadcumb-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="breadcumb-content">
+            <h1 class="breadcumb-title">FOOD MENU</h1>
+            <ul class="breadcumb-menu">
+              <li><a href="/">Home</a></li>
+              <li class="text-white">/</li>
+              <li class="active">FOOD MENU</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Food Menu section  S T A R T -->
+<section class="food-menu-section fix section-padding">
+  <div class="burger-shape">
+    <img src="/assets/img/shape/burger-shape.png" alt="img">
+  </div>
+  <div class="fry-shape">
+    <img src="/assets/img/shape/fry-shape.png" alt="img">
+  </div>
+  <div class="food-menu-wrapper style1">
+    <div class="container">
+      <div class="food-menu-tab-wrapper style-bg">
+        <div class="title-area">
+          <div class="sub-title text-center wow fadeInUp" data-wow-delay="0.5s">
+            <img class="me-1" src="/assets/img/icon/titleIcon.svg" alt="icon">FOOD MENU<img class="ms-1" src="/assets/img/icon/titleIcon.svg" alt="icon">
+          </div>
+          <h2 class="title wow fadeInUp" data-wow-delay="0.7s">
+            Michael Kitchen Menu
+          </h2>
+        </div>
+
+
+        <div class="food-menu-tab">
+          <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <% categories.forEach(function(category){ %>
+            <li class="nav-item" role="presentation">
+              <button onclick="window.location.href='/michael-kitchen/menu/<%= category.categorySlug %>'" class="nav-link active" id="pills-FastFood-tab" data-bs-toggle="pill" data-bs-target="#pills-FastFood" type="button" role="tab" aria-controls="pills-FastFood" aria-selected="true"><%= category.category %></button>
+            </li>
+            <% }) %>
+
+          </ul>
+          <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-FastFood" role="tabpanel" aria-labelledby="pills-FastFood-tab" tabindex="0">
+              <div class="row gx-60">
+
+                <% products.forEach(function(product){ %>
+                <div class="col-lg-6 col-md-6 mb-4">
+                  <div class="single-menu-items">
+                    <div class="details">
+                      <div class="menu-item-thumb"><img src="<%= product.imageCover %>" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;" alt="thumb"></div>
+                      <div class="menu-content">
+                        <a href="/michael-kitchen/item/<%= product.categorySlug %>/<%= product.slug %>">
+                          <h3 class="active"><%= product.name %></h3>
+                        </a>
+                        <!-- <p>It's a testament to our.</p> -->
+                      </div>
+                    </div>
+
+                    <h6>₽<%= product.price %></h6>
+                  </div>
+                </div>
+                <% }) %>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="marquee-wrapper style-1 text-slider section-padding pt-0 mt-5">
+      <div class="marquee-inner to-left">
+        <ul class="marqee-list d-flex">
+          <li class="marquee-item style1">
+            <span class="text-slider"></span><span class="text-slider text-style">chicken pizza</span>
+            <span class="text-slider"></span><span class="text-slider text-style">GRILLED CHICKEN</span>
+            <span class="text-slider"></span><span class="text-slider text-style">BURGER</span>
+            <span class="text-slider"></span><span class="text-slider text-style">CHICKEN PIZZA</span>
+            <span class="text-slider"></span><span class="text-slider text-style">FRESH PASTA</span>
+            <span class="text-slider"></span><span class="text-slider text-style">ITALIANO FRENCH FRY</span>
+            <span class="text-slider"></span><span class="text-slider text-style">CHICKEN FRY</span>
+            <span class="text-slider"></span><span class="text-slider text-style">chicken pizza</span>
+            <span class="text-slider"></span><span class="text-slider text-style">GRILLED CHICKEN</span>
+            <span class="text-slider"></span><span class="text-slider text-style">BURGER</span>
+            <span class="text-slider"></span><span class="text-slider text-style">CHICKEN PIZZA</span>
+            <span class="text-slider"></span><span class="text-slider text-style">FRESH PASTA</span>
+            <span class="text-slider"></span><span class="text-slider text-style">ITALIANO FRENCH FRY</span>
+            <span class="text-slider"></span><span class="text-slider text-style">CHICKEN FRY</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+</section>
+
+<%- include('partials/kitchenFooter.ejs') %>

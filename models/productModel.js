@@ -2,12 +2,8 @@ const mongoose = require('mongoose');
 const slugify = require('slugify');
 
 const variationSchema = new mongoose.Schema({
-  color: {
-    type: String,
-  },
-  size: {
-    type: String,
-  },
+  color: String,
+  size: String,
   quantity: {
     type: Number,
     required: true,
@@ -21,6 +17,7 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      trim: true,
     },
     price: {
       type: String,
@@ -35,11 +32,14 @@ const productSchema = new mongoose.Schema(
     },
     slug: String,
     categorySlug: String,
-    ratingsAverage: String,
+    ratingsAverage: {
+      type: String,
+      default: '0',
+    },
     ratingsQuantity: String,
     summary: {
       type: String,
-      required: true,
+      // required: true,
     },
     superCategory: {
       type: String,
@@ -48,6 +48,7 @@ const productSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
+      trim: true,
     },
     imageCover: {
       type: String,
@@ -63,6 +64,7 @@ const productSchema = new mongoose.Schema(
         return !this.variations || this.variations.length === 0;
       },
     },
+    superCategorySlug: String,
     variations: {
       type: [variationSchema],
       default: [],
@@ -89,7 +91,7 @@ productSchema.index({ categorySlug: 1 });
 
 productSchema.virtual('reviews', {
   ref: 'Review',
-  foreignField: 'product',
+  foreignField: 'productId',
   localField: '_id',
 });
 
@@ -100,6 +102,13 @@ productSchema.pre('save', function (next) {
 
   // Generate the slug using the lowercase name
   this.slug = slugify(lowercaseName);
+  next();
+});
+
+productSchema.pre('save', function (next) {
+  const lowercaseName = this.superCategory.toLowerCase();
+
+  this.superCategorySlug = slugify(lowercaseName);
   next();
 });
 

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<!--<< Header Area >>-->
+
+<head>
+  <!-- ========== Meta Tags ========== -->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Michael Kitchen">
+  <meta name="description" content="Fresheat food & Restaurant Html Template">
+  <!-- ======== Page title ============ -->
+  <title><%= title %> | Michael Enterprise</title>
+  <!--<< Favicon >>-->
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/images/fav1.png">
+  <!--<< Bootstrap min.css >>-->
+  <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+  <!--<< All Min Css >>-->
+  <link rel="stylesheet" href="/assets/css/all.min.css">
+  <!--<< Animate.css >>-->
+  <link rel="stylesheet" href="/assets/css/animate.css">
+  <!--<< Magnific Popup.css >>-->
+  <link rel="stylesheet" href="/assets/css/magnific-popup.css">
+  <!--<< MeanMenu.css >>-->
+  <link rel="stylesheet" href="/assets/css/meanmenu.css">
+  <!--<< Swiper Bundle.css >>-->
+  <link rel="stylesheet" href="/assets/css/swiper-bundle.min.css">
+  <!--<< Nice Select.css >>-->
+  <link rel="stylesheet" href="/assets/css/nice-select.css">
+  <!--<< Main.css >>-->
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <script src="https://kit.fontawesome.com/fe5872a91f.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="bg-color2">
+
+  <!-- Preloader Start -->
+  <!-- <div id="preloader" class="preloader">
+    <div class="animation-preloader">
+      <div class="spinner">
+      </div>
+      <div class="txt-loading">
+        <span data-text-preloader="F" class="letters-loading">
+          F
+        </span>
+        <span data-text-preloader="R" class="letters-loading">
+          R
+        </span>
+        <span data-text-preloader="E" class="letters-loading">
+          E
+        </span>
+        <span data-text-preloader="S" class="letters-loading">
+          S
+        </span>
+        <span data-text-preloader="H" class="letters-loading">
+          H
+        </span>
+        <span data-text-preloader="E" class="letters-loading">
+          E
+        </span>
+        <span data-text-preloader="A" class="letters-loading">
+          A
+        </span>
+        <span data-text-preloader="T" class="letters-loading">
+          T
+        </span>
+      </div>
+      <p class="text-center">Loading</p>
+    </div>
+    <div class="loader">
+      <div class="row">
+        <div class="col-3 loader-section section-left">
+          <div class="bg"></div>
+        </div>
+        <div class="col-3 loader-section section-left">
+          <div class="bg"></div>
+        </div>
+        <div class="col-3 loader-section section-right">
+          <div class="bg"></div>
+        </div>
+        <div class="col-3 loader-section section-right">
+          <div class="bg"></div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <!--<< Mouse Cursor Start >>-->
+  <!-- <div class="mouse-cursor cursor-outer"></div>
+  <div class="mouse-cursor cursor-inner"></div> -->
+
+  <!-- Back To Top Start -->
+  <button id="back-top" class="back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
+  <!-- Offcanvas Area Start -->
+  <div class="fix-area">
+    <div class="offcanvas__info">
+      <div class="offcanvas__wrapper">
+        <div class="offcanvas__content">
+          <div class="offcanvas__top mb-5 d-flex justify-content-between align-items-center">
+            <div class="offcanvas__logo">
+              <a href="/">
+                <img src="/assets/images/logo-01.png" alt="logo-img">
+              </a>
+            </div>
+            <div class="offcanvas__close">
+              <button>
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+          <p class="text d-none d-lg-block">
+            Welcome to Michael Kitchen, where we bring you the finest recipes, culinary tips, and everything you need to create delicious moments!
+          </p>
+          <!-- <div class="offcanvas-gallery-area d-none d-xl-block">
+            <div class="offcanvas-gallery-items">
+              <a href="/assets/img/header/01.jpg" class="offcanvas-image img-popup">
+                <img src="/assets/img/header/01.jpg" alt="gallery-img">
+              </a>
+              <a href="/assets/img/header/02.jpg" class="offcanvas-image img-popup">
+                <img src="/assets/img/header/02.jpg" alt="gallery-img">
+              </a>
+              <a href="/assets/img/header/03.jpg" class="offcanvas-image img-popup">
+                <img src="/assets/img/header/03.jpg" alt="gallery-img">
+              </a>
+            </div>
+            <div class="offcanvas-gallery-items">
+              <a href="/assets/img/header/04.jpg" class="offcanvas-image img-popup">
+                <img src="/assets/img/header/04.jpg" alt="gallery-img">
+              </a>
+              <a href="/assets/img/header/05.jpg" class="offcanvas-image img-popup">
+                <img src="/assets/img/header/05.jpg" alt="gallery-img">
+              </a>
+              <a href="/assets/img/header/06.jpg" class="offcanvas-image img-popup">
+                <img src="/assets/img/header/06.jpg" alt="gallery-img">
+              </a>
+            </div>
+          </div> -->
+          <div class="mobile-menu fix mb-3"></div>
+          <div class="offcanvas__contact">
+            <h4>Contact Info</h4>
+            <ul>
+              <li class="d-flex align-items-center">
+                <div class="offcanvas__contact-icon">
+                  <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <div class="offcanvas__contact-text">
+                  <a target="_blank" href="https://yandex.com/maps/?text=47.243990,39.801900&si=4v43ct1phxuvzke23uqp5f8reg">Берберовская 6с2, Rostov on Don, Russia.</a>
+                </div>
+              </li>
+              <li class="d-flex align-items-center">
+                <div class="offcanvas__contact-icon mr-15">
+                  <i class="fa-solid fa-envelope"></i>
+                </div>
+                <div class="offcanvas__contact-text">
+                  <a href="tel:+013-003-003-9993"><span class="mailto:support@michael-enterprise.com">support@michael-enterprise.com</span></a>
+                </div>
+              </li>
+              <!-- <li class="d-flex align-items-center">
+                <div class="offcanvas__contact-icon mr-15">
+                  <i class="fal fa-clock"></i>
+                </div>
+                <div class="offcanvas__contact-text">
+                  <a target="_blank" href="index.html#">Mod-friday, 09am -05pm</a>
+                </div>
+              </li> -->
+              <li class="d-flex align-items-center">
+                <div class="offcanvas__contact-icon mr-15">
+                  <i class="fa-solid fa-phone-volume"></i>
+                </div>
+                <div class="offcanvas__contact-text">
+                  <a href="tel:+79954459255">+79954459255</a>
+                </div>
+              </li>
+            </ul>
+            <div class="header-button mt-4">
+              <a href="/michael-kitchen/shop" class="theme-btn">
+                <span class="button-content-wrapper d-flex align-items-center justify-content-center">
+                  <span class="button-icon"><i class="fa-solid fa-cart-shopping bg-transparent text-white me-2"></i></span>
+                  <span class="button-text">ORDER NOW</span>
+                </span>
+              </a>
+            </div>
+            <div class="social-icon d-flex align-items-center">
+              <a target="_blank" href="#"><i class="fab fa-facebook-f"></i></a>
+              <a target="_blank" href="https://www.instagram.com/michael_enterprise?igsh=d3EzMTAyZ3VpZHdl"><i class="fa-brands fa-instagram"></i></a>
+              <a target="_blank" href="https://vk.com/club227320115"><i class="fa-brands fa-vk"></i></a>
+              <a target="_blank" href="https://wa.me/+79954459255"><i class="fa-brands fa-whatsapp"></i></a>
+              <a target="_blank" href="https://t.me/micenterprise"><i class="fa-brands fa-telegram"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="offcanvas__overlay"></div>
+
+  <!-- Header Section Start -->
+  <header class="header-section">
+    <div class="black-bg"></div>
+    <div class="red-bg"></div>
+    <div class="container-fluid" style="height: 125px;">
+      <div class="main-header-wrapper">
+        <div class="logo-image">
+          <a href="/">
+            <img src="/assets/images/logo-01.png" style="width: 150px;height: 126px;" alt="img">
+          </a>
+        </div>
+        <div class="main-header-items">
+          <div class="header-top-wrapper">
+            <span><i class="fa-regular fa-clock"></i> 09:00 am - 06:00 pm</span>
+            <div class="social-icon d-flex align-items-center">
+              <span>Follow Us:</span>
+              <a target="_blank" href="#"><i class="fab fa-facebook-f"></i></a>
+              <a target="_blank" href="https://www.instagram.com/michael_enterprise?igsh=d3EzMTAyZ3VpZHdl"><i class="fa-brands fa-instagram"></i></a>
+              <a target="_blank" href="https://vk.com/club227320115"><i class="fa-brands fa-vk"></i></a>
+              <a target="_blank" href="https://wa.me/+79954459255"><i class="fa-brands fa-whatsapp"></i></a>
+              <a target="_blank" href="https://t.me/micenterprise"><i class="fa-brands fa-telegram"></i></a>
+            </div>
+          </div>
+          <div id="header-sticky" class="header-1">
+            <div class="mega-menu-wrapper">
+              <div class="header-main" style="padding-top: 0px; padding-bottom: 0px;">
+                <div class="logo">
+                  <a href="/" class="header-logo">
+                    <img src="/assets/images/logo-01.png" style="width: 150px; height: auto;" alt="logo-img">
+                  </a>
+                </div>
+                <div class="header-left">
+                  <div class="mean__menu-wrapper">
+                    <div class="main-menu">
+                      <nav id="mobile-menu">
+                        <ul>
+                          <li class="active menu-thumb">
+                            <a href="/michael-kitchen/index">
+                              Home
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/michael-kitchen/menu">
+                              Menu
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/michael-kitchen/shop">
+                              Shop
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/michael-kitchen/faqs">
+                              Faq's
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/michael-kitchen/contact-us">
+                              Contact Us
+                            </a>
+                          </li>
+                        </ul>
+                      </nav>
+                    </div>
+                  </div>
+                </div>
+                <div class="header-right d-flex justify-content-end align-items-center">
+                  <div class="header__cart">
+                    <a href="/cart"> <i class="fa-solid fa-cart-shopping"></i> </a>
+
+                  </div>
+
+                  <div class="header__hamburger d-xl-block my-auto">
+                    <div class="sidebar__toggle">
+                      <i class="fas fa-bars"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Search Area Start -->
+  <!-- <div class="search-wrap">
+    <div class="search-inner">
+      <i class="fas fa-times search-close" id="search-close"></i>
+      <div class="search-cell">
+        <form method="get">
+          <div class="search-field-holder">
+            <input type="search" class="main-search-input" placeholder="Search...">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div> -->

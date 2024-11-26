@@ -1,34 +1,42 @@
-const express = require("express");
-const authController = require("../controllers/authController");
+const express = require('express');
+const authController = require('../controllers/authController');
+const userController = require('../controllers/userController');
 
 const router = express.Router();
 
-router.post("/login", authController.login);
-router.post("/admin-login", authController.loginAdmin);
-router.post("/signup", authController.signup);
-router.post("/confirm-email/:token", authController.confirmEmailBE);
-router.post("/forgotPassword", authController.forgotPassword);
-router.patch("/resetPassword/:token", authController.resetPassword);
+router.post('/login', authController.login);
+router.post('/admin-login', authController.loginAdmin);
+router.post('/signup', authController.signup);
+router.post('/confirm-email/:token', authController.confirmEmailBE);
+router.post('/forgotPassword', authController.forgotPassword);
+router.patch('/resetPassword/:token', authController.resetPassword);
 router.patch(
-  "/updateMyPassword",
+  '/updateMyPassword',
   authController.protect,
-  authController.updatePassword
+  authController.updatePassword,
 );
-router.get("/logout", authController.protect, authController.logout);
+router.get('/logout', authController.protect, authController.logout);
 
 router.patch(
-  "/update",
+  '/update',
   authController.protect,
   //   userController.uploadUserPhoto,
   //   userController.resizeUserPhoto,
-  authController.updateUserData
+  authController.updateUserData,
 );
 
 router.delete(
-  "/deleteUser/:id",
+  '/deleteUser/:id',
   authController.protect,
-  authController.restrictTo("admin"),
-  authController.deleteUser
+  authController.restrictTo('admin'),
+  authController.deleteUser,
+);
+
+router.patch(
+  '/change-role',
+  authController.protect,
+  authController.restrictTo('super-admin'),
+  userController.changeUserRole,
 );
 
 module.exports = router;

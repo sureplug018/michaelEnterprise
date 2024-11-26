@@ -3,7 +3,7 @@ const Cart = require('../models/cartModel');
 const Order = require('../models/orderModel');
 const Support = require('../models/supportModel');
 const ShippingAddress = require('../models/shippingAddressModel');
-const Review = require('../models/reviewModel');
+// const Review = require('../models/reviewModel');
 const PendingReview = require('../models/pendingReviewModel');
 const Product = require('../models/productModel');
 const Category = require('../models/categoryModel');
@@ -16,12 +16,16 @@ const Beneficiary = require('../models/beneficiaryModel');
 exports.home = async (req, res) => {
   try {
     const user = res.locals.user;
+    const gadgets = await Product.findOne({ superCategory: 'Gadgets' });
+    const kitchen = await Product.findOne({ superCategory: 'Kitchen' });
     res.status(200).render('index', {
       title: 'Home',
       user,
+      gadgets,
+      kitchen,
     });
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong',
     });
@@ -31,12 +35,16 @@ exports.home = async (req, res) => {
 exports.homeContact = async (req, res) => {
   try {
     const user = res.locals.user;
+    const gadgets = await Product.findOne({ superCategory: 'Gadgets' });
+    const kitchen = await Product.findOne({ superCategory: 'Kitchen' });
     res.status(200).render('contact-home', {
       title: 'Contact Us',
       user,
+      gadgets,
+      kitchen,
     });
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong',
     });
@@ -46,33 +54,85 @@ exports.homeContact = async (req, res) => {
 exports.homeAbout = async (req, res) => {
   try {
     const user = res.locals.user;
+    const gadgets = await Product.find({ superCategory: 'Gadgets' }).limit(4);
+    const kitchen = await Product.find({ superCategory: 'Kitchen' }).limit(4);
     res.status(200).render('about', {
       title: 'About ss',
       user,
+      gadgets,
+      kitchen,
     });
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong',
     });
   }
 };
 
-exports.overview = async (req, res) => {
+exports.overviewAfro = async (req, res) => {
   try {
     const user = res.locals.user;
-    const firstTenProducts = await Product.find()
-      .sort({ createdAt: 1 })
-      .limit(10);
-    const categories = await Category.find();
-    res.status(200).render('afro-home', {
-      title: 'Afro shop',
+    const { page = 1, limit = 42, category } = req.query;
+
+    // Create a filter object
+    const filter = {
+      availability: true,
+      superCategory: 'Afro shop',
+    };
+
+    // Handle category filter
+    if (category && category.trim().toLowerCase() !== 'all') {
+      // Find the category by its slug and check if the status is enabled
+      const categoryRecord = await Category.findOne({
+        categorySlug: category.trim(),
+      });
+
+      if (!categoryRecord) {
+        return res.status(400).json({
+          status: 'fail',
+          message: 'Category not found or disabled',
+        });
+      }
+
+      // Add the categorySlug filter for products
+      filter.categorySlug = category.trim();
+    }
+
+    // Convert page and limit to numbers
+    const pageNumber = parseInt(page, 10);
+    const limitNumber = parseInt(limit, 10);
+
+    // Calculate the skip value
+    const skip = (pageNumber - 1) * limitNumber;
+
+    // Find products based on the filter with pagination
+    const products = await Product.find(filter).skip(skip).limit(limitNumber);
+
+    // Get the total count of products for pagination metadata
+    const totalCount = await Product.countDocuments(filter);
+
+    // Fetch categories from the database
+    const categories = await Product.distinct('category', {
+      superCategory: 'Afro shop',
+    });
+
+    const superCategorySlug = products[0].superCategorySlug;
+
+    res.status(200).render('index-8', {
+      title: 'Afro Shop',
       user,
-      firstTenProducts,
+      results: products.length,
+      totalCount,
+      currentPage: pageNumber,
+      totalPages: Math.ceil(totalCount / limitNumber),
+      products,
       categories,
+      limit,
+      superCategorySlug,
     });
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong',
     });
@@ -85,7 +145,7 @@ exports.signIn = async (req, res) => {
       title: 'Sign in',
     });
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -98,7 +158,7 @@ exports.register = async (req, res) => {
       title: 'Sign up',
     });
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -111,7 +171,7 @@ exports.confirmEmail = async (req, res) => {
       title: 'Confirm email',
     });
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -124,7 +184,7 @@ exports.emailConfirmed = async (req, res) => {
       title: 'Email confirmed',
     });
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -139,7 +199,7 @@ exports.faq = async (req, res) => {
       user,
     });
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -162,7 +222,7 @@ exports.wishlist = async (req, res) => {
     }
     return res.status(302).redirect('/');
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -185,7 +245,7 @@ exports.cart = async (req, res) => {
     }
     return res.status(302).redirect('/');
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -195,12 +255,12 @@ exports.cart = async (req, res) => {
 exports.contact = async (req, res) => {
   try {
     const user = res.locals.user;
-    res.status(200).render('contact', {
+    res.status(200).render('contact-us', {
       title: 'Contact Us',
       user,
     });
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -211,20 +271,20 @@ exports.checkout = async (req, res) => {
   try {
     const user = res.locals.user;
     if (user.role === 'user') {
-      const userDeliveryAddress = await ShippingAddress.findOne({
+      const shippingAddress = await ShippingAddress.findOne({
         user: user.id,
       });
-      const cartItems = await Cart.find({ user: user.id });
+      const carts = await Cart.find({ user: user.id });
       return res.status(200).render('checkout', {
         title: 'Checkout',
         user,
-        cartItems,
-        userDeliveryAddress,
+        carts,
+        shippingAddress,
       });
     }
     return res.status(302).redirect('/');
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -234,36 +294,178 @@ exports.checkout = async (req, res) => {
 exports.productDetail = async (req, res) => {
   try {
     const user = res.locals.user;
-    const product = await Product.findOne({ slug: req.params.slug });
+    const product = await Product.findOne({ slug: req.params.slug }).populate(
+      'reviews',
+    );
     const relatedProducts = await Product.aggregate([
       { $match: { category: product.category } }, // Filter by category
       { $sample: { size: 10 } }, // Randomly select up to 10 products
     ]);
     if (!product) {
-      return res.status(404).render('error', {
+      return res.status(404).render('404', {
         title: 'Error',
         message: 'Something went wrong',
       });
     }
-
-    res.status(200).render('product-details', {
+    res.status(200).render('product-left-thumbnail', {
       title: 'Product detail',
       user,
       product,
       relatedProducts,
     });
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
   }
 };
 
-exports.afroShop = async (req, res) => {
+exports.overviewKitchen = async (req, res) => {
   try {
     const user = res.locals.user;
-    const { category = 'all', page = 1, limit = 20 } = req.query;
+    const { page = 1, limit = 42, category } = req.query;
+
+    // Create a filter object
+    const filter = {
+      availability: true,
+      superCategory: 'Kitchen',
+    };
+
+    // Handle category filter
+    if (category && category.trim().toLowerCase() !== 'all') {
+      // Find the category by its slug and check if the status is enabled
+      const categoryRecord = await Category.findOne({
+        categorySlug: category.trim(),
+      });
+
+      if (!categoryRecord) {
+        return res.status(400).json({
+          status: 'fail',
+          message: 'Category not found or disabled',
+        });
+      }
+
+      // Add the categorySlug filter for products
+      filter.categorySlug = category.trim();
+    }
+
+    // Convert page and limit to numbers
+    const pageNumber = parseInt(page, 10);
+    const limitNumber = parseInt(limit, 10);
+
+    // Calculate the skip value
+    const skip = (pageNumber - 1) * limitNumber;
+
+    // Find products based on the filter with pagination
+    const products = await Product.find(filter).skip(skip).limit(limitNumber);
+
+    // Get the total count of products for pagination metadata
+    const totalCount = await Product.countDocuments(filter);
+
+    // Fetch categories from the database
+    const categories = await Product.distinct('category', {
+      superCategory: 'Kitchen',
+    });
+
+    const superCategorySlug = products[0].superCategorySlug;
+
+    res.status(200).render('index-kitchen', {
+      title: 'Michael Kitchen',
+      user,
+      results: products.length,
+      totalCount,
+      currentPage: pageNumber,
+      totalPages: Math.ceil(totalCount / limitNumber),
+      products,
+      categories,
+      limit,
+      superCategorySlug,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).render('error2', {
+      title: 'Error',
+      message: 'Something went wrong',
+    });
+  }
+};
+
+exports.overviewGadgets = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    const { page = 1, limit = 42, category } = req.query;
+
+    // Create a filter object
+    const filter = {
+      availability: true,
+      superCategory: 'Gadgets',
+    };
+
+    // Handle category filter
+    if (category && category.trim().toLowerCase() !== 'all') {
+      // Find the category by its slug and check if the status is enabled
+      const categoryRecord = await Category.findOne({
+        categorySlug: category.trim(),
+      });
+
+      if (!categoryRecord) {
+        return res.status(400).json({
+          status: 'fail',
+          message: 'Category not found or disabled',
+        });
+      }
+
+      // Add the categorySlug filter for products
+      filter.categorySlug = category.trim();
+    }
+
+    // Convert page and limit to numbers
+    const pageNumber = parseInt(page, 10);
+    const limitNumber = parseInt(limit, 10);
+
+    // Calculate the skip value
+    const skip = (pageNumber - 1) * limitNumber;
+
+    // Find products based on the filter with pagination
+    const products = await Product.find(filter).skip(skip).limit(limitNumber);
+
+    // Get the total count of products for pagination metadata
+    const totalCount = await Product.countDocuments(filter);
+
+    // Fetch categories from the database
+    const categories = await Product.distinct('category', {
+      superCategory: 'Gadgets',
+    });
+
+    const superCategorySlug = products[0].superCategorySlug;
+
+    res.status(200).render('index-8', {
+      title: 'Michael Gadgets',
+      user,
+      results: products.length,
+      totalCount,
+      currentPage: pageNumber,
+      totalPages: Math.ceil(totalCount / limitNumber),
+      products,
+      categories,
+      limit,
+      superCategorySlug,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).render('404', {
+      title: 'Error',
+      message: 'Something went wrong',
+    });
+  }
+};
+
+exports.shop = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    const { superCategorySlug } = req.params;
+    const { category = 'all', page = 1, limit = 42 } = req.query;
 
     // Convert page and limit to numbers
     const pageNumber = parseInt(page, 10);
@@ -271,7 +473,7 @@ exports.afroShop = async (req, res) => {
 
     // Ensure page and limit are valid numbers
     if (pageNumber < 1 || limitNumber < 1) {
-      return res.status(400).render('error', {
+      return res.status(400).render('404', {
         title: 'Error',
         message: 'Invalid page or limit value.',
       });
@@ -279,7 +481,7 @@ exports.afroShop = async (req, res) => {
 
     // Create a filter object based on category
     const filter = {
-      superCategory: 'Afro shop',
+      superCategorySlug,
       availability: true,
       ...(category.trim().toLowerCase() !== 'all' && {
         categorySlug: category.trim(),
@@ -290,9 +492,7 @@ exports.afroShop = async (req, res) => {
     const skip = (pageNumber - 1) * limitNumber;
 
     // Fetch products with category filter and pagination
-    const afroShopItems = await Product.find(filter)
-      .skip(skip)
-      .limit(limitNumber);
+    const products = await Product.find(filter).skip(skip).limit(limitNumber);
 
     // Get total count of products for pagination metadata
     const totalCount = await Product.countDocuments(filter);
@@ -302,24 +502,83 @@ exports.afroShop = async (req, res) => {
 
     // Fetch categories from the database
     const categories = await Product.distinct('category', {
-      superCategory: 'Afro shop',
+      superCategorySlug,
     });
 
     // Render view with pagination data and category filter
-    res.status(200).render('afro-shop', {
-      title: 'Afro shop',
+    res.status(200).render('shop', {
+      title: 'Online Store',
       user,
-      afroShopItems,
+      products,
       currentPage: pageNumber,
       totalPages,
       limit: limitNumber,
       currentCategory: category,
       categories, // Pass categories to the view
+      superCategorySlug,
     });
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.search = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    const { page = 1, limit = 42, search } = req.query;
+
+    // Create a filter object
+    const filter = {
+      availability: true,
+    };
+
+    // Handle search functionality (if there's a search term)
+    if (search) {
+      const item = search.split('-').join(' '); // Replace dashes with spaces
+
+      // Escape special characters in the search term
+      const escapedItem = item.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+      const regex = new RegExp(escapedItem, 'i'); // Case-insensitive search
+
+      // Add search conditions to filter (search by name, brandSlug, or categorySlug)
+      filter.$or = [
+        { name: { $regex: regex } }, // Search in product name
+        { categorySlug: { $regex: regex } }, // Search in category slug
+        { category: { $regex: regex } }, // Search in category name
+      ];
+    }
+
+    // Convert page and limit to numbers
+    const pageNumber = parseInt(page, 10);
+    const limitNumber = parseInt(limit, 10);
+
+    // Calculate the skip value
+    const skip = (pageNumber - 1) * limitNumber;
+
+    // Find products based on the filter with pagination
+    const products = await Product.find(filter).skip(skip).limit(limitNumber);
+
+    // Get the total count of products for pagination metadata
+    const totalCount = await Product.countDocuments(filter);
+
+    return res.status(200).render('search', {
+      title: 'Online Shop',
+      user,
+      results: products.length,
+      totalCount,
+      currentPage: pageNumber,
+      totalPages: Math.ceil(totalCount / limitNumber),
+      products,
+      limit,
+    });
+  } catch (err) {
+    return res.status(500).render('404', {
+      title: 'Error',
+      message: 'Something Went Wrong',
     });
   }
 };
@@ -332,7 +591,7 @@ exports.termsConditions = async (req, res) => {
       user,
     });
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -347,7 +606,7 @@ exports.privacyPolicy = async (req, res) => {
       user,
     });
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -362,7 +621,7 @@ exports.store = async (req, res) => {
       user,
     });
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -372,13 +631,13 @@ exports.store = async (req, res) => {
 exports.error = async (req, res) => {
   try {
     const user = res.locals.user;
-    res.status(200).render('error', {
+    res.status(200).render('404', {
       title: 'Error',
       user,
       message: 'Something went wrong',
     });
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -391,7 +650,7 @@ exports.forgotPassword = async (req, res) => {
       title: 'Forgot password',
     });
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -404,7 +663,7 @@ exports.resetPassword = async (req, res) => {
       title: 'Reset password',
     });
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -421,18 +680,20 @@ exports.account = async (req, res) => {
       const shippingAddress = await ShippingAddress.findOne({ user: user.id });
       const orders = await Order.find({ user: user.id });
       const pendingReviews = await PendingReview.find({ user: user.id });
-      return res.status(200).render('account', {
+      const wishlists = await Wishlist.find({ user: user.id });
+      return res.status(200).render('user-dashboard', {
         title: 'Account',
         user,
         orders,
         shippingAddress,
         pendingReviews,
+        wishlists,
       });
     }
     return res.status(302).redirect('/');
   } catch (err) {
     console.log(err);
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -448,7 +709,7 @@ exports.adminDashboard = async (req, res) => {
     if (!user) {
       return res.status(302).redirect('/');
     }
-    if (user.role === 'admin') {
+    if (user.role === 'admin' || user.role === 'super-admin') {
       const users = await User.find({ confirmed: true });
       const orders = await Order.find();
       const pendingOrders = await Order.find({ status: 'Order placed' });
@@ -470,7 +731,7 @@ exports.adminDashboard = async (req, res) => {
     }
     return res.status(302).redirect('/');
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -488,7 +749,7 @@ exports.orders = async (req, res) => {
 
     // Validate page and limit numbers
     if (pageNumber < 1 || limitNumber < 1) {
-      return res.status(400).render('error', {
+      return res.status(400).render('404', {
         title: 'Error',
         message: 'Invalid page or limit value.',
       });
@@ -566,9 +827,9 @@ exports.orders = async (req, res) => {
       },
     ];
 
-    if (user.role === 'admin') {
+    if (user.role === 'admin' || user.role === 'super-admin') {
       // Get the orders with the aggregation pipeline
-      const orders = await Order.aggregate(pipeline).sort({createdAt: -1});
+      const orders = await Order.aggregate(pipeline).sort({ createdAt: -1 });
 
       // Calculate total pages
       const totalOrders = await Order.aggregate([
@@ -604,7 +865,7 @@ exports.orders = async (req, res) => {
     return res.status(302).redirect('/');
   } catch (err) {
     console.error('Error fetching orders:', err); // Log the error for debugging
-    return res.status(500).render('error', {
+    return res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -617,7 +878,7 @@ exports.orderDetails = async (req, res) => {
     if (!user) {
       res.status(302).redirect('/');
     }
-    if (user.role === 'admin') {
+    if (user.role === 'admin' || user.role === 'super-admin') {
       const orders = await Order.find({ reference: req.params.reference });
 
       return res.status(200).render('orderDetails', {
@@ -630,7 +891,7 @@ exports.orderDetails = async (req, res) => {
     return res.status(302).redirect('/');
   } catch (err) {
     console.error('Error fetching orders:', err); // Log the error for debugging
-    return res.status(500).render('error', {
+    return res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -648,7 +909,7 @@ exports.afroShopItems = async (req, res) => {
 
     // Ensure page and limit are valid numbers
     if (pageNumber < 1 || limitNumber < 1) {
-      return res.status(400).render('error', {
+      return res.status(400).render('404', {
         title: 'Error',
         message: 'Invalid page or limit value.',
       });
@@ -665,7 +926,7 @@ exports.afroShopItems = async (req, res) => {
     if (!user) {
       return res.status(302).redirect('/');
     }
-    if (user.role === 'admin') {
+    if (user.role === 'admin' || user.role === 'super-admin') {
       // Fetch products with category filter and pagination
       const afroShopItems = await Product.find(filter)
         .skip(skip)
@@ -693,7 +954,7 @@ exports.afroShopItems = async (req, res) => {
     }
     return res.status(302).redirect('/');
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -706,7 +967,7 @@ exports.adminProfile = async (req, res) => {
     if (!user) {
       return res.status(302).redirect('/');
     }
-    if (user.role === 'admin') {
+    if (user.role === 'admin' || user.role === 'super-admin') {
       return res.status(200).render('admin-profile', {
         title: 'Admin Profile',
         user,
@@ -714,7 +975,7 @@ exports.adminProfile = async (req, res) => {
     }
     return res.status(302).redirect('/');
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -729,7 +990,7 @@ exports.adminLogin = async (req, res) => {
       user,
     });
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -742,7 +1003,7 @@ exports.supports = async (req, res) => {
     if (!user) {
       return res.status(302).redirect('/');
     }
-    if (user.role === 'admin') {
+    if (user.role === 'admin' || user.role === 'super-admin') {
       const supports = await Support.find();
       return res.status(200).render('supports', {
         title: 'Supports',
@@ -752,7 +1013,7 @@ exports.supports = async (req, res) => {
     }
     return res.status(302).redirect('/');
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -765,7 +1026,7 @@ exports.users = async (req, res) => {
     if (!user) {
       return res.status(302).redirect('/');
     }
-    if (user.role === 'admin') {
+    if (user.role === 'admin' || user.role === 'super-admin') {
       const users = await User.find();
       return res.status(200).render('users', {
         title: 'Users',
@@ -775,7 +1036,7 @@ exports.users = async (req, res) => {
     }
     return res.status(302).redirect('/');
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -788,7 +1049,7 @@ exports.addProducts = async (req, res) => {
     if (!user) {
       return res.status(302).redirect('/');
     }
-    if (user.role === 'admin') {
+    if (user.role === 'admin' || user.role === 'super-admin') {
       const categories = await Category.find();
       return res.status(200).render('add-products', {
         title: 'Add Products',
@@ -798,7 +1059,7 @@ exports.addProducts = async (req, res) => {
     }
     return res.status(302).redirect('/');
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -811,7 +1072,7 @@ exports.addCategory = async (req, res) => {
     if (!user) {
       return res.status(302).redirect('/');
     }
-    if (user.role === 'admin') {
+    if (user.role === 'admin' || user.role === 'super-admin') {
       return res.status(200).render('add-category', {
         title: 'Add Category',
         user,
@@ -819,7 +1080,7 @@ exports.addCategory = async (req, res) => {
     }
     return res.status(302).redirect('/');
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -832,7 +1093,7 @@ exports.categories = async (req, res) => {
     if (!user) {
       return res.status(302).redirect('/');
     }
-    if (user.role === 'admin') {
+    if (user.role === 'admin' || user.role === 'super-admin') {
       const categories = await Category.find();
       return res.status(200).render('categories', {
         title: 'Categories',
@@ -842,7 +1103,7 @@ exports.categories = async (req, res) => {
     }
     return res.status(302).redirect('/');
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -855,7 +1116,7 @@ exports.outOfStock = async (req, res) => {
     if (!user) {
       return res.status(302).redirect('/');
     }
-    if (user.role === 'admin') {
+    if (user.role === 'admin' || user.role === 'super-admin') {
       const outOfStockProducts = await Product.find({ productStock: 0 });
       return res.status(200).render('out-of-stock', {
         title: 'Out Of Stock',
@@ -865,7 +1126,7 @@ exports.outOfStock = async (req, res) => {
     }
     return res.status(302).redirect('/');
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -888,41 +1149,41 @@ exports.review = async (req, res) => {
       });
     }
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
   }
 };
 
-// Search endpoint
-exports.search = async (req, res) => {
-  try {
-    const user = res.locals.user;
-    const { query } = req.query;
-    const regex = new RegExp(query, 'i'); // 'i' makes it case-insensitive
-    const products = await Product.find({
-      $or: [
-        { name: regex },
-        { description: regex },
-        { category: regex },
-        // Add other fields you want to search through
-      ],
-    });
+// // Search endpoint
+// exports.search = async (req, res) => {
+//   try {
+//     const user = res.locals.user;
+//     const { query } = req.query;
+//     const regex = new RegExp(query, 'i'); // 'i' makes it case-insensitive
+//     const products = await Product.find({
+//       $or: [
+//         { name: regex },
+//         { description: regex },
+//         { category: regex },
+//         // Add other fields you want to search through
+//       ],
+//     });
 
-    // Render the search results page with the found products
-    res.status(200).render('search', {
-      title: 'Search Results',
-      user,
-      products,
-    });
-  } catch (err) {
-    res.status(500).render('error', {
-      title: 'Error',
-      message: 'Something went wrong.',
-    });
-  }
-};
+//     // Render the search results page with the found products
+//     res.status(200).render('search', {
+//       title: 'Search Results',
+//       user,
+//       products,
+//     });
+//   } catch (err) {
+//     res.status(500).render('404', {
+//       title: 'Error',
+//       message: 'Something went wrong.',
+//     });
+//   }
+// };
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -939,7 +1200,7 @@ exports.exchangeHome = async (req, res) => {
       currencies,
     });
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -961,7 +1222,7 @@ exports.accounts = async (req, res) => {
     }
     return res.status(302).redirect('/');
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -987,7 +1248,7 @@ exports.history = async (req, res) => {
     }
     return res.status(302).redirect('/');
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -1011,7 +1272,7 @@ exports.beneficiary = async (req, res) => {
     }
     return res.status(302).redirect('/');
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -1040,7 +1301,7 @@ exports.exchange = async (req, res) => {
     return res.status(302).redirect('/');
   } catch (err) {
     console.log(err);
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -1056,14 +1317,15 @@ exports.addCurrency = async (req, res) => {
     if (!user) {
       return res.status(302).redirect('/sign-in');
     }
-    if (user.role === 'admin') {
+    if (user.role === 'admin' || user.role === 'super-admin') {
       return res.status(200).render('currencyAdd', {
         user,
         title: 'Add Currency',
       });
     }
+    return res.status(302).redirect('/');
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -1076,7 +1338,7 @@ exports.addRate = async (req, res) => {
     if (!user) {
       return res.status(302).redirect('/sign-in');
     }
-    if (user.role === 'admin') {
+    if (user.role === 'admin' || user.role === 'super-admin') {
       const currencies = await Currency.find();
       return res.status(200).render('addRate', {
         user,
@@ -1084,8 +1346,9 @@ exports.addRate = async (req, res) => {
         currencies,
       });
     }
+    return res.status(302).redirect('/');
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -1098,7 +1361,7 @@ exports.editCurrency = async (req, res) => {
     if (!user) {
       return res.status(302).redirect('/sign-in');
     }
-    if (user.role === 'admin') {
+    if (user.role === 'admin' || user.role === 'super-admin') {
       const currencies = await Currency.find();
       return res.status(200).render('editCurrency', {
         user,
@@ -1106,8 +1369,9 @@ exports.editCurrency = async (req, res) => {
         title: 'Edit Currency',
       });
     }
+    return res.status(302).redirect('/');
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -1120,7 +1384,7 @@ exports.editRate = async (req, res) => {
     if (!user) {
       return res.status(302).redirect('/sign-in');
     }
-    if (user.role === 'admin') {
+    if (user.role === 'admin' || user.role === 'super-admin') {
       const rates = await Rate.find();
       const currencies = await Currency.find();
       return res.status(200).render('editRate', {
@@ -1130,8 +1394,9 @@ exports.editRate = async (req, res) => {
         currencies,
       });
     }
+    return res.status(302).redirect('/');
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
       title: 'Error',
       message: 'Something went wrong.',
     });
@@ -1144,7 +1409,7 @@ exports.transactions = async (req, res) => {
     if (!user) {
       return res.status(302).redirect('/sign-in');
     }
-    if (user.role === 'admin') {
+    if (user.role === 'admin' || user.role === 'super-admin') {
       const transactions = await Transaction.find().sort({ createdAt: 1 });
       return res.status(200).render('transactions', {
         user,
@@ -1152,8 +1417,329 @@ exports.transactions = async (req, res) => {
         title: 'Transactions',
       });
     }
+    return res.status(302).redirect('/');
   } catch (err) {
-    res.status(500).render('error', {
+    res.status(500).render('404', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.userRole = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    if (!user) {
+      return res.status(302).redirect('/sign-in');
+    }
+    if (user.role === 'super-admin') {
+      return res.status(200).render('user-role-management', {
+        user,
+        title: 'User Role',
+      });
+    }
+
+    return res.status(302).redirect('/');
+  } catch (err) {
+    return res.status(500).render('404', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.kitchenFaq = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    return res.status(200).render('faq-kitchen', {
+      title: 'Faq',
+      user,
+    });
+  } catch (err) {
+    return res.status(500).render('error2', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.kitchenShop = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    // const { superCategorySlug } = req.params;
+    const { category = 'all', page = 1, limit = 42 } = req.query;
+
+    // Convert page and limit to numbers
+    const pageNumber = parseInt(page, 10);
+    const limitNumber = parseInt(limit, 10);
+
+    // Ensure page and limit are valid numbers
+    if (pageNumber < 1 || limitNumber < 1) {
+      return res.status(400).render('error2', {
+        title: 'Error',
+        message: 'Invalid page or limit value.',
+      });
+    }
+
+    // Create a filter object based on category
+    const filter = {
+      superCategorySlug: 'kitchen',
+      availability: true,
+      ...(category.trim().toLowerCase() !== 'all' && {
+        categorySlug: category.trim(),
+      }),
+    };
+
+    // Calculate skip value for pagination
+    const skip = (pageNumber - 1) * limitNumber;
+
+    // Fetch products with category filter and pagination
+    const products = await Product.find(filter).skip(skip).limit(limitNumber);
+
+    // Get total count of products for pagination metadata
+    const totalCount = await Product.countDocuments(filter);
+
+    // Calculate pagination metadata
+    const totalPages = Math.ceil(totalCount / limitNumber);
+
+    // Fetch categories from the database
+    const categories = await Product.aggregate([
+      { $match: { superCategorySlug: 'kitchen' } },
+      {
+        $group: {
+          _id: '$category',
+          categorySlug: { $first: '$categorySlug' }, // Assuming `categorySlug` exists in your schema
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          category: '$_id',
+          categorySlug: 1,
+        },
+      },
+    ]);
+
+    // Render view with pagination data and category filter
+    res.status(200).render('shop-kitchen', {
+      title: 'Michael Kitchen',
+      user,
+      products,
+      currentPage: pageNumber,
+      totalPages,
+      limit: limitNumber,
+      currentCategory: category,
+      categories, // Pass categories to the view
+      // superCategorySlug,
+    });
+  } catch (err) {
+    return res.status(500).render('error2', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.kitchenShopCategory = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    const { categorySlug } = req.params;
+    const { page = 1, limit = 42 } = req.query;
+
+    // Convert page and limit to numbers
+    const pageNumber = parseInt(page, 10);
+    const limitNumber = parseInt(limit, 10);
+
+    // Ensure page and limit are valid numbers
+    if (pageNumber < 1 || limitNumber < 1) {
+      return res.status(400).render('error2', {
+        title: 'Error',
+        message: 'Invalid page or limit value.',
+      });
+    }
+
+    // Create a filter object based on category
+    const filter = {
+      superCategorySlug: 'kitchen',
+      availability: true,
+      categorySlug,
+    };
+
+    // Calculate skip value for pagination
+    const skip = (pageNumber - 1) * limitNumber;
+
+    // Fetch products with category filter and pagination
+    const products = await Product.find(filter).skip(skip).limit(limitNumber);
+
+    // Get total count of products for pagination metadata
+    const totalCount = await Product.countDocuments(filter);
+
+    // Calculate pagination metadata
+    const totalPages = Math.ceil(totalCount / limitNumber);
+
+    // Fetch categories from the database
+    const categories = await Product.aggregate([
+      { $match: { superCategorySlug: 'kitchen' } },
+      {
+        $group: {
+          _id: '$category',
+          categorySlug: { $first: '$categorySlug' }, // Assuming `categorySlug` exists in your schema
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          category: '$_id',
+          categorySlug: 1,
+        },
+      },
+    ]);
+
+    // Render view with pagination data and category filter
+    res.status(200).render('shop-kitchen', {
+      title: 'Michael Kitchen',
+      user,
+      products,
+      currentPage: pageNumber,
+      totalPages,
+      limit: limitNumber,
+      categories, // Pass categories to the view
+      // superCategorySlug,
+    });
+  } catch (err) {
+    return res.status(500).render('error2', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.menu = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    const { category } = req.params;
+    // Fetch categories from the database
+    const product = await Product.findOne({ superCategory: 'Kitchen' });
+    const firstCategory = product.category;
+    const products = await Product.find({
+      superCategory: 'Kitchen',
+      availability: true,
+      category: category ? category : firstCategory,
+    });
+
+    const categories = await Product.aggregate([
+      { $match: { superCategorySlug: 'kitchen' } },
+      {
+        $group: {
+          _id: '$category',
+          categorySlug: { $first: '$categorySlug' }, // Assuming `categorySlug` exists in your schema
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          category: '$_id',
+          categorySlug: 1,
+        },
+      },
+    ]);
+    return res.status(200).render('menu', {
+      title: 'Kitchen Menu',
+      user,
+      categories,
+      products,
+    });
+  } catch (err) {
+    return res.status(500).render('error2', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.menuCategory = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    const { categorySlug } = req.params;
+    // Fetch categories from the database
+    const products = await Product.find({
+      superCategory: 'Kitchen',
+      availability: true,
+      categorySlug,
+    });
+
+    const categories = await Product.aggregate([
+      { $match: { superCategorySlug: 'kitchen' } },
+      {
+        $group: {
+          _id: '$category',
+          categorySlug: { $first: '$categorySlug' }, // Assuming `categorySlug` exists in your schema
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          category: '$_id',
+          categorySlug: 1,
+        },
+      },
+    ]);
+    return res.status(200).render('menu', {
+      title: 'Kitchen Menu',
+      user,
+      categories,
+      products,
+    });
+  } catch (err) {
+    return res.status(500).render('error2', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.kitchenContact = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    return res.status(200).render('contact-kitchen', {
+      title: 'Contact Us',
+      user,
+    });
+  } catch (err) {
+    return res.status(500).render('error2', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.kitchenDetail = async (req, res) => {
+  try {
+    const { categorySlug, slug } = req.params;
+    const product = await Product.findOne({
+      categorySlug,
+      slug,
+    }).populate('reviews');
+    const relatedProducts = await Product.aggregate([
+      { $match: { category: product.category } }, // Filter by category
+      { $sample: { size: 10 } }, // Randomly select up to 10 products
+    ]);
+    if (!product) {
+      return res.status(404).render('error2', {
+        title: 'Error',
+        message: 'SOmething went wrong',
+        user,
+      });
+    }
+    const user = res.locals.user;
+    return res.status(200).render('kitchen-details', {
+      title: 'Item Details',
+      user,
+      relatedProducts,
+      product,
+    });
+  } catch (err) {
+    return res.status(500).render('error2', {
       title: 'Error',
       message: 'Something went wrong.',
     });

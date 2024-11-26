@@ -82,6 +82,10 @@ const orderSchema = new mongoose.Schema(
       type: String,
       unique: true,
     },
+    entrance: String,
+    entranceCode: String,
+    floor: String,
+    roomNumber: String,
   },
   {
     timestamps: true,
@@ -104,7 +108,8 @@ orderSchema.pre(/^find/, function (next) {
 orderSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'productId',
-    select: 'name category imageCover slug',
+    select:
+      'name category imageCover slug price categorySlug superCategorySlug',
   });
   next();
 });

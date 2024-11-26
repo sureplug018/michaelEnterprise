@@ -1,0 +1,782 @@
+<%- include('partials/landingPageHeader.ejs') %>
+
+<!-- Breadcrumb Section Start -->
+<section class="breadcrumb-section pt-0">
+  <div class="container-fluid-lg">
+    <div class="row">
+      <div class="col-12">
+        <div class="breadcrumb-contain">
+          <h2><%= product.name %></h2>
+          <nav>
+            <ol class="breadcrumb mb-0">
+              <li class="breadcrumb-item">
+                <a href="/">
+                  <i class="fa-solid fa-house"></i>
+                </a>
+              </li>
+
+              <li class="breadcrumb-item active"><%= product.name %></li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- Product Left Sidebar Start -->
+<section class="product-section">
+  <div class="container-fluid-lg">
+    <div class="row">
+      <div class="col-xxl-12 col-xl-12 col-lg-12 wow fadeInUp">
+        <div class="row g-4">
+          <div class="col-xl-6 wow fadeInUp">
+            <div class="product-left-box">
+              <div class="row g-2">
+                <div class="col-xxl-10 col-lg-12 col-md-10 order-xxl-2 order-lg-1 order-md-2">
+                  <div class="product-main-2 no-arrow">
+                    <% product.images.forEach(function(image){ %>
+                    <div>
+                      <div class="slider-image">
+                        <img src="<%= image %>" id="img-1" data-zoom-image="<%= image %>" loading="lazy" class="img-fluid image_zoom_cls-0 blur-up lazyload" alt="">
+                      </div>
+                    </div>
+                    <% }) %>
+                  </div>
+                </div>
+
+                <div class="col-xxl-2 col-lg-12 col-md-2 order-xxl-1 order-lg-2 order-md-1">
+                  <div class="left-slider-image-2 left-slider no-arrow slick-top">
+
+                    <% product.images.forEach(function(image){ %>
+                    <div>
+                      <div class="sidebar-image">
+                        <img src="<%= image %>" class="img-fluid blur-up lazyload" loading="lazy" alt="">
+                      </div>
+                    </div>
+                    <% }) %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-6 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="right-box-contain">
+              <h2 class="name"><%= product.name %></h2>
+              <div class="price-rating">
+                <h3 class="theme-color price">₽<%= product.price %></h3>
+                <div class="product-rating custom-rate">
+                  <% if(parseFloat(product.ratingsAverage) === 0){ %>
+                  <ul class="rating">
+                    <li>
+                      <i data-feather="star"></i>
+                    </li>
+                    <li>
+                      <i data-feather="star"></i>
+                    </li>
+                    <li>
+                      <i data-feather="star"></i>
+                    </li>
+                    <li>
+                      <i data-feather="star"></i>
+                    </li>
+                    <li>
+                      <i data-feather="star"></i>
+                    </li>
+                  </ul>
+                  <% } %>
+
+                  <% if(parseFloat(product.ratingsAverage) > 0 && parseFloat(product.ratingsAverage) < 2){ %>
+                  <ul class="rating">
+                    <li>
+                      <i data-feather="star" class="fill"></i>
+                    </li>
+                    <li>
+                      <i data-feather="star"></i>
+                    </li>
+                    <li>
+                      <i data-feather="star"></i>
+                    </li>
+                    <li>
+                      <i data-feather="star"></i>
+                    </li>
+                    <li>
+                      <i data-feather="star"></i>
+                    </li>
+                  </ul>
+                  <% } %>
+
+                  <% if(parseFloat(product.ratingsAverage) >= 1 && parseFloat(product.ratingsAverage) < 3){ %>
+                  <ul class="rating">
+                    <li>
+                      <i data-feather="star" class="fill"></i>
+                    </li>
+                    <li>
+                      <i data-feather="star" class="fill"></i>
+                    </li>
+                    <li>
+                      <i data-feather="star"></i>
+                    </li>
+                    <li>
+                      <i data-feather="star"></i>
+                    </li>
+                    <li>
+                      <i data-feather="star"></i>
+                    </li>
+                  </ul>
+                  <% } %>
+
+                  <% if(parseFloat(product.ratingsAverage) >= 3 && parseFloat(product.ratingsAverage) < 4){ %>
+                  <ul class="rating">
+                    <li>
+                      <i data-feather="star" class="fill"></i>
+                    </li>
+                    <li>
+                      <i data-feather="star" class="fill"></i>
+                    </li>
+                    <li>
+                      <i data-feather="star" class="fill"></i>
+                    </li>
+                    <li>
+                      <i data-feather="star"></i>
+                    </li>
+                    <li>
+                      <i data-feather="star"></i>
+                    </li>
+                  </ul>
+                  <% } %>
+
+                  <% if(parseFloat(product.ratingsAverage) >= 4 && parseFloat(product.ratingsAverage) < 5){ %>
+                  <ul class="rating">
+                    <li>
+                      <i data-feather="star" class="fill"></i>
+                    </li>
+                    <li>
+                      <i data-feather="star" class="fill"></i>
+                    </li>
+                    <li>
+                      <i data-feather="star" class="fill"></i>
+                    </li>
+                    <li>
+                      <i data-feather="star" class="fill"></i>
+                    </li>
+                    <li>
+                      <i data-feather="star"></i>
+                    </li>
+                  </ul>
+                  <% } %>
+
+                  <% if(parseFloat(product.ratingsAverage) === 5 ){ %>
+                  <ul class="rating">
+                    <li>
+                      <i data-feather="star" class="fill"></i>
+                    </li>
+                    <li>
+                      <i data-feather="star" class="fill"></i>
+                    </li>
+                    <li>
+                      <i data-feather="star" class="fill"></i>
+                    </li>
+                    <li>
+                      <i data-feather="star" class="fill"></i>
+                    </li>
+                    <li>
+                      <i data-feather="star" class="fill"></i>
+                    </li>
+                  </ul>
+                  <% } %>
+
+                  <span class="review">
+                    <% if(!product.ratingsQuantity){ %>
+                    No Customer Review Yet
+                    <% }else{ %>
+                    <%= product.ratingsQuantity %> Customer Review
+                    <% } %>
+                  </span>
+                </div>
+              </div>
+
+              <div class="product-contain">
+                <p>
+                  <%= product.description %>
+                </p>
+              </div>
+              <% if(user){ %>
+              <div class="note-box product-package">
+                <span style="font-size: larger;">Add to cart</span>
+                <div class="cart_qty qty-box product-qty">
+                  <div class="input-group">
+                    <button data-product-id="<%= product.id %>" class="qty-right-plus single-add-to-cart-btn" data-type="plus" data-field="">
+                      <i class="fa fa-plus"></i>
+                    </button>
+                    <input class="form-control input-number qty-input cart-quantity" id="<%= product.id %>" type="text" name="quantity" value="0">
+                    <button data-product-id="<%= product.id %>" style="display: none;" class="qty-left-minus minus-cart-btn-single" data-type="minus" data-field="">
+                      <i class="fa fa-minus"></i>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="buy-box">
+                <a style="cursor: pointer;" data-product-id="<%= product.id %>" class="add-to-wishlist-single">
+                  <i data-feather="heart"></i>
+                  <span>Add To Wishlist</span>
+                </a>
+              </div>
+              <% }else{ %>
+              <div class="note-box product-package">
+                <span style="font-size: larger;">Add to cart</span>
+                <div class="cart_qty qty-box product-qty">
+                  <div class="input-group">
+                    <button class="qty-right-plus" onclick="location.href = '/sign-in';" data-type="plus" data-field="">
+                      <i class="fa fa-plus"></i>
+                    </button>
+                    <input class="form-control input-number qty-input cart-quantity" type="text" name="quantity" value="0">
+                    <button style="display: none;" class="qty-left-minus" data-type="minus" data-field="">
+                      <i class="fa fa-minus"></i>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="buy-box">
+                <a style="cursor: pointer;" href="/sign-in">
+                  <i data-feather="heart"></i>
+                  <span>Add To Wishlist</span>
+                </a>
+              </div>
+              <% } %>
+
+
+              <!-- <div class="payment-option">
+                <div class="product-title">
+                  <h4>Guaranteed Safe Checkout</h4>
+                </div>
+                <ul>
+                  <li>
+                    <a style="cursor: pointer;">
+                      <img src="/assets/images/product/payment/1.svg" class="blur-up lazyload" alt="">
+                    </a>
+                  </li>
+                  <li>
+                    <a style="cursor: pointer;">
+                      <img src="/assets/images/product/payment/3.svg" class="blur-up lazyload" alt="">
+                    </a>
+                  </li>
+                  <li>
+                    <a style="cursor: pointer;">
+                      <img style="width: 50px; height:35px;" src="/assets/images/product/payment/WhatsApp Image 2024-09-30 at 7.05.37 PM.jpeg" class="blur-up lazyload" alt="">
+                    </a>
+                  </li>
+                </ul>
+              </div> -->
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="product-section-box">
+              <ul class="nav nav-tabs custom-nav" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab">Description</button>
+                </li>
+
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="review-tab" data-bs-toggle="tab" data-bs-target="#review" type="button" role="tab">Review</button>
+                </li>
+              </ul>
+
+              <div class="tab-content custom-tab" id="myTabContent">
+                <div class="tab-pane fade show active" id="description" role="tabpanel">
+                  <div class="product-description">
+                    <div class="nav-desh">
+                      <% const splitted = product.summary.split('*'); %>
+                      <% splitted.forEach(function(p){ %>
+                      <p>
+                        <%= p %>
+                      </p>
+                      <% }) %>
+                    </div>
+
+
+                  </div>
+                </div>
+
+                <div class="tab-pane fade" id="review" role="tabpanel">
+                  <div class="review-box">
+                    <div class="row">
+                      <div class="col-xl-5">
+                        <div class="product-rating-box">
+                          <div class="row">
+                            <div class="col-xl-12">
+                              <div class="product-main-rating">
+                                <h2><%= product.ratingsAverage %>
+                                  <i data-feather="star"></i>
+                                </h2>
+
+                                <h5><%= product.ratingsQuantity %> Overall Rating</h5>
+                              </div>
+                            </div>
+
+                            <div class="col-xl-12">
+                              <ul class="product-rating-list">
+                                <li>
+                                  <div class="rating-product">
+                                    <h5>5<i data-feather="star"></i></h5>
+                                    <div class="progress">
+                                      <div class="progress-bar" style="width: 40%;">
+                                      </div>
+                                    </div>
+                                    <% let ratingFive = 0 %>
+                                    <% product.reviews.forEach(function(rate){ %>
+                                    <% rate.toString() %>
+                                    <% if(rate.rating === 5){ %>
+                                    <% ratingFive++ %>
+                                    <% } %>
+                                    <% }) %>
+                                    <h5 class="total"><%= ratingFive %></h5>
+                                  </div>
+                                </li>
+                                <li>
+                                  <div class="rating-product">
+                                    <h5>4<i data-feather="star"></i></h5>
+                                    <div class="progress">
+                                      <div class="progress-bar" style="width: 20%;">
+                                      </div>
+                                    </div>
+                                    <% let ratingFour = 0 %>
+                                    <% product.reviews.forEach(function(rate){ %>
+                                    <% rate.toString() %>
+                                    <% if(rate.rating === 4){ %>
+                                    <% ratingFour++ %>
+                                    <% } %>
+                                    <% }) %>
+                                    <h5 class="total"><%= ratingFour %></h5>
+                                  </div>
+                                </li>
+                                <li>
+                                  <div class="rating-product">
+                                    <h5>3<i data-feather="star"></i></h5>
+                                    <div class="progress">
+                                      <div class="progress-bar" style="width: 20%;">
+                                      </div>
+                                    </div>
+                                    <% let ratingThree = 0; %>
+                                    <% let totalReviews = product.reviews.length; %>
+                                    <% product.reviews.forEach(function(rate) { %>
+                                    <% if (rate.rating === 3) { %>
+                                    <% ratingThree++; %>
+                                    <% } %>
+                                    <% }); %>
+                                    <h5 class="total"><%= ratingThree %></h5>
+                                  </div>
+                                </li>
+
+                                <li>
+                                  <div class="rating-product">
+                                    <h5>2<i data-feather="star"></i></h5>
+                                    <div class="progress">
+                                      <div class="progress-bar" style="width: 20%;">
+                                      </div>
+                                    </div>
+                                    <% let ratingTwo = 0 %>
+                                    <% product.reviews.forEach(function(rate){ %>
+                                    <% rate.toString() %>
+                                    <% if(rate.rating === 2){ %>
+                                    <% ratingTwo++ %>
+                                    <% } %>
+                                    <% }) %>
+                                    <h5 class="total"><%= ratingTwo %></h5>
+                                  </div>
+                                </li>
+                                <li>
+                                  <div class="rating-product">
+                                    <h5>1<i data-feather="star"></i></h5>
+                                    <div class="progress">
+                                      <div class="progress-bar" style="width: 20%;">
+                                      </div>
+                                    </div>
+                                    <% let ratingOne = 0 %>
+                                    <% product.reviews.forEach(function(rate){ %>
+                                    <% rate.toString() %>
+                                    <% if(rate.rating === 1){ %>
+                                    <% ratingOne++ %>
+                                    <% } %>
+                                    <% }) %>
+                                    <h5 class="total"><%= ratingOne %></h5>
+                                  </div>
+                                </li>
+
+                              </ul>
+
+                              <div class="review-title-2">
+                                <h4 class="fw-bold">Review this product</h4>
+                                <p>Let other customers know what you think</p>
+                                <a class="btn" style="border: 1px solid #5f1303;" href="/review/<%= product.id %>">Write a review</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-xl-7">
+                        <div class="review-people">
+                          <ul class="review-list">
+                            <% product.reviews.forEach(function(review){ %>
+                            <li>
+                              <div class="people-box">
+                                <!-- <div>
+                                  <div class="people-image people-text">
+                                  </div>
+                                </div> -->
+                                <div class="people-comment">
+                                  <div class="people-name"><a href="javascript:void(0)" class="name"><%= review.user.firstName %> <%= review.user.lastName %></a>
+                                    <div class="date-time"> <% const timeStamp = review.createdAt %>
+                                      <% const date = timeStamp.toLocaleDateString() %>
+                                      <% const time = timeStamp.toLocaleTimeString() %>
+                                      <%= date %> <%= time %>
+
+                                      <h6 class="text-content">
+                                      </h6>
+                                      <div class="product-rating">
+                                        <ul class="rating">
+                                          <% if(review.rating === 1){ %>
+                                          <li>
+                                            <i data-feather="star" class="fill"></i>
+                                          </li>
+                                          <li>
+                                            <i data-feather="star"></i>
+                                          </li>
+                                          <li>
+                                            <i data-feather="star"></i>
+                                          </li>
+                                          <li>
+                                            <i data-feather="star"></i>
+                                          </li>
+                                          <li>
+                                            <i data-feather="star"></i>
+                                          </li>
+                                          <% } %>
+                                          <% if(review.rating === 2){ %>
+                                          <li>
+                                            <i data-feather="star" class="fill"></i>
+                                          </li>
+                                          <li>
+                                            <i data-feather="star" class="fill"></i>
+                                          </li>
+                                          <li>
+                                            <i data-feather="star"></i>
+                                          </li>
+                                          <li>
+                                            <i data-feather="star"></i>
+                                          </li>
+                                          <li>
+                                            <i data-feather="star"></i>
+                                          </li>
+                                          <% } %>
+                                          <% if(review.rating === 3){ %>
+                                          <li>
+                                            <i data-feather="star" class="fill"></i>
+                                          </li>
+                                          <li>
+                                            <i data-feather="star" class="fill"></i>
+                                          </li>
+                                          <li>
+                                            <i data-feather="star" class="fill"></i>
+                                          </li>
+                                          <li>
+                                            <i data-feather="star"></i>
+                                          </li>
+                                          <li>
+                                            <i data-feather="star"></i>
+                                          </li>
+                                          <% } %>
+                                          <% if(review.rating === 4){ %>
+                                          <li>
+                                            <i data-feather="star" class="fill"></i>
+                                          </li>
+                                          <li>
+                                            <i data-feather="star" class="fill"></i>
+                                          </li>
+                                          <li>
+                                            <i data-feather="star" class="fill"></i>
+                                          </li>
+                                          <li>
+                                            <i data-feather="star" class="fill"></i>
+                                          </li>
+                                          <li>
+                                            <i data-feather="star"></i>
+                                          </li>
+                                          <% } %>
+                                          <% if(review.rating === 5){ %>
+                                          <li>
+                                            <i data-feather="star" class="fill"></i>
+                                          </li>
+                                          <li>
+                                            <i data-feather="star" class="fill"></i>
+                                          </li>
+                                          <li>
+                                            <i data-feather="star" class="fill"></i>
+                                          </li>
+                                          <li>
+                                            <i data-feather="star" class="fill"></i>
+                                          </li>
+                                          <li>
+                                            <i data-feather="star" class="fill"></i>
+                                          </li>
+                                          <% } %>
+                                        </ul>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="reply">
+                                    <p><%= review.review %></p>
+                                  </div>
+                                </div>
+                              </div>
+                            </li>
+                            <% }) %>
+
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- Product Left Sidebar End -->
+
+<!-- Related Product Section Start -->
+<section class="product-list-section section-b-space">
+  <div class="container-fluid-lg">
+    <div class="title">
+      <h2>Related Products</h2>
+      <span class="title-leaf">
+        <svg class="icon-width">
+          <use xlink:href="/assets/svg/leaf.svg#leaf"></use>
+        </svg>
+      </span>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="slider-6_1 product-wrapper">
+
+          <% relatedProducts.forEach(function(product){ %>
+          <div>
+            <div class="product-box-3 wow fadeInUp">
+              <div class="product-header">
+                <div class="product-image">
+                  <a href="/product/<%= product.superCategorySlug %>/<%= product.categorySlug %>/<%= product.slug %>">
+                    <img src="<%= product.imageCover %>" class="img-fluid blur-up lazyload" loading="lazy" alt="">
+                  </a>
+                </div>
+              </div>
+
+              <div class="product-footer">
+                <div class="product-detail">
+                  <span class="span-name"><%= product.category %></span>
+                  <a href="product-left-thumbnail.html">
+                    <h5 class="name"><%= product.name %></h5>
+                  </a>
+                  <div class="product-rating mt-2">
+                    <ul class="rating">
+                      <li>
+                        <i data-feather="star" class="fill"></i>
+                      </li>
+                      <li>
+                        <i data-feather="star" class="fill"></i>
+                      </li>
+                      <li>
+                        <i data-feather="star" class="fill"></i>
+                      </li>
+                      <li>
+                        <i data-feather="star" class="fill"></i>
+                      </li>
+                      <li>
+                        <i data-feather="star" class="fill"></i>
+                      </li>
+                    </ul>
+                    <span>(5.0)</span>
+                  </div>
+                  <h5 class="price"><span class="theme-color">₽<%= product.price %></span>
+                  </h5>
+                  <!-- <div class="add-to-cart-box bg-white">
+                    <button class="btn btn-add-cart addcart-button">Add
+                      <span class="add-icon bg-light-gray">
+                        <i class="fa-solid fa-plus"></i>
+                      </span>
+                    </button>
+                    <div class="cart_qty qty-box">
+                      <div class="input-group bg-white">
+                        <button type="button" class="qty-left-minus bg-gray" data-type="minus" data-field="">
+                          <i class="fa fa-minus"></i>
+                        </button>
+                        <input class="form-control input-number qty-input" type="text" name="quantity" value="0">
+                        <button type="button" class="qty-right-plus bg-gray" data-type="plus" data-field="">
+                          <i class="fa fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <% }) %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Related Product Section End -->
+
+<script>
+  // Find suggestions on input event
+  const searchInputField = document.querySelector('.suggestions');
+
+  if (searchInputField) {
+    searchInputField.addEventListener('input', async function(e) {
+      e.preventDefault();
+      const query = searchInputField.value;
+
+      if (query.length > 0) {
+        const suggestions = document.querySelectorAll('.list-of-suggestions');
+        suggestions.forEach((input) => {
+          input.style.display = 'block';
+        });
+
+        // Make sure there is something to search for
+        try {
+          // Correctly format the query parameter with '='
+          const res = await fetch(
+            `/api/v1/products/find?name=${encodeURIComponent(query)}`,
+          );
+
+          // Check if the response is okay (status 200-299)
+          if (res.ok) {
+            const data = await res.json();
+            console.log(data);
+
+            const suggestions = document.querySelectorAll('.list-of-suggestions');
+
+            suggestions.forEach((input) => {
+              input.innerHTML = '';
+              data.data.products.forEach((product) => {
+                const li = document.createElement('li');
+                // Set inline styles
+                li.style.padding = '5px'; // Add some padding
+                li.style.backgroundColor = '#fff'; // Light background color
+                li.style.cursor = 'pointer'; // Change cursor to pointer
+                li.style.transition = 'background-color 0.3s'; // Transition for hover effect
+                li.style.display = 'block';
+                li.style.width = '100%';
+                li.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.2)';
+
+                // Add hover effect using mouse events
+                li.addEventListener('mouseover', () => {
+                  li.style.backgroundColor = '#e0e0e0'; // Darker on hover
+                });
+
+                li.addEventListener('mouseout', () => {
+                  li.style.backgroundColor = '#f9f9f9'; // Revert on mouse out
+                });
+
+                li.textContent = product.name;
+                input.appendChild(li);
+
+                // Define a custom slugify function
+                function slugify(text) {
+                  return text
+                    .toString()
+                    .toLowerCase()
+                    .trim()
+                    .replace(/\s+/g, '-') // Replace spaces with -
+                    .replace(/[^\w\-\.]+/g, '') // Remove all non-word chars except dot
+                    .replace(/\-\-+/g, '-'); // Replace multiple - with single -
+                }
+
+                // Apply slugify to the list item's textContent
+                li.addEventListener('click', () => {
+                  const slug = slugify(li.textContent);
+                  window.location.href = `/search?search=${slug}`; // Redirect to the product link with slug
+                });
+              });
+            });
+
+            // You can call a function to display suggestions here
+            // displaySuggestions(data);
+          } else {
+            console.error('Error fetching suggestions:', res.statusText);
+          }
+        } catch (err) {
+          console.error('Fetch error:', err);
+        }
+      } else {
+        // Optionally clear suggestions if input is empty
+        const suggestions = document.querySelectorAll('.list-of-suggestions');
+        suggestions.forEach((input) => {
+          input.style.display = 'none';
+        });
+      }
+    });
+  }
+
+  const searchBtn = document.querySelectorAll('.search-btn');
+  const searchInputs = document.querySelectorAll('.suggestions');
+
+  if (searchBtn && searchInputs) {
+    // Handle search button clicks
+    searchBtn.forEach((button) => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        handleSearch();
+      });
+    });
+
+    // Handle pressing the 'Enter' key in the search input
+    searchInputs.forEach((input) => {
+      input.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && input.value.trim().length > 0) {
+          e.preventDefault();
+          handleSearch();
+        }
+      });
+    });
+  }
+
+  // Search handling logic
+  function handleSearch() {
+    searchInputs.forEach((input) => {
+      const query = input.value.trim();
+      if (query.length > 0) {
+        // Define a custom slugify function
+        function slugify(text) {
+          return text
+            .toString()
+            .toLowerCase()
+            .trim()
+            .replace(/\s+/g, '-') // Replace spaces with -
+            .replace(/[^\w\-\.]+/g, '') // Remove all non-word chars except dot
+            .replace(/\-\-+/g, '-'); // Replace multiple - with single -
+        }
+
+        const slug = slugify(query);
+        window.location.href = `/search?search=${slug}`; // Redirect to the product link with slug
+      }
+    });
+  }
+</script>
+
+<%- include('partials/landingPageFooter.ejs') %>

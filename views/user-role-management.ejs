@@ -1,0 +1,51 @@
+<%- include('partials/adminDashboardHead.ejs') %>
+
+<div class="nk-content nk-content-fluid">
+  <div class="container-xl wide-xl">
+    <div class="nk-content-body">
+      <div class="nk-block-head nk-block-head-sm">
+        <div class="nk-block-between">
+          <div class="nk-block-head-content">
+            <h3 class="nk-block-title page-title">Change User Role</h3>
+          </div>
+        </div>
+      </div>
+      <div class="nk-block">
+        <div class="card">
+          <div class="d-flex justify-content-center align-items-center" style="padding-top: 50px; padding-bottom: 50px;">
+            <form class="user-role-form">
+              <div class="wide-xs w-100">
+                <div class="row g-3">
+                  <div class="col-12">
+                    <div class="form-group"><label class="form-label" for="email">User Email</label>
+                      <div class="form-control-wrap"><input class="form-control" type="text" id="email" placeholder="User Email" /></div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group"><label class="form-label">User Role</label>
+                      <div class="form-control-wrap">
+                        <select id="role" class="js-select2 form-select" data-search="true" data-sort="false">
+                          <option disabled selected value="">Select</option>
+                          <option value="user">User</option>
+                          <option value="admin">Admin</option>
+                          <option value="super-admin">Super Admin</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div style="margin-top: 15px;" class="col-12">
+                    <div class="form-group">
+                      <button class="btn btn-primary btn-block update-btn">Update Role</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/adminDashboardFooter.ejs') %>

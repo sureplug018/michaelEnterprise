@@ -1,135 +1,467 @@
-<%- include('partials/landingPageHead.ejs') %>
+<!DOCTYPE html>
+<html lang="en">
 
-<!-- rts navigation bar area start -->
-<div class="rts-navigation-area-breadcrumb">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="navigator-breadcrumb-wrapper">
-          <a href="/">Home</a>
-          <i class="fa-regular fa-chevron-right"></i>
-          <a class="current" href="/afro-shop">Search results</a>
-        </div>
-      </div>
-    </div>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="market place for gadgets, afrocentric products and food">
+  <meta name="keywords" content="afro shop, food, gadgets, kitchen, meals">
+  <meta name="author" content="Eze Raphael">
+  <!-- Favicon Icon -->
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/images/fav1.png">
+  <title>Michael Enterprise | <%= title %></title>
+
+  <!-- Google font -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap">
+  <script src="https://kit.fontawesome.com/fe5872a91f.js" crossorigin="anonymous"></script>
+  <!-- bootstrap css -->
+  <link id="rtl-link" rel="stylesheet" type="text/css" href="/assets/css/vendors/bootstrap.css">
+
+  <!-- Iconly css -->
+  <link rel="stylesheet" type="text/css" href="/assets/css/bulk-style.css">
+
+  <!-- Template css -->
+  <link id="color-link" rel="stylesheet" type="text/css" href="/assets/css/style.css">
+  <!-- Smartsupp Live Chat script
+   <script type="text/javascript">
+    var _smartsupp = _smartsupp || {};
+    _smartsupp.key = '7a1b2eb2f432cd25169fab42945dff48342736a8';
+    window.smartsupp || (function(d) {
+      var s, c, o = smartsupp = function() {
+        o._.push(arguments)
+      };
+      o._ = [];
+      s = d.getElementsByTagName('script')[0];
+      c = d.createElement('script');
+      c.type = 'text/javascript';
+      c.charset = 'utf-8';
+      c.async = true;
+      c.src = 'https://www.smartsuppchat.com/loader.js?';
+      s.parentNode.insertBefore(c, s);
+    })(document);
+  </script>
+  <noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript>
+
+  <div class="gtranslate_wrapper"></div>
+  <script>
+    window.gtranslateSettings = {
+      "default_language": "en",
+      "native_language_names": true,
+      "languages": ["en", "ru", "uk", "ar", "zh-CN", "zh-TW", "nl", "es", "fr", "pt"],
+      "wrapper_selector": ".gtranslate_wrapper",
+      "alt_flags": {
+        "en": "usa"
+      }
+    }
+  </script>
+  <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script> -->
+</head>
+
+<body>
+
+  <!-- Loader Start -->
+  <div class="fullpage-loader">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
   </div>
-</div>
-<!-- rts navigation bar area end -->
-<div class="section-seperator">
-  <div class="container">
-    <hr class="section-seperator">
-  </div>
-</div>
+  <!-- Loader End -->
 
-<!-- shop[ grid sidebar wrapper -->
-<div class="shop-grid-sidebar-area rts-section-gap" style="padding-right: 30px;">
-  <div class="container">
-    <div class="row g-0">
-      <div class="container" style="display: flex; justify-content: center; margin-left: 30px;">
-        <div class="col-xl-12 col-lg-12">
-          <div class="filter-select-area">
-            <div class="top-filter">
-              <div class="right-end">
-                <div class="button-tab-area">
-
-
-                </div>
-              </div>
+  <!-- Header Start -->
+  <header class="pb-0">
+    <div class="header-top">
+      <div class="container-fluid-lg">
+        <div class="row">
+          <div class="col-xxl-4 d-xxl-block d-none">
+            <div class="top-left-header">
+              <i class="iconly-Location icli text-white"></i>
+              <span class="text-white">Берберовская 6с2, Rostov on Don, Russia.</span>
             </div>
-            <div class="nice-select-area-wrapper-and-button">
-              <div class="nice-select-wrapper-1">
+          </div>
 
+          <div class="col-xxl-5 col-lg-9 d-lg-block d-none">
+            <div class="header-offer">
+              <div class="notification-slider">
+                <div>
+                  <div class="timer-notification">
+                    <h6><strong class="me-1">Welcome to Michael Enterprise!</strong>Your gateway to convenience...
+                    </h6>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="timer-notification">
+                    <h6>Something you love is now on sale!
+                      <!-- <a href="shop-left-sidebar.html" class="text-white">Buy Now
+                        !</a> -->
+                    </h6>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="tab-content" id="myTabContent">
-            <div class="product-area-wrapper-shopgrid-list mt--20 tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-              <div class="row g-4">
-                <% if (products.length === 0) { %>
-                <p style="text-align: center; font-size: large; margin-top: 50px;">No products found matching your search criteria.</p>
-                <% } else { %>
-                <% products.forEach(function(item){ %>
-                <div class="col-lg-20 col-lg-4 col-md-6 col-sm-6 col-12">
-                  <div class="single-shopping-card-one">
-                    <!-- image and section area start -->
-                    <div class="image-and-action-area-wrapper">
-                      <a href="/afro-shop/<%= item.slug %>" class="thumbnail-preview">
-                        <!-- <div class="badge">
-                        <span>25% <br>
-                          Off
-                        </span>
-                        <i class="fa-solid fa-bookmark"></i>
-                      </div> -->
-                        <img src="<%= item.imageCover %>" alt="grocery">
-                      </a>
-                    </div>
+          <div class="col-lg-3">
 
-                    <!-- image and section area start -->
+          </div>
+        </div>
+      </div>
+    </div>
 
-                    <div class="body-content">
+    <div class="top-nav top-header sticky-header">
+      <div class="container-fluid-lg">
+        <div class="row">
+          <div class="col-12">
+            <div class="navbar-top" style="height: 124px; width: auto;">
+              <button class="navbar-toggler d-xl-none d-inline navbar-menu-button" type="button" data-bs-toggle="offcanvas" data-bs-target="#primaryMenu">
+                <span class="navbar-toggler-icon">
+                  <i class="fa-solid fa-bars"></i>
+                </span>
+              </button>
+              <a href="/" class="web-logo nav-logo">
+                <img src="/assets/images/logo-01.png" style="width: 200px; height: 144px;" class="img-fluid blur-up lazyload" alt="">
+              </a>
 
-                      <a href="/afro-shop/<%= item.slug %>">
-                        <h4 class="title"><%= item.name %></h4>
-                      </a>
-                      <div class="price-area">
-                        <span class="current">₽<%= item.price %></span>
-                        <div class="previous">₽<%= item.initialPrice %></div>
-                      </div>
-                      <div class="cart-counter-action">
-                        <!-- <div class="quantity-edit">
-                        <input type="text" class="input" value="1">
-                        <div class="button-wrapper-action">
-                          <button class="button"><i class="fa-regular fa-chevron-down"></i></button>
-                          <button class="button plus">+<i class="fa-regular fa-chevron-up"></i></button>
+              <div class="middle-box">
+
+                <div class="container-fluid-lg">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="header-nav">
+            
+                        <div class="header-nav-middle">
+                          <div class="main-nav navbar navbar-expand-xl navbar-light navbar-sticky">
+                            <div class="offcanvas offcanvas-collapse order-xl-2" id="primaryMenu">
+                              <div class="offcanvas-header navbar-shadow">
+                                <h5>Menu</h5>
+                                <button class="btn-close lead" type="button" data-bs-dismiss="offcanvas"></button>
+                              </div>
+                              <div class="offcanvas-body">
+                                <ul class="navbar-nav">
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="/">Home</a>
+                                  </li>
+            
+                                  <!-- <li class="nav-item">
+                                    <a class="nav-link" href="/about-us">About Us</a>
+                                  </li> -->
+            
+                                  <li class="nav-item dropdown">
+                                    <a class="nav-link" href="/faq">Faq</a>
+                                  </li>
+            
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="/contact-us">Contact Us</a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                      </div> -->
-                        <% if(user){ %>
-                        <a href="#" class="rts-btn btn-primary radious-sm with-icon add-to-cart-btn" data-product-id="<%= item.id %>">
-                          <div class="btn-text btn-cart">
-                            Add To Cart
-                          </div>
-                          <div class="arrow-icon">
-                            <i class="fa-regular fa-cart-shopping"></i>
-                          </div>
-                          <div class="arrow-icon">
-                            <i class="fa-regular fa-cart-shopping"></i>
-                          </div>
-                        </a>
-                        <% }else{ %>
-                        <a href="/sign-in" class="rts-btn btn-primary radious-sm with-icon">
-                          <div class="btn-text">
-                            Add To Cart
-                          </div>
-                          <div class="arrow-icon">
-                            <i class="fa-regular fa-cart-shopping"></i>
-                          </div>
-                          <div class="arrow-icon">
-                            <i class="fa-regular fa-cart-shopping"></i>
-                          </div>
-                        </a>
-                        <% } %>
-
                       </div>
                     </div>
                   </div>
                 </div>
-                <% }) %>
+              </div>
 
-                <% } %>
+              <div class="rightside-box">
+                <div class="search-full">
+                  <div class="input-group">
+                    <span class="input-group-text">
+                      <i data-feather="search" class="font-light"></i>
+                    </span>
+                    <input type="text" class="form-control search-type" placeholder="Search here..">
+                    <span class="input-group-text close-search">
+                      <i data-feather="x" class="font-light"></i>
+                    </span>
+                  </div>
+                </div>
+                <ul class="right-side-menu">
+                  <li class="right-side">
+                    <div class="delivery-login-box">
+                      <div class="delivery-icon">
+                        <div class="search-box">
+                          <i data-feather="search"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="right-side">
+                    <a href="/contact-us" class="delivery-login-box">
+                      <div class="delivery-icon">
+                        <i data-feather="phone-call"></i>
+                      </div>
+                      <div class="delivery-detail">
+                        <h6>24/7 Delivery</h6>
+                        <h5><a href="tel:+79954459255">+79954459255</a></h5>
+                      </div>
+                    </a>
+                  </li>
+                  <li class="right-side">
+                    <a href="/wishlist" class="btn p-0 position-relative header-wishlist">
+                      <i data-feather="heart"></i>
+                    </a>
+                  </li>
+                  <li class="right-side">
+                    <div class="onhover-dropdown header-badge">
+                      <a href="/cart" class="btn p-0 position-relative header-wishlist">
+                        <i data-feather="shopping-cart"></i>
+                        <!-- <span class="position-absolute top-0 start-100 translate-middle badge">2
+                          <span class="visually-hidden">unread messages</span>
+                        </span> -->
+                      </a>
+                    </div>
+                  </li>
+                  <li class="right-side onhover-dropdown">
+                    <div class="delivery-login-box">
+                      <div class="delivery-icon">
+                        <i data-feather="user"></i>
+                      </div>
+                      <div class="delivery-detail">
+                        <h6>Hello,</h6>
+                        <h5>My Account</h5>
+                      </div>
+                    </div>
 
+                    <% if(!user){ %>
+                    <div class="onhover-div onhover-div-login">
+                      <ul class="user-box-name">
+                        <li class="product-box-contain">
+                          <i></i>
+                          <a href="/sign-in">Log In</a>
+                        </li>
+
+                        <li class="product-box-contain">
+                          <a href="/sign-up">Sign Up</a>
+                        </li>
+
+                      </ul>
+                    </div>
+                    <% }else{ %>
+                    <div class="onhover-div onhover-div-login">
+                      <ul class="user-box-name">
+                        <li class="product-box-contain">
+                          <i></i>
+                          <a href="/account">Dashboard</a>
+                        </li>
+                      </ul>
+                    </div>
+                    <% } %>
+
+
+                  </li>
+                </ul>
               </div>
             </div>
-
           </div>
-
-
         </div>
       </div>
     </div>
+
+   
+  </header>
+  <!-- Header End -->
+
+  <!-- mobile fix menu start -->
+  <div class="mobile-menu d-md-none d-block mobile-cart">
+    <ul>
+      <li class="active">
+        <a href="/">
+          <img src="/assets/svg/home.svg" alt="" style="width: 30px; height: auto;">
+          <span>Home</span>
+        </a>
+      </li>
+
+      <li class="mobile-category">
+        <a href="/faq">
+          <img src="/assets/svg/question.svg" alt="" style="width: 30px; height: auto;">
+          <span>Faq</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="/search" class="search-box">
+          <img src="/assets/svg/search.svg" alt="" style="width: 30px; height: auto;">
+          <span>Search</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="/contact-us" class="notifi-wishlist">
+          <img src="/assets/svg/headset.svg" alt="" style="width: 30px; height: auto;">
+          <span>Contact</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="/cart">
+          <img src="/assets/svg/cart.svg" alt="" style="width: 30px; height: auto;">
+          <span>Cart</span>
+        </a>
+      </li>
+    </ul>
   </div>
-</div>
-<!-- shop[ grid sidebar wrapper end -->
+  <!-- mobile fix menu end -->
+  <!-- Breadcrumb Section Start -->
+  <section class="breadcrumb-section pt-0">
+    <div class="container-fluid-lg">
+      <div class="row">
+        <div class="col-12">
+          <div class="breadcrumb-contain">
+            <h2>About Us</h2>
+            <nav>
+              <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                  <a href="/">
+                    <i class="fa-solid fa-house"></i>
+                  </a>
+                </li>
+                <li class="breadcrumb-item active">About Us</li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Breadcrumb Section End -->
+
+  <section class="search-section">
+    <div class="container-fluid-lg">
+      <div class="row">
+        <div class="col-xxl-6 col-xl-8 mx-auto">
+          <div class="title d-block text-center">
+            <h2>Search for products</h2>
+            <span class="title-leaf">
+              <svg class="icon-width">
+                <use xlink:href="../assets/svg/leaf.svg#leaf"></use>
+              </svg>
+            </span>
+          </div>
+
+          <div class="search-box">
+            <div class="input-group">
+              <input type="text" class="form-control suggestions" placeholder="Search for products...">
+              <button class="btn theme-bg-color text-white m-0 search-btn" type="button" id="button-addon1">Search</button>
+            </div>
+            <ul class="list-of-suggestions" style="z-index: 1000; position: absolute; width: 100%;"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-b-space shop-section">
+    <div class="container-fluid-lg">
+      <div class="row">
+        <div class="col-12">
+          <div class="show-button">
+            <div class="top-filter-menu-2">
 
 
-<%- include('partials/landingPageFooter.ejs') %>
+
+            </div>
+          </div>
+
+          <% if(products.length === 0){ %>
+          <p style="text-align: center;">No product found matching the criteria</p>
+          <% } %>
+          <div class="row row-cols-xxl-6 row-cols-lg-5 row-cols-md-4 row-cols-sm-3 row-cols-2 g-sm-4 g-3 section-b-space">
+
+            <% products.forEach(function(product){ %>
+            <div>
+              <div class="product-box product-white-bg wow fadeIn" data-wow-delay="0.2s">
+                <div class="product-image">
+                  <a href="/product/<%= product.superCategorySlug %>/<%= product.categorySlug %>/<%= product.slug %>">
+                    <img src="<%= product.imageCover %>" loading="lazy" class="img-fluid blur-up lazyload" alt="">
+                  </a>
+                  <ul class="product-option">
+                    <% if(user){ %>
+                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="Wishlist">
+                      <a style="cursor: pointer;" class="notifi-wishlist add-to-wishlist-btn" data-product-id="<%= product.id %>">
+                        <i data-feather="heart"></i>
+                      </a>
+                    </li>
+                    <% }else{ %>
+                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="Wishlist">
+                      <a href="/sign-in" class="notifi-wishlist">
+                        <i data-feather="heart"></i>
+                      </a>
+                    </li>
+                    <% } %>
+
+                  </ul>
+                </div>
+                <div class="product-detail position-relative">
+                  <a href="/product/<%= product.superCategorySlug %>/<%= product.categorySlug %>/<%= product.slug %>">
+                    <h6 class="name">
+                      <%= product.name %>
+                    </h6>
+                  </a>
+
+                  <h6 class="sold weight text-content fw-normal" style="text-decoration: line-through;">₽ <%= product.initialPrice %></h6>
+
+                  <h6 class="price theme-color">₽ <%= product.price %></h6>
+                  <% if(user){ %>
+                  <div class="add-to-cart-btn-2 addtocart_btn">
+                    <button class="btn addcart-button btn buy-button add-to-cart-btn" data-product-id="<%= product.id %>"><i class="fa-solid fa-plus"></i></button>
+                    <div class="cart_qty qty-box-2 qty-box-3">
+                      <div class="input-group">
+                        <button type="button" class="qty-left-minus decrease-itm-qty" data-product-id="<%= product.id %>" data-type="minus" data-field="">
+                          <i class="fa fa-minus"></i>
+                        </button>
+                        <input class="form-control input-number qty-input" id="<%= product.id %>" type="text" name="quantity">
+                        <button type="button" class="qty-right-plus increase-item-qty" data-product-id="<%= product.id %>" data-type="plus" data-field="">
+                          <i class="fa fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <% }else{ %>
+                  <div class="add-to-cart-btn-2 addtocart_btn">
+                    <button class="btn btn buy-button" onclick="location.href = '/sign-in';"><i class="fa-solid fa-plus"></i></button>
+                    <div class="cart_qty qty-box-2 qty-box-3">
+                      <div class="input-group">
+                        <button type="button" class="qty-left-minus" data-type="minus" data-field="">
+                          <i class="fa fa-minus"></i>
+                        </button>
+                        <input class="form-control input-number qty-input" id="<%= product.id %>" type="text" name="quantity">
+                        <button type="button" class="qty-right-plus increase-item-qty" data-product-id="<%= product.id %>" data-type="plus" data-field="">
+                          <i class="fa fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <% } %>
+
+
+                </div>
+              </div>
+            </div>
+            <% }) %>
+
+            <p class="currentPage" style="display: none;"><%= currentPage %></p>
+            <p class="pageLimit" style="display: none;"><%= limit %></p>
+            <p class="totalPages" style="display: none;"><%= totalPages %></p>
+
+          </div>
+
+          <div class="custom-pagination" style="align-items: center; margin-bottom: 30px;">
+            <button style="padding: 10px 15px;float: left; border-radius: 20px; background-color: #5f1303; border: none; color: white;" id="prevPageBtn">Previous</button>
+            <button style="padding: 10px 15px;float: right; border-radius: 20px; background-color: #5f1303; border: none; color: white;" id="nextPageBtn">Next</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%- include('partials/landingPageFooter.ejs') %>

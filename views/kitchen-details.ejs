@@ -1,0 +1,301 @@
+<%- include('partials/kitchenHeader.ejs') %>
+
+<!-- Breadcumb Section   S T A R T -->
+<!-- <div class="breadcumb-section">
+  <div class="breadcumb-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="breadcumb-content">
+            <h1 class="breadcumb-title">Shop details</h1>
+            <ul class="breadcumb-menu">
+              <li><a href="/">Home</a></li>
+              <li class="text-white">/</li>
+              <li class="active">Shop details</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- Shop Details Section S T A R T -->
+<div class="shop-details-section section-padding fix">
+  <div class="shop-details-wrapper style1">
+    <div class="container">
+      <div class="shop-details bg-white">
+        <div class="container">
+          <div class="row gx-60">
+            <div class="col-lg-6">
+              <div class="product-big-img bg-color2">
+                <div class="dishes-thumb">
+                  <img src="<%= product.imageCover %>" style="width: 305px; height: 305px; border-radius: 50%; object-fit: cover;" alt="thumb">
+                  <div class="circle-shape d-none d-md-block"><img class="cir36" src="/assets/img/food-items/circleShape2.png" alt="shape"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="product-about">
+                <div class="title-wrapper">
+                  <h2 class="product-title"><%= product.name %></h2>
+                  <div class="price">₽<%= product.price %></div>
+                </div>
+
+                <div class="product-rating">
+                  <div class="star-rating" role="img" aria-label="Rated 5.00 out of 5"><span style="width:100%">Rated <strong class="rating">5.00</strong> out of 5
+                      based on <span class="rating">1</span> customer rating</span></div>
+                  <a href="shop-details.html" class="woocommerce-review-link">(<span class="count">2</span> customer reviews)</a>
+                </div>
+                <p class="text"><%= product.description %></p>
+
+                <div class="actions">
+                  <div class="quantity">
+                    <p>Quantity</p>
+
+                    <% if(user){ %>
+                    <div class="qty-wrapper">
+                      <input type="text" class="qty-input" id="<%= product.id %>" step="1" min="1" max="100" name="quantity" value="0" title="Qty">
+                      <button class="quantity-plus qty-btn plus-cart-btn-single" data-product-id="<%= product.id %>"><i class="fa-solid fa-plus"></i></button>
+                      <button hidden class="quantity-minus qty-btn minus-cart-btn-single" data-product-id="<%= product.id %>"><i class="fa-solid fa-minus"></i></button>
+                    </div>
+                  </div>
+                  <a style="cursor: pointer;" class="theme-btn single-add-to-cart-btn" data-product-id="<%= product.id %>">Add to Cart<i class="fa-solid fa-cart-shopping bg-transparent text-white"></i></a>
+                  <% }else{ %>
+                  <div class="qty-wrapper">
+                    <input type="number" class="qty-input" step="1" min="1" max="100" name="quantity" value="1" title="Qty">
+                    <button onclick="window.location.href='/sign-in'" class="quantity-plus qty-btn"><i class="fa-solid fa-plus"></i></button>
+                    <button onclick="window.location.href='/sign-in'" class="quantity-minus qty-btn"><i class="fa-solid fa-minus"></i></button>
+                  </div>
+                </div>
+                <a href="/sign-in" class="theme-btn single-add-to-cart-btn">Add to Cart<i class="fa-solid fa-cart-shopping bg-transparent text-white"></i></a>
+                <% } %>
+
+                <!-- <a href="wishlist.html" class="theme-btn style5 border-0">ADD TO wishlist<i class="fa-sharp fa-solid fa-heart"></i></a> -->
+              </div>
+              <!-- <div class="share">
+                  <h6>share with friends</h6>
+                  <ul class="social-media">
+                    <li> <a href="https://www.facebook.com"> <i class="fa-brands fa-facebook-f"></i> </a> </li>
+                    <li> <a href="https://www.youtube.com"> <i class="fa-brands fa-youtube"></i>
+                      </a> </li>
+                    <li> <a href="https://www.x.com"> <i class="fa-brands fa-twitter"></i> </a>
+                    </li>
+                    <li> <a href="https://www.instagram.com"> <i class="fa-brands fa-instagram"></i> </a> </li>
+                  </ul>
+                </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="product-description">
+              <h3>product Description</h3>
+              <div class="desc">
+                <% const splitted = product.summary.split('*'); %>
+                <% splitted.forEach(function(p){ %>
+                <p>
+                  <%= p %>
+                </p>
+                <% }) %>
+              </div>
+            </div>
+            <!-- <div class="product-review">
+                <h3>02 Reviews</h3>
+                <ul class="comment-list">
+                  <li class="review comment-item">
+                    <div class="post-comment">
+                      <div class="comment-avater">
+                        <img src="/assets/img/blog/comment-author1.png" alt="Comment Author">
+                      </div>
+                      <div class="comment-content">
+                        <h4 class="name">Masirul Islam</h4>
+                        <div class="commented-on">March 20, 2024 at 2:37 pm </div>
+                        <div class="star"><img src="https://gramentheme.com/html/fresheat//assets/img/icon/star3.svg" alt="icon">
+                        </div>
+                        <p class="text">Neque porro est qui dolorem ipsum quia quaed
+                          inventor veritatis et quasi architecto beatae vitae dicta sunt
+                          explicabo. Aelltes port lacus quis enim var sed efficitur turpis
+                          gilla sed sit amet finibus eros. Lorem Ipsum is simply dummy</p>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="review comment-item">
+                    <div class="post-comment">
+                      <div class="comment-avater">
+                        <img src="/assets/img/blog/comment-author2.png" alt="Comment Author">
+                      </div>
+                      <div class="comment-content">
+                        <h4 class="name">Daniel Adam</h4>
+                        <div class="commented-on">March 30, 2024 at 2:37 pm </div>
+                        <div class="star"><img src="https://gramentheme.com/html/fresheat//assets/img/icon/star3.svg" alt="icon">
+                        </div>
+                        <p class="text">Neque porro est qui dolorem ipsum quia quaed
+                          inventor veritatis et quasi architecto beatae vitae dicta sunt
+                          explicabo. Aelltes port lacus quis enim var sed efficitur turpis
+                          gilla sed sit amet finibus eros. Lorem Ipsum is simply dummy</p>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div> -->
+            <!-- <div class="comment-form">
+                <div class="form-title">
+                  <h3 class="inner-title">Add a Review</h3>
+                  <p>Your email address will not be published. Required fields are marked *</p>
+                  <div class="rating">
+                    <p>Rate this product? *</p>
+                    <ul class="star">
+                      <li><i class="fa-regular fa-star"></i></li>
+                      <li><i class="fa-regular fa-star"></i></li>
+                      <li><i class="fa-regular fa-star"></i></li>
+                      <li><i class="fa-regular fa-star"></i></li>
+                      <li><i class="fa-regular fa-star"></i></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 form-group style-white2">
+                    <input type="text" placeholder="Your Name" class="form-control">
+                    <i class="text-title far fa-user"></i>
+                  </div>
+                  <div class="col-md-6 form-group style-white2">
+                    <input type="text" placeholder="Your Email" class="form-control">
+                    <i class="text-title far fa-envelope"></i>
+                  </div>
+                  <div class="col-12 form-group style-white2">
+                    <textarea placeholder="Write a Message" class="form-control" rows="5"></textarea>
+                    <i class="text-title far fa-pencil-alt"></i>
+                  </div>
+
+                  <div class="col-12 form-group">
+                    <input id="reviewcheck" name="reviewcheck" type="checkbox">
+                    <label for="reviewcheck">Save my name, email, and website in this browser
+                      for the next time I comment.<span class="checkmark"></span></label>
+                  </div>
+                  <div class="col-12 form-group mb-0">
+                    <button class="theme-btn">Post A Comment <i class="fa-sharp fa-regular fa-arrow-right-long bg-transparent text-white"></i></button>
+                  </div>
+                </div>
+              </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Popular Dishes Section   S T A R T -->
+<section class="popular-dishes-section fix section-padding pt-0">
+  <div class="popular-dishes-wrapper style1">
+    <div class="container">
+      <div class="title-area">
+        <div class="sub-title text-center wow fadeInUp" data-wow-delay="0.5s">
+          <img class="me-1" src="/assets/img/icon/titleIcon.svg" alt="icon">POPULAR DISHES<img class="ms-1" src="/assets/img/icon/titleIcon.svg" alt="icon">
+        </div>
+        <div class="title wow fadeInUp" data-wow-delay="0.7s">
+          Related Items
+        </div>
+      </div>
+      <div class="dishes-card-wrap style1">
+        <% relatedProducts.slice(1, 6).forEach(function(product){ %>
+        <div class="dishes-card style1 wow fadeInUp" data-wow-delay="0.2s">
+          <div class="social-profile">
+            <!-- <span class="plus-btn"> <a href="shop-details.html#"> <i class="fa-regular fa-heart"></i></a></span>
+            <ul>
+              <li><a href="cart.html"><i class="fa-regular fa-basket-shopping-simple"></i></a></li>
+              <li><a href="shop-details.html#" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-light fa-eye"></i></a></li>
+            </ul> -->
+          </div>
+          <div class="dishes-thumb">
+            <img src="<%= product.imageCover %>" style="width: 165px; height: 165px; border-radius: 50%; object-fit: cover;" alt="thumb">
+          </div>
+          <a href="/michael-kitchen/item/<%= product.categorySlug %>/<%= product.slug %>">
+            <h3> <%= product.name %> </h3>
+          </a>
+          <!-- <p>The registration fee</p> -->
+          <h6>₽<%= product.price %></h6>
+        </div>
+        <% }) %>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered">
+      <div class="modal-content pb-3 pe-3">
+        <div class="modal-header border-0">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <div class="row gy-5">
+              <div class="col-xxl-6">
+                <div class="modal-thumb">
+                  <div class="product-big-img bg-color2">
+                    <div class="dishes-thumb">
+                      <img class="img-fluid" src="/assets/img/dishes/dishes3_1.png" alt="thumb">
+                      <div class="circle-shape"><img class="cir36" src="/assets/img/food-items/circleShape2.png" alt="shape"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xxl-6">
+                <div class="modal-details">
+                  <div class="product-about">
+                    <div class="title-wrapper">
+                      <h2 class="product-title">Chicken Pizza</h2>
+                      <div class="price">$69</div>
+                    </div>
+
+                    <div class="product-rating">
+                      <div class="star-rating" role="img" aria-label="Rated 5.00 out of 5">
+                        <span style="width:100%">Rated <strong class="rating">5.00</strong>
+                          out of 5 based on <span class="rating">1</span> customer
+                          rating</span>
+                      </div>
+                      <a href="shop-details.html" class="woocommerce-review-link">(<span class="count">2</span> customer reviews)</a>
+                    </div>
+                    <p class="text">Aliquam hendrerit a augue insuscipit. Etiam aliquam massa
+                      quis des mauris commodo venenatis ligula commodo leez sed blandit
+                      convallis dignissim onec vel pellentesque neque.</p>
+
+                    <div class="actions">
+                      <div class="quantity">
+                        <p>Quantity</p>
+
+                        <div class="qty-wrapper">
+                          <button class="quantity-plus qty-btn"><i class="fa-solid fa-plus"></i></button>
+                          <input type="number" class="qty-input" step="1" min="1" max="100" name="quantity" value="1" title="Qty">
+                          <button class="quantity-minus qty-btn"><i class="fa-solid fa-minus"></i></button>
+                        </div>
+                      </div>
+                      <a href="cart.html" class="theme-btn">Add to Cart<i class="fa-regular fa-cart-shopping bg-transparent text-white"></i></a>
+                      <a href="wishlist.html" class="theme-btn style5 border-0">ADD TO
+                        wishlist<i class="fa-sharp fa-solid fa-heart"></i></a>
+                    </div>
+                    <div class="share">
+                      <h6>share with friends</h6>
+                      <ul class="social-media">
+                        <li> <a href="https://www.facebook.com"> <i class="fa-brands fa-facebook-f"></i> </a> </li>
+                        <li> <a href="https://www.youtube.com"> <i class="fa-brands fa-youtube"></i> </a> </li>
+                        <li> <a href="https://www.x.com"> <i class="fa-brands fa-twitter"></i> </a> </li>
+                        <li> <a href="https://www.instagram.com"> <i class="fa-brands fa-instagram"></i> </a> </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/kitchenFooter.ejs') %>

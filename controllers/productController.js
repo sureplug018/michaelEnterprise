@@ -70,7 +70,6 @@ exports.addProduct = async (req, res) => {
     'price',
     'initialPrice',
     'description',
-    'summary',
     'superCategory',
     'category',
   ];
@@ -153,7 +152,7 @@ exports.addProduct = async (req, res) => {
       variations: parsedVariations,
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       status: 'success',
       message: 'Product added successfully',
       data: newProduct,
@@ -361,44 +360,77 @@ exports.editProduct = async (req, res) => {
   }
 };
 
-exports.findProducts = async (req, res) => {
+exports.find = async (req, res) => {
+  const { name } = req.query;
+
+  if (!name) {
+    return res.status(400).json({
+      status: 'fail',
+      message: 'No item found',
+    });
+  }
+
   try {
-    const { category, page = 1, limit = 20 } = req.query;
+    const products = await Product.aggregate([
+      {
+        $search: {
+          compound: {
+            should: [
+              {
+                autocomplete: {
+                  query: name, // The user's input (from req.query)
+                  path: 'name',
+                  fuzzy: {
+                    maxEdits: 1, // Optional: allows minor typos
+                  },
+                },
+              },
+              {
+                autocomplete: {
+                  query: name, // The user's input (from req.query)
+                  path: 'category',
+                  fuzzy: {
+                    maxEdits: 1, // Optional: allows minor typos
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: 'categories',
+          localField: 'categorySlug', // Assuming product has `categorySlug` that matches `categorySlug` in Category model
+          foreignField: 'categorySlug',
+          as: 'categoryDetails',
+        },
+      },
+      {
+        $match: {
+          availability: true, // Ensure product availability is true
+          superCategory: { $in: ['Afro shop', 'Gadgets'] },
+          // 'categoryDetails.status': 'Enabled', // Ensure category status is 'Enabled'
+        },
+      },
+      {
+        $limit: 7, // Limit the number of results to 8 (or whatever number you prefer)
+      },
+      {
+        $project: {
+          name: 1, // Include the product name in the result
+        },
+      },
+    ]);
 
-    // Create a filter object
-    const filter = {};
-
-    // If a category is provided and it's not 'all', map it to categorySlug in the filter
-    if (category && category.trim().toLowerCase() !== 'all') {
-      filter.categorySlug = category.trim();
-    }
-
-    // Convert page and limit to numbers
-    const pageNumber = parseInt(page, 10);
-    const limitNumber = parseInt(limit, 10);
-
-    // Calculate the skip value
-    const skip = (pageNumber - 1) * limitNumber;
-
-    // Find products based on the filter with pagination
-    const products = await Product.find(filter).skip(skip).limit(limitNumber);
-
-    // Get the total count of products for pagination metadata
-    const totalCount = await Product.countDocuments(filter);
-
-    // Respond with the paginated products and metadata
-    res.status(200).json({
+    return res.status(200).json({
       status: 'success',
-      results: products.length,
-      totalCount,
-      currentPage: pageNumber,
-      totalPages: Math.ceil(totalCount / limitNumber),
       data: {
         products,
       },
     });
   } catch (err) {
-    res.status(400).json({
+    return res.status(400).json({
       status: 'fail',
       message: err.message,
     });
@@ -441,30 +473,5 @@ exports.increaseProductStock = async (req, res) => {
       status: 'fail',
       message: err.message,
     });
-  }
-};
-
-// Search endpoint
-exports.search = async (req, res) => {
-  try {
-    const { query } = req.query;
-    const regex = new RegExp(query, 'i'); // 'i' makes it case-insensitive
-    const products = await Product.find({
-      $or: [
-        { name: regex },
-        { description: regex },
-        { category: regex },
-        // Add other fields you want to search through
-      ],
-    });
-    res.status(200).json({
-      status: 'success',
-      length: products.length,
-      data: {
-        products,
-      },
-    });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
   }
 };

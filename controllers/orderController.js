@@ -250,7 +250,7 @@ exports.createOrder = async (req, res) => {
 
     const reference = await generateUniqueReference(); // Generate and ensure unique reference
 
-    if (deliveryMethod === 'delivery') {
+    if (deliveryMethod === 'delivery outside Rostov') {
       const deliveryDetails = await ShippingAddress.findOne({ user }).session(
         session,
       );
@@ -293,6 +293,98 @@ exports.createOrder = async (req, res) => {
               postalCode: deliveryDetails.postalCode,
               postOfficeAddress: deliveryDetails.postOfficeAddress,
               passportNumber: deliveryDetails.passportNumber,
+              orderNote,
+              deliveryMethod,
+              reference,
+            },
+          ],
+          { session },
+        );
+
+        orders.push(order[0]); //flatten the array by pushing the first element
+      }
+
+      // also delete those items that were ordered from user cart after a successful order
+      await Cart.deleteMany({ user }, { session });
+
+      // return array of admins
+      const adminUsers = await User.find({ role: 'admin' }).session(session);
+
+      const url = `${req.protocol}://${req.get('host')}/admin/orders`;
+
+      // send emails to admin(s) is they are many or send to admin if only single
+      for (const adminUser of adminUsers) {
+        await new OrderEmail(adminUser, url, orders).sendOrderNotification();
+      }
+
+      await session.commitTransaction();
+      session.endSession();
+
+      res.status(201).json({
+        status: 'success',
+        data: {
+          orders,
+        },
+      });
+    } else if (deliveryMethod === 'delivery within Rostov') {
+      const {
+        fullName,
+        address,
+        phoneNumber,
+        entrance,
+        entranceCode,
+        floor,
+        roomNumber,
+      } = req.body;
+
+      if (!fullName) {
+        return res.status(400).json({
+          status: 'fail',
+          message: 'Full name is required',
+        });
+      }
+
+      if (!address) {
+        return res.status(400).json({
+          status: 'fail',
+          message: 'Address is required',
+        });
+      }
+
+      if (!phoneNumber) {
+        return res.status(400).json({
+          status: 'fail',
+          message: 'Phone number is required',
+        });
+      }
+
+      // create an empty array of orders
+      const orders = [];
+      for (const item of cartItems) {
+        // Generate a random 10-digit number as the orderId
+        const orderId = Math.floor(
+          1000000000 + Math.random() * 9000000000,
+        ).toString();
+
+        const order = await Order.create(
+          [
+            {
+              orderId,
+              user,
+              productId: item.productId.id,
+              quantity: item.quantity,
+              price: item.productId.price,
+              name: item.productId.name,
+              total: item.productId.price * item.quantity,
+              paymentMethod: 'Bank Transfer',
+              paymentProof, // Save the payment proof URL
+              fullName,
+              address,
+              phoneNumber,
+              entrance,
+              entranceCode,
+              floor,
+              roomNumber,
               orderNote,
               deliveryMethod,
               reference,
@@ -463,13 +555,6 @@ exports.shipOrder = async (req, res) => {
       });
     }
 
-    if (!url) {
-      return res.status(404).json({
-        status: 'fail',
-        message: 'Tracking Id is required',
-      });
-    }
-
     const order = await Order.findById(orderId);
 
     if (!order) {
@@ -480,6 +565,12 @@ exports.shipOrder = async (req, res) => {
     }
 
     if (order.status === 'Confirmed' && order.deliveryMethod === 'delivery') {
+      if (!url) {
+        return res.status(404).json({
+          status: 'fail',
+          message: 'Tracking Id is required',
+        });
+      }
       order.status = 'Shipped';
       await order.save();
 

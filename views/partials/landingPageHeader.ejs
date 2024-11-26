@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="market place for gadgets, afrocentric products and food">
+  <meta name="keywords" content="afro shop, food, gadgets, kitchen, meals">
+  <meta name="author" content="Eze Raphael">
+  <!-- Favicon Icon -->
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/images/fav1.png">
+  <title>Michael Enterprise | <%= title %></title>
+
+  <!-- Google font -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap">
+  <script src="https://kit.fontawesome.com/fe5872a91f.js" crossorigin="anonymous"></script>
+  <!-- bootstrap css -->
+  <link id="rtl-link" rel="stylesheet" type="text/css" href="/assets/css/vendors/bootstrap.css">
+
+  <!-- Iconly css -->
+  <link rel="stylesheet" type="text/css" href="/assets/css/bulk-style.css">
+
+  <!-- Template css -->
+  <link id="color-link" rel="stylesheet" type="text/css" href="/assets/css/style.css">
+  <!-- Smartsupp Live Chat script
+   <script type="text/javascript">
+    var _smartsupp = _smartsupp || {};
+    _smartsupp.key = '7a1b2eb2f432cd25169fab42945dff48342736a8';
+    window.smartsupp || (function(d) {
+      var s, c, o = smartsupp = function() {
+        o._.push(arguments)
+      };
+      o._ = [];
+      s = d.getElementsByTagName('script')[0];
+      c = d.createElement('script');
+      c.type = 'text/javascript';
+      c.charset = 'utf-8';
+      c.async = true;
+      c.src = 'https://www.smartsuppchat.com/loader.js?';
+      s.parentNode.insertBefore(c, s);
+    })(document);
+  </script>
+  <noscript> Powered by <a href=“https://www.smartsupp.com” target=“_blank”>Smartsupp</a></noscript>
+
+  <div class="gtranslate_wrapper"></div>
+  <script>
+    window.gtranslateSettings = {
+      "default_language": "en",
+      "native_language_names": true,
+      "languages": ["en", "ru", "uk", "ar", "zh-CN", "zh-TW", "nl", "es", "fr", "pt"],
+      "wrapper_selector": ".gtranslate_wrapper",
+      "alt_flags": {
+        "en": "usa"
+      }
+    }
+  </script>
+  <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script> -->
+</head>
+
+<body>
+
+  <!-- Preloader Start -->
+  <!-- <div class="preloader">
+    <div class="loading-container">
+      <div class="loading"></div>
+      <div id="loading-icon"><img src="/assets/images/favmike.png" alt=""></div>
+    </div>
+  </div> -->
+  <!-- Preloader End -->
+
+  <!-- Header Start -->
+  <header class="pb-0">
+    <div class="header-top">
+      <div class="container-fluid-lg">
+        <div class="row">
+          <div class="col-xxl-4 d-xxl-block d-none">
+            <div class="top-left-header">
+              <i class="iconly-Location icli text-white"></i>
+              <span class="text-white">Берберовская 6с2, Rostov on Don, Russia.</span>
+            </div>
+          </div>
+
+          <div class="col-xxl-5 col-lg-9 d-lg-block d-none">
+            <div class="header-offer">
+              <div class="notification-slider">
+                <div>
+                  <div class="timer-notification">
+                    <h6><strong class="me-1">Welcome to Michael Enterprise!</strong>Your gateway to convenience...
+                    </h6>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="timer-notification">
+                    <h6>Something you love is now on sale!
+                      <!-- <a href="shop-left-sidebar.html" class="text-white">Buy Now
+                        !</a> -->
+                    </h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3">
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="top-nav top-header sticky-header">
+      <div class="container-fluid-lg">
+        <div class="row">
+          <div class="col-12">
+            <div class="navbar-top" style="height: 124px; width: auto;">
+              <button class="navbar-toggler d-xl-none d-inline navbar-menu-button" type="button" data-bs-toggle="offcanvas" data-bs-target="#primaryMenu">
+                <span class="navbar-toggler-icon">
+                  <i class="fa-solid fa-bars"></i>
+                </span>
+              </button>
+              <a href="/" class="web-logo nav-logo">
+                <img src="/assets/images/logo-01.png" style="width: 200px; height: 144px;" class="img-fluid blur-up lazyload" alt="">
+              </a>
+
+              <div class="middle-box">
+
+                <div class="search-box">
+                  <div class="input-group">
+                    <input type="text" class="form-control suggestions" placeholder="Search for products...">
+                    <button class="btn search-btn" type="button" id="button-addon2">
+                      <i data-feather="search"></i>
+                    </button>
+                  </div>
+                  <ul class="list-of-suggestions" style="z-index: 1000; position: absolute; width: 525px;"></ul>
+                </div>
+              </div>
+
+              <div class="rightside-box">
+                <div class="search-full">
+                  <div class="input-group">
+                    <span class="input-group-text">
+                      <i data-feather="search" class="font-light"></i>
+                    </span>
+                    <input type="text" class="form-control search-type" placeholder="Search here..">
+                    <span class="input-group-text close-search">
+                      <i data-feather="x" class="font-light"></i>
+                    </span>
+                  </div>
+                </div>
+                <ul class="right-side-menu">
+                  <li class="right-side">
+                    <div class="delivery-login-box">
+                      <div class="delivery-icon">
+                        <div class="search-box">
+                          <i data-feather="search"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="right-side">
+                    <a href="/contact-us" class="delivery-login-box">
+                      <div class="delivery-icon">
+                        <i data-feather="phone-call"></i>
+                      </div>
+                      <div class="delivery-detail">
+                        <h6>24/7 Delivery</h6>
+                        <h5><a href="tel:+79954459255">+79954459255</a></h5>
+                      </div>
+                    </a>
+                  </li>
+                  <li class="right-side">
+                    <a href="/wishlist" class="btn p-0 position-relative header-wishlist">
+                      <i data-feather="heart"></i>
+                    </a>
+                  </li>
+                  <li class="right-side">
+                    <div class="onhover-dropdown header-badge">
+                      <a href="/cart" class="btn p-0 position-relative header-wishlist">
+                        <i data-feather="shopping-cart"></i>
+                        <!-- <span class="position-absolute top-0 start-100 translate-middle badge">2
+                          <span class="visually-hidden">unread messages</span>
+                        </span> -->
+                      </a>
+                    </div>
+                  </li>
+                  <li class="right-side onhover-dropdown">
+                    <div class="delivery-login-box">
+                      <div class="delivery-icon">
+                        <i data-feather="user"></i>
+                      </div>
+                      <div class="delivery-detail">
+                        <h6>Hello,</h6>
+                        <h5>My Account</h5>
+                      </div>
+                    </div>
+
+                    <% if(!user){ %>
+                    <div class="onhover-div onhover-div-login">
+                      <ul class="user-box-name">
+                        <li class="product-box-contain">
+                          <i></i>
+                          <a href="/sign-in">Log In</a>
+                        </li>
+
+                        <li class="product-box-contain">
+                          <a href="/sign-up">Sign Up</a>
+                        </li>
+
+                      </ul>
+                    </div>
+                    <% }else{ %>
+                    <div class="onhover-div onhover-div-login">
+                      <ul class="user-box-name">
+                        <li class="product-box-contain">
+                          <i></i>
+                          <a href="/account">Dashboard</a>
+                        </li>
+                      </ul>
+                    </div>
+                    <% } %>
+
+
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid-lg">
+      <div class="row">
+        <div class="col-12">
+          <div class="header-nav">
+
+            <div class="header-nav-middle">
+              <div class="main-nav navbar navbar-expand-xl navbar-light navbar-sticky">
+                <div class="offcanvas offcanvas-collapse order-xl-2" id="primaryMenu">
+                  <div class="offcanvas-header navbar-shadow">
+                    <h5>Menu</h5>
+                    <button class="btn-close lead" type="button" data-bs-dismiss="offcanvas"></button>
+                  </div>
+                  <div class="offcanvas-body">
+                    <ul class="navbar-nav">
+                      <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                      </li>
+
+                      <!-- <li class="nav-item">
+                        <a class="nav-link" href="/about-us">About Us</a>
+                      </li> -->
+
+                      <li class="nav-item dropdown">
+                        <a class="nav-link" href="/faq">Faq</a>
+                      </li>
+
+                      <li class="nav-item">
+                        <a class="nav-link" href="/contact-us">Contact Us</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Header End -->
+
+  <!-- mobile fix menu start -->
+  <div class="mobile-menu d-md-none d-block mobile-cart">
+    <ul>
+      <li class="active">
+        <a href="/">
+          <img src="/assets/svg/home.svg" alt="" style="width: 30px; height: auto;">
+          <span>Home</span>
+        </a>
+      </li>
+
+      <li class="mobile-category">
+        <a href="/faq">
+          <img src="/assets/svg/question.svg" alt="" style="width: 30px; height: auto;">
+          <span>Faq</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="/search" class="search-box">
+          <img src="/assets/svg/search.svg" alt="" style="width: 30px; height: auto;">
+          <span>Search</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="/contact-us" class="notifi-wishlist">
+          <img src="/assets/svg/headset.svg" alt="" style="width: 30px; height: auto;">
+          <span>Contact</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="/cart">
+          <img src="/assets/svg/cart.svg" alt="" style="width: 30px; height: auto;">
+          <span>Cart</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <!-- mobile fix menu end -->

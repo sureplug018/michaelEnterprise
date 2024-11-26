@@ -34,7 +34,11 @@ router.get('/contact', viewsController.homeContact);
 
 router.get('/about', viewsController.homeAbout);
 
-router.get('/afro-shop/index', viewsController.overview);
+router.get('/afro-shop/index', viewsController.overviewAfro);
+
+router.get('/michael-kitchen/index', viewsController.overviewKitchen);
+
+router.get('/michael-gadgets/index', viewsController.overviewGadgets);
 
 router.get('/faq', viewsController.faq);
 
@@ -42,7 +46,7 @@ router.get('/privacy-policy', viewsController.privacyPolicy);
 
 router.get('/terms-conditions', viewsController.termsConditions);
 
-router.get('/afro-shop', viewsController.afroShop);
+router.get('/shop/:superCategorySlug', viewsController.shop);
 
 router.get('/contact-us', viewsController.contact);
 
@@ -54,11 +58,24 @@ router.get('/error', viewsController.error);
 
 router.get('/checkout', viewsController.checkout);
 
-router.get('/afro-shop/:slug', viewsController.productDetail);
+router.get(
+  '/product/:superCategorySlug/:categorySlug/:slug',
+  viewsController.productDetail,
+);
 
 router.get('/store-locations', viewsController.store);
 
 router.get('/wishlist', viewsController.wishlist);
+
+router.get('/michael-kitchen/faqs', viewsController.kitchenFaq);
+
+router.get('/michael-kitchen/menu', viewsController.menu);
+
+router.get('/michael-kitchen/menu/:categorySlug', viewsController.menuCategory);
+
+router.get('/michael-kitchen/shop', viewsController.kitchenShop);
+
+router.get('/michael-kitchen/contact-us', viewsController.kitchenContact);
 
 ////////////////////////////////////////////////////////////
 //////////////////      ADMIN          //////////////////////
@@ -94,6 +111,18 @@ router.get('/admin/rates', viewsController.editRate);
 router.get('/admin/currencies', viewsController.editCurrency);
 
 router.get('/admin/add-currency', viewsController.addCurrency);
+
+router.get('/admin/user-role', viewsController.userRole);
+
+router.get(
+  '/michael-kitchen/item/:categorySlug/:slug',
+  viewsController.kitchenDetail,
+);
+
+router.get(
+  '/michael-enterprise/shop/:categorySlug',
+  viewsController.kitchenShopCategory,
+);
 
 //////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////       EXCHANGE                /////////////////////////////////////

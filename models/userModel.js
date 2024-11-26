@@ -8,17 +8,20 @@ const userSchema = new mongoose.Schema({
     type: String,
     trim: true,
     required: [true, 'A user must have a first name'],
+    trim: true,
   },
   lastName: {
     type: String,
     trim: true,
     required: [true, 'A user must have a last name'],
+    trim: true,
   },
   email: {
     type: String,
     trim: true,
     lowercase: true,
     unique: true,
+    trim: true,
     validate: {
       validator: function (value) {
         return validator.isEmail(value);
@@ -33,7 +36,7 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     required: [true, 'A user must have a role'],
-    enum: ['user', 'admin'],
+    enum: ['user', 'admin', 'super-admin'],
     default: 'user',
   },
   password: {

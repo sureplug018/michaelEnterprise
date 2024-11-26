@@ -16,7 +16,7 @@ const wishlistSchema = new mongoose.Schema({
 wishlistSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'productId',
-    select: 'name price imageCover slug',
+    select: 'name price imageCover slug categorySlug superCategorySlug category',
   });
   next();
 });

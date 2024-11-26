@@ -294,7 +294,7 @@ exports.loginAdmin = async (req, res) => {
       return;
     }
 
-    if (user.role !== 'admin') {
+    if (user.role !== 'admin' && user.role !== 'super-admin') {
       return res.status(401).json({
         status: 'fail',
         message: 'Incorrect password or email',
@@ -665,7 +665,7 @@ exports.updatePassword = async (req, res) => {
     if (req.body.password !== req.body.passwordConfirm) {
       return res.status(400).json({
         status: 'fail',
-        message: 'newPassword and Password confirm does not match',
+        message: 'New password and password confirm does not match',
       });
     }
 

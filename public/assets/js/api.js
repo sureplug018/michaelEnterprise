@@ -182,7 +182,7 @@ const editShippingAddress = async (
 
       // Redirect to the login page after a delay
       window.setTimeout(() => {
-        location.assign('/account');
+        location.reload();
       }, 3000);
     }
   } catch (err) {
@@ -268,7 +268,7 @@ const createDeliveryAddress = async (
       showAlert('success', 'Successfully created delivery address');
       // Redirect
       window.setTimeout(() => {
-        location.assign('/account');
+        location.reload();
       }, 3000);
     }
   } catch (err) {
@@ -312,9 +312,9 @@ const supportFaq = async (email, subject, message) => {
     if (res.data.status === 'success') {
       showAlert('success', 'Message sent successfully!');
 
-      // window.setTimeout(() => {
-      //   location.assign('/faq');
-      // }, 3000);
+      window.setTimeout(() => {
+        location.reload();
+      }, 3000);
     }
   } catch (err) {
     showAlert('error', err.response.data.message);
@@ -489,6 +489,27 @@ const addRate = async (
   }
 };
 
+const userRole = async (email, role) => {
+  try {
+    const res = await axios({
+      method: 'patch',
+      url: '/api/v1/users/change-role',
+      data: {
+        email,
+        role,
+      },
+    });
+    if (res.data.status === 'success') {
+      showAlert('success', 'User Role Updated!');
+      setTimeout(function () {
+        location.reload();
+      }, 3000);
+    }
+  } catch (err) {
+    showAlert('error', err.response.data.message);
+  }
+};
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const loginForm = document.querySelector('.form-login');
 const signupForm = document.querySelector('.form-signup');
@@ -514,6 +535,7 @@ const logoutUserBtn2 = document.querySelector('.signOut-user-btn2');
 const reviewForm = document.querySelector('.review-form');
 const addCurrencyForm = document.querySelector('.add-currency-form');
 const addRateForm = document.querySelector('.add-rate-form');
+const userRoleForm = document.querySelector('.user-role-form');
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 if (userDataUpdateForm) {
@@ -522,12 +544,31 @@ if (userDataUpdateForm) {
     const updateBtn = document.querySelector('.update-btn');
     updateBtn.style.opacity = '0.5';
     updateBtn.textContent = 'Updating...';
-    const firstName = document.getElementById('firstNames').value;
-    const lastName = document.getElementById('lastNames').value;
-    const phoneNumber = document.getElementById('phoneNumbers').value;
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const phoneNumber = document.getElementById('phoneNumber').value;
     await updateUserDetail(firstName, lastName, phoneNumber);
     updateBtn.style.opacity = '1';
     updateBtn.textContent = 'Save Changes';
+  });
+}
+
+if (userRoleForm) {
+  userRoleForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitBtn = document.querySelector('.update-btn');
+    submitBtn.style.opacity = '0.5';
+    submitBtn.textContent = 'Updating...';
+    submitBtn.disabled = true;
+
+    const email = document.getElementById('email').value;
+    const role = document.getElementById('role').value;
+
+    await userRole(email, role);
+
+    submitBtn.style.opacity = '1';
+    submitBtn.textContent = 'Update Role';
+    submitBtn.disabled = false;
   });
 }
 
@@ -710,17 +751,16 @@ if (createShippingAddressForm) {
     const button = document.querySelector('.save-address-btn');
     button.style.opacity = '0.5';
     button.textContent = 'Saving...';
-    const fullName = document.getElementById('fullNames').value;
-    const address = document.getElementById('addresses').value;
-    const phoneNumber = document.getElementById('phoneNumbers').value;
-    const country = document.getElementById('countries').value;
-    const region = document.getElementById('regions').value;
-    const city = document.getElementById('cities').value;
-    const postalCode = document.getElementById('postalCodes').value;
-    const postOfficeAddress = document.getElementById(
-      'postOfficeAddresses',
-    ).value;
-    const passportNumber = document.getElementById('passportNumbers').value;
+    const fullName = document.getElementById('fullName').value;
+    const address = document.getElementById('address').value;
+    const phoneNumber = document.getElementById('phoneNumber').value;
+    const country = document.getElementById('country').value;
+    const region = document.getElementById('region').value;
+    const city = document.getElementById('city').value;
+    const postalCode = document.getElementById('postalCode').value;
+    const postOfficeAddress =
+      document.getElementById('postOfficeAddress').value;
+    const passportNumber = document.getElementById('passportNumber').value;
     await createDeliveryAddress(
       fullName,
       address,
@@ -745,16 +785,16 @@ if (shippingAddressForm) {
     const addressId = button.dataset.addressId;
     button.style.opacity = '0.5';
     button.textContent = 'saving...';
-    const fullName = document.getElementById('fullName').value;
-    const address = document.getElementById('address').value;
-    const phoneNumber = document.getElementById('phoneNumber').value;
-    const country = document.getElementById('country').value;
-    const region = document.getElementById('region').value;
-    const city = document.getElementById('city').value;
-    const postalCode = document.getElementById('postalCode').value;
+    const fullName = document.getElementById('fullName2').value;
+    const address = document.getElementById('address2').value;
+    const phoneNumber = document.getElementById('phoneNumber2').value;
+    const country = document.getElementById('country2').value;
+    const region = document.getElementById('region2').value;
+    const city = document.getElementById('city2').value;
+    const postalCode = document.getElementById('postalCode2').value;
     const postOfficeAddress =
-      document.getElementById('postOfficeAddress').value;
-    const passportNumber = document.getElementById('passportNumber').value;
+      document.getElementById('postOfficeAddress2').value;
+    const passportNumber = document.getElementById('passportNumber2').value;
     await editShippingAddress(
       fullName,
       address,
@@ -866,7 +906,7 @@ if (supportFormFaq) {
   });
 }
 
-const addToWishlistButton = document.querySelector('.add-to-wishlist-btn');
+const addToWishlistButton = document.querySelector('.add-to-wishlist-single');
 
 if (addToWishlistButton) {
   addToWishlistButton.addEventListener('click', async function (e) {
@@ -876,33 +916,67 @@ if (addToWishlistButton) {
     const productId = this.dataset.productId;
 
     try {
-      // Check if productId is valid
-      if (!productId) {
-        console.error('Product ID is missing.');
-        return;
-      }
-
       // Change the styling and text content to indicate processing
       this.style.opacity = '0.5';
       this.querySelector('span').textContent = 'Adding...';
+      this.disabled = true;
 
       // Perform the API call
       const response = await axios.post(
         `/api/v1/wishlists/add-to-wishlist/${productId}`,
       );
 
-      // Handle success
-      showAlert('success', 'Product added to wishlist!');
-      this.style.opacity = '1';
-      this.querySelector('span').textContent = 'Added to Wishlist';
+      if (response.data.status === 'success') {
+        // Handle success
+        showAlert('success', 'Product added to wishlist!');
+        this.style.opacity = '1';
+        this.querySelector('span').textContent = 'Added to Wishlist';
+        this.disabled = false;
+      } else {
+        this.style.opacity = '1';
+        this.disabled = false;
+        this.querySelector('span').textContent = 'Add To Wishlist';
+      }
     } catch (error) {
       // Handle error
       showAlert('error', error.response.data.message);
       this.style.opacity = '1';
       this.querySelector('span').textContent = 'Add To Wishlist';
+      this.disabled = false;
+      return;
     }
   });
 }
+
+// For the modal "Add to Cart" button
+document.querySelectorAll('.add-to-wishlist-btn').forEach((button) => {
+  button.addEventListener('click', async function (e) {
+    e.preventDefault();
+    const productId = this.dataset.productId;
+
+    try {
+      button.style.opacity = '0.5';
+      button.disabled = true;
+
+      // Send a POST request to the backend to add the product to the cart
+      const response = await axios.post(
+        `/api/v1/wishlists/add-to-wishlist/${productId}`,
+      );
+      if (response.data.status === 'success') {
+        // Handle success message or any further actions after successful approval
+        showAlert('success', 'Successfully added to wishlist!');
+        button.style.opacity = '1';
+        button.disabled = false;
+      }
+    } catch (error) {
+      console.log(error);
+      // Handle errors
+      showAlert('error', error.response.data.message);
+      button.style.opacity = '1';
+      button.disabled = false;
+    }
+  });
+});
 
 document.querySelectorAll('.remove-cart').forEach((button) => {
   button.addEventListener('click', async function (e) {
@@ -915,13 +989,11 @@ document.querySelectorAll('.remove-cart').forEach((button) => {
         `/api/v1/carts/delete-from-cart/${productId}`,
       );
 
-      console.log(response.data);
-
       // Handle success message or any further actions after successful removal
       showAlert('success', 'Item successfully removed from cart!');
-
-      // Remove the item from the UI
-      document.getElementById(`cart-item-${productId}`).remove();
+      window.setTimeout(() => {
+        location.reload();
+      }, 3000);
     } catch (error) {
       // Handle errors
       showAlert('error', error.response.data.message);
@@ -929,29 +1001,34 @@ document.querySelectorAll('.remove-cart').forEach((button) => {
   });
 });
 
-document.querySelectorAll('.remove-wishlist').forEach((button) => {
+// For the modal "Add to Cart" button
+document.querySelectorAll('.remove-from-wishlist').forEach((button) => {
   button.addEventListener('click', async function (e) {
     e.preventDefault();
     const productId = this.dataset.productId;
 
     try {
-      // Send a DELETE request to the backend to remove the product from the wishlist
+      button.style.opacity = '0.5';
+      button.disabled = true;
+
+      // Send a POST request to the backend to remove the product from the wishlist
       const response = await axios.delete(
         `/api/v1/wishlists/delete-from-wishlist/${productId}`,
       );
-
-      // Handle success message or any further actions after successful removal
-      showAlert('success', 'Item successfully removed from wishlist!');
-
-      // Remove the item from the UI
-      document.getElementById(`wishlist-item-${productId}`).remove();
+      // Handle success message
+      showAlert('success', 'Successfully removed from wishlist!');
+      button.closest('.product-box-contain').style.display = 'none';
     } catch (error) {
+      console.log(error);
       // Handle errors
       showAlert('error', error.response.data.message);
+      button.style.opacity = '1';
+      button.disabled = false;
     }
   });
 });
 
+// For the modal "Add to Cart" button
 document.querySelectorAll('.add-to-cart-from-wishlist').forEach((button) => {
   button.addEventListener('click', async function (e) {
     e.preventDefault();
@@ -959,26 +1036,23 @@ document.querySelectorAll('.add-to-cart-from-wishlist').forEach((button) => {
 
     try {
       button.style.opacity = '0.5';
-      button.querySelector('.wishlist-push-cart').textContent = 'Processing';
+      button.disabled = true;
 
-      // Send a DELETE request to the backend to remove the product from the wishlist
+      // Send a POST request to the backend to remove the product from the wishlist
       const response = await axios.post(
         `/api/v1/wishlists/add-to-cart-from-wishlist/${productId}`,
       );
-
-      // Handle success message or any further actions after successful removal
-      showAlert('success', 'Cart successfully updated!');
-      button.style.opacity = '1';
-      button.querySelector('.wishlist-push-cart').textContent = 'Add To Cart';
-
-      // Remove the item from the UI
-      document.getElementById(`wishlist-item-${productId}`).remove();
+      if (response.data.status === 'success') {
+        // Handle success message
+        showAlert('success', 'Successfully added to cart!');
+        button.closest('.product-box-contain').style.display = 'none';
+      }
     } catch (error) {
+      console.log(error);
       // Handle errors
-      console.log(error.response);
       showAlert('error', error.response.data.message);
       button.style.opacity = '1';
-      button.querySelector('.wishlist-push-cart').textContent = 'Add To Cart';
+      button.disabled = false;
     }
   });
 });
@@ -991,22 +1065,92 @@ document.querySelectorAll('.add-to-cart-btn').forEach((button) => {
 
     try {
       button.style.opacity = '0.5';
-      button.querySelector('.btn-text').textContent = 'Processing';
+      button.disabled = true;
 
       // Send a POST request to the backend to add the product to the cart
       const response = await axios.post(
         `/api/v1/carts/add-to-cart/${productId}`,
       );
-
-      // Handle success message or any further actions after successful approval
-      showAlert('success', 'Cart successfully updated!');
-      button.style.opacity = '1';
-      button.querySelector('.btn-text').textContent = 'Add To Cart';
+      if (response.data.status === 'success') {
+        // Handle success message or any further actions after successful approval
+        showAlert('success', 'Cart successfully updated!');
+        button.style.opacity = '1';
+        button.disabled = false;
+        document.getElementById(productId).value += 1;
+      }
     } catch (error) {
+      console.log(error);
       // Handle errors
       showAlert('error', error.response.data.message);
       button.style.opacity = '1';
-      button.querySelector('.btn-text').textContent = 'Add To Cart';
+      button.disabled = false;
+      window.setTimeout(() => {
+        location.reload();
+      }, 3000);
+    }
+  });
+});
+
+// For the modal "Add to Cart" button
+document.querySelectorAll('.increase-item-qty').forEach((button) => {
+  button.addEventListener('click', async function (e) {
+    e.preventDefault();
+    const productId = this.dataset.productId;
+
+    try {
+      button.style.opacity = '0.5';
+      button.disabled = true;
+
+      // Send a POST request to the backend to add the product to the cart
+      const response = await axios.patch(
+        `/api/v1/carts/increase-quantity/${productId}`,
+      );
+      if (response.data.status === 'success') {
+        // Handle success message or any further actions after successful approval
+        showAlert('success', 'Cart successfully updated!');
+        button.style.opacity = '1';
+        button.disabled = false;
+        document.getElementById(productId).value =
+          parseInt(document.getElementById(productId).value, 10) + 1;
+      }
+    } catch (error) {
+      console.log(error);
+      // Handle errors
+      showAlert('error', error.response.data.message);
+      button.style.opacity = '1';
+      button.disabled = false;
+    }
+  });
+});
+
+// For the modal "Add to Cart" button
+document.querySelectorAll('.decrease-itm-qty').forEach((button) => {
+  button.addEventListener('click', async function (e) {
+    e.preventDefault();
+    const productId = this.dataset.productId;
+
+    try {
+      button.style.opacity = '0.5';
+      button.disabled = true;
+
+      // Send a POST request to the backend to add the product to the cart
+      const response = await axios.patch(
+        `/api/v1/carts/decrease-quantity/${productId}`,
+      );
+      if (response.data.status === 'success') {
+        // Handle success message or any further actions after successful approval
+        showAlert('success', 'Cart successfully updated!');
+        button.style.opacity = '1';
+        button.disabled = false;
+        document.getElementById(productId).value =
+          parseInt(document.getElementById(productId).value, 10) - 1;
+      }
+    } catch (error) {
+      console.log(error);
+      // Handle errors
+      showAlert('error', error.response.data.message);
+      button.style.opacity = '1';
+      button.disabled = false;
     }
   });
 });
@@ -1015,23 +1159,26 @@ document.querySelectorAll('.plus-cart').forEach((button) => {
   button.addEventListener('click', async function (e) {
     e.preventDefault();
     const productId = this.dataset.productId;
-    console.log(productId);
 
     try {
       button.style.opacity = '0.5';
+      button.disabled = true;
 
       const response = await axios.patch(
         `/api/v1/carts/increase-quantity/${productId}`,
       );
-
-      showAlert('success', 'Cart successfully updated!');
-      button.style.opacity = '1';
-      window.setTimeout(() => {
-        location.assign('/cart');
-      });
+      if (response.data.status === 'success') {
+        showAlert('success', 'Cart successfully updated!');
+        button.style.opacity = '1';
+        window.setTimeout(() => {
+          location.reload();
+        }, 1000);
+      }
     } catch (err) {
       // Handle errors
       showAlert('error', err.response.data.message);
+      button.style.opacity = '1';
+      button.disabled = true;
     }
   });
 });
@@ -1040,23 +1187,26 @@ document.querySelectorAll('.minus-cart').forEach((button) => {
   button.addEventListener('click', async function (e) {
     e.preventDefault();
     const productId = this.dataset.productId;
-    console.log(productId);
 
     try {
       button.style.opacity = '0.5';
+      button.disabled = true;
 
       const response = await axios.patch(
         `/api/v1/carts/decrease-quantity/${productId}`,
       );
-
-      showAlert('success', 'Cart successfully updated!');
-      button.style.opacity = '1';
-      window.setTimeout(() => {
-        location.assign('/cart');
-      });
+      if (response.data.status === 'success') {
+        showAlert('success', 'Cart successfully updated!');
+        button.style.opacity = '1';
+        window.setTimeout(() => {
+          location.reload();
+        }, 1000);
+      }
     } catch (err) {
       // Handle errors
       showAlert('error', err.response.data.message);
+      button.style.opacity = '1';
+      button.disabled = true;
     }
   });
 });
@@ -1070,26 +1220,80 @@ if (singleProduct) {
     // Retrieve the product ID from the button
     const productId = this.dataset.productId;
 
-    try {
-      // Check if productId is valid
-      if (!productId) {
-        console.error('Product ID is missing.');
-        return;
-      }
+    singleProduct.style.opacity = '0.5';
+    singleProduct.disabled = true;
 
+    try {
       // Perform the API call
-      const response = await axios.post(
-        `/api/v1/carts/add-to-cart/${productId}`,
+      const response = await axios.patch(
+        `/api/v1/carts/increase-quantity/${productId}`,
       );
 
-      // Handle success
-      showAlert('success', 'Product added to cart!');
+      if (response.data.status === 'success') {
+        // Handle success
+        showAlert('success', 'Product added to cart!');
+        singleProduct.style.opacity = '1';
+        singleProduct.disabled = false;
+
+        document.getElementById(productId).value =
+          parseInt(document.getElementById(productId).value, 10) + 1;
+
+        const minusButton = document.querySelector('.minus-cart-btn-single');
+        minusButton.style.display = 'block';
+      } else {
+        // Handle error
+        showAlert('error', 'Something went wrong');
+        singleProduct.style.opacity = '1';
+        singleProduct.disabled = false;
+      }
     } catch (error) {
+      console.log(error);
       // Handle error
       showAlert(
         'error',
         error.response ? error.response.data.message : 'Something went wrong',
       );
+      singleProduct.style.opacity = '1';
+      singleProduct.disabled = false;
+    }
+  });
+}
+
+const singleMinus = document.querySelector('.minus-cart-btn-single');
+
+if (singleMinus) {
+  singleMinus.addEventListener('click', async function (e) {
+    e.preventDefault();
+
+    // Retrieve the product ID from the button
+    const productId = this.dataset.productId;
+
+    try {
+      // Perform the API call
+      const response = await axios.patch(
+        `/api/v1/carts/decrease-quantity/${productId}`,
+      );
+
+      if (response.data.status === 'success') {
+        // Handle success
+        showAlert('success', 'Product added to cart!');
+        singleMinus.style.opacity = '1';
+        singleMinus.disabled = false;
+
+        let count = (document.getElementById(productId).value =
+          parseInt(document.getElementById(productId).value, 10) - 1);
+        if (count === 0) {
+          singleMinus.style.display = 'none';
+        }
+      } else {
+        // Handle error
+        showAlert('error', 'Something went wrong');
+        singleMinus.style.opacity = '1';
+        singleMinus.disabled = false;
+      }
+    } catch (err) {
+      // Handle error
+      showAlert('error', err.response.data.message);
     }
   });
 }
@@ -1166,6 +1370,13 @@ if (order) {
     // Get the value of the order notes and delivery method
     const orderNote = document.getElementById('orderNote').value;
     const deliveryMethod = document.getElementById('deliveryMethod').value;
+    const fullName = document.getElementById('fullNames').value;
+    const address = document.getElementById('addresses').value;
+    const phoneNumber = document.getElementById('phoneNumbers').value;
+    const entrance = document.getElementById('entrance').value;
+    const entranceCode = document.getElementById('entranceCode').value;
+    const floor = document.getElementById('floor').value;
+    const roomNumber = document.getElementById('roomNumber').value;
 
     // Get the file input element
     const paymentProofInput = document.getElementById('paymentProof');
@@ -1183,6 +1394,13 @@ if (order) {
     const formData = new FormData();
     formData.append('orderNote', orderNote);
     formData.append('deliveryMethod', deliveryMethod);
+    formData.append('fullName', fullName);
+    formData.append('address', address);
+    formData.append('phoneNumber', phoneNumber);
+    formData.append('entrance', entrance);
+    formData.append('entranceCode', entranceCode);
+    formData.append('floor', floor);
+    formData.append('roomNumber', roomNumber);
     formData.append('paymentProof', paymentProofInput.files[0]); // Add the file to the request
 
     try {
@@ -1208,14 +1426,15 @@ if (order) {
         }, 3000);
       }
     } catch (err) {
+      console.log(err);
       // Handle error (e.g., show an error message)
       showAlert('error', err.response.data.message);
       order.disabled = false; // Re-enable the button
       order.textContent = 'I have made payment'; // Reset text content
       order.style.opacity = '1'; // Reset opacity
-      window.setTimeout(() => {
-        location.assign('/cart');
-      }, 3000);
+      // window.setTimeout(() => {
+      //   location.reload();
+      // }, 3000);
     }
   });
 }
@@ -1663,88 +1882,182 @@ document.querySelectorAll('.edit-currency-modal').forEach((button) => {
   });
 });
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////         CATEGORY FOR FRONTEND AFRO SHOP            ////////////////////////////
-function myFunction() {
-  const x = document.getElementById('categorySelect').value;
-  const url = x ? `/afro-shop?category=${x}` : '/afro-shop';
-  window.location.href = url;
-  if (x === 'all') {
-    window.location.href = '/afro-shop?category=all';
-  }
+///////////////////////////    changing bank in the order modal     /////////////////////////////////////
+
+// Get the select element
+const bankList = document.getElementById('bankList');
+
+let bankName = '';
+let accountName = '';
+let accountNumber = '';
+
+// Add a change event listener
+if (bankList) {
+  bankList.addEventListener('change', function () {
+    // Get the selected option
+    const selectedOption = bankList.options[bankList.selectedIndex];
+
+    // Get the attributes from the selected option
+    bankName = selectedOption.getAttribute('data-bank-name');
+    accountName = selectedOption.getAttribute('data-account-name');
+    accountNumber = selectedOption.getAttribute('data-account-number');
+
+    // // Example: Update the modal or UI with these details
+    // document.getElementById('modalBankName').innerText = bankName || 'N/A';
+    // document.getElementById('modalAccountName').innerText = accountName || 'N/A';
+    // document.getElementById('modalAccountNumber').innerText = accountNumber || 'N/A';
+  });
 }
 
-// Function to update the dropdown based on the URL
-function updateDropdownBasedOnURL() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const category = urlParams.get('category');
-
-  if (category) {
-    const selectElement = document.getElementById('categorySelect');
-    const optionToSelect = Array.from(selectElement.options).find(
-      (option) => option.value === category,
-    );
-
-    if (optionToSelect) {
-      selectElement.value = category;
-      optionToSelect.textContent = optionToSelect.textContent;
-    }
-  }
-}
-
-// Call this function when the page loads to set the correct dropdown value
-updateDropdownBasedOnURL();
-
-const currentPage = parseInt(document.getElementById('currentPage').innerText);
-const totalPages = parseInt(document.getElementById('totalPages').textContent);
-
-function updateURL(direction) {
-  const currentUrl = new URL(window.location.href);
-  let page = parseInt(currentUrl.searchParams.get('page')) || 1;
-
-  if (direction === 'next' && page < totalPages) {
-    page += 1;
-  } else if (direction === 'prev' && page > 1) {
-    page -= 1;
-  } else {
-    // Update button disabled state
-    updateButtonStates(page);
-    return; // Exit the function if the button should be disabled
-  }
-
-  currentUrl.searchParams.set('page', page);
-  window.location.href = currentUrl.toString();
-}
-
-function updateButtonStates(page) {
-  const prevBtn = document.getElementById('previous-btn');
-  const nextBtn = document.getElementById('next-btn');
-
-  if (!prevBtn || !nextBtn) {
-    console.error('Pagination buttons not found.');
+// Function to open the modal and set the amount
+function openModal(grandTotal) {
+  if (!bankName || !accountName || !accountNumber) {
+    showAlert('error', 'Please select a bank before placing the order.');
     return;
   }
-
-  if (page <= 1) {
-    prevBtn.setAttribute('aria-disabled', 'true');
-    prevBtn.classList.add('disabled');
-  } else {
-    prevBtn.removeAttribute('aria-disabled');
-    prevBtn.classList.remove('disabled');
+  // Set the amount in the modal
+  const grandTotalAmount = document.getElementById('modalAmount');
+  if (grandTotalAmount) {
+    grandTotalAmount.innerText = grandTotal;
   }
 
-  if (page >= totalPages) {
-    nextBtn.setAttribute('aria-disabled', 'true');
-    nextBtn.classList.add('disabled');
-  } else {
-    nextBtn.removeAttribute('aria-disabled');
-    nextBtn.classList.remove('disabled');
-  }
+  // document.querySelector(
+  //   '#checkoutConfirmModal .fa-building-columns + p',
+  // ).innerText = `Bank: ${bankName}`;
+  document.getElementById('accountName').innerText = accountName;
+  document.getElementById('accountNumber').innerText = accountNumber;
+  document.getElementById('bankName').innerText = bankName;
+  // Display the modal
+  document.getElementById('checkoutConfirmModal').style.display = 'block';
 }
 
-// Initialize button states on page load
-updateButtonStates(currentPage);
+// Function to close the modal
+function closeModal() {
+  document.getElementById('checkoutConfirmModal').style.display = 'none';
+}
+
+// Add event listener to the "Place Order" button
+const confirmCheckoutButton = document.getElementById('confirmCheckoutButton');
+if (confirmCheckoutButton) {
+  confirmCheckoutButton.addEventListener('click', function (event) {
+    event.preventDefault(); // Prevent default action
+
+    // Get the total amount from the page
+    const grandTotal = document.querySelector('.price').innerText.slice(1); // Assuming it's prefixed with '$'
+
+    // Get the selected bank details from the button's dataset
+    const bankName = this.dataset.bankName;
+    const accountName = this.dataset.accountName;
+    const accountNumber = this.dataset.accountNumber;
+
+    // Open the modal and pass the total amount
+    openModal(grandTotal, bankName, accountName, accountNumber);
+  });
+}
+
+// Get the close button inside the modal
+const checkoutButton = document.querySelector('#checkoutConfirmModal .close');
+
+// Add event listener to the close button inside the modal
+if (checkoutButton) {
+  checkoutButton.addEventListener('click', function () {
+    closeModal();
+  });
+}
+
+function copyText(elementId) {
+  // Get the text from the specified element
+  var textToCopy = document.getElementById(elementId).innerText;
+
+  // Create a temporary textarea element to hold the text
+  var tempTextArea = document.createElement('textarea');
+  tempTextArea.value = textToCopy;
+  document.body.appendChild(tempTextArea);
+
+  // Select the text in the textarea and copy it to the clipboard
+  tempTextArea.select();
+  document.execCommand('copy');
+
+  // Remove the temporary textarea from the DOM
+  document.body.removeChild(tempTextArea);
+
+  // Optionally, show an alert or notification to indicate that the text was copied
+  showAlert('success', 'Copied: ' + textToCopy);
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Get the query parameters from the URL
+  const urlParams = new URLSearchParams(window.location.search);
+
+  // Get the value for category from the query parameters, defaulting to 'all'
+  const selectedCategory = (urlParams.get('category') || 'all').toLowerCase();
+
+  // Get the dropdown element
+  const categorySelect = document.getElementById('selectCategory');
+
+  // Set the selected value for the category dropdown
+  Array.from(categorySelect.options).forEach((option) => {
+    // Normalize the option value for comparison
+    const normalizedOptionValue = option.value.toLowerCase(); // e.g., 'food-stuffs'
+    if (normalizedOptionValue === selectedCategory) {
+      option.selected = true; // Select the matching option
+    }
+  });
+
+  // Listen for changes in the dropdown
+  categorySelect.addEventListener('change', function () {
+    // Replace spaces with dashes to match URL parameter format
+    const newCategory = categorySelect.value; // The value is already in dash format
+    urlParams.set('category', newCategory);
+    urlParams.delete('page'); // Remove page and limit if they exist
+    urlParams.delete('limit');
+    window.location.search = urlParams.toString(); // Reload with updated parameters
+  });
+});
+
+const prevPageBtn = document.getElementById('prevPageBtn');
+const nextPageBtn = document.getElementById('nextPageBtn');
+
+const currentPage = parseFloat(
+  document.querySelector('.currentPage').textContent,
+);
+const limit = parseFloat(document.querySelector('.pageLimit').textContent);
+const totalPages = parseFloat(
+  document.querySelector('.totalPages').textContent,
+);
+
+// Update button visibility
+prevPageBtn.style.display = currentPage === 1 ? 'none' : 'inline-block';
+nextPageBtn.style.display =
+  currentPage === totalPages ? 'none' : 'inline-block';
+
+if (nextPageBtn) {
+  nextPageBtn.addEventListener('click', function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const nextPage = parseFloat(currentPage + 1);
+    urlParams.set('page', nextPage); // Update or add the 'page' parameter
+    urlParams.set('limit', limit); // Update or add the 'limit' parameter
+
+    // Only navigate if we're not on the last page
+    if (currentPage < totalPages) {
+      window.location.search = urlParams.toString(); // Update the URL with the new query string
+    }
+  });
+}
+
+if (prevPageBtn) {
+  prevPageBtn.addEventListener('click', function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const prevPage = parseFloat(currentPage - 1);
+    urlParams.set('page', prevPage); // Update or add the 'page' parameter
+    urlParams.set('limit', limit); // Update or add the 'limit' parameter
+
+    // Only navigate if we're not on the last page
+    if (currentPage !== 0) {
+      window.location.search = urlParams.toString(); // Update the URL with the new query string
+    }
+  });
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1947,4 +2260,139 @@ document.addEventListener('DOMContentLoaded', function () {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////      EXCHANGE API       //////////////////////
+////////////////////      SEARCH FUNCTION       //////////////////////
+
+// Find suggestions on input event
+const searchInputField = document.querySelector('.suggestions');
+
+if (searchInputField) {
+  searchInputField.addEventListener('input', async function (e) {
+    e.preventDefault();
+    const query = searchInputField.value;
+
+    if (query.length > 0) {
+      const suggestions = document.querySelectorAll('.list-of-suggestions');
+      suggestions.forEach((input) => {
+        input.style.display = 'block';
+      });
+
+      // Make sure there is something to search for
+      try {
+        // Correctly format the query parameter with '='
+        const res = await fetch(
+          `/api/v1/products/find?name=${encodeURIComponent(query)}`,
+        );
+
+        // Check if the response is okay (status 200-299)
+        if (res.ok) {
+          const data = await res.json();
+          console.log(data);
+
+          const suggestions = document.querySelectorAll('.list-of-suggestions');
+
+          suggestions.forEach((input) => {
+            input.innerHTML = '';
+            data.data.products.forEach((product) => {
+              const li = document.createElement('li');
+              // Set inline styles
+              li.style.padding = '5px'; // Add some padding
+              li.style.backgroundColor = '#fff'; // Light background color
+              li.style.cursor = 'pointer'; // Change cursor to pointer
+              li.style.transition = 'background-color 0.3s'; // Transition for hover effect
+              li.style.display = 'block';
+              li.style.width = '100%';
+              li.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.2)';
+
+              // Add hover effect using mouse events
+              li.addEventListener('mouseover', () => {
+                li.style.backgroundColor = '#e0e0e0'; // Darker on hover
+              });
+
+              li.addEventListener('mouseout', () => {
+                li.style.backgroundColor = '#f9f9f9'; // Revert on mouse out
+              });
+
+              li.textContent = product.name;
+              input.appendChild(li);
+
+              // Define a custom slugify function
+              function slugify(text) {
+                return text
+                  .toString()
+                  .toLowerCase()
+                  .trim()
+                  .replace(/\s+/g, '-') // Replace spaces with -
+                  .replace(/[^\w\-\.]+/g, '') // Remove all non-word chars except dot
+                  .replace(/\-\-+/g, '-'); // Replace multiple - with single -
+              }
+
+              // Apply slugify to the list item's textContent
+              li.addEventListener('click', () => {
+                const slug = slugify(li.textContent);
+                window.location.href = `/search?search=${slug}`; // Redirect to the product link with slug
+              });
+            });
+          });
+
+          // You can call a function to display suggestions here
+          // displaySuggestions(data);
+        } else {
+          console.error('Error fetching suggestions:', res.statusText);
+        }
+      } catch (err) {
+        console.error('Fetch error:', err);
+      }
+    } else {
+      // Optionally clear suggestions if input is empty
+      const suggestions = document.querySelectorAll('.list-of-suggestions');
+      suggestions.forEach((input) => {
+        input.style.display = 'none';
+      });
+    }
+  });
+}
+
+const searchBtn = document.querySelectorAll('.search-btn');
+const searchInputs = document.querySelectorAll('.suggestions');
+
+if (searchBtn && searchInputs) {
+  // Handle search button clicks
+  searchBtn.forEach((button) => {
+    button.addEventListener('click', function (e) {
+      e.preventDefault();
+      handleSearch();
+    });
+  });
+
+  // Handle pressing the 'Enter' key in the search input
+  searchInputs.forEach((input) => {
+    input.addEventListener('keypress', function (e) {
+      if (e.key === 'Enter' && input.value.trim().length > 0) {
+        e.preventDefault();
+        handleSearch();
+      }
+    });
+  });
+}
+
+// Search handling logic
+function handleSearch() {
+  searchInputs.forEach((input) => {
+    const query = input.value.trim();
+    if (query.length > 0) {
+      // Define a custom slugify function
+      function slugify(text) {
+        return text
+          .toString()
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, '-') // Replace spaces with -
+          .replace(/[^\w\-\.]+/g, '') // Remove all non-word chars except dot
+          .replace(/\-\-+/g, '-'); // Replace multiple - with single -
+      }
+
+      const slug = slugify(query);
+      window.location.href = `/search?search=${slug}`; // Redirect to the product link with slug
+    }
+  });
+}

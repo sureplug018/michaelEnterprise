@@ -28,10 +28,10 @@
         <div class="footer-links">
           <h3 style="color: white;">our services</h3>
           <ul>
-            <li><a href="/afro-shop">Afro Shop</a></li>
-            <li><a href="#">Gadgets</a></li>
-            <li><a href="#">kitchen</a></li>
-            <li><a href="#">Exchange</a></li>
+            <li><a href="/afro-shop/index">Afro Shop</a></li>
+            <li><a href="/michael-gadgets/index">Gadgets</a></li>
+            <li><a href="/michael-kitchen/index">kitchen</a></li>
+            <li><a href="/exchange/index">Exchange</a></li>
           </ul>
         </div>
         <!-- Footer Quick Links End -->
@@ -40,7 +40,7 @@
       <div class="col-lg-3 col-md-4 col-12">
         <!-- Footer Links Start -->
         <div class="footer-links">
-          <h3 style="color: white;">company</h3>
+          <h3 style="color: white;">Pages</h3>
           <ul>
             <li><a href="/">Home</a></li>
             <li><a href="/about">about us</a></li>
@@ -108,7 +108,7 @@
             <ul>
               <li><a target="_blank" href="https://www.instagram.com/michael_enterprise?igsh=d3EzMTAyZ3VpZHdl"><i class="fa-brands fa-instagram"></i></a></li>
               <li><a target="_blank" href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
-              <li><a target="_blank" href=" https://vk.com/club227320115"><i class="fa-brands fa-vk"></i></a></li>
+              <li><a target="_blank" href="https://vk.com/club227320115"><i class="fa-brands fa-vk"></i></a></li>
               <li><a target="_blank" href="https://wa.me/+79954459255"><i class="fa-brands fa-whatsapp"></i></a></li>
               <li><a target="_blank" href="https://t.me/micenterprise"><i class="fa-brands fa-telegram"></i></a></li>
             </ul>
@@ -147,11 +147,27 @@
 <!-- Text Effect js file -->
 <script src="/assets/js/SplitText.js"></script>
 <script src="/assets/js/ScrollTrigger.min.js"></script>
+
+<!-- Add this JavaScript snippet at the end of your HTML body or inside a script tag -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Show the modal automatically after page load
+    setTimeout(function() {
+      const modal = new bootstrap.Modal(document.getElementById('myModal-1'));
+      modal.show();
+    }, 2000); // Adjust the delay as needed (1000 ms = 1 second)
+  });
+</script>
 <!-- Wow js file -->
 <script src="/assets/js/wow.js"></script>
 <!-- Main Custom js file -->
 <script src="/assets/js/function.js"></script>
 <!-- <script src="../../assets/js/theme-panel.js"></script> -->
+
+<!-- header style two End -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script src="/assets/js/api.js"></script>
 </body>
 
 </html>

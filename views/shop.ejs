@@ -1,0 +1,169 @@
+<%- include('partials/landingPageHeader.ejs') %>
+
+<!-- Breadcrumb Section Start -->
+<section class="breadcrumb-section pt-0">
+  <div class="container-fluid-lg">
+    <div class="row">
+      <div class="col-12">
+        <div class="breadcrumb-contain">
+          <h2>About Us</h2>
+          <nav>
+            <ol class="breadcrumb mb-0">
+              <li class="breadcrumb-item">
+                <a href="/">
+                  <i class="fa-solid fa-house"></i>
+                </a>
+              </li>
+              <li class="breadcrumb-item active">About Us</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- <section class="search-section">
+  <div class="container-fluid-lg">
+    <div class="row">
+      <div class="col-xxl-6 col-xl-8 mx-auto">
+        <div class="title d-block text-center">
+          <h2>Search for products</h2>
+          <span class="title-leaf">
+            <svg class="icon-width">
+              <use xlink:href="../assets/svg/leaf.svg#leaf"></use>
+            </svg>
+          </span>
+        </div>
+
+        <div class="search-box">
+          <div class="input-group">
+            <input type="text" class="form-control suggestions" placeholder="Search for products...">
+            <button class="btn theme-bg-color text-white m-0 search-btn" type="button" id="button-addon1">Search</button>
+          </div>
+          <ul class="list-of-suggestions" style="z-index: 1000; position: absolute; width: 100%;"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+<section class="section-b-space shop-section">
+  <div class="container-fluid-lg">
+    <div class="row">
+      <div class="col-12">
+        <div class="show-button">
+          <div class="top-filter-menu-2">
+
+
+            <div class="d-flex align-items-center">
+              <div class="category-dropdown me-md-5">
+                <select id="selectCategory" style="border: none; border-radius: 5px; width: 100%; height: 110%; padding: 8px; font-size: 16px; font-family: Arial, sans-serif; color: #333; background-color: #fff; transition: border-color 0.3s ease;outline: none;box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add box shadow */">
+                  <!-- <option value="" disabled >Select category</option> -->
+                  <option value="all">All Categories</option>
+                  <% categories.forEach(function(category) { %>
+                  <option value="<%= category.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') %>">
+                    <%= category %>
+                  </option>
+                  <% }) %>
+
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <% if(products.length === 0){ %>
+        <p style="text-align: center;">No product found matching the criteria</p>
+        <% } %>
+        <div class="row row-cols-xxl-6 row-cols-lg-5 row-cols-md-4 row-cols-sm-3 row-cols-2 g-sm-4 g-3 section-b-space">
+
+          <% products.forEach(function(product){ %>
+          <div>
+            <div class="product-box product-white-bg wow fadeIn" data-wow-delay="0.2s">
+              <div class="product-image">
+                <a href="/product/<%= product.superCategorySlug %>/<%= product.categorySlug %>/<%= product.slug %>">
+                  <img src="<%= product.imageCover %>" loading="lazy" class="img-fluid blur-up lazyload" alt="">
+                </a>
+                <ul class="product-option">
+                  <% if(user){ %>
+                  <li data-bs-toggle="tooltip" data-bs-placement="top" title="Wishlist">
+                    <a style="cursor: pointer;" class="notifi-wishlist add-to-wishlist-btn" data-product-id="<%= product.id %>">
+                      <i data-feather="heart"></i>
+                    </a>
+                  </li>
+                  <% }else{ %>
+                  <li data-bs-toggle="tooltip" data-bs-placement="top" title="Wishlist">
+                    <a href="/sign-in" class="notifi-wishlist">
+                      <i data-feather="heart"></i>
+                    </a>
+                  </li>
+                  <% } %>
+
+                </ul>
+              </div>
+              <div class="product-detail position-relative">
+                <a href="/product/<%= product.superCategorySlug %>/<%= product.categorySlug %>/<%= product.slug %>">
+                  <h6 class="name">
+                    <%= product.name %>
+                  </h6>
+                </a>
+
+                <h6 class="sold weight text-content fw-normal" style="text-decoration: line-through;">₽ <%= product.initialPrice %></h6>
+
+                <h6 class="price theme-color">₽ <%= product.price %></h6>
+                <% if(user){ %>
+                <div class="add-to-cart-btn-2 addtocart_btn">
+                  <button class="btn addcart-button btn buy-button add-to-cart-btn" data-product-id="<%= product.id %>"><i class="fa-solid fa-plus"></i></button>
+                  <div class="cart_qty qty-box-2 qty-box-3">
+                    <div class="input-group">
+                      <button type="button" class="qty-left-minus decrease-itm-qty" data-product-id="<%= product.id %>" data-type="minus" data-field="">
+                        <i class="fa fa-minus"></i>
+                      </button>
+                      <input class="form-control input-number qty-input" id="<%= product.id %>" type="text" name="quantity">
+                      <button type="button" class="qty-right-plus increase-item-qty" data-product-id="<%= product.id %>" data-type="plus" data-field="">
+                        <i class="fa fa-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <% }else{ %>
+                <div class="add-to-cart-btn-2 addtocart_btn">
+                  <button class="btn btn buy-button" onclick="location.href = '/sign-in';"><i class="fa-solid fa-plus"></i></button>
+                  <div class="cart_qty qty-box-2 qty-box-3">
+                    <div class="input-group">
+                      <button type="button" class="qty-left-minus" data-type="minus" data-field="">
+                        <i class="fa fa-minus"></i>
+                      </button>
+                      <input class="form-control input-number qty-input" id="<%= product.id %>" type="text" name="quantity">
+                      <button type="button" class="qty-right-plus increase-item-qty" data-product-id="<%= product.id %>" data-type="plus" data-field="">
+                        <i class="fa fa-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <% } %>
+
+
+              </div>
+            </div>
+          </div>
+          <% }) %>
+
+          <p class="currentPage" style="display: none;"><%= currentPage %></p>
+          <p class="pageLimit" style="display: none;"><%= limit %></p>
+          <p class="totalPages" style="display: none;"><%= totalPages %></p>
+
+        </div>
+
+        <div class="custom-pagination" style="align-items: center; margin-bottom: 30px;">
+          <button style="padding: 10px 15px;float: left; border-radius: 20px; background-color: #5f1303; border: none; color: white;" id="prevPageBtn">Previous</button>
+          <button style="padding: 10px 15px;float: right; border-radius: 20px; background-color: #5f1303; border: none; color: white;" id="nextPageBtn">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/landingPageFooter.ejs') %>

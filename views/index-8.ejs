@@ -1,0 +1,289 @@
+<%- include('partials/landingPageHeader.ejs') %>
+
+<!-- Breadcrumb Section Start -->
+<section class="breadcrumb-section pt-0">
+  <div class="container-fluid-lg">
+    <div class="row">
+      <div class="col-12">
+        <div class="breadcrumb-contain">
+          <h2>About Us</h2>
+          <nav>
+            <ol class="breadcrumb mb-0">
+              <li class="breadcrumb-item">
+                <a href="">
+                  <i class="fa-solid fa-house"></i>
+                </a>
+              </li>
+              <li class="breadcrumb-item active">About Us</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<section class="section-b-space shop-section">
+  <div class="container-fluid-lg">
+    <div class="row">
+      <div class="col-12">
+        <div class="show-button">
+          <div class="top-filter-menu-2">
+
+
+            <div class="d-flex align-items-center">
+              <div class="category-dropdown me-md-5">
+                <select id="selectCategory" style="border: none; border-radius: 5px; width: 100%; height: 110%; padding: 8px; font-size: 16px; font-family: Arial, sans-serif; color: #333; background-color: #fff; transition: border-color 0.3s ease;outline: none;box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add box shadow */">
+                  <!-- <option value="" disabled >Select category</option> -->
+                  <option value="all">All Categories</option>
+                  <% categories.forEach(function(category) { %>
+                  <option value="<%= category.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') %>">
+                    <%= category %>
+                  </option>
+                  <% }) %>
+
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <% if(products.length === 0){ %>
+        <p style="text-align: center;">No product found matching the criteria</p>
+        <% } %>
+        <div class="row row-cols-xxl-6 row-cols-lg-5 row-cols-md-4 row-cols-sm-3 row-cols-2 g-sm-4 g-3 section-b-space">
+
+          <% products.forEach(function(product){ %>
+          <div>
+            <div class="product-box product-white-bg wow fadeIn" data-wow-delay="0.2s">
+              <div class="product-image">
+                <a href="/product/<%= product.superCategorySlug %>/<%= product.categorySlug %>/<%= product.slug %>">
+                  <img src="<%= product.imageCover %>" loading="lazy" class="img-fluid blur-up lazyload" alt="">
+                </a>
+                <ul class="product-option">
+                  <% if(user){ %>
+                  <li data-bs-toggle="tooltip" data-bs-placement="top" title="Wishlist">
+                    <a style="cursor: pointer;" class="notifi-wishlist add-to-wishlist-btn" data-product-id="<%= product.id %>">
+                      <i data-feather="heart"></i>
+                    </a>
+                  </li>
+                  <% }else{ %>
+                  <li data-bs-toggle="tooltip" data-bs-placement="top" title="Wishlist">
+                    <a href="/sign-in" class="notifi-wishlist">
+                      <i data-feather="heart"></i>
+                    </a>
+                  </li>
+                  <% } %>
+
+                </ul>
+              </div>
+              <div class="product-detail position-relative">
+                <a href="/product/<%= product.superCategorySlug %>/<%= product.categorySlug %>/<%= product.slug %>">
+                  <h6 class="name">
+                    <%= product.name %>
+                  </h6>
+                </a>
+
+                <h6 class="sold weight text-content fw-normal" style="text-decoration: line-through;">₽ <%= product.initialPrice %></h6>
+
+                <h6 class="price theme-color">₽ <%= product.price %></h6>
+                <% if(user){ %>
+                <div class="add-to-cart-btn-2 addtocart_btn">
+                  <button class="btn addcart-button btn buy-button add-to-cart-btn" data-product-id="<%= product.id %>"><i class="fa-solid fa-plus"></i></button>
+                  <div class="cart_qty qty-box-2 qty-box-3">
+                    <div class="input-group">
+                      <button type="button" class="qty-left-minus decrease-itm-qty" data-product-id="<%= product.id %>" data-type="minus" data-field="">
+                        <i class="fa fa-minus"></i>
+                      </button>
+                      <input class="form-control input-number qty-input" id="<%= product.id %>" type="text" name="quantity">
+                      <button type="button" class="qty-right-plus increase-item-qty" data-product-id="<%= product.id %>" data-type="plus" data-field="">
+                        <i class="fa fa-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <% }else{ %>
+                <div class="add-to-cart-btn-2 addtocart_btn">
+                  <button class="btn btn buy-button" onclick="location.href = '/sign-in';"><i class="fa-solid fa-plus"></i></button>
+                  <div class="cart_qty qty-box-2 qty-box-3">
+                    <div class="input-group">
+                      <button type="button" class="qty-left-minus" data-type="minus" data-field="">
+                        <i class="fa fa-minus"></i>
+                      </button>
+                      <input class="form-control input-number qty-input" id="<%= product.id %>" type="text" name="quantity">
+                      <button type="button" class="qty-right-plus increase-item-qty" data-product-id="<%= product.id %>" data-type="plus" data-field="">
+                        <i class="fa fa-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <% } %>
+
+
+              </div>
+            </div>
+          </div>
+          <% }) %>
+
+          <p class="currentPage" style="display: none;"><%= currentPage %></p>
+          <p class="pageLimit" style="display: none;"><%= limit %></p>
+          <p class="totalPages" style="display: none;"><%= totalPages %></p>
+
+
+        </div>
+
+        <div style="display: flex; justify-content: center;">
+          <button onclick="window.location.href='/shop/<%= products[0].superCategorySlug %>';" style="padding: 15px 20px; border-radius: 4px; font-size: larger; background-color: #5f1303; border: none; color: white; margin-bottom: 40px;">
+            Show More
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function() {
+    // Ensure code isolation
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchInputField = document.querySelector('.suggestions');
+
+      if (searchInputField) {
+        searchInputField.addEventListener('input', async function(e) {
+          e.preventDefault();
+          const query = searchInputField.value.trim();
+
+          if (query.length > 0) {
+            try {
+              const suggestions = document.querySelectorAll('.list-of-suggestions');
+              suggestions.forEach((input) => {
+                input.style.display = 'block';
+              });
+
+              const res = await fetch(`/api/v1/products/find?name=${encodeURIComponent(query)}`);
+
+              if (res.ok) {
+                const data = await res.json();
+
+                suggestions.forEach((input) => {
+                  input.innerHTML = '';
+                  data.data.products.forEach((product) => {
+                    const li = document.createElement('li');
+                    li.style.cssText = `
+                      padding: 5px;
+                      background-color: #fff;
+                      cursor: pointer;
+                      transition: background-color 0.3s;
+                      display: block;
+                      width: 100%;
+                      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                    `;
+                    li.addEventListener('mouseover', () => {
+                      li.style.backgroundColor = '#e0e0e0';
+                    });
+                    li.addEventListener('mouseout', () => {
+                      li.style.backgroundColor = '#f9f9f9';
+                    });
+                    li.textContent = product.name;
+                    input.appendChild(li);
+
+                    li.addEventListener('click', () => {
+                      const slug = slugify(li.textContent);
+                      window.location.href = `/search?search=${slug}`;
+                    });
+                  });
+                });
+              } else {
+                console.error('Error fetching suggestions:', res.statusText);
+              }
+            } catch (err) {
+              console.error('Fetch error:', err);
+            }
+          } else {
+            const suggestions = document.querySelectorAll('.list-of-suggestions');
+            suggestions.forEach((input) => {
+              input.style.display = 'none';
+            });
+          }
+        });
+      }
+
+      const searchBtn = document.querySelectorAll('.search-btn');
+      const searchInputs = document.querySelectorAll('.suggestions');
+
+      if (searchBtn && searchInputs) {
+        searchBtn.forEach((button) => {
+          button.addEventListener('click', function(e) {
+            e.preventDefault();
+            handleSearch();
+          });
+        });
+
+        searchInputs.forEach((input) => {
+          input.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && input.value.trim().length > 0) {
+              e.preventDefault();
+              handleSearch();
+            }
+          });
+        });
+      }
+
+      function handleSearch() {
+        searchInputs.forEach((input) => {
+          const query = input.value.trim();
+          if (query.length > 0) {
+            const slug = slugify(query);
+            window.location.href = `/search?search=${slug}`;
+          }
+        });
+      }
+
+      function slugify(text) {
+        return text
+          .toString()
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, '-')
+          .replace(/[^\w\-\.]+/g, '')
+          .replace(/\-\-+/g, '-');
+      }
+    });
+  })();
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get the query parameters from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // Get the value for category from the query parameters, defaulting to 'all'
+    const selectedCategory = (urlParams.get('category') || 'all').toLowerCase();
+
+    // Get the dropdown element
+    const categorySelect = document.getElementById('selectCategory');
+
+    // Set the selected value for the category dropdown
+    Array.from(categorySelect.options).forEach((option) => {
+      // Normalize the option value for comparison
+      const normalizedOptionValue = option.value.toLowerCase(); // e.g., 'food-stuffs'
+      if (normalizedOptionValue === selectedCategory) {
+        option.selected = true; // Select the matching option
+      }
+    });
+
+    // Listen for changes in the dropdown
+    categorySelect.addEventListener('change', function() {
+      // Replace spaces with dashes to match URL parameter format
+      const newCategory = categorySelect.value; // The value is already in dash format
+      urlParams.set('category', newCategory);
+      urlParams.delete('page'); // Remove page and limit if they exist
+      urlParams.delete('limit');
+      window.location.search = urlParams.toString(); // Reload with updated parameters
+    });
+  });
+</script>
+
+<%- include('partials/landingPageFooter.ejs') %>

@@ -1,0 +1,159 @@
+<%- include('partials/kitchenHeader.ejs') %>
+
+<!-- Breadcumb Section   S T A R T -->
+<div class="breadcumb-section">
+  <div class="breadcumb-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="breadcumb-content">
+            <h1 class="breadcumb-title">Contact us</h1>
+            <ul class="breadcumb-menu">
+              <li><a href="/">Home</a></li>
+              <li class="text-white">/</li>
+              <li class="active">Contact us</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Contact Us Section    S T A R T -->
+<div class="contact-us-section section-padding fix">
+  <div class="contact-box-wrapper style1">
+    <div class="container">
+      <div class="row gy-4">
+        <div class="col-md-6 col-xl-3">
+          <div class="contact-box style1">
+            <div class="contact-icon"><img src="/assets/img/icon/location.png" alt="icon"></div>
+            <h3 class="title">Our Address</h3>
+            <p><a style="color: #5C6574;" href="https://yandex.com/maps/?text=47.243990,39.801900&si=4v43ct1phxuvzke23uqp5f8reg">Берберовская 6с2, Rostov on Don, Russia.</a></p>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <div class="contact-box style1">
+            <div class="contact-icon"><img src="/assets/img/icon/gmail.png" alt="icon"></div>
+            <h3 class="title"><a style="color: #010F1C;" href="mailto:support@michael-enterprise.com">support@michael-enterprise.com</a></h3>
+            <p>Email us anytime for any kind enquiry or complain.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <div class="contact-box style1">
+            <div class="contact-icon"><img src="/assets/img/icon/phone.png" alt="icon"></div>
+            <h3 class="title">Hot: <a style="color: #010F1C;" href="tel:+79954459255">+79954459255</a></h3>
+            <p>24/7/365 priority Live Chat and ticketing support.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <div class="contact-box style1">
+            <div class="contact-icon"><img src="/assets/img/icon/clock.png" alt="icon"></div>
+            <h3 class="title">Opening Hour</h3>
+            <p>Everyday: 9 AM – 10 PM</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Contact Form Section    S T A R T -->
+<div class="contact-form-section section-padding pt-0 fix">
+  <div class="contact-form-wrapper style2">
+    <div class="container">
+      <div class="row gx-60 gy-5">
+        <div class="col-xl-6">
+          <div class="contact-form-thumb">
+            <img src="/assets/img/contact/contactThumb2_1.png" alt="thumb">
+          </div>
+        </div>
+        <div class="col-xl-6">
+          <div class="contact-form style2">
+            <h2>Get in Touch</h2>
+            <form class="row" action="contact.html#">
+              <div class="col-md-6">
+                <input type="text" placeholder="Full Name">
+              </div>
+              <div class="col-md-6">
+                <input type="email" placeholder="Email Address">
+              </div>
+              <div class="col-md-6">
+                <input type="number" placeholder="Phone Number">
+              </div>
+              <div class="col-md-6">
+                <select name="orderby" class="single-select" aria-label="Shop order">
+                  <option value="subject" selected="selected">Subject</option>
+                  <option value="complain">Complain</option>
+                  <option value="greetings">Greetings</option>
+                  <option value="date">Expire Date</option>
+                  <option value="price">About Price</option>
+                  <option value="order">About order</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <textarea id="message" class="form-control" placeholder="Write your message here..." rows="5"></textarea>
+              </div>
+              <!-- <div class="col-12 form-group">
+                <input id="reviewcheck" name="reviewcheck" type="checkbox">
+                <label for="reviewcheck">Collaboratively formulate principle capital. Progressively
+                  evolve user<span class="checkmark"></span></label>
+              </div> -->
+              <div class="col-12 form-group mb-0">
+                <button class="theme-btn w-100">SUBMIT NOW <i class="fa-solid fa-arrow-right-long bg-transparent text-white"></i></button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Map Section    S T A R T -->
+<!-- <div class="map-wrapper" style="line-height: 0;">
+  <div id="map" style="height: 500px; width: 100%;"></div>
+</div> -->
+
+<!-- <script>
+  function initMap() {
+    const script = document.createElement('script');
+    script.src = 'https://api-maps.yandex.com/2.1/?lang=en_US';
+    script.async = true;
+    script.onload = () => {
+      ymaps.ready(function() {
+        var location = [47.243521, 39.801808];
+        var map = new ymaps.Map('map', {
+          center: location,
+          zoom: 18
+        });
+
+        var marker = new ymaps.Placemark(location, {
+          hintContent: 'Marker Location',
+          balloonContent: 'This is a marker at the specified coordinates'
+        });
+
+        map.geoObjects.add(marker);
+      });
+    };
+    document.body.appendChild(script);
+  }
+
+  // Use IntersectionObserver to load the map when the map section is in view
+  const mapSection = document.querySelector('.map-section');
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        initMap();
+        observer.unobserve(mapSection); // Stop observing once the map is loaded
+      }
+    });
+  }, {
+    rootMargin: '0px 0px 200px 0px' // Load slightly before it comes into full view
+  });
+
+  observer.observe(mapSection);
+</script> -->
+
+<%- include('partials/kitchenFooter.ejs') %>

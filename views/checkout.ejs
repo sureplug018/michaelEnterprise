@@ -1,191 +1,535 @@
-<%- include('partials/landingPageHead.ejs') %>
+<%- include('partials/landingPageHeader.ejs') %>
 
-<div class="rts-navigation-area-breadcrumb">
-  <div class="container">
+
+<!-- Breadcrumb Section Start -->
+<section class="breadcrumb-section pt-0">
+  <div class="container-fluid-lg">
     <div class="row">
-      <div class="col-lg-12">
-        <div class="navigator-breadcrumb-wrapper">
-          <a href="/">Home</a>
-          <i class="fa-regular fa-chevron-right"></i>
-          <a class="current" href="/checkout">Checkout</a>
+      <div class="col-12">
+        <div class="breadcrumb-contain">
+          <h2>Checkout</h2>
+          <nav>
+            <ol class="breadcrumb mb-0">
+              <li class="breadcrumb-item">
+                <a href="/">
+                  <i class="fa-solid fa-house"></i>
+                </a>
+              </li>
+              <li class="breadcrumb-item active">Checkout</li>
+            </ol>
+          </nav>
         </div>
       </div>
     </div>
   </div>
-</div>
+</section>
+<!-- Breadcrumb Section End -->
 
-<div class="section-seperator">
-  <div class="container">
-    <hr class="section-seperator">
-  </div>
-</div>
-
-
-<div class="checkout-area rts-section-gap">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 pr--40 pr_md--5 pr_sm--5 order-2 order-xl-1 order-lg-2 order-md-2 order-sm-2 mt_md--30 mt_sm--30">
-        <div class="rts-billing-details-area">
-          <h3 class="title">Delivery Details</h3>
-          <% if(userDeliveryAddress){ %>
-          <form>
-            <div class="half-input-wrapper">
-              <div class="single-input">
-                <input value="<%= userDeliveryAddress.fullName %>" type="text" disabled>
-              </div>
-              <div class="single-input">
-                <input value="<%= userDeliveryAddress.address %>" type="text" disabled>
-              </div>
-              <div class="single-input">
-                <input value="<%= userDeliveryAddress.phoneNumber %>" type="text" disabled>
-              </div>
-              <div class="single-input">
-                <input value="<%= userDeliveryAddress.country %>" type="text" disabled>
-              </div>
-              <div class="single-input">
-                <input value="<%= userDeliveryAddress.region %>" type="text" disabled>
-              </div>
-              <div class="single-input">
-                <input value="<%= userDeliveryAddress.city %>" type="text" disabled>
-              </div>
-              <div class="single-input">
-                <input value="<%= userDeliveryAddress.postalCode %>" type="text" disabled>
-              </div>
-            </div>
-            <div class="single-input">
-              <input value="<%= userDeliveryAddress.postOfficeAddress %>" type="text" disabled>
-            </div>
-            <div class="single-input">
-              <input value="<%= userDeliveryAddress.passportNumber %>" type="text" disabled>
-            </div>
-            <a href="/account" class="rts-btn btn-primary" style="padding: 10px 15px; line-height: 1.2;">Update Address</a>
-          </form>
-          <% }else{ %>
-          <h2 class="title">No delivery address! <a href="/account">Create One</a></h2>
-          <% } %>
-
-        </div>
-      </div>
-      <div class="col-lg-4 order-1 order-xl-2 order-lg-1 order-md-1 order-sm-1">
-        <h3 class="title-checkout">Your Order</h3>
-        <div class="right-card-sidebar-checkout">
-          <div class="top-wrapper">
-            <div class="product">
-              Products
-            </div>
-            <div class="price">
-              Price
-            </div>
-          </div>
-          <% cartItems.forEach(function(item){ %>
-          <div class="single-shop-list">
-            <div class="left-area">
-              <a href="/afro-shop/<%= item.productId.slug %>" class="thumbnail">
-                <img src="<%= item.productId.imageCover %>" alt="">
-              </a>
-              <a href="/afro-shop/<%= item.productId.slug %>" class="title">
-                <%= item.productId.name %>
-              </a>
-            </div>
-            <span class="price">₽<%= item.productId.price*item.quantity %></span>
-          </div>
-          <% }) %>
-          <div class="single-shop-list">
-            <div class="left-area">
-              <span style="font-weight: 600; color: #2C3C28;">Total Price:</span>
-            </div>
-            <% 
-            let itemPrices = 0;
-            cartItems.forEach(function(item){
-            itemPrices += item.productId.price * item.quantity
-            });
-            %>
-            <span data-value="totalAmount" class="price" style="color: #5F1303;">₽<%= itemPrices %></span>
-          </div>
-          <p></p>
-          <a href="/cart" class="rts-btn btn-primary" style="float: right; margin-right: 10px; padding: 10px 15px;">Modify Cart</a>
-
-          <div class="cottom-cart-right-area">
-            <div style="font-weight: bolder;">Choose Delivery Method</div>
-            <br>
-            <select id="deliveryMethod">
-              <option value="pick-up">Pick Up From Our Store</option>
-              <option value="delivery">Delivery</option>
-            </select>
-            <p></p>
-            <br>
+<!-- Checkout section Start -->
+<section class="checkout-section-2 section-b-space">
+  <div class="container-fluid-lg">
+    <div class="row g-sm-4 g-3">
+      <div class="col-lg-8">
+        <div class="left-sidebar-checkout">
+          <div class="checkout-detail-box">
             <ul>
+
               <li>
-                <input type="radio" id="f-options" name="selector" checked>
-                <label for="f-options">Direct Bank Transfer</label>
-                <div class="check">
-                  <div class="inside"></div>
+                <div class="checkout-icon address-book" style="display: none;">
+                  <i class="fa-solid fa-address-book fa-2xl fa-shake " style="color: #5f1303; margin-top: 50%; margin-left: 10%;"></i>
+                </div>
+                <div style="display: none;" class="inside-rostov">
+                  <div class="checkout-box">
+                    <div class="checkout-title">
+                      <h4>Delivery Address</h4>
+                    </div>
+
+                    <div class="checkout-detail">
+                      <div class="row g-4">
+                        <div class="col-xxl-12 col-lg-12 col-md-6">
+                          <form class="shipping-address-form">
+                            <div class="right-sidebar-box">
+                              <div class="row">
+
+                                <div class="col-xxl-6 col-lg-12 col-sm-6">
+                                  <div class="mb-md-4 mb-3 custom-form">
+                                    <label for="fullNames" class="form-label">Full Name</label>
+                                    <div class="custom-input">
+                                      <input type="text" class="form-control" id="fullNames" placeholder="Enter Full Name">
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-xxl-6 col-lg-12 col-sm-6">
+                                  <div class="mb-md-4 mb-3 custom-form">
+                                    <label for="phoneNumbers" class="form-label">Phone Number</label>
+                                    <div class="custom-input">
+                                      <input type="text" class="form-control" id="phoneNumbers" placeholder="Enter Phone Number">
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-xxl-12 col-lg-12 col-sm-6">
+                                  <div class="mb-md-4 mb-3 custom-form">
+                                    <label for="addresses" class="form-label">Address</label>
+                                    <div class="custom-input">
+                                      <input type="text" class="form-control" id="addresses" placeholder="Enter Address">
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-xxl-6 col-lg-12 col-sm-6">
+                                  <div class="mb-md-4 mb-3 custom-form">
+                                    <label for="entrance" class="form-label">Entrance(Optional)</label>
+                                    <div class="custom-input">
+                                      <input type="text" class="form-control" id="entrance" placeholder="Enter Full Name">
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-xxl-6 col-lg-12 col-sm-6">
+                                  <div class="mb-md-4 mb-3 custom-form">
+                                    <label for="entranceCode" class="form-label">Entrance Code(Optional)</label>
+                                    <div class="custom-input">
+                                      <input type="text" class="form-control" id="entranceCode" placeholder="Enter Phone Number">
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-xxl-6 col-lg-12 col-sm-6">
+                                  <div class="mb-md-4 mb-3 custom-form">
+                                    <label for="floor" class="form-label">Floor(Optional)</label>
+                                    <div class="custom-input">
+                                      <input type="text" class="form-control" id="floor" placeholder="Floor(Optional)">
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-xxl-6 col-lg-12 col-sm-6">
+                                  <div class="mb-md-4 mb-3 custom-form">
+                                    <label for="roomNumber" class="form-label">Room Number(Optional)</label>
+                                    <div class="custom-input">
+                                      <input type="text" class="form-control" id="roomNumber" placeholder="Room Number(Optional)">
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+                            </div>
+                            <!-- <button class="btn theme-bg-color btn-md fw-bold mt-4 text-white edit-address-btn" data-address-id="<%= shippingAddress.id %>">Save Changes</button> -->
+                          </form>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style="display: none;" class="outside-rostov">
+                  <div class="checkout-box">
+                    <div class="checkout-title">
+                      <h4>Delivery Address</h4>
+                    </div>
+
+                    <div class="checkout-detail">
+                      <div class="row g-4">
+                        <div class="col-xxl-12 col-lg-12 col-md-6">
+
+                          <% if(shippingAddress){ %>
+                          <form class="shipping-address-form">
+                            <div class="right-sidebar-box">
+                              <div class="row">
+
+                                <div class="col-xxl-6 col-lg-12 col-sm-6">
+                                  <div class="mb-md-4 mb-3 custom-form">
+                                    <label for="fullName2" class="form-label">Full Name</label>
+                                    <div class="custom-input">
+                                      <input type="text" value="<%= shippingAddress.fullName %>" class="form-control" id="fullName2" placeholder="Enter Full Name">
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-xxl-6 col-lg-12 col-sm-6">
+                                  <div class="mb-md-4 mb-3 custom-form">
+                                    <label for="phoneNumber2" class="form-label">Phone Number</label>
+                                    <div class="custom-input">
+                                      <input type="text" value="<%= shippingAddress.phoneNumber %>" class="form-control" id="phoneNumber2" placeholder="Enter Phone Number">
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-xxl-12 col-lg-12 col-sm-6">
+                                  <div class="mb-md-4 mb-3 custom-form">
+                                    <label for="address2" class="form-label">Address</label>
+                                    <div class="custom-input">
+                                      <input type="text" value="<%= shippingAddress.address %>" class="form-control" id="address2" placeholder="Enter Address">
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-xxl-6 col-lg-12 col-sm-6">
+                                  <div class="mb-md-4 mb-3 custom-form">
+                                    <label for="country2" class="form-label">Country</label>
+                                    <div class="custom-input">
+                                      <input type="text" value="<%= shippingAddress.country %>" class="form-control" id="country2" placeholder="Enter Full Name">
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-xxl-6 col-lg-12 col-sm-6">
+                                  <div class="mb-md-4 mb-3 custom-form">
+                                    <label for="region2" class="form-label">Region</label>
+                                    <div class="custom-input">
+                                      <input type="text" class="form-control" value="<%= shippingAddress.region %>" id="region2" placeholder="Enter Phone Number">
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-xxl-6 col-lg-12 col-sm-6">
+                                  <div class="mb-md-4 mb-3 custom-form">
+                                    <label for="city2" class="form-label">City</label>
+                                    <div class="custom-input">
+                                      <input type="text" class="form-control" value="<%= shippingAddress.city %>" id="city2" placeholder="Enter City">
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-xxl-6 col-lg-12 col-sm-6">
+                                  <div class="mb-md-4 mb-3 custom-form">
+                                    <label for="passportNumber2" class="form-label">Passport Number</label>
+                                    <div class="custom-input">
+                                      <input type="text" class="form-control" value="<%= shippingAddress.passportNumber %>" id="passportNumber2" placeholder="Enter Phone Number">
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-xxl-6 col-lg-12 col-sm-6">
+                                  <div class="mb-md-4 mb-3 custom-form">
+                                    <label for="postOfficeAddress2" class="form-label">Post Office Address</label>
+                                    <div class="custom-input">
+                                      <input type="text" class="form-control" value="<%= shippingAddress.postOfficeAddress %>" id="postOfficeAddress2" placeholder="Enter City">
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-xxl-6 col-lg-12 col-sm-6">
+                                  <div class="mb-md-4 mb-3 custom-form">
+                                    <label for="postalCode2" class="form-label">Postal Code</label>
+                                    <div class="custom-input">
+                                      <input type="text" class="form-control" value="<%= shippingAddress.postalCode %>" id="postalCode2" placeholder="Enter City">
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+                            </div>
+                            <button class="btn theme-bg-color btn-md fw-bold mt-4 text-white edit-address-btn" data-address-id="<%= shippingAddress.id %>">Save Changes</button>
+                          </form>
+                          <% }else{ %>
+                          <form class="create-shipping-address-form">
+                            <div class="right-sidebar-box">
+                              <div class="row">
+
+                                <div class="col-xxl-6 col-lg-12 col-sm-6">
+                                  <div class="mb-md-4 mb-3 custom-form">
+                                    <label for="fullName2" class="form-label">Full Name</label>
+                                    <div class="custom-input">
+                                      <input type="text" class="form-control" s placeholder="Enter Full Name">
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-xxl-6 col-lg-12 col-sm-6">
+                                  <div class="mb-md-4 mb-3 custom-form">
+                                    <label for="phoneNumber2" class="form-label">Phone Number</label>
+                                    <div class="custom-input">
+                                      <input type="text" class="form-control" id="phoneNumber" placeholder="Enter Phone Number">
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-xxl-12 col-lg-12 col-sm-6">
+                                  <div class="mb-md-4 mb-3 custom-form">
+                                    <label for="address2" class="form-label">Address</label>
+                                    <div class="custom-input">
+                                      <input type="text" class="form-control" id="address" placeholder="Enter Address">
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-xxl-6 col-lg-12 col-sm-6">
+                                  <div class="mb-md-4 mb-3 custom-form">
+                                    <label for="country2" class="form-label">Country</label>
+                                    <div class="custom-input">
+                                      <input type="text" class="form-control" id="country" placeholder="Enter Full Name">
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-xxl-6 col-lg-12 col-sm-6">
+                                  <div class="mb-md-4 mb-3 custom-form">
+                                    <label for="region2" class="form-label">Region</label>
+                                    <div class="custom-input">
+                                      <input type="text" class="form-control" id="region" placeholder="Enter Phone Number">
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-xxl-6 col-lg-12 col-sm-6">
+                                  <div class="mb-md-4 mb-3 custom-form">
+                                    <label for="city2" class="form-label">City</label>
+                                    <div class="custom-input">
+                                      <input type="text" class="form-control" id="city" placeholder="Enter City">
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-xxl-6 col-lg-12 col-sm-6">
+                                  <div class="mb-md-4 mb-3 custom-form">
+                                    <label for="passportNumber2" class="form-label">Passport Number</label>
+                                    <div class="custom-input">
+                                      <input type="text" class="form-control" id="passportNumber" placeholder="Enter Phone Number">
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-xxl-6 col-lg-12 col-sm-6">
+                                  <div class="mb-md-4 mb-3 custom-form">
+                                    <label for="postOfficeAddress2" class="form-label">Post Office Address</label>
+                                    <div class="custom-input">
+                                      <input type="text" class="form-control" id="postOfficeAddress" placeholder="Enter City">
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-xxl-6 col-lg-12 col-sm-6">
+                                  <div class="mb-md-4 mb-3 custom-form">
+                                    <label for="postalCode2" class="form-label">Postal Code</label>
+                                    <div class="custom-input">
+                                      <input type="text" class="form-control" id="postalCode" placeholder="Enter City">
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+                            </div>
+                            <button class="btn theme-bg-color btn-md fw-bold mt-4 text-white save-address-btn">Save</button>
+                          </form>
+                          <% } %>
+
+
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+
+              <!-- <li>
+                <div class="checkout-icon">
+                  <i class="fa-solid fa-scroll fa-2xl fa-shake" style="color: #5f1303; margin-top: 50%; margin-left: 10%;"></i>
+                </div>
+                <div class="checkout-box">
+                  <div class="checkout-title">
+                    <h4>Delivery Option</h4>
+                  </div>
+
+                  <div class="checkout-detail">
+                    <div class="row g-4">
+                      <div class="col-xxl-6">
+                        <div class="delivery-option">
+                          <div class="delivery-category">
+                            <div class="shipment-detail">
+                              <div class="form-check custom-form-check hide-check-box">
+                                <input class="form-check-input" type="radio" name="standard" id="standard" checked="">
+                                <label class="form-check-label" for="standard">Standard
+                                  Delivery Option</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-xxl-6">
+                        <div class="delivery-option">
+                          <div class="delivery-category">
+                            <div class="shipment-detail">
+                              <div class="form-check mb-0 custom-form-check show-box-checked">
+                                <input class="form-check-input" type="radio" name="standard" id="future">
+                                <label class="form-check-label" for="future">Future
+                                  Delivery Option</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li> -->
+
+              <li>
+                <div class="checkout-icon">
+                  <i class="fa-regular fa-credit-card fa-2xl fa-shake" style="color: #5f1303; margin-top: 50%; margin-left: 10%;"></i>
+                </div>
+                <div class="checkout-box">
+                  <div class="checkout-title">
+                    <h4>Payment Option</h4>
+                  </div>
+
+                  <div class="checkout-detail">
+                    <div class="accordion accordion-flush custom-accordion" id="accordionFlushExample">
+                      <div class="accordion-item">
+                        <div class="accordion-header" id="flush-headingFour">
+                          <div class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour">
+                            <div class="custom-form-check form-check mb-0">
+                              <label class="form-check-label" for="cash"><input class="form-check-input mt-0" type="radio" name="flexRadioDefault" id="cash" checked>Direct Bank Transfer</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div id="flush-collapseFour" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushExample">
+                          <div class="accordion-body">
+                            <p class="cod-review">Make your payment directly into our bank account. Please use your email address or first name as the payment reference. Your order will not be shipped until the funds have cleared in our account.</a>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </div>
+                  </div>
                 </div>
               </li>
             </ul>
-            <p class="disc mb--25">
-              Make your payment directly into our bank account. Please use your email address or first name as the payment reference. Your order will not be shipped until the funds have cleared in our account.
-            </p>
-            <p class="mb--20">
-              <span style="font-weight: bold;">Disclaimer:</span> Please ensure that you specify the desired product variations (such as color, size, etc.) that are available before completing your purchase. We will not be responsible for any refund or return if the variations were not specified here during the order process.
-              <br>check the product detail page to see available variations.
-            </p>
-
-            <form>
-              <label for="orderNote" style="font-weight: bold;">Order Notes</label>
-              <p></p>
-              <textarea name="" id="orderNote" style="border: 1px solid #ccc; width: 100%; padding: 10px;"></textarea>
-              <p></p>
-              <div class="nice-select" tabindex="0" style="margin-bottom: 20px;">
-                <span class="current">Select Bank</span>
-                <ul class="list" id="bankList">
-                  <li data-value="account1" class="option" data-bank-name="Tinkoff" data-account-name="Ифеолува Майкл Б" data-account-number="2200701368204316">Tinkoff</li>
-                  <!-- <li data-value="account2" class="option" data-bank-name="Vtb" data-account-name="Бабаджиде Ифеолува Майкл" data-account-number="2200240257725313">VTB</li> -->
-                  <li data-value="account3" class="option" data-bank-name="Sberbank" data-account-name="Бабаджиде Ифеолува Майкл" data-account-number="5336690351696424">Sberbank</li>
-                </ul>
-              </div>
-              <p></p>
-              <button id="confirmCheckoutButton" type="button" class="rts-btn btn-primary" style="margin-top: 20px;">Place Order</button>
-            </form>
           </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="right-side-summery-box">
+          <div class="summery-box-2">
+            <div class="summery-header">
+              <h3>Order Summery</h3>
+            </div>
+
+            <ul class="summery-contain">
+              <% carts.forEach(function(cart){ %>
+              <li>
+                <img src="<%= cart.productId.imageCover %>" class="img-fluid blur-up lazyloaded checkout-image" loading="lazy" alt="">
+                <h4><%= cart.productId.name %> <span>X <%= cart.quantity %></span></h4>
+                <% const total = cart.productId.price * cart.quantity %>
+                <h4 class="price">₽<%= total %></h4>
+              </li>
+              <% }) %>
+
+            </ul>
+
+            <ul class="summery-total">
+              <li class="list-total">
+                <h4>Total (RUB)</h4>
+                <% grandTotal = 0 %>
+                <% carts.forEach(function(cart){ %>
+                <% const cartItemTotal = cart.productId.price*cart.quantity %>
+                <% grandTotal += cartItemTotal %>
+                <% }) %>
+                <h4 class="price">₽<%= grandTotal %></h4>
+              </li>
+              <p></p>
+              <li>
+                <h5><span style="font-weight: bolder;">Disclaimer:</span> Please ensure that you specify the desired product variations (such as color, size, etc.) that are available in the order note below before completing your purchase. We will not be responsible for any refund or return if the variations were not specified here during the order process.
+                  check the product detail page to see available variations.</h5>
+              </li>
+              <div style="height: 20px;"></div>
+
+              <form class="order-form">
+
+                <label class="form-label" for="orderNote">Order Note</label>
+                <textarea id="orderNote" class="form-control" placeholder="Order Note"></textarea>
+                <p></p>
+                <label class="form-label" for="deliveryMethod">Delivery Method</label>
+                <select class="form-select" id="deliveryMethod">
+                  <option value="pick-up">Pick Up From Our Store</option>
+                  <option value="delivery within Rostov">Delivery Within Rostov</option>
+                  <option value="delivery outside Rostov">Delivery Outside Rostov</option>
+                </select>
+                <p></p>
+                <label class="form-label" for="deliveryMethod">Payment Method</label>
+                <select class="form-select" id="bankList">
+                  <option disabled data-value="" class="" data-bank-name="" data-account-name="" data-account-number="" selected>Select Bank</option>
+                  <option data-value="account1" class="option" data-bank-name="Tinkoff" data-account-name="Ифеолува Майкл Б" data-account-number="2200701368204316">Tinkoff</option>
+                  <!-- <option data-value="account2" class="option" data-bank-name="Vtb" data-account-name="Бабаджиде Ифеолува Майкл" data-account-number="2200240257725313">VTB</option> -->
+                  <option data-value="account3" class="option" data-bank-name="Sberbank" data-account-name="Бабаджиде Ифеолува Майкл" data-account-number="5336690351696424">Sberbank</option>
+                </select>
+                <button id="confirmCheckoutButton" type="button" class="btn theme-bg-color text-white btn-md w-100 mt-4 fw-bold open-modal">Place Order</button>
+              </form>
+            </ul>
+          </div>
+
+          <div id="checkoutConfirmModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.7);">
+            <div class="modal-content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 500px; border-radius: 10px;">
+              <span class="close" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+              <a id="modalLink" href=""><img id="modalImage" src="" alt="" style="width: 100%; height: auto;"></a>
+              <div style="text-align: center;">
+                <p style="font-size: 30px; font-weight: bolder;">₽<span id="modalAmount"></span></p>
+                <div style="height: 20px;"></div>
+                <i class="fa-solid fa-building-columns" style="color: #5F1303; font-size: 50px;"></i>
+                <p></p>
+                <p><span style="margin-right: 10px;">Bank Name: </span>
+                  <span id="bankName" style="margin-left: 5px;"></span>
+                </p>
+                <p><span style="margin-right: 10px;">Account Name: </span>
+                  <i class="fa-solid fa-copy fa-lg" style="color: #5F1303; cursor: pointer;" onclick="copyText('accountName')"></i>
+                  <span id="accountName" style="margin-left: 5px;"></span>
+                </p>
+                <p><span style="margin-right: 10px;">Account Number:</span>
+                  <i class="fa-solid fa-copy fa-lg" style="color: #5F1303; cursor: pointer;" onclick="copyText('accountNumber')"></i>
+                  <span id="accountNumber" style="margin-left: 5px;"></span>
+                </p>
+                <div style="height: 30px;"></div>
+                <p style="font-weight: bold; text-align: left;">Upload Payment Proof</p>
+                <form style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                  <input type="file" accept=".pdf, .jpg, .jpeg, .png" class="form-control" id="paymentProof" required>
+                </form>
+                <p></p>
+                <p><span style="font-weight: bold;">NB:</span> click this button if you have made payment</p>
+                <div style="text-align: center;">
+                  <a href="#" id="confirmPaymentButton" class="rts-btn btn-primary" style="display: inline-block; padding: 10px 15px; line-height: 1.2; text-align: center; background-color: #5F1303; border-radius: 5px;">I have made payment</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
         </div>
       </div>
     </div>
   </div>
-</div>
+</section>
+<!-- Checkout section End -->
+<script>
+  const chooseDeliveryMethod = document.getElementById('deliveryMethod');
+  const deliverWithinRostov = document.querySelector('.inside-rostov');
+  const deliverOutsideRostov = document.querySelector('.outside-rostov');
+  const addressBook = document.querySelector('.address-book');
 
-
-<div id="checkoutConfirmModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.4);">
-  <div class="modal-content" style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 500px; border-radius: 10px;">
-    <span class="close" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
-    <a id="modalLink" href=""><img id="modalImage" src="" alt="" style="width: 100%; height: auto;"></a>
-    <div style="text-align: center;">
-      <p style="font-size: 30px; font-weight: bolder;">₽<span id="modalAmount"></span></p>
-      <i class="fa-solid fa-building-columns" style="color: #5F1303; font-size: 50px; margin-bottom: 50px;"></i>
-      <p></p>
-      <p><span style="margin-right: 10px;">Account Name: </span>
-        <i class="fa-solid fa-copy fa-lg" style="color: #5F1303; cursor: pointer;" onclick="copyText('accountName')"></i>
-        <span id="accountName" style="margin-left: 5px;"></span>
-      </p>
-      <p><span style="margin-right: 10px;">Account Number:</span>
-        <i class="fa-solid fa-copy fa-lg" style="color: #5F1303; cursor: pointer;" onclick="copyText('accountNumber')"></i>
-        <span id="accountNumber" style="margin-left: 5px;"></span>
-      </p>
-      <p style="font-weight: bold;">Upload Payment Proof</p>
-      <form style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-        <input type="file" id="paymentProof" required>
-      </form>
-      <p></p>
-      <p>NB: click this button if you have made payment</p>
-      <div style="text-align: center;">
-        <a href="#" id="confirmPaymentButton" class="rts-btn btn-primary" style="display: inline-block; padding: 10px 15px; line-height: 1.2; text-align: center;">I have made payment</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
+  if (chooseDeliveryMethod) {
+    chooseDeliveryMethod.addEventListener('change', (e) => {
+      e.preventDefault();
+      if (chooseDeliveryMethod.value === 'delivery within Rostov') {
+        deliverWithinRostov.style.display = 'block';
+        deliverOutsideRostov.style.display = 'none';
+        addressBook.style.display = 'block';
+      } else if (chooseDeliveryMethod.value === 'pick-up') {
+        deliverWithinRostov.style.display = 'none';
+        deliverOutsideRostov.style.display = 'none';
+        addressBook.style.display = 'none';
+      } else if (chooseDeliveryMethod.value === 'delivery outside Rostov') {
+        deliverWithinRostov.style.display = 'none';
+        deliverOutsideRostov.style.display = 'block';
+        addressBook.style.display = 'block';
+      }
+    });
+  }
+</script>
 
 <%- include('partials/landingPageFooter.ejs') %>

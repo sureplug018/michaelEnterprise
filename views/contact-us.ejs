@@ -1,0 +1,303 @@
+<%- include('partials/landingPageHeader.ejs') %>
+
+<!-- Breadcrumb Section Start -->
+<section class="breadcrumb-section pt-0">
+  <div class="container-fluid-lg">
+    <div class="row">
+      <div class="col-12">
+        <div class="breadcrumb-contain">
+          <h2>Contact Us</h2>
+          <nav>
+            <ol class="breadcrumb mb-0">
+              <li class="breadcrumb-item">
+                <a href="index-8.html">
+                  <i class="fa-solid fa-house"></i>
+                </a>
+              </li>
+              <li class="breadcrumb-item active">Contact Us</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- Contact Box Section Start -->
+<section class="contact-box-section">
+  <div class="container-fluid-lg">
+    <div class="row g-lg-5 g-3">
+      <div class="col-lg-6">
+        <div class="left-sidebar-box">
+          <div class="row">
+            <div class="col-xl-12">
+            </div>
+            <div class="col-xl-12">
+              <div class="contact-title">
+                <h3>Get In Touch</h3>
+              </div>
+
+              <div class="contact-detail">
+                <div class="row g-4">
+                  <div class="col-xxl-6 col-lg-12 col-sm-6">
+                    <div class="contact-detail-box">
+                      <div class="contact-icon">
+                        <i class="fa-solid fa-phone"></i>
+                      </div>
+                      <div class="contact-detail-title">
+                        <h4>Phone</h4>
+                      </div>
+
+                      <div class="contact-detail-contain">
+                        <p><a href="tel:+79954459255">+79954459255</a></p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-xxl-6 col-lg-12 col-sm-6">
+                    <div class="contact-detail-box">
+                      <div class="contact-icon">
+                        <i class="fa-solid fa-envelope"></i>
+                      </div>
+                      <div class="contact-detail-title">
+                        <h4>Email</h4>
+                      </div>
+
+                      <div class="contact-detail-contain">
+                        <p><a href="mailto:support@michael-enterprise.com"></a>support@michael-enterprise.com</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-xxl-6 col-lg-12 col-sm-6">
+                    <div class="contact-detail-box">
+                      <div class="contact-icon">
+                        <i class="fa-solid fa-location-dot"></i>
+                      </div>
+                      <div class="contact-detail-title">
+                        <h4>Russia, Rostov</h4>
+                      </div>
+
+                      <div class="contact-detail-contain">
+                        <p><a href="https://yandex.com/maps/?text=47.243990,39.801900&si=4v43ct1phxuvzke23uqp5f8reg">Берберовская 6с2, Rostov on Don, Russia.</a></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="title d-xxl-none d-block">
+          <h2>Contact Us</h2>
+        </div>
+        <form class="support-form-faq">
+          <div class="right-sidebar-box">
+            <div class="row">
+
+              <div class="col-xxl-6 col-lg-12 col-sm-6">
+                <div class="mb-md-4 mb-3 custom-form">
+                  <label for="email" class="form-label">Email Address</label>
+                  <div class="custom-input">
+                    <input type="email" class="form-control" id="email" placeholder="Enter Email Address">
+                    <i class="fa-solid fa-envelope"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xxl-6 col-lg-12 col-sm-6">
+                <div class="mb-md-4 mb-3 custom-form">
+                  <label for="subject" class="form-label">Subject</label>
+                  <div class="custom-input">
+                    <input type="text" class="form-control" id="subject" placeholder="Enter Subject">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="mb-md-4 mb-3 custom-form">
+                  <label for="message" class="form-label">Message</label>
+                  <div class="custom-textarea">
+                    <textarea class="form-control" id="message" placeholder="Enter Your Message" rows="6"></textarea>
+                    <i class="fa-solid fa-message"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-animation btn-md fw-bold ms-auto support-faq-btn">Send Message</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Contact Box Section End -->
+
+<!-- Map Section Start -->
+<section class="map-section">
+  <div class="container-fluid p-0">
+    <div class="map-box">
+      <div id="map" style="height: 500px; width: 100%;"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Function to load Yandex Maps script and initialize the map
+  function initMap() {
+    const script = document.createElement('script');
+    script.src = 'https://api-maps.yandex.com/2.1/?lang=en_US';
+    script.async = true;
+    script.onload = () => {
+      ymaps.ready(function() {
+        var location = [47.243521, 39.801808];
+        var map = new ymaps.Map('map', {
+          center: location,
+          zoom: 18
+        });
+
+        var marker = new ymaps.Placemark(location, {
+          hintContent: 'Marker Location',
+          balloonContent: 'This is a marker at the specified coordinates'
+        });
+
+        map.geoObjects.add(marker);
+      });
+    };
+    document.body.appendChild(script);
+  }
+
+  // Use IntersectionObserver to load the map when the map section is in view
+  const mapSection = document.querySelector('.map-section');
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        initMap();
+        observer.unobserve(mapSection); // Stop observing once the map is loaded
+      }
+    });
+  }, {
+    rootMargin: '0px 0px 200px 0px' // Load slightly before it comes into full view
+  });
+
+  observer.observe(mapSection);
+</script>
+
+<!-- Map Section End -->
+
+<script>
+  (function() {
+    // Ensure code isolation
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchInputField = document.querySelector('.suggestions');
+
+      if (searchInputField) {
+        searchInputField.addEventListener('input', async function(e) {
+          e.preventDefault();
+          const query = searchInputField.value.trim();
+
+          if (query.length > 0) {
+            try {
+              const suggestions = document.querySelectorAll('.list-of-suggestions');
+              suggestions.forEach((input) => {
+                input.style.display = 'block';
+              });
+
+              const res = await fetch(`/api/v1/products/find?name=${encodeURIComponent(query)}`);
+
+              if (res.ok) {
+                const data = await res.json();
+
+                suggestions.forEach((input) => {
+                  input.innerHTML = '';
+                  data.data.products.forEach((product) => {
+                    const li = document.createElement('li');
+                    li.style.cssText = `
+                      padding: 5px;
+                      background-color: #fff;
+                      cursor: pointer;
+                      transition: background-color 0.3s;
+                      display: block;
+                      width: 100%;
+                      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                    `;
+                    li.addEventListener('mouseover', () => {
+                      li.style.backgroundColor = '#e0e0e0';
+                    });
+                    li.addEventListener('mouseout', () => {
+                      li.style.backgroundColor = '#f9f9f9';
+                    });
+                    li.textContent = product.name;
+                    input.appendChild(li);
+
+                    li.addEventListener('click', () => {
+                      const slug = slugify(li.textContent);
+                      window.location.href = `/search?search=${slug}`;
+                    });
+                  });
+                });
+              } else {
+                console.error('Error fetching suggestions:', res.statusText);
+              }
+            } catch (err) {
+              console.error('Fetch error:', err);
+            }
+          } else {
+            const suggestions = document.querySelectorAll('.list-of-suggestions');
+            suggestions.forEach((input) => {
+              input.style.display = 'none';
+            });
+          }
+        });
+      }
+
+      const searchBtn = document.querySelectorAll('.search-btn');
+      const searchInputs = document.querySelectorAll('.suggestions');
+
+      if (searchBtn && searchInputs) {
+        searchBtn.forEach((button) => {
+          button.addEventListener('click', function(e) {
+            e.preventDefault();
+            handleSearch();
+          });
+        });
+
+        searchInputs.forEach((input) => {
+          input.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && input.value.trim().length > 0) {
+              e.preventDefault();
+              handleSearch();
+            }
+          });
+        });
+      }
+
+      function handleSearch() {
+        searchInputs.forEach((input) => {
+          const query = input.value.trim();
+          if (query.length > 0) {
+            const slug = slugify(query);
+            window.location.href = `/search?search=${slug}`;
+          }
+        });
+      }
+
+      function slugify(text) {
+        return text
+          .toString()
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, '-')
+          .replace(/[^\w\-\.]+/g, '')
+          .replace(/\-\-+/g, '-');
+      }
+    });
+  })();
+</script>
+
+
+<%- include('partials/landingPageFooter.ejs') %>
