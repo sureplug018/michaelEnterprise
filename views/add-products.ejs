@@ -103,4 +103,24 @@
   </div>
 </div>
 
+<!-- <script>
+  const superCategory = document.getElementById('superCategory');
+  const categories = document.getElementById('category');
+
+
+  superCategory.addEventListener('change', async (e) => {
+    e.preventDefault();
+    console.log('hello');
+    // try {
+    //   const categories = await fetch(`/api/v1/categories/find-categories?superCategory=${encodeURIComponent(superCategory)}`);
+    //   if (categories.ok) {
+    //     const data = await categories.json();
+    //     console.log(data);
+    //   }
+    // } catch (err) {
+    //   console.error('Fetch error:', err);
+    // }
+  });
+</script> -->
+
 <%- include('partials/adminDashboardFooter.ejs') %>
