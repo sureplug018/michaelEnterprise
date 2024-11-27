@@ -188,6 +188,7 @@ exports.deleteProduct = async (req, res) => {
       data: null,
     });
   } catch (err) {
+    console.log(err);
     res.status(400).json({
       status: 'fail',
       message: err.message,
