@@ -220,6 +220,9 @@
 
               </div>
 
+             <a href="/cart"><i class="fa-solid fa-cart-shopping fa-shake floating-cart" hidden style="color: #eb9202; position: fixed; right: 20px; top: 50%; transform: translateY(-50%); z-index: 1000; font-size: 30px; cursor: pointer;">
+              </i></a> 
+
               <div class="buy-box">
                 <a style="cursor: pointer;" data-product-id="<%= product.id %>" class="add-to-wishlist-single">
                   <i data-feather="heart"></i>
@@ -644,10 +647,12 @@
 
 <script>
   // Find suggestions on input event
+  (() => {
+  // Find suggestions on input event
   const searchInputField = document.querySelector('.suggestions');
 
   if (searchInputField) {
-    searchInputField.addEventListener('input', async function(e) {
+    searchInputField.addEventListener('input', async function (e) {
       e.preventDefault();
       const query = searchInputField.value;
 
@@ -657,66 +662,34 @@
           input.style.display = 'block';
         });
 
-        // Make sure there is something to search for
         try {
-          // Correctly format the query parameter with '='
-          const res = await fetch(
-            `/api/v1/products/find?name=${encodeURIComponent(query)}`,
-          );
-
-          // Check if the response is okay (status 200-299)
+          const res = await fetch(`/api/v1/products/find?name=${encodeURIComponent(query)}`);
           if (res.ok) {
             const data = await res.json();
-            console.log(data);
-
-            const suggestions = document.querySelectorAll('.list-of-suggestions');
 
             suggestions.forEach((input) => {
               input.innerHTML = '';
               data.data.products.forEach((product) => {
                 const li = document.createElement('li');
-                // Set inline styles
-                li.style.padding = '5px'; // Add some padding
-                li.style.backgroundColor = '#fff'; // Light background color
-                li.style.cursor = 'pointer'; // Change cursor to pointer
-                li.style.transition = 'background-color 0.3s'; // Transition for hover effect
-                li.style.display = 'block';
-                li.style.width = '100%';
-                li.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.2)';
-
-                // Add hover effect using mouse events
-                li.addEventListener('mouseover', () => {
-                  li.style.backgroundColor = '#e0e0e0'; // Darker on hover
-                });
-
-                li.addEventListener('mouseout', () => {
-                  li.style.backgroundColor = '#f9f9f9'; // Revert on mouse out
-                });
-
+                li.style = 'padding: 5px; background-color: #fff; cursor: pointer; transition: background-color 0.3s; display: block; width: 100%; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);';
                 li.textContent = product.name;
-                input.appendChild(li);
 
-                // Define a custom slugify function
-                function slugify(text) {
-                  return text
-                    .toString()
+                li.addEventListener('mouseover', () => (li.style.backgroundColor = '#e0e0e0'));
+                li.addEventListener('mouseout', () => (li.style.backgroundColor = '#f9f9f9'));
+
+                li.addEventListener('click', () => {
+                  const slug = product.name
                     .toLowerCase()
                     .trim()
-                    .replace(/\s+/g, '-') // Replace spaces with -
-                    .replace(/[^\w\-\.]+/g, '') // Remove all non-word chars except dot
-                    .replace(/\-\-+/g, '-'); // Replace multiple - with single -
-                }
-
-                // Apply slugify to the list item's textContent
-                li.addEventListener('click', () => {
-                  const slug = slugify(li.textContent);
-                  window.location.href = `/search?search=${slug}`; // Redirect to the product link with slug
+                    .replace(/\s+/g, '-')
+                    .replace(/[^\w\-\.]+/g, '')
+                    .replace(/\-\-+/g, '-');
+                  window.location.href = `/search?search=${slug}`;
                 });
+
+                input.appendChild(li);
               });
             });
-
-            // You can call a function to display suggestions here
-            // displaySuggestions(data);
           } else {
             console.error('Error fetching suggestions:', res.statusText);
           }
@@ -724,7 +697,6 @@
           console.error('Fetch error:', err);
         }
       } else {
-        // Optionally clear suggestions if input is empty
         const suggestions = document.querySelectorAll('.list-of-suggestions');
         suggestions.forEach((input) => {
           input.style.display = 'none';
@@ -737,17 +709,15 @@
   const searchInputs = document.querySelectorAll('.suggestions');
 
   if (searchBtn && searchInputs) {
-    // Handle search button clicks
     searchBtn.forEach((button) => {
-      button.addEventListener('click', function(e) {
+      button.addEventListener('click', function (e) {
         e.preventDefault();
         handleSearch();
       });
     });
 
-    // Handle pressing the 'Enter' key in the search input
     searchInputs.forEach((input) => {
-      input.addEventListener('keypress', function(e) {
+      input.addEventListener('keypress', function (e) {
         if (e.key === 'Enter' && input.value.trim().length > 0) {
           e.preventDefault();
           handleSearch();
@@ -756,27 +726,22 @@
     });
   }
 
-  // Search handling logic
   function handleSearch() {
     searchInputs.forEach((input) => {
       const query = input.value.trim();
       if (query.length > 0) {
-        // Define a custom slugify function
-        function slugify(text) {
-          return text
-            .toString()
-            .toLowerCase()
-            .trim()
-            .replace(/\s+/g, '-') // Replace spaces with -
-            .replace(/[^\w\-\.]+/g, '') // Remove all non-word chars except dot
-            .replace(/\-\-+/g, '-'); // Replace multiple - with single -
-        }
-
-        const slug = slugify(query);
-        window.location.href = `/search?search=${slug}`; // Redirect to the product link with slug
+        const slug = query
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, '-')
+          .replace(/[^\w\-\.]+/g, '')
+          .replace(/\-\-+/g, '-');
+        window.location.href = `/search?search=${slug}`;
       }
     });
   }
+})();
+
 </script>
 
 <%- include('partials/landingPageFooter.ejs') %>

@@ -51,6 +51,8 @@
             </div>
           </div>
         </div>
+       <a href="/cart"><i class="fa-solid fa-cart-shopping floating-cart" hidden style="color: #5f1303; position: fixed; right: 15px; top: 50%; transform: translateY(-50%); z-index: 1000; font-size: 30px; cursor: pointer;">
+        </i></a> 
         <div class="col-xl-9 col-lg-8 order-1 order-md-2 wow fadeInUp" data-wow-delay=".5s">
           <!-- <div class="sort-bar">
                             <div class="row g-sm-0 gy-20 justify-content-between align-items-center">
@@ -106,7 +108,12 @@
                     <div class="star"><img src="https://gramentheme.com/html/fresheat/assets/img/icon/star2.svg" alt="icon"></div>
                     <!-- <div class="text">The registration fee</div> -->
                     <h6>₽<%= product.price %></h6>
+                    <% if(user){ %>
                     <a href="#" data-product-id="<%= product.id %>" class="theme-btn style6 add-to-cart-btn"> Add To Cart<i class="fa-solid fa-basket-shopping"></i></a>
+                    <% }else{ %>
+                      <a href="/sign-in" data-product-id="<%= product.id %>" class="theme-btn style6"> Add To Cart<i class="fa-solid fa-basket-shopping"></i></a>
+                    <% } %>
+
                   </div>
                 </div>
                 <% }) %>

@@ -6,7 +6,7 @@
     <div class="row">
       <div class="col-12">
         <div class="breadcrumb-contain">
-          <h2>About Us</h2>
+          <h2><%= title %></h2>
           <nav>
             <ol class="breadcrumb mb-0">
               <li class="breadcrumb-item">
@@ -14,7 +14,7 @@
                   <i class="fa-solid fa-house"></i>
                 </a>
               </li>
-              <li class="breadcrumb-item active">About Us</li>
+              <li class="breadcrumb-item active"><%= title %></li>
             </ol>
           </nav>
         </div>
@@ -48,6 +48,10 @@
             </div>
           </div>
         </div>
+
+       <a href="/cart"><i class="fa-solid fa-cart-shopping fa-shake floating-cart" hidden style="color: #eb9202; position: fixed; right: 20px; top: 50%; transform: translateY(-50%); z-index: 1000; font-size: 30px; cursor: pointer;">
+        </i></a> 
+
 
         <% if(products.length === 0){ %>
         <p style="text-align: center;">No product found matching the criteria</p>

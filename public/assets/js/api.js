@@ -1079,6 +1079,7 @@ document.querySelectorAll('.add-to-cart-btn').forEach((button) => {
         button.style.opacity = '1';
         button.disabled = false;
         document.getElementById(productId).value += 1;
+        document.querySelector('.floating-cart').removeAttribute('hidden');
       }
     } catch (error) {
       console.log(error);
@@ -1114,6 +1115,7 @@ document.querySelectorAll('.increase-item-qty').forEach((button) => {
         button.disabled = false;
         document.getElementById(productId).value =
           parseInt(document.getElementById(productId).value, 10) + 1;
+        document.querySelector('.floating-cart').removeAttribute('hidden');
       }
     } catch (error) {
       console.log(error);
@@ -1146,6 +1148,7 @@ document.querySelectorAll('.decrease-itm-qty').forEach((button) => {
         button.disabled = false;
         document.getElementById(productId).value =
           parseInt(document.getElementById(productId).value, 10) - 1;
+        document.querySelector('.floating-cart').setAttribute('hidden', '');
       }
     } catch (error) {
       console.log(error);
@@ -1242,6 +1245,7 @@ if (singleProduct) {
 
         const minusButton = document.querySelector('.minus-cart-btn-single');
         minusButton.style.display = 'block';
+        document.querySelector('.floating-cart').removeAttribute('hidden');
       } else {
         // Handle error
         showAlert('error', 'Something went wrong');
@@ -1286,6 +1290,9 @@ if (singleMinus) {
           parseInt(document.getElementById(productId).value, 10) - 1);
         if (count === 0) {
           singleMinus.style.display = 'none';
+
+          const floatingCart = document.querySelector('.floating-cart');
+          if (floatingCart) floatingCart.setAttribute('hidden', true);
         }
       } else {
         // Handle error
