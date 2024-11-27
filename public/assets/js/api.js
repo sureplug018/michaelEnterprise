@@ -276,13 +276,14 @@ const createDeliveryAddress = async (
   }
 };
 
-const addCategory = async (name) => {
+const addCategory = async (name, superCategory) => {
   try {
     const res = await axios({
       method: 'POST',
       url: '/api/v1/categories/create-category',
       data: {
         name,
+        superCategory,
       },
     });
 
@@ -686,7 +687,8 @@ if (addCategoryForm) {
     button.style.opacity = '0.5';
     button.textContent = 'Adding...';
     const name = document.getElementById('name').value;
-    await addCategory(name);
+    const superCategory = document.getElementById('superCategory').value;
+    await addCategory(name, superCategory);
     button.style.opacity = '1';
     button.textContent = 'Add Category';
   });

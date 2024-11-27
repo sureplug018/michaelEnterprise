@@ -8,4 +8,6 @@ router.use(authController.protect, authController.restrictTo('admin'));
 
 router.post('/create-category', categoryController.addCategory);
 
+router.get('/find-categories', categoryController.fetchCategories);
+
 module.exports = router;

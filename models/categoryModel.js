@@ -7,6 +7,10 @@ const categorySchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
+  superCategory: {
+    type: String,
+    required: true,
+  },
   categorySlug: String,
 });
 
