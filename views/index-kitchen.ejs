@@ -249,8 +249,9 @@
           Best selling Dishes
         </h2>
       </div>
-      <% products.slice(2, 8).forEach(function(product){ %>
       <div class="dishes-card-wrap style1">
+        <% products.slice(2, 7).forEach(function(product){ %>
+
         <div class="dishes-card style1 wow fadeInUp" data-wow-delay="0.2s">
           <a href="/michael-kitchen/item/<%= product.categorySlug %>/<%= product.slug %>">
             <div class="dishes-thumb">
@@ -271,9 +272,9 @@
           </div>
         </div>
 
-      </div>
-      <% }) %>
 
+        <% }) %>
+      </div>
       <div class="btn-wrapper  wow fadeInUp" data-wow-delay="0.9s">
         <a class="theme-btn" href="/michael-kitchen/shop">VIEW ALL ITEM <i class="fa-solid fa-arrow-right"></i></a>
       </div>
