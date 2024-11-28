@@ -1148,7 +1148,9 @@ document.querySelectorAll('.decrease-itm-qty').forEach((button) => {
         button.disabled = false;
         document.getElementById(productId).value =
           parseInt(document.getElementById(productId).value, 10) - 1;
-        document.querySelector('.floating-cart').setAttribute('hidden', '');
+        if (parseFloat(document.getElementById(productId).value) === 0) {
+          document.querySelector('.floating-cart').setAttribute('hidden', '');
+        }
       }
     } catch (error) {
       console.log(error);
