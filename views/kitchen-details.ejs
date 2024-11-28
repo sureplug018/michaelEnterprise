@@ -30,11 +30,19 @@
             <div class="col-lg-6">
               <div class="product-big-img bg-color2">
                 <div class="dishes-thumb">
-                  <img src="<%= product.imageCover %>" style="width: 305px; height: 305px; border-radius: 50%; object-fit: cover;" alt="thumb">
-                  <div class="circle-shape d-none d-md-block"><img class="cir36" src="/assets/img/food-items/circleShape2.png" alt="shape"></div>
+                  <img id="mainImage" src="<%= product.imageCover %>" style="width: 305px; height: 305px; border-radius: 50%; object-fit: cover;" alt="thumb">
+                  <div class="circle-shape d-none d-md-block">
+                    <img class="cir36" src="/assets/img/food-items/circleShape2.png" alt="shape">
+                  </div>
                 </div>
               </div>
+              <div style="display: flex; overflow-x: auto; gap: 10px; margin-top: 10px;">
+                <% product.images.forEach(function(image){ %>
+                <img src="<%= image %>" loading="lazy" alt="" style="width: 100px; height: 100px; object-fit: cover; flex-shrink: 0; border-radius: 50%; opacity: 0.5; cursor: pointer;" onclick="document.getElementById('mainImage').src='<%= image %>'">
+                <% }) %>
+              </div>
             </div>
+
             <div class="col-lg-6">
               <div class="product-about">
                 <div class="title-wrapper">
@@ -89,7 +97,7 @@
         </div>
 
         <a href="/cart"><i class="fa-solid fa-cart-shopping floating-cart" hidden style="color: #5f1303; position: fixed; right: 15px; top: 50%; transform: translateY(-50%); z-index: 1000; font-size: 30px; cursor: pointer;">
-        </i></a>
+          </i></a>
 
         <div class="row">
           <div class="col-12">
