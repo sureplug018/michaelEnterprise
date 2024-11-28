@@ -137,21 +137,7 @@ exports.editShippingAddress = async (req, res) => {
     //   });
     // }
 
-    const shippingAddress = await ShippingAddress.findOneAndUpdate(
-      { _id: user },
-      {
-        fullName,
-        address,
-        phoneNumber,
-        country,
-        region,
-        city,
-        postalCode,
-        postOfficeAddress,
-        passportNumber,
-      },
-      { new: true, runValidators: true },
-    );
+    const shippingAddress = await ShippingAddress.findOne({ user });
 
     if (!shippingAddress) {
       return res.status(404).json({
@@ -159,6 +145,18 @@ exports.editShippingAddress = async (req, res) => {
         message: 'Address not found',
       });
     }
+
+    shippingAddress.fullName = fullName;
+    shippingAddress.address = address;
+    shippingAddress.phoneNumber = phoneNumber;
+    shippingAddress.country = country;
+    shippingAddress.region = region;
+    shippingAddress.city = city;
+    shippingAddress.postalCode = postalCode;
+    shippingAddress.postOfficeAddress = postOfficeAddress;
+    shippingAddress.passportNumber = passportNumber;
+
+    await shippingAddress.save();
 
     res.status(201).json({
       status: 'success',

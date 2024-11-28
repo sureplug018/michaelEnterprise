@@ -517,7 +517,6 @@ const signupForm = document.querySelector('.form-signup');
 const forgotPasswordButton = document.querySelector('.form-forgot-password');
 const resetPasswordButton = document.querySelector('.form-reset-password');
 const adminLoginForm = document.querySelector('.admin-form-login');
-const shippingAddressForm = document.querySelector('.shipping-address-form');
 const userDataUpdateForm = document.querySelector('.update-user-data-form');
 const addProductsForm = document.querySelector('.add-product-form');
 const createShippingAddressForm = document.querySelector(
@@ -778,15 +777,16 @@ if (createShippingAddressForm) {
     button.textContent = 'Save';
   });
 }
-
-if (shippingAddressForm) {
-  shippingAddressForm.addEventListener('submit', async (e) => {
+const button = document.querySelector('.edit-address-btn');
+if (button) {
+  button.addEventListener('click', async (e) => {
     e.preventDefault();
-    const button = document.querySelector('.edit-address-btn');
+
     // Retrieve addressId from button's data attribute
     // const addressId = button.dataset.addressId;
     button.style.opacity = '0.5';
     button.textContent = 'saving...';
+    button.disabled = true;
     const fullName = document.getElementById('fullName2').value;
     const address = document.getElementById('address2').value;
     const phoneNumber = document.getElementById('phoneNumber2').value;
@@ -811,6 +811,7 @@ if (shippingAddressForm) {
     );
     button.style.opacity = '1';
     button.textContent = 'Save Changes';
+    button.disabled = false;
   });
 }
 
