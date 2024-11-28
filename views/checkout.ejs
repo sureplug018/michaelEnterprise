@@ -456,9 +456,16 @@
                 <label class="form-label" for="deliveryMethod">Payment Method</label>
                 <select class="form-select" id="bankList">
                   <option disabled data-value="" class="" data-bank-name="" data-account-name="" data-account-number="" selected>Select Bank</option>
+                  <% if(superCategorySlug === 'afro-shop'){ %>
                   <option data-value="account1" class="option" data-bank-name="Tinkoff" data-account-name="Ифеолува Майкл Б" data-account-number="2200701368204316">Tinkoff</option>
                   <!-- <option data-value="account2" class="option" data-bank-name="Vtb" data-account-name="Бабаджиде Ифеолува Майкл" data-account-number="2200240257725313">VTB</option> -->
                   <option data-value="account3" class="option" data-bank-name="Sberbank" data-account-name="Бабаджиде Ифеолува Майкл" data-account-number="5336690351696424">Sberbank</option>
+                  <% }else if(superCategorySlug === 'gadgets'){ %>
+                  <option data-value="account1" class="option" data-bank-name="Сбербанк" data-account-name="Бабаджиде И.м" data-account-number="2202206274068134">Сбербанк</option>
+                  <% }else if(superCategorySlug === 'kitchen'){ %>
+                  <option data-value="account1" class="option" data-bank-name="Сбербанк" data-account-name="Бабаджиде И.м" data-account-number="2202203607441500">Сбербанк</option>
+                  <% } %>
+
                 </select>
                 <button id="confirmCheckoutButton" type="button" class="btn theme-bg-color text-white btn-md w-100 mt-4 fw-bold open-modal">Place Order</button>
               </form>

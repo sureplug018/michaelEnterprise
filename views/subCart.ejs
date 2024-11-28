@@ -1,0 +1,91 @@
+<%- include('partials/landingPageHeader.ejs') %>
+
+<!-- Breadcrumb Section Start -->
+<section class="breadcrumb-section pt-0">
+  <div class="container-fluid-lg">
+    <div class="row">
+      <div class="col-12">
+        <div class="breadcrumb-contain">
+          <h2>Cart</h2>
+          <nav>
+            <ol class="breadcrumb mb-0">
+              <li class="breadcrumb-item">
+                <a href="/">
+                  <i class="fa-solid fa-house"></i>
+                </a>
+              </li>
+              <li class="breadcrumb-item active">Cart</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- Cart Section Start -->
+<section class="cart-section section-b-space">
+  <div class="container-fluid-lg">
+    <div class="row g-sm-5 g-3">
+      <div style="display: flex; justify-content: center;">
+        <div class="col-xxl-4">
+          <div class="cart-table">
+            <div class="table-responsive-xl">
+              <table class="table">
+                <tbody>
+                  <% if(afroShopCarts.length === 0 && gadgetsCarts.length === 0 && kitchenCarts.length === 0){ %>
+                  <h3 style="text-align: center;">Your cart is empty!</h3>
+                  <div style="height: 10px;"></div>
+                  <!-- <div style="display: flex; justify-content: center;">
+                  <button class="btn theme-bg-color btn-md fw-bold mt-4 text-white login-btn" onclick="location.href = '/shop';" style="border-radius: 5px;">Start Shopping
+                  </button>
+                </div> -->
+
+                  <% }else{ %>
+                  <% if(afroShopCarts.length > 0){ %>
+                  <tr class="product-box-contain">
+                    <td class="product-detail">
+                      <div class="product border-0" style="display: flex; justify-content: center; font-size: large;">
+                        <a href="/cart/<%= afroShopCarts[0].productId.superCategorySlug %>">Michael Afro Shop Cart</a>
+                      </div>
+                    </td>
+                  </tr>
+                  <% } %>
+
+                  <% if(gadgetsCarts.length > 0){ %>
+                  <tr class="product-box-contain">
+                    <td class="product-detail">
+                      <div class="product border-0" style="display: flex; justify-content: center; font-size: large;">
+                        <a href="/cart/<%= gadgetsCarts[0].productId.superCategorySlug %>">Michael Gadgets Cart</a>
+                      </div>
+                    </td>
+                  </tr>
+                  <% } %>
+
+                  <% if(kitchenCarts.length > 0){ %>
+                  <tr class="product-box-contain">
+                    <td class="product-detail">
+                      <div class="product border-0" style="display: flex; justify-content: center; font-size: large;">
+                        <a href="/cart/<%= kitchenCarts[0].productId.superCategorySlug %>">Michael Kitchen Cart</a>
+                      </div>
+                    </td>
+                  </tr>
+                  <% } %>
+
+                  <% } %>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</section>
+<!-- Cart Section End -->
+
+<%- include('partials/landingPageFooter.ejs') %>

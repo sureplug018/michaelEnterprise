@@ -229,7 +229,7 @@ exports.wishlist = async (req, res) => {
   }
 };
 
-exports.cart = async (req, res) => {
+exports.subCart = async (req, res) => {
   try {
     const user = res.locals.user;
     if (!user) {
@@ -237,10 +237,52 @@ exports.cart = async (req, res) => {
     }
     if (user.role === 'user') {
       const carts = await Cart.find({ user: user.id });
+
+      const afroShopCarts = carts.filter(
+        (cart) => cart.productId.superCategorySlug === 'afro-shop',
+      );
+      const gadgetsCarts = carts.filter(
+        (cart) => cart.productId.superCategorySlug === 'gadgets',
+      );
+      const kitchenCarts = carts.filter(
+        (cart) => cart.productId.superCategorySlug === 'kitchen',
+      );
+
+      return res.status(200).render('subCart', {
+        title: 'Cart',
+        user,
+        afroShopCarts,
+        gadgetsCarts,
+        kitchenCarts,
+      });
+    }
+    return res.status(302).redirect('/');
+  } catch (err) {
+    res.status(500).render('404', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.cart = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    const { superCategorySlug } = req.params;
+    if (!user) {
+      res.status(302).redirect('/sign-in');
+    }
+    if (user.role === 'user') {
+      const userCart = await Cart.find({ user: user.id });
+
+      const carts = userCart.filter(
+        (cart) => cart.productId.superCategorySlug === superCategorySlug,
+      );
       return res.status(200).render('cart', {
         title: 'Cart',
         user,
         carts,
+        superCategorySlug,
       });
     }
     return res.status(302).redirect('/');
@@ -270,16 +312,22 @@ exports.contact = async (req, res) => {
 exports.checkout = async (req, res) => {
   try {
     const user = res.locals.user;
+    const { superCategorySlug } = req.params;
     if (user.role === 'user') {
       const shippingAddress = await ShippingAddress.findOne({
         user: user.id,
       });
-      const carts = await Cart.find({ user: user.id });
+      const userCart = await Cart.find({ user: user.id });
+
+      const carts = userCart.filter(
+        (cart) => cart.productId.superCategorySlug === superCategorySlug,
+      );
       return res.status(200).render('checkout', {
         title: 'Checkout',
         user,
         carts,
         shippingAddress,
+        superCategorySlug,
       });
     }
     return res.status(302).redirect('/');

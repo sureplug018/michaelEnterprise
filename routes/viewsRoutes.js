@@ -52,11 +52,13 @@ router.get('/contact-us', viewsController.contact);
 
 router.get('/account', viewsController.account);
 
-router.get('/cart', viewsController.cart);
+router.get('/cart', viewsController.subCart);
+
+router.get('/cart/:superCategorySlug', viewsController.cart);
 
 router.get('/error', viewsController.error);
 
-router.get('/checkout', viewsController.checkout);
+router.get('/checkout/:superCategorySlug', viewsController.checkout);
 
 router.get(
   '/product/:superCategorySlug/:categorySlug/:slug',

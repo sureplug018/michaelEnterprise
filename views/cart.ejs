@@ -168,7 +168,7 @@
                 <% if(carts.length <= 0){ %>
                 <button class="btn btn-animation proceed-btn fw-bold" disabled>Process To Checkout</button>
                 <% }else{ %>
-                <button class="btn btn-animation proceed-btn fw-bold" onclick="location.href = '/checkout';">Process To Checkout</button>
+                <button class="btn btn-animation proceed-btn fw-bold" onclick="location.href = '/checkout/<%= carts[0].productId.superCategorySlug %>';">Process To Checkout</button>
                 <% } %>
 
               </li>
