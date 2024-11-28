@@ -12,7 +12,7 @@ router.post(
 );
 
 router.patch(
-  '/edit-shipping-address/:addressId',
+  '/edit-shipping-address',
   shippingAddressController.editShippingAddress,
 );
 

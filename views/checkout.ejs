@@ -116,7 +116,7 @@
 
                               </div>
                             </div>
-                            <!-- <button class="btn theme-bg-color btn-md fw-bold mt-4 text-white edit-address-btn" data-address-id="<%= shippingAddress.id %>">Save Changes</button> -->
+                            <!-- <button class="btn theme-bg-color btn-md fw-bold mt-4 text-white edit-address-btn" data-address-id="">Save Changes</button> -->
                           </form>
                         </div>
 
@@ -222,7 +222,7 @@
 
                               </div>
                             </div>
-                            <button class="btn theme-bg-color btn-md fw-bold mt-4 text-white edit-address-btn" data-address-id="<%= shippingAddress.id %>">Save Changes</button>
+                            <button class="btn theme-bg-color btn-md fw-bold mt-4 text-white edit-address-btn">Save Changes</button>
                           </form>
                           <% }else{ %>
                           <form class="create-shipping-address-form">
@@ -233,7 +233,7 @@
                                   <div class="mb-md-4 mb-3 custom-form">
                                     <label for="fullName2" class="form-label">Full Name</label>
                                     <div class="custom-input">
-                                      <input type="text" class="form-control" s placeholder="Enter Full Name">
+                                      <input type="text" class="form-control" id="fullName" placeholder="Enter Full Name">
                                     </div>
                                   </div>
                                 </div>
@@ -507,29 +507,31 @@
 </section>
 <!-- Checkout section End -->
 <script>
-  const chooseDeliveryMethod = document.getElementById('deliveryMethod');
-  const deliverWithinRostov = document.querySelector('.inside-rostov');
-  const deliverOutsideRostov = document.querySelector('.outside-rostov');
-  const addressBook = document.querySelector('.address-book');
+  document.addEventListener('DOMContentLoaded', () => {
+    const chooseDeliveryMethod = document.getElementById('deliveryMethod');
+    const deliverWithinRostov = document.querySelector('.inside-rostov');
+    const deliverOutsideRostov = document.querySelector('.outside-rostov');
+    const addressBook = document.querySelector('.address-book');
 
-  if (chooseDeliveryMethod) {
-    chooseDeliveryMethod.addEventListener('change', (e) => {
-      e.preventDefault();
-      if (chooseDeliveryMethod.value === 'delivery within Rostov') {
-        deliverWithinRostov.style.display = 'block';
-        deliverOutsideRostov.style.display = 'none';
-        addressBook.style.display = 'block';
-      } else if (chooseDeliveryMethod.value === 'pick-up') {
-        deliverWithinRostov.style.display = 'none';
-        deliverOutsideRostov.style.display = 'none';
-        addressBook.style.display = 'none';
-      } else if (chooseDeliveryMethod.value === 'delivery outside Rostov') {
-        deliverWithinRostov.style.display = 'none';
-        deliverOutsideRostov.style.display = 'block';
-        addressBook.style.display = 'block';
-      }
-    });
-  }
+    if (chooseDeliveryMethod) {
+      chooseDeliveryMethod.addEventListener('change', (e) => {
+        e.preventDefault();
+        if (chooseDeliveryMethod.value === 'delivery within Rostov') {
+          deliverWithinRostov.style.display = 'block';
+          deliverOutsideRostov.style.display = 'none';
+          addressBook.style.display = 'block';
+        } else if (chooseDeliveryMethod.value === 'pick-up') {
+          deliverWithinRostov.style.display = 'none';
+          deliverOutsideRostov.style.display = 'none';
+          addressBook.style.display = 'none';
+        } else if (chooseDeliveryMethod.value === 'delivery outside Rostov') {
+          deliverWithinRostov.style.display = 'none';
+          deliverOutsideRostov.style.display = 'block';
+          addressBook.style.display = 'block';
+        }
+      });
+    }
+  });
 </script>
 
 <%- include('partials/landingPageFooter.ejs') %>

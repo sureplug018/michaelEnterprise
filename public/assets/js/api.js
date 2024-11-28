@@ -158,12 +158,12 @@ const editShippingAddress = async (
   postalCode,
   postOfficeAddress,
   passportNumber,
-  addressId,
+  // addressId,
 ) => {
   try {
     const res = await axios({
       method: 'PATCH',
-      url: `/api/v1/shipping-address/edit-shipping-address/${addressId}`,
+      url: '/api/v1/shipping-address/edit-shipping-address',
       data: {
         fullName,
         address,
@@ -784,7 +784,7 @@ if (shippingAddressForm) {
     e.preventDefault();
     const button = document.querySelector('.edit-address-btn');
     // Retrieve addressId from button's data attribute
-    const addressId = button.dataset.addressId;
+    // const addressId = button.dataset.addressId;
     button.style.opacity = '0.5';
     button.textContent = 'saving...';
     const fullName = document.getElementById('fullName2').value;
@@ -807,7 +807,7 @@ if (shippingAddressForm) {
       postalCode,
       postOfficeAddress,
       passportNumber,
-      addressId,
+      // addressId,
     );
     button.style.opacity = '1';
     button.textContent = 'Save Changes';

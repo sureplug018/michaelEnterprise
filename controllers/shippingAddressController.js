@@ -88,7 +88,7 @@ exports.createShippingAddress = async (req, res) => {
 
 exports.editShippingAddress = async (req, res) => {
   const user = req.user.id;
-  const { addressId } = req.params;
+  // const { addressId } = req.params;
 
   const requiredFields = [
     'fullName',
@@ -138,7 +138,7 @@ exports.editShippingAddress = async (req, res) => {
     // }
 
     const shippingAddress = await ShippingAddress.findOneAndUpdate(
-      { _id: addressId, user },
+      { _id: user },
       {
         fullName,
         address,

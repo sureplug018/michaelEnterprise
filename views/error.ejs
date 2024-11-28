@@ -1,17 +1,17 @@
-<%- include('partials/landingPageHead.ejs') %>
+<%- include('partials/landingPageHeader.ejs') %>
 
 <div class="error-area-main-wrapper rts-section-gap2">
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
-        <div class="error-main-wrapper">
+        <div class="error-main-wrapper" style="text-align: center; margin: 40px 0;">
           <div class="thumbnail">
             <h1 style="color: color-primary;">404 Error</h1>
           </div>
           <div class="content-main">
             <h2 class="title">This Page Can’t Be Found</h2>
-            <p><%= message %></p>
-            <a href="/" class="rts-btn btn-primary">Back To Homepage</a>
+            <p style="font-size: larger;"><%= message %></p>
+            <a href="/" style="background-color: #5F1303; border: #5F1303; padding: 10px 15px; border-radius: 5px;" class="rts-btn btn-primary">Back To Homepage</a>
           </div>
         </div>
       </div>
