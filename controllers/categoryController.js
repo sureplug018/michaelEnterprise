@@ -2,12 +2,19 @@ const Category = require('../models/categoryModel');
 
 exports.addCategory = async (req, res) => {
   try {
-    const { name, superCategory } = req.body.name;
+    const { name, superCategory } = req.body;
 
     if (!name) {
       return res.status(404).json({
         status: 'fail',
         message: 'Category is required',
+      });
+    }
+
+    if (!superCategory) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'Super category is required',
       });
     }
 
