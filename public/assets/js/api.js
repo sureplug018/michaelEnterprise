@@ -1923,6 +1923,7 @@ if (bankList) {
 
 // Function to open the modal and set the amount
 function openModal(grandTotal) {
+  console.log(grandTotal);
   if (!bankName || !accountName || !accountNumber) {
     showAlert('error', 'Please select a bank before placing the order.');
     return;
@@ -1955,7 +1956,7 @@ if (confirmCheckoutButton) {
     event.preventDefault(); // Prevent default action
 
     // Get the total amount from the page
-    const grandTotal = document.querySelector('.price').innerText.slice(1); // Assuming it's prefixed with '$'
+    const grandTotal = document.querySelector('.total-price').innerText.slice(1); // Assuming it's prefixed with '$'
 
     // Get the selected bank details from the button's dataset
     const bankName = this.dataset.bankName;
