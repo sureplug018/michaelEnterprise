@@ -1,5 +1,4 @@
 const crypto = require('crypto');
-const mongoose = require('mongoose');
 const Transaction = require('../models/transactionModel');
 const User = require('../models/userModel');
 const TransactionEmail = require('../utilities/transactionEmail');

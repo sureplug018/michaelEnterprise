@@ -31550,7 +31550,7 @@ body.rtl .menu-label {
 }
 .cart-table table tbody tr td.product-detail .product .product-detail ul li {
   display: block;
-  white-space: nowrap;
+  /* white-space: nowrap; */
   margin-bottom: 8px;
   font-size: 14px;
 }
@@ -46489,5 +46489,30 @@ body.rtl
 
   100% {
     transform: rotate(360deg);
+  }
+}
+
+.cart-table .table-responsive-xl {
+  overflow-x: auto; /* Enable horizontal scrolling */
+  white-space: nowrap; /* Prevent table wrapping */
+  position: relative; /* For scroll indicator */
+}
+
+.scroll-indicator {
+  display: none; /* Hidden by default */
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  z-index: 10;
+}
+
+@media (max-width: 768px) {
+  .scroll-indicator {
+    display: block; /* Show the scroll indicator on smaller screens */
   }
 }

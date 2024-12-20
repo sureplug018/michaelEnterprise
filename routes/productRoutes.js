@@ -6,8 +6,13 @@ const router = express.Router();
 
 router.get('/find', productController.find);
 
+router.get('/find-tem', productController.findItem);
+
 // apply authentication and authorization to all routes
-router.use(authController.protect, authController.restrictTo('admin'));
+router.use(
+  authController.protect,
+  authController.restrictTo('admin', 'super-admin'),
+);
 
 // add product
 router.post(

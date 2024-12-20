@@ -1669,13 +1669,13 @@ document.querySelectorAll('.edit-order-status-modal').forEach((button) => {
     }
     if (shipButton) {
       shipButton.addEventListener('click', async () => {
-        const url = document.getElementById('trackingId').value.trim();
+        const trackingUrl = document.getElementById('trackingId').value.trim();
         shipButton.style.opacity = '0.5';
         shipButton.textContent = 'Shipping...';
         try {
           const response = await axios.patch(
             `/api/v1/orders/ship-order/${orderId}`,
-            { url }, // Include tracking ID in the request body
+            trackingUrl, // Include tracking ID in the request body
           );
           if (response.data.status === 'success') {
             showAlert('success', 'Order Shipped And Email Sent!');
@@ -1785,6 +1785,149 @@ document.querySelectorAll('.send-mail-modal').forEach((button) => {
     });
   });
 });
+
+const addProteinModal = document.querySelectorAll('.add-protein-modal-toggler');
+const addProteinBtn = document.querySelector('.add-protein-btn');
+
+let currentProductId = null;
+
+addProteinModal.forEach((button) => {
+  button.addEventListener('click', function () {
+    currentProductId = this.dataset.productId;
+  });
+});
+
+if (addProteinBtn) {
+  addProteinBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    if (!document.getElementById('protein-image').files[0]) {
+      return showAlert('error', 'Upload protein image');
+    }
+    if (!currentProductId) return;
+    console.log(currentProductId);
+    addProteinBtn.style.opacity = '0.5';
+    addProteinBtn.textContent = 'processing...';
+    addProteinBtn.disabled = true;
+
+    const formData = new FormData();
+    formData.append('name', document.getElementById('protein-name').value);
+    formData.append('price', document.getElementById('protein-price').value);
+    formData.append(
+      'paymentProof',
+      document.getElementById('protein-image').files[0],
+    );
+
+    try {
+      const res = await axios.post(
+        `/api/v1/proteins/add-protein/${currentProductId}`,
+        formData,
+      );
+
+      if (res.data.status === 'success') {
+        showAlert('success', 'Protein added successfully!');
+        // Redirect to the plans page after a delay
+        window.setTimeout(() => {
+          location.reload();
+        }, 3000);
+      }
+    } catch (err) {
+      showAlert('error', err.response.data.message);
+      addProteinBtn.style.opacity = '1';
+      addProteinBtn.textContent = 'Upload Protein';
+      addProteinBtn.disabled = false;
+    }
+  });
+}
+
+const editProteinModal = document.querySelectorAll('.edit-protein-modal');
+const editProteinBtn = document.querySelector('.edit-protein-btn');
+const deleteProteinModal = document.querySelectorAll('.delete-protein-modal');
+const deleteProteinBtn = document.querySelector('.delete-protein-btn');
+
+let currentProteinId = null;
+
+editProteinModal.forEach((button) => {
+  button.addEventListener('click', function () {
+    currentProteinId = this.dataset.proteinId;
+  });
+});
+
+deleteProteinModal.forEach((button) => {
+  button.addEventListener('click', function () {
+    currentProteinId = this.dataset.proteinId;
+  });
+});
+
+if (editProteinBtn) {
+  editProteinBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+
+    if (!currentProteinId) return;
+
+    editProteinBtn.style.opacity = '0.5';
+    editProteinBtn.textContent = 'Processing...';
+    editProteinBtn.disabled = true;
+
+    const formData = new FormData();
+    formData.append('name', document.getElementById('name').value);
+    formData.append('price', document.getElementById('price').value);
+    formData.append(
+      'paymentProof',
+      document.getElementById('protein-image').files[0],
+    );
+
+    try {
+      const res = await axios.patch(
+        `/api/v1/proteins/edit-protein/${currentProteinId}`,
+        formData,
+      );
+
+      if (res.data.status === 'success') {
+        showAlert('success', 'Protein updated successfully!');
+        // Redirect to the plans page after a delay
+        window.setTimeout(() => {
+          location.reload();
+        }, 3000);
+      }
+    } catch (err) {
+      showAlert('error', err.response.data.message);
+      addProteinBtn.style.opacity = '1';
+      addProteinBtn.textContent = 'Update Protein';
+      addProteinBtn.disabled = false;
+    }
+  });
+}
+
+if (deleteProteinBtn) {
+  deleteProteinBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+
+    if (!currentProteinId) return;
+
+    deleteProteinBtn.style.opacity = '0.5';
+    deleteProteinBtn.textContent = 'Processing...';
+    deleteProteinBtn.disabled = true;
+
+    try {
+      const res = await axios.delete(
+        `/api/v1/proteins/delete-protein/${currentProteinId}`,
+      );
+
+      if (res.data.status === 'success') {
+        showAlert('success', 'Protein delete successfully!');
+        // Redirect to the plans page after a delay
+        window.setTimeout(() => {
+          location.reload();
+        }, 3000);
+      }
+    } catch (err) {
+      showAlert('error', err.response.data.message);
+      deleteProteinBtn.style.opacity = '1';
+      deleteProteinBtn.textContent = 'Delete Protein';
+      deleteProteinBtn.disabled = false;
+    }
+  });
+}
 
 document.querySelectorAll('.edit-afro-modal-toggler').forEach((button) => {
   button.addEventListener('click', function () {
@@ -1956,7 +2099,9 @@ if (confirmCheckoutButton) {
     event.preventDefault(); // Prevent default action
 
     // Get the total amount from the page
-    const grandTotal = document.querySelector('.total-price').innerText.slice(1); // Assuming it's prefixed with '$'
+    const grandTotal = document
+      .querySelector('.total-price')
+      .innerText.slice(1); // Assuming it's prefixed with '$'
 
     // Get the selected bank details from the button's dataset
     const bankName = this.dataset.bankName;
@@ -2302,7 +2447,6 @@ if (searchInputField) {
         // Check if the response is okay (status 200-299)
         if (res.ok) {
           const data = await res.json();
-          console.log(data);
 
           const suggestions = document.querySelectorAll('.list-of-suggestions');
 

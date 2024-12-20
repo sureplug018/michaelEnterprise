@@ -17,6 +17,7 @@ const transactionRoutes = require('./routes/transactionRoutes');
 const currencyRoutes = require('./routes/currencyRoutes');
 const rateRoutes = require('./routes/rateRoutes');
 const beneficiaryRoutes = require('./routes/beneficiaryRoutes');
+const proteinRoutes = require('./routes/proteinRoutes');
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -59,6 +60,7 @@ app.use('/api/v1/transactions', transactionRoutes);
 app.use('/api/v1/currencies', currencyRoutes);
 app.use('/api/v1/rates', rateRoutes);
 app.use('/api/v1/beneficiaries', beneficiaryRoutes);
+app.use('/api/v1/proteins', proteinRoutes);
 app.use('/', viewsRoutes);
 
 module.exports = app;

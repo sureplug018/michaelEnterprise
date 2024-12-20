@@ -17,25 +17,25 @@ router.post(
 
 router.patch(
   '/confirm-order/:orderId',
-  authController.restrictTo('admin'),
+  authController.restrictTo('admin', 'super-admin'),
   orderController.confirmOrder,
 );
 
 router.patch(
   '/ship-order/:orderId',
-  authController.restrictTo('admin'),
+  authController.restrictTo('admin', 'super-admin'),
   orderController.shipOrder,
 );
 
 router.patch(
   '/deliver-order/:orderId',
-  authController.restrictTo('admin'),
+  authController.restrictTo('admin', 'super-admin'),
   orderController.deliverOrder,
 );
 
 router.patch(
   '/cancel-order/:orderId',
-  authController.restrictTo('admin'),
+  authController.restrictTo('admin', 'super-admin'),
   orderController.cancelOrder,
 );
 

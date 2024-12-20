@@ -14,13 +14,13 @@ router.post(
 
 router.post(
   '/reply-support/:id',
-  authController.restrictTo('admin'),
+  authController.restrictTo('admin', 'super-admin'),
   supportController.replySupport,
 );
 
 router.post(
   '/send-mail/:id',
-  authController.restrictTo('admin'),
+  authController.restrictTo('admin', 'super-admin'),
   supportController.sendMail,
 );
 

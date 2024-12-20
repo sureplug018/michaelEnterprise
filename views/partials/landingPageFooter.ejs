@@ -49,8 +49,8 @@
           <div class="footer-contain">
             <ul>
               <li><a href="/" class="text-content">Home</a></li>
-            <li><a href="/faq" class="text-content">FAQ</a></li>
-            <li><a href="/contact-us" class="text-content">contact us</a></li>
+              <li><a href="/faq" class="text-content">FAQ</a></li>
+              <li><a href="/contact-us" class="text-content">contact us</a></li>
             </ul>
           </div>
         </div>
@@ -135,10 +135,10 @@
         <h6 class="text-content">Stay connected :</h6>
         <ul>
           <li><a target="_blank" href="https://www.instagram.com/michael_enterprise?igsh=d3EzMTAyZ3VpZHdl"><i class="fa-brands fa-instagram"></i></a></li>
-              <li><a target="_blank" href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
-              <li><a target="_blank" href=" https://vk.com/club227320115"><i class="fa-brands fa-vk"></i></a></li>
-              <li><a target="_blank" href="https://wa.me/+79954459255"><i class="fa-brands fa-whatsapp"></i></a></li>
-              <li><a target="_blank" href="https://t.me/micenterprise"><i class="fa-brands fa-telegram"></i></a></li>
+          <li><a target="_blank" href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
+          <li><a target="_blank" href=" https://vk.com/club227320115"><i class="fa-brands fa-vk"></i></a></li>
+          <li><a target="_blank" href="https://wa.me/+79954459255"><i class="fa-brands fa-whatsapp"></i></a></li>
+          <li><a target="_blank" href="https://t.me/micenterprise"><i class="fa-brands fa-telegram"></i></a></li>
         </ul>
       </div>
     </div>
@@ -169,6 +169,36 @@
         slidesPerView: 4, // 4 slides for large screens
       },
     },
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const tableContainer = document.querySelector('.table-responsive-xl');
+    const indicator = document.createElement('div');
+    indicator.className = 'scroll-indicator';
+    indicator.textContent = 'Scroll →';
+
+    // Append the indicator to the container
+    if (tableContainer) {
+      tableContainer.appendChild(indicator);
+
+      // Auto-scroll the container
+      tableContainer.scrollTo({
+        left: 400, // Scroll to 200px initially (adjust as needed)
+        behavior: 'smooth',
+      });
+
+      // Hide the indicator after 3 seconds
+      setTimeout(() => {
+        indicator.style.display = 'none';
+      }, 3000);
+    }
+
+    // Remove the indicator if the user scrolls manually
+    tableContainer.addEventListener('scroll', () => {
+      indicator.style.display = 'none';
+    });
   });
 </script>
 

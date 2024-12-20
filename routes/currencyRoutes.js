@@ -4,7 +4,7 @@ const currencyController = require('../controllers/currencyController');
 
 const router = express.Router();
 
-router.use(authController.protect, authController.restrictTo('admin'));
+router.use(authController.protect, authController.restrictTo('admin', 'super-admin'));
 
 router.post('/add-currency', currencyController.addCurrency);
 

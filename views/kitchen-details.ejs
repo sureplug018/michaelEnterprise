@@ -221,7 +221,9 @@
             </ul> -->
           </div>
           <div class="dishes-thumb">
-            <img src="<%= product.imageCover %>" style="width: 165px; height: 165px; border-radius: 50%; object-fit: cover;" alt="thumb">
+            <a href="/michael-kitchen/item/<%= product.categorySlug %>/<%= product.slug %>">
+              <img src="<%= product.imageCover %>" style="width: 165px; height: 165px; border-radius: 50%; object-fit: cover;" alt="thumb">
+            </a>
           </div>
           <a href="/michael-kitchen/item/<%= product.categorySlug %>/<%= product.slug %>">
             <h3> <%= product.name %> </h3>

@@ -12,6 +12,7 @@ const Currency = require('../models/currencyModel');
 const Rate = require('../models/rateModel');
 const Transaction = require('../models/transactionModel');
 const Beneficiary = require('../models/beneficiaryModel');
+const Protein = require('../models/proteinModel');
 
 exports.home = async (req, res) => {
   try {
@@ -1704,7 +1705,6 @@ exports.kitchenShop = async (req, res) => {
       limit: limitNumber,
       currentCategory: category,
       categories, // Pass categories to the view
-      // superCategorySlug,
     });
   } catch (err) {
     return res.status(500).render('error2', {
@@ -1769,6 +1769,8 @@ exports.kitchenShopCategory = async (req, res) => {
       },
     ]);
 
+    const proteins = await Protein.find({ productId: products[0].id });
+
     // Render view with pagination data and category filter
     res.status(200).render('shop-kitchen', {
       title: 'Michael Kitchen',
@@ -1778,7 +1780,7 @@ exports.kitchenShopCategory = async (req, res) => {
       totalPages,
       limit: limitNumber,
       categories, // Pass categories to the view
-      // superCategorySlug,
+      proteins,
     });
   } catch (err) {
     return res.status(500).render('error2', {
@@ -1905,13 +1907,39 @@ exports.kitchenDetail = async (req, res) => {
         user,
       });
     }
+
+    const proteins = await Protein.find({ productId: product.id });
     const user = res.locals.user;
     return res.status(200).render('kitchen-details', {
       title: 'Item Details',
       user,
       relatedProducts,
       product,
+      proteins,
     });
+  } catch (err) {
+    return res.status(500).render('error2', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.proteins = async (req, res) => {
+  try {
+    const user = res.locals.user;
+
+    if (!user) {
+      return res.status(302).redirect('/admin/sign-in');
+    }
+    if (user.role === 'admin' || user.role === 'super-admin') {
+      const proteins = await Protein.find();
+      return res.status(200).render('proteins', {
+        title: 'Proteins',
+        user,
+        proteins,
+      });
+    }
   } catch (err) {
     return res.status(500).render('error2', {
       title: 'Error',

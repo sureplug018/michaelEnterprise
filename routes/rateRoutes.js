@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/get-rate', rateController.getExchangeRate);
 
-router.use(authController.protect, authController.restrictTo('admin'));
+router.use(authController.protect, authController.restrictTo('admin', 'super-admin'));
 
 router.post('/create-rate', rateController.addRate);
 

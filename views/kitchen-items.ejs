@@ -46,6 +46,9 @@
                         <th scope="col">Category</th>
                         <th scope="col">Product Stock</th>
                         <th scope="col">View Product</th>
+                        <% if(currentSuperCategory === 'kitchen'){ %>
+                        <th scope="col">Add protein</th>
+                        <% } %>
                         <th scope="col">Action</th>
                       </tr>
                     </thead>
@@ -65,6 +68,9 @@
                         <td><%= item.category %></td>
                         <td><%= item.productStock %></td>
                         <td><a href="/michael-kitchen/item/<%= item.categorySlug %>/<%= item.slug %>" target="_blank">View</a></td>
+                        <% if(currentSuperCategory === 'kitchen'){ %>
+                        <td><a class="add-protein-modal-toggler" href="#" data-product-id="<%= item.id %>" data-bs-toggle="modal" data-bs-target="#add-protein"><i class="fa-solid fa-square-plus fa-xl"></i></a></td>
+                        <% } %>
                         <td><a class="edit-afro-modal-toggler" href="#" data-product-id="<%= item.id %>" data-bs-toggle="modal" data-bs-target="#profile-afro-product"><i class="fa-solid fa-pen-to-square fa-xl"></i></a></td>
                       </tr>
                       <% }) %>
@@ -145,6 +151,45 @@
               </div>
             </div>
 
+
+
+            <div class="modal fade" role="dialog" id="add-protein">
+              <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content"><a href="profile.html#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
+                  <div class="modal-body modal-body-lg">
+                    <h5 class="title">Add protein</h5>
+                    <ul class="nk-nav nav nav-tabs">
+                      <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="profile.html#personal">Protein</a></li>
+                    </ul>
+                    <div class="tab-content">
+                      <div class="tab-pane active" id="personal">
+                        <div class="row gy-4">
+                          <div class="form-group">
+                            <label class="form-label" for="protein-name">Protein Name</label>
+                            <input type="text" class="form-control form-control-lg" id="protein-name" placeholder="Product Name">
+                          </div>
+                          <div class="form-group">
+                            <label class="form-label" for="protein-price">Price</label>
+                            <input type="text" class="form-control form-control-lg" id="protein-price" placeholder="Price">
+                          </div>
+                          <div class="form-group">
+                            <label class="form-label" for="protein-image">Image</label>
+                            <input type="file" class="form-control form-control-lg" accept=".png, .jpg, .jpeg" id="protein-image">
+                          </div>
+                        </div>
+                        <p></p>
+                        <div class="col-12">
+                          <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
+                            <li><button href="#" class="btn btn-lg btn-primary add-protein-btn">Upload Protein</button></li>
+                            <li><button href="#" data-bs-dismiss="modal" class="link link-light">Cancel</button></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
 
 

@@ -1,0 +1,141 @@
+<%- include('partials/adminDashboardHead.ejs') %>
+<div class="nk-content nk-content-fluid">
+  <div class="container-xl wide-xl">
+    <div class="nk-content-body">
+      <div class="nk-block-head nk-block-head-sm">
+        <div class="nk-block-between g-3">
+          <div class="nk-block-head-content">
+            <h3 class="nk-block-title page-title">Edit Proteins</h3>
+            <div class="nk-block-des text-soft">
+              <p>Proteins</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="nk-block">
+        <div class="card card-stretch">
+          <div class="card-inner-group">
+            <div class="card-inner">
+              <div class="card-title-group">
+              </div>
+              <p></p>
+            </div>
+            <div class="card-inner p-0">
+              <div class="tab-content">
+                <% if (proteins.length === 0) { %>
+                <p style="text-align: center; font-size: large; margin-top: 50px;">No proteins yet!</p>
+                <% }else{ %>
+                <div style="margin-top: 30px;" class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Protein Name</th>
+                        <th scope="col">Protein price</th>
+                        <th scope="col">Protein Image</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <% proteins.forEach(function(protein, index){ %> <tr>
+                        <th scope="row"><%= index + 1 %></th>
+                        <td><%= protein.productId.name %></td>
+                        <td><%= protein.name %></td>
+                        <td><%= protein.price %></td>
+                        <td><img src="<%= protein.paymentProof %>" style="width: 100px; height: auto;" loading="lazy" alt=""></td>
+                        <td><a class="edit-protein-modal" href="#" data-protein-id="<%= protein.id %>" data-bs-toggle="modal" data-bs-target="#profile-afro-product"><i class="fa-solid fa-pen-to-square fa-xl"></i></a></td>
+                        <td><a class="delete-protein-modal" href="#" data-protein-id="<%= protein.id %>" data-bs-toggle="modal" data-bs-target="#delete-protein"><i class="fa-regular fa-trash-can fa-xl"></i></a></td>
+                      </tr>
+                      <% }) %>
+                      <% } %>
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="modal fade" role="dialog" id="profile-afro-product">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                  <div class="modal-content"><a href="profile.html#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
+                    <div class="modal-body modal-body-lg">
+                      <h5 class="title">Edit Protein</h5>
+                      <!-- <ul class="nk-nav nav nav-tabs">
+                        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="profile.html#personal">Order Status</a></li>
+                      </ul> -->
+                      <div class="tab-content">
+                        <div class="tab-pane active" id="personal">
+                          <p></p>
+                          <div class="col-12">
+                            <div class="form-group"><label class="form-label" for="name">Protein Name</label>
+                              <div class="form-control-wrap"><input class="form-control" type="text" id="name" placeholder="Protein Name" /></div>
+                            </div>
+                          </div>
+                          <p></p>
+                          <div class="col-12">
+                            <div class="form-group"><label class="form-label" for="price">Protein Price</label>
+                              <div class="form-control-wrap"><input class="form-control" type="text" id="price" placeholder="Protein Price" /></div>
+                            </div>
+                          </div>
+                          <p></p>
+                          <div class="col-12">
+                            <div class="form-group"><label class="form-label" for="protein-image">Protein Image</label>
+                              <div class="form-control-wrap"><input class="form-control" type="file" id="protein-image" placeholder="Protein Image" /></div>
+                            </div>
+                          </div>
+                          <p></p>
+                          <div class="col-12">
+                            <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
+                              <li><a href="#" class="btn btn-lg btn-primary edit-protein-btn">Update Protein</a></li>
+                              <li><a href="#" data-bs-dismiss="modal" class="link link-light">Cancel</a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+              <div class="modal fade" role="dialog" id="delete-protein">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                  <div class="modal-content"><a href="profile.html#" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
+                    <div class="modal-body modal-body-lg">
+                      <h5 class="title">Delete Protein</h5>
+                      <!-- <ul class="nk-nav nav nav-tabs">
+                        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="profile.html#personal">Order Status</a></li>
+                      </ul> -->
+                      <div class="tab-content">
+                        <div class="tab-pane active" id="personal">
+                          <div class="col-12">
+                            <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
+                              <li><a href="#" class="btn btn-lg btn-primary delete-protein-btn">Delete Protein</a></li>
+                              <li><a href="#" data-bs-dismiss="modal" class="link link-light">Cancel</a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+            </div>
+            <div class="card-inner">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('partials/adminDashboardFooter.ejs') %>

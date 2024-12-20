@@ -1,3 +1,41 @@
+<!-- Modal -->
+<div id="proteinModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 1000;">
+  <div class="responsive-modal">
+    <span onclick="closeProteinModal()" style="margin-left: 95%; color: white; background-color: #5f1303; padding: 5px 10px; cursor: pointer; border-radius: 5px;">x</span>
+    <br>
+    <div class="row" style="padding: 0 5%;">
+      <div class="col-12 col-lg-6 col-md-6 col-sm-12">
+        <div class="dishes-thumb">
+          <a href="" class="modal-image-url">
+            <img class="modal-image-src" src="" style="width: 250px; height: auto; margin: 20px 0; border-radius: 15px; object-fit: cover;" alt="thumb">
+            <!-- <div class="circle-shape"><img class="cir36" src="/assets/img/food-items/circleShape.png" alt="shape"></div> -->
+          </a>
+          <a href="" class="modal-name-url">
+            <p class="modal-product-name" style="font-size: larger; color: #5f1303; font-weight: bold;"></p>
+          </a>
+
+        </div>
+      </div>
+      <div class="col-12 col-lg-6 col-md-6 col-sm-12 modal-description" style="display: block; text-align: justify; padding: 10px; box-sizing: border-box;">
+
+      </div>
+
+    </div>
+    <h3 style="margin-bottom: 20px; text-align: center; color: black; text-decoration: underline;">Add Proteins
+
+    </h3>
+    <div id="proteinList" style="max-height: 300px; overflow-y: auto; margin-bottom: 20px;">
+      <!-- Protein items will be dynamically added here -->
+    </div>
+    <div class="protein-total">
+      <p style="font-weight: bold;">Total: ₽<span></span></p>
+    </div>
+    <div style="display: flex; justify-content: center;">
+      <button class="add-to-cart-with-protein-btn" style="width: fit-content; color: #5f1303; border: #5f1303 1px solid; padding: 5px 15px; border-radius: 5px;">Add To Cart</button>
+    </div>
+  </div>
+</div>
+
 <!-- Footer Section    S T A R T -->
 <footer class="footer-section bg-title fix">
   <div class="footer-widgets-wrapper">

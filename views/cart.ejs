@@ -98,7 +98,7 @@
 
                   <td class="subtotal">
                     <h4 class="table-title text-content">Total</h4>
-                    <% const total = cart.productId.price * cart.quantity %>
+                    <% const total = cart.total %>
                     <h5>₽<%= total %></h5>
                   </td>
 
@@ -155,7 +155,7 @@
               <h4>Total (RUB)</h4>
               <% grandTotal = 0 %>
               <% carts.forEach(function(cart){ %>
-              <% const cartItemTotal = cart.productId.price*cart.quantity %>
+              <% const cartItemTotal = cart.total %>
               <% grandTotal += cartItemTotal %>
               <% }) %>
               <h4 class="price theme-color">₽<%= grandTotal %></h4>

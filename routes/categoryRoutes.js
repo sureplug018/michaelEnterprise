@@ -4,7 +4,7 @@ const categoryController = require('../controllers/categoryController');
 
 const router = express.Router();
 
-router.use(authController.protect, authController.restrictTo('admin'));
+router.use(authController.protect, authController.restrictTo('admin', 'super-admin'));
 
 router.post('/create-category', categoryController.addCategory);
 

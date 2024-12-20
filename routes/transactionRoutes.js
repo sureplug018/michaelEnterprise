@@ -13,7 +13,7 @@ router.post(
   transactionController.createTransaction,
 );
 
-router.use(authController.restrictTo('admin'));
+router.use(authController.restrictTo('admin', 'super-admin'));
 
 router.patch(
   '/confirm-transaction/:transactionId',

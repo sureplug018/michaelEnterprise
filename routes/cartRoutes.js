@@ -17,4 +17,9 @@ router.patch('/increase-quantity/:productId', cartController.increaseQuantity);
 
 router.patch('/decrease-quantity/:productId', cartController.decreaseQuantity);
 
+router.post(
+  '/add-to-cart-with-protein/:productId',
+  cartController.addToCartWithProtein,
+);
+
 module.exports = router;

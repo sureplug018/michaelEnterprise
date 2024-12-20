@@ -39,27 +39,214 @@ document.querySelectorAll('.add-to-cart-btn').forEach((button) => {
       button.style.opacity = '0.5';
       button.disabled = true;
 
-      // Send a POST request to the backend to add the product to the cart
-      const response = await axios.post(
-        `/api/v1/carts/add-to-cart/${productId}`,
+      const res = await axios.get(
+        `/api/v1/proteins/find-proteins?productId=${encodeURIComponent(productId)}`,
       );
-      if (response.data.status === 'success') {
-        // Handle success message or any further actions after successful approval
-        showAlert('success', 'Cart successfully updated!');
-        button.style.opacity = '1';
-        button.disabled = false;
-        // document.getElementById(productId).value += 1;
-        document.querySelector('.floating-cart').removeAttribute('hidden');
+
+      if (res.status === 200) {
+        const proteins = res.data.data.protein;
+
+        if (proteins.length <= 0) {
+          // Send a POST request to the backend to add the product to the cart
+          const firstResponse = await axios.post(
+            `/api/v1/carts/add-to-cart/${productId}`,
+          );
+          if (firstResponse.data.status === 'success') {
+            // Handle success message or any further actions after successful approval
+            showAlert('success', 'Cart successfully updated!');
+            button.style.opacity = '1';
+            button.disabled = false;
+            // document.getElementById(productId).value += 1;
+            document.querySelector('.floating-cart').removeAttribute('hidden');
+          }
+        } else if (proteins.length >= 1) {
+          button.style.opacity = '1';
+          button.disabled = false;
+          const proteinModal = document.getElementById('proteinModal');
+          proteinModal.style.display = 'block';
+
+          const modalAddToCartBtn = document.querySelector(
+            '.add-to-cart-with-protein-btn',
+          );
+
+          modalAddToCartBtn.dataset.productId = productId;
+
+          const productPrice = proteins[0].productId.price;
+
+          let totalSpan = document.querySelector('.protein-total p span');
+
+          totalSpan.textContent = productPrice;
+
+          const modalImage = document.querySelector('.modal-image-src');
+
+          modalImage.src = proteins[0].productId.imageCover;
+
+          const modalDescription = document.querySelector('.modal-description');
+
+          modalDescription.textContent = proteins[0].productId.description;
+
+          const productName = document.querySelector('.modal-product-name');
+
+          productName.textContent = proteins[0].productId.name;
+
+          const modalUrl = document.querySelector('.modal-image-url');
+
+          modalUrl.href = `/michael-kitchen/item/${proteins[0].productId.categorySlug}/${proteins[0].productId.slug}`;
+
+          const modalName = document.querySelector('.modal-name-url');
+
+          modalName.href = `/michael-kitchen/item/${proteins[0].productId.categorySlug}/${proteins[0].productId.slug}`;
+
+          const proteinList = document.getElementById('proteinList');
+          proteinList.innerHTML = '';
+          proteins.forEach((protein, index) => {
+            const proteinRow = document.createElement('div');
+            proteinRow.style.display = 'flex';
+            proteinRow.classList.add('protein-div');
+            proteinRow.style.justifyContent = 'space-between';
+            proteinRow.style.alignItems = 'center';
+            proteinRow.style.marginBottom = '15px';
+            proteinRow.style.padding = '10px 0';
+
+            proteinRow.innerHTML = `
+              <div style="flex: 1;" class="proteins">
+                <img src="${protein.paymentProof}" alt="${protein.name}" loading="eager" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
+              </div>
+              <div style="flex: 2; padding-left: 10px;">
+                <h4 name="protein-name" style="margin: 0;">${protein.name}</h4>
+                <p name="protein-price" style="margin: 0;">₽${protein.price}</p>
+              </div>
+              <div style="flex: 1; display: flex; align-items: center;">
+                <button id="minus-protein-${index}" style="padding: 5px 10px; background-color: #5f1303; color: white; border: none; border-radius: 5px;">-</button>
+                <input name="protein-quantity" id="protein-qty-${index}" type="text" value="0" readonly style="width: 40px; text-align: center; margin: 0 10px;">
+                <button id="plus-protein-${index}" style="padding: 5px 10px; background-color: #5f1303; color: white; border: none; border-radius: 5px;">+</button>
+              </div>
+            `;
+
+            proteinList.appendChild(proteinRow);
+
+            const minusProteinBtn = document.getElementById(
+              `minus-protein-${index}`,
+            );
+            const plusProteinBtn = document.getElementById(
+              `plus-protein-${index}`,
+            );
+            const input = document.getElementById(`protein-qty-${index}`);
+            let currentQuantity = parseInt(input.value);
+
+            minusProteinBtn.addEventListener('click', () => {
+              if (currentQuantity > 0) {
+                currentQuantity -= 1;
+                input.value = currentQuantity;
+                let total = parseInt(totalSpan.textContent);
+                total -= protein.price;
+                totalSpan.textContent = total;
+              }
+            });
+
+            plusProteinBtn.addEventListener('click', () => {
+              currentQuantity += 1;
+              input.value = currentQuantity;
+              let total = parseInt(totalSpan.textContent);
+              total += protein.price;
+              totalSpan.textContent = total;
+            });
+          });
+
+          const lastBtn = document.querySelector(
+            '.add-to-cart-with-protein-btn',
+          );
+
+          if (lastBtn) {
+            lastBtn.addEventListener('click', async (e) => {
+              e.preventDefault();
+
+              lastBtn.style.opacity = '0.5';
+              lastBtn.textContent = 'Processing...';
+              lastBtn.disabled = true;
+
+              const proteinsArray = Array.from(
+                document.querySelectorAll('.protein-div'),
+              )
+                .map((proteinDiv) => {
+                  const name = proteinDiv.querySelector(
+                    '[name="protein-name"]',
+                  ).textContent;
+                  const quantity = proteinDiv.querySelector(
+                    '[name="protein-quantity"]',
+                  ).value;
+                  const price = proteinDiv
+                    .querySelector('[name="protein-price"]')
+                    .textContent.replace('₽', '');
+
+                  // Include the protein only if the quantity is greater than 0
+                  if (parseInt(quantity, 10) > 0) {
+                    return {
+                      name,
+                      quantity: parseInt(quantity, 10),
+                      price: parseFloat(price),
+                    };
+                  }
+                  return null; // Exclude proteins with a quantity of 0
+                })
+                .filter(Boolean); // Remove null values
+
+              console.log(proteinsArray);
+
+              const info = {
+                proteins: proteinsArray,
+              };
+
+              try {
+                const finalAddToCartResponse = await axios.post(
+                  `/api/v1/carts/add-to-cart-with-protein/${productId}`,
+                  info,
+                );
+
+                if (finalAddToCartResponse.data.status === 'success') {
+                  // Handle success message or any further actions after successful approval
+                  showAlert('success', 'Cart successfully updated!');
+                  button.style.opacity = '1';
+                  button.disabled = false;
+                  lastBtn.style.opacity = '1';
+                  lastBtn.textContent = 'Add To Cart';
+                  lastBtn.disabled = false;
+                  // document.getElementById(productId).value += 1;
+                  document
+                    .querySelector('.floating-cart')
+                    .removeAttribute('hidden');
+
+                  window.setTimeout(() => {
+                    location.reload();
+                  }, 3000);
+                }
+              } catch (err) {
+                console.log(err);
+                // Handle err
+                showAlert(
+                  'error',
+                  err.response
+                    ? err.response.data.message
+                    : 'Something went wrong',
+                );
+
+                button.style.opacity = '1';
+                button.disabled = false;
+                lastBtn.style.opacity = '1';
+                lastBtn.textContent = 'Add To Cart';
+                lastBtn.disabled = false;
+              }
+            });
+          }
+        }
       }
     } catch (error) {
-      console.log(error);
-      // Handle errors
-      showAlert('error', error.response.data.message);
+      console.error('Error occurred:', error); // Log the full error object for debugging
+      const message =
+        error.response?.data?.message || 'An unexpected error occurred';
+      showAlert('error', message);
       button.style.opacity = '1';
       button.disabled = false;
-      window.setTimeout(() => {
-        location.reload();
-      }, 3000);
     }
   });
 });
@@ -77,34 +264,217 @@ if (singleProduct) {
     singleProduct.disabled = true;
 
     try {
-      // Perform the API call
-      const response = await axios.patch(
-        `/api/v1/carts/increase-quantity/${productId}`,
+      const res = await axios.get(
+        `/api/v1/proteins/find-proteins?productId=${encodeURIComponent(productId)}`,
       );
 
-      if (response.data.status === 'success') {
-        // Handle success
-        showAlert('success', 'Product added to cart!');
-        singleProduct.style.opacity = '1';
-        singleProduct.disabled = false;
-        document
-          .querySelector('.minus-cart-btn-single')
-          .removeAttribute('hidden');
-        document.querySelector('.floating-cart').removeAttribute('hidden');
-        let count = (document.getElementById(productId).value =
-          parseInt(document.getElementById(productId).value, 10) + 1);
+      if (res.status === 200) {
+        const proteins = res.data.data.protein;
 
-        // document.getElementById(productId).value =
-        //   parseInt(document.getElementById(productId).value, 10) + 1;
+        if (proteins.length <= 0) {
+          // Perform the API call
+          const response = await axios.patch(
+            `/api/v1/carts/increase-quantity/${productId}`,
+          );
 
-        // const minusButton = document.querySelector('.minus-cart-btn-single');
-        // minusButton.style.display = 'block';
-      } else {
-        // Handle error
-        console.log(response.data);
-        showAlert('error', 'Something went wrong');
-        singleProduct.style.opacity = '1';
-        singleProduct.disabled = false;
+          if (response.data.status === 'success') {
+            // Handle success
+            showAlert('success', 'Product added to cart!');
+            singleProduct.style.opacity = '1';
+            singleProduct.disabled = false;
+            document
+              .querySelector('.minus-cart-btn-single')
+              .removeAttribute('hidden');
+            document.querySelector('.floating-cart').removeAttribute('hidden');
+            let count = (document.getElementById(productId).value =
+              parseInt(document.getElementById(productId).value, 10) + 1);
+          } else {
+            // Handle error
+            console.log(response.data);
+            showAlert('error', 'Something went wrong');
+            singleProduct.style.opacity = '1';
+            singleProduct.disabled = false;
+          }
+        } else if (proteins.length >= 1) {
+          singleProduct.style.opacity = '1';
+          singleProduct.disabled = false;
+          const proteinModal = document.getElementById('proteinModal');
+          proteinModal.style.display = 'block';
+
+          const modalAddToCartBtn = document.querySelector(
+            '.add-to-cart-with-protein-btn',
+          );
+
+          modalAddToCartBtn.dataset.productId = productId;
+
+          const productPrice = proteins[0].productId.price;
+
+          let totalSpan = document.querySelector('.protein-total p span');
+
+          totalSpan.textContent = productPrice;
+
+          const modalImage = document.querySelector('.modal-image-src');
+
+          modalImage.src = proteins[0].productId.imageCover;
+
+          const modalDescription = document.querySelector('.modal-description');
+
+          modalDescription.textContent = proteins[0].productId.description;
+
+          const productName = document.querySelector('.modal-product-name');
+
+          productName.textContent = proteins[0].productId.name;
+
+          const modalUrl = document.querySelector('.modal-image-url');
+
+          modalUrl.href = `/michael-kitchen/item/${proteins[0].productId.categorySlug}/${proteins[0].productId.slug}`;
+
+          const modalName = document.querySelector('.modal-name-url');
+
+          modalName.href = `/michael-kitchen/item/${proteins[0].productId.categorySlug}/${proteins[0].productId.slug}`;
+
+          const proteinList = document.getElementById('proteinList');
+          proteinList.innerHTML = '';
+          proteins.forEach((protein, index) => {
+            const proteinRow = document.createElement('div');
+            proteinRow.style.display = 'flex';
+            proteinRow.classList.add('protein-div');
+            proteinRow.style.justifyContent = 'space-between';
+            proteinRow.style.alignItems = 'center';
+            proteinRow.style.marginBottom = '15px';
+            proteinRow.style.padding = '10px 0';
+
+            proteinRow.innerHTML = `
+              <div style="flex: 1;" class="proteins">
+                <img src="${protein.paymentProof}" alt="${protein.name}" loading="eager" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
+              </div>
+              <div style="flex: 2; padding-left: 10px;">
+                <h4 name="protein-name" style="margin: 0;">${protein.name}</h4>
+                <p name="protein-price" style="margin: 0;">₽${protein.price}</p>
+              </div>
+              <div style="flex: 1; display: flex; align-items: center;">
+                <button id="minus-protein-${index}" style="padding: 5px 10px; background-color: #5f1303; color: white; border: none; border-radius: 5px;">-</button>
+                <input name="protein-quantity" id="protein-qty-${index}" type="text" value="0" readonly style="width: 40px; text-align: center; margin: 0 10px;">
+                <button id="plus-protein-${index}" style="padding: 5px 10px; background-color: #5f1303; color: white; border: none; border-radius: 5px;">+</button>
+              </div>
+            `;
+
+            proteinList.appendChild(proteinRow);
+
+            const minusProteinBtn = document.getElementById(
+              `minus-protein-${index}`,
+            );
+            const plusProteinBtn = document.getElementById(
+              `plus-protein-${index}`,
+            );
+            const input = document.getElementById(`protein-qty-${index}`);
+            let currentQuantity = parseInt(input.value);
+
+            minusProteinBtn.addEventListener('click', () => {
+              if (currentQuantity > 0) {
+                currentQuantity -= 1;
+                input.value = currentQuantity;
+                let total = parseInt(totalSpan.textContent);
+                total -= protein.price;
+                totalSpan.textContent = total;
+              }
+            });
+
+            plusProteinBtn.addEventListener('click', () => {
+              currentQuantity += 1;
+              input.value = currentQuantity;
+              let total = parseInt(totalSpan.textContent);
+              total += protein.price;
+              totalSpan.textContent = total;
+            });
+          });
+
+          const lastBtn = document.querySelector(
+            '.add-to-cart-with-protein-btn',
+          );
+
+          if (lastBtn) {
+            lastBtn.addEventListener('click', async (e) => {
+              e.preventDefault();
+
+              lastBtn.style.opacity = '0.5';
+              lastBtn.textContent = 'Processing...';
+              lastBtn.disabled = true;
+
+              const proteinsArray = Array.from(
+                document.querySelectorAll('.protein-div'),
+              )
+                .map((proteinDiv) => {
+                  const name = proteinDiv.querySelector(
+                    '[name="protein-name"]',
+                  ).textContent;
+                  const quantity = proteinDiv.querySelector(
+                    '[name="protein-quantity"]',
+                  ).value;
+                  const price = proteinDiv
+                    .querySelector('[name="protein-price"]')
+                    .textContent.replace('₽', '');
+
+                  // Include the protein only if the quantity is greater than 0
+                  if (parseInt(quantity, 10) > 0) {
+                    return {
+                      name,
+                      quantity: parseInt(quantity, 10),
+                      price: parseFloat(price),
+                    };
+                  }
+                  return null; // Exclude proteins with a quantity of 0
+                })
+                .filter(Boolean); // Remove null values
+
+              console.log(proteinsArray);
+
+              const info = {
+                proteins: proteinsArray,
+              };
+
+              try {
+                const finalAddToCartResponse = await axios.post(
+                  `/api/v1/carts/add-to-cart-with-protein/${productId}`,
+                  info,
+                );
+
+                if (finalAddToCartResponse.data.status === 'success') {
+                  // Handle success message or any further actions after successful approval
+                  showAlert('success', 'Cart successfully updated!');
+                  singleProduct.style.opacity = '1';
+                  singleProduct.disabled = false;
+                  lastBtn.style.opacity = '1';
+                  lastBtn.textContent = 'Add To Cart';
+                  lastBtn.disabled = false;
+                  // document.getElementById(productId).value += 1;
+                  document
+                    .querySelector('.floating-cart')
+                    .removeAttribute('hidden');
+
+                  window.setTimeout(() => {
+                    location.reload();
+                  }, 3000);
+                }
+              } catch (err) {
+                console.log(err);
+                // Handle err
+                showAlert(
+                  'error',
+                  err.response
+                    ? err.response.data.message
+                    : 'Something went wrong',
+                );
+
+                singleProduct.style.opacity = '1';
+                singleProduct.disabled = false;
+                lastBtn.style.opacity = '1';
+                lastBtn.textContent = 'Add To Cart';
+                lastBtn.disabled = false;
+              }
+            });
+          }
+        }
       }
     } catch (error) {
       console.log(error);
@@ -170,35 +540,229 @@ if (singlePlus) {
     const productId = this.dataset.productId;
 
     try {
-      // Perform the API call
-      const response = await axios.patch(
-        `/api/v1/carts/increase-quantity/${productId}`,
+      const res = await axios.get(
+        `/api/v1/proteins/find-proteins?productId=${encodeURIComponent(productId)}`,
       );
 
-      if (response.data.status === 'success') {
-        // Handle success
-        showAlert('success', 'Product added to cart!');
-        singlePlus.style.opacity = '1';
-        singlePlus.disabled = false;
-        document
-          .querySelector('.minus-cart-btn-single')
-          .removeAttribute('hidden');
-        document.querySelector('.floating-cart').removeAttribute('hidden');
+      if (res.status === 200) {
+        const proteins = res.data.data.protein;
 
-        let count = (document.getElementById(productId).value =
-          parseInt(document.getElementById(productId).value, 10) + 1);
-        // if (count !== 0) {
-        //   document.querySelector('.minus-cart-btn-single').setAttribute('hidden');
-        // }
-      } else {
-        // Handle error
-        showAlert('error', 'Something went wrong');
-        singlePlus.style.opacity = '1';
-        singlePlus.disabled = false;
+        if (proteins.length <= 0) {
+          // Perform the API call
+          const response = await axios.patch(
+            `/api/v1/carts/increase-quantity/${productId}`,
+          );
+
+          if (response.data.status === 'success') {
+            // Handle success
+            showAlert('success', 'Product added to cart!');
+            singlePlus.style.opacity = '1';
+            singlePlus.disabled = false;
+            document
+              .querySelector('.minus-cart-btn-single')
+              .removeAttribute('hidden');
+            document.querySelector('.floating-cart').removeAttribute('hidden');
+
+            let count = (document.getElementById(productId).value =
+              parseInt(document.getElementById(productId).value, 10) + 1);
+            // if (count !== 0) {
+            //   document.querySelector('.minus-cart-btn-single').setAttribute('hidden');
+            // }
+          } else {
+            // Handle error
+            showAlert('error', 'Something went wrong');
+            singlePlus.style.opacity = '1';
+            singlePlus.disabled = false;
+          }
+        } else if (proteins.length >= 1) {
+          singlePlus.style.opacity = '1';
+          singlePlus.disabled = false;
+          const proteinModal = document.getElementById('proteinModal');
+          proteinModal.style.display = 'block';
+
+          const modalAddToCartBtn = document.querySelector(
+            '.add-to-cart-with-protein-btn',
+          );
+
+          modalAddToCartBtn.dataset.productId = productId;
+
+          const productPrice = proteins[0].productId.price;
+
+          let totalSpan = document.querySelector('.protein-total p span');
+
+          totalSpan.textContent = productPrice;
+
+          const modalImage = document.querySelector('.modal-image-src');
+
+          modalImage.src = proteins[0].productId.imageCover;
+
+          const modalDescription = document.querySelector('.modal-description');
+
+          modalDescription.textContent = proteins[0].productId.description;
+
+          const productName = document.querySelector('.modal-product-name');
+
+          productName.textContent = proteins[0].productId.name;
+
+          const modalUrl = document.querySelector('.modal-image-url');
+
+          modalUrl.href = `/michael-kitchen/item/${proteins[0].productId.categorySlug}/${proteins[0].productId.slug}`;
+
+          const modalName = document.querySelector('.modal-name-url');
+
+          modalName.href = `/michael-kitchen/item/${proteins[0].productId.categorySlug}/${proteins[0].productId.slug}`;
+
+          const proteinList = document.getElementById('proteinList');
+          proteinList.innerHTML = '';
+          proteins.forEach((protein, index) => {
+            const proteinRow = document.createElement('div');
+            proteinRow.style.display = 'flex';
+            proteinRow.classList.add('protein-div');
+            proteinRow.style.justifyContent = 'space-between';
+            proteinRow.style.alignItems = 'center';
+            proteinRow.style.marginBottom = '15px';
+            proteinRow.style.padding = '10px 0';
+
+            proteinRow.innerHTML = `
+            <div style="flex: 1;" class="proteins">
+              <img src="${protein.paymentProof}" alt="${protein.name}" loading="eager" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
+            </div>
+            <div style="flex: 2; padding-left: 10px;">
+              <h4 name="protein-name" style="margin: 0;">${protein.name}</h4>
+              <p name="protein-price" style="margin: 0;">₽${protein.price}</p>
+            </div>
+            <div style="flex: 1; display: flex; align-items: center;">
+              <button id="minus-protein-${index}" style="padding: 5px 10px; background-color: #5f1303; color: white; border: none; border-radius: 5px;">-</button>
+              <input name="protein-quantity" id="protein-qty-${index}" type="text" value="0" readonly style="width: 40px; text-align: center; margin: 0 10px;">
+              <button id="plus-protein-${index}" style="padding: 5px 10px; background-color: #5f1303; color: white; border: none; border-radius: 5px;">+</button>
+            </div>
+          `;
+
+            proteinList.appendChild(proteinRow);
+
+            const minusProteinBtn = document.getElementById(
+              `minus-protein-${index}`,
+            );
+            const plusProteinBtn = document.getElementById(
+              `plus-protein-${index}`,
+            );
+            const input = document.getElementById(`protein-qty-${index}`);
+            let currentQuantity = parseInt(input.value);
+
+            minusProteinBtn.addEventListener('click', () => {
+              if (currentQuantity > 0) {
+                currentQuantity -= 1;
+                input.value = currentQuantity;
+                let total = parseInt(totalSpan.textContent);
+                total -= protein.price;
+                totalSpan.textContent = total;
+              }
+            });
+
+            plusProteinBtn.addEventListener('click', () => {
+              currentQuantity += 1;
+              input.value = currentQuantity;
+              let total = parseInt(totalSpan.textContent);
+              total += protein.price;
+              totalSpan.textContent = total;
+            });
+          });
+
+          const lastBtn = document.querySelector(
+            '.add-to-cart-with-protein-btn',
+          );
+
+          if (lastBtn) {
+            lastBtn.addEventListener('click', async (e) => {
+              e.preventDefault();
+
+              lastBtn.style.opacity = '0.5';
+              lastBtn.textContent = 'Processing...';
+              lastBtn.disabled = true;
+
+              const proteinsArray = Array.from(
+                document.querySelectorAll('.protein-div'),
+              )
+                .map((proteinDiv) => {
+                  const name = proteinDiv.querySelector(
+                    '[name="protein-name"]',
+                  ).textContent;
+                  const quantity = proteinDiv.querySelector(
+                    '[name="protein-quantity"]',
+                  ).value;
+                  const price = proteinDiv
+                    .querySelector('[name="protein-price"]')
+                    .textContent.replace('₽', '');
+
+                  // Include the protein only if the quantity is greater than 0
+                  if (parseInt(quantity, 10) > 0) {
+                    return {
+                      name,
+                      quantity: parseInt(quantity, 10),
+                      price: parseFloat(price),
+                    };
+                  }
+                  return null; // Exclude proteins with a quantity of 0
+                })
+                .filter(Boolean); // Remove null values
+
+              console.log(proteinsArray);
+
+              const info = {
+                proteins: proteinsArray,
+              };
+
+              try {
+                const finalAddToCartResponse = await axios.post(
+                  `/api/v1/carts/add-to-cart-with-protein/${productId}`,
+                  info,
+                );
+
+                if (finalAddToCartResponse.data.status === 'success') {
+                  // Handle success message or any further actions after successful approval
+                  showAlert('success', 'Cart successfully updated!');
+                  singlePlus.style.opacity = '1';
+                  singlePlus.disabled = false;
+                  lastBtn.style.opacity = '1';
+                  lastBtn.textContent = 'Add To Cart';
+                  lastBtn.disabled = false;
+                  // document.getElementById(productId).value += 1;
+                  document
+                    .querySelector('.floating-cart')
+                    .removeAttribute('hidden');
+
+                  window.setTimeout(() => {
+                    location.reload();
+                  }, 3000);
+                }
+              } catch (err) {
+                console.log(err);
+                // Handle err
+                showAlert(
+                  'error',
+                  err.response
+                    ? err.response.data.message
+                    : 'Something went wrong',
+                );
+
+                singlePlus.style.opacity = '1';
+                singlePlus.disabled = false;
+                lastBtn.style.opacity = '1';
+                lastBtn.textContent = 'Add To Cart';
+                lastBtn.disabled = false;
+              }
+            });
+          }
+        }
       }
     } catch (err) {
       // Handle error
       showAlert('error', err.response.data.message);
     }
   });
+}
+
+// Function to close the modal
+function closeProteinModal() {
+  document.getElementById('proteinModal').style.display = 'none';
 }

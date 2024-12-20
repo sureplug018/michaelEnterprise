@@ -406,7 +406,7 @@ exports.protect = async (req, res, next) => {
     let token = DBrefreshToken.refreshToken;
     token = token.toString();
     if (token !== refreshToken) {
-      console.log(token, 'and', refreshToken);
+      
       return res.status(400).json({
         status: 'fail',
         message: 'Unauthorized - invalid token',

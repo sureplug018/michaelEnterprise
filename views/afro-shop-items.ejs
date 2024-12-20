@@ -46,6 +46,9 @@
                         <th scope="col">Category</th>
                         <th scope="col">Product Stock</th>
                         <th scope="col">View Product</th>
+                        <% if(currentSuperCategory === 'kitchen'){ %>
+                        <th scope="col">Add protein</th>
+                        <% } %>
                         <th scope="col">Action</th>
                       </tr>
                     </thead>
@@ -65,6 +68,9 @@
                         <td><%= item.category %></td>
                         <td><%= item.productStock %></td>
                         <td><a href="/product/<%= item.superCategorySlug %>/<%= item.categorySlug %>/<%= item.slug %>" target="_blank">View</a></td>
+                        <% if(currentSuperCategory === 'kitchen'){ %>
+                        <td><a class="edit-afro-modal-toggler" href="#" data-product-id="<%= item.id %>" data-bs-toggle="modal" data-bs-target="#profile-afro-product"><i class="fa-solid fa-square-plus fa-xl"></i></a></td>
+                        <% } %>
                         <td><a class="edit-afro-modal-toggler" href="#" data-product-id="<%= item.id %>" data-bs-toggle="modal" data-bs-target="#profile-afro-product"><i class="fa-solid fa-pen-to-square fa-xl"></i></a></td>
                       </tr>
                       <% }) %>
