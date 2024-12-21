@@ -46516,3 +46516,35 @@ body.rtl
     display: block; /* Show the scroll indicator on smaller screens */
   }
 }
+
+.proteins-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.proteins-list li {
+  padding: 5px 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.proteins-list li:last-child {
+  border-bottom: none;
+}
+
+.toggle-proteins-btn {
+  margin-top: 5px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border: none;
+  background-color: #5f1303;
+  color: white;
+  border-radius: 3px;
+}
+
+.toggle-proteins-btn:hover {
+  background-color: #eb9202;
+}

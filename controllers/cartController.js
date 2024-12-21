@@ -363,3 +363,125 @@ exports.addToCartWithProtein = async (req, res) => {
     });
   }
 };
+
+exports.increaseProteinQuantity = async (req, res) => {
+  const { proteinId } = req.params;
+  const user = req.user.id;
+  if (!proteinId) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Product not found',
+    });
+  }
+
+  try {
+    // Find the cart containing the specific protein
+    const cart = await Cart.findOne({
+      user,
+      proteins: { $elemMatch: { _id: proteinId } },
+    });
+
+    if (!cart) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'Protein not found in cart',
+      });
+    }
+
+    // Increase the quantity of the specific protein
+    const proteinIndex = cart.proteins.findIndex(
+      (protein) => protein._id.toString() === proteinId,
+    );
+
+    if (proteinIndex === -1) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'Protein not found in cart',
+      });
+    }
+
+    cart.proteins[proteinIndex].quantity += 1;
+    cart.proteins[proteinIndex].total =
+      cart.proteins[proteinIndex].quantity * cart.proteins[proteinIndex].price;
+    cart.total += parseInt(cart.proteins[proteinIndex].price); // Update the total price of the cart
+
+    await cart.save();
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        cart,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      status: 'fail',
+      message: err.message,
+    });
+  }
+};
+
+exports.decreaseProteinQuantity = async (req, res) => {
+  const { proteinId } = req.params;
+  const user = req.user.id;
+  if (!proteinId) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Product not found',
+    });
+  }
+
+  try {
+    // Find the cart containing the specific protein
+    const cart = await Cart.findOne({
+      user,
+      proteins: { $elemMatch: { _id: proteinId } },
+    });
+
+    if (!cart) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'Protein not found in cart',
+      });
+    }
+
+    // Decrease the quantity of the specific protein
+    const proteinIndex = cart.proteins.findIndex(
+      (protein) => protein._id.toString() === proteinId,
+    );
+
+    if (proteinIndex === -1) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'Protein not found in cart',
+      });
+    }
+
+    if (cart.proteins[proteinIndex].quantity <= 1) {
+      // If quantity is 1, remove the protein
+      cart.proteins.splice(proteinIndex, 1);
+    } else {
+      cart.proteins[proteinIndex].quantity -= 1; // Decrease the quantity by 1
+      cart.proteins[proteinIndex].total =
+        cart.proteins[proteinIndex].quantity *
+        cart.proteins[proteinIndex].price; // Update the total price of the protein
+      cart.total -= parseInt(cart.proteins[proteinIndex].price); // Update the total price of the cart
+    }
+
+    await cart.save(); // Save the updated cart
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        cart,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      status: 'fail',
+      message: err.message,
+    });
+  }
+};

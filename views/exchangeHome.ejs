@@ -98,6 +98,23 @@
               </div>
               <!-- search form end -->
 
+              <div style="display: flex; justify-content: right; width: 100%;">
+                <button style="background-color: white; border: none; padding: 5px 10px; border-radius: 5px;">
+                  <div class="gtranslate_wrapper"></div>
+                  <script>
+                    window.gtranslateSettings = {
+                      "default_language": "en",
+                      "native_language_names": true,
+                      "detect_browser_language": true,
+                      "languages": ["en", "ru", "uk", "ar", "zh-CN", "zh-TW", "es", "fr", "pt", "nl"],
+                      "wrapper_selector": ".gtranslate_wrapper",
+                      "flag_size": 24
+                    }
+                  </script>
+                  <script src="https://cdn.gtranslate.net/widgets/latest/popup.js" defer></script>
+                </button>
+              </div>
+
               <% if(!user){ %>
               <div class="d-flex align-items-center">
                 <div class="dropdown text-center text-sm-start">
@@ -367,14 +384,14 @@
   </div>
 
   <!-- Modal HTML -->
-<!-- <div id="myModal-1" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- <div id="myModal-1" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog bg_image">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-bs-dismiss="modal"><i class="fa-light fa-x"></i></button>
       </div>
       <span style="font-size: larger; text-align: right; color: white; margin-right: 20px; margin-bottom: 10px;">X</span> -->
-      <!-- <div class="modal-body text-center">
+  <!-- <div class="modal-body text-center">
         <div class="inner-content">
           <div class="content">
             <span class="pre-title">Get up to 10% discount on your purchase till 31st of August</span>
@@ -402,7 +419,7 @@
           </div>
         </div>
       </div> -->
-    <!-- </div>
+  <!-- </div>
   </div>
 </div> -->
 

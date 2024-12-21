@@ -52,8 +52,27 @@
                       <div class="product-detail">
                         <ul>
                           <li class="name">
-                            <a href="/product/<%= cart.productId.superCategorySlug %>/<%= cart.productId.categorySlug %>/<%= cart.productId.slug %>"><%= cart.productId.name %></a>
+                            <a href="/product/<%= cart.productId.superCategorySlug %>/<%= cart.productId.categorySlug %>/<%= cart.productId.slug %>"><%= cart.productId.name %></a> <br>
+                            <% if(cart.proteins.length >= 1){ %>
+                            <!-- Dropdown toggle button -->
+                            <button class="toggle-proteins-btn" onclick="toggleProteins(event)">
+                              View Proteins
+                            </button>
+
+                            <!-- List the proteins -->
+                            <ul class="proteins-list" style="display: none;">
+                              <% cart.proteins.forEach(protein => { %>
+                              <li>
+                                <strong><%= protein.name %></strong>:
+                                Quantity: <%= protein.quantity %>,
+                                Price: ₽<%= protein.price %>,
+                                Total: ₽<%= protein.total %>
+                              </li>
+                              <% }) %>
+                            </ul>
                           </li>
+                          <% } %>
+
 
                           <li class="text-content"><span class="text-title"></span></li>
 

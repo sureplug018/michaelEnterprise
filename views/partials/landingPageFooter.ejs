@@ -14,6 +14,20 @@
 
             <div class="footer-logo-contain">
               <p style="font-size: large;">Your gateway to convenience...</p>
+              <button style="background-color: white; border: none; padding: 5px 10px; border-radius: 5px;">
+                <div class="gtranslate_wrapper"></div>
+                <script>
+                  window.gtranslateSettings = {
+                    "default_language": "en",
+                    "native_language_names": true,
+                    "detect_browser_language": true,
+                    "languages": ["en", "ru", "uk", "ar", "zh-CN", "zh-TW", "es", "fr", "pt", "nl"],
+                    "wrapper_selector": ".gtranslate_wrapper",
+                    "flag_size": 24
+                  }
+                </script>
+                <script src="https://cdn.gtranslate.net/widgets/latest/popup.js" defer></script>
+              </button>
             </div>
           </div>
         </div>
@@ -200,6 +214,22 @@
       indicator.style.display = 'none';
     });
   });
+</script>
+
+<script>
+  function toggleProteins(event) {
+    const button = event.target;
+    const proteinsList = button.nextElementSibling;
+
+    // Toggle visibility
+    if (proteinsList.style.display === 'none') {
+      proteinsList.style.display = 'block';
+      button.textContent = 'Hide Proteins';
+    } else {
+      proteinsList.style.display = 'none';
+      button.textContent = 'View Proteins';
+    }
+  }
 </script>
 
 <!-- Footer Section End -->

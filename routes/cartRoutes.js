@@ -22,4 +22,14 @@ router.post(
   cartController.addToCartWithProtein,
 );
 
+router.patch(
+  '/plus-protein-in-cart/:proteinId',
+  cartController.increaseProteinQuantity,
+);
+
+router.patch(
+  '/minus-protein-in-cart/:proteinId',
+  cartController.decreaseProteinQuantity,
+);
+
 module.exports = router;
