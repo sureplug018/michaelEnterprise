@@ -1,11 +1,6 @@
 const mongoose = require('mongoose');
 
 const proteinSchema = new mongoose.Schema({
-  productId: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Product',
-    required: true,
-  },
   name: {
     type: String,
     required: true,
@@ -18,14 +13,10 @@ const proteinSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-});
-
-proteinSchema.pre(/^find/, function (next) {
-  this.populate({
-    path: 'productId',
-    select: 'name price description imageCover categorySlug slug',
-  });
-  next();
+  availability: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const Protein = mongoose.model('Protein', proteinSchema);

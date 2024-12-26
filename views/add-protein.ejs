@@ -1,0 +1,69 @@
+<%- include('partials/adminDashboardHead.ejs') %>
+
+<div class="nk-content nk-content-fluid">
+  <div class="container-xl wide-xl">
+    <div class="nk-content-body">
+      <div class="nk-block-head nk-block-head-sm">
+        <div class="nk-block-between">
+          <div class="nk-block-head-content">
+            <h3 class="nk-block-title page-title">Add Proteins</h3>
+          </div>
+        </div>
+      </div>
+      <div class="nk-block">
+        <div class="card">
+          <div class="d-flex justify-content-center align-items-center" style="padding-top: 50px; padding-bottom: 50px;">
+            <form class="add-protein-form">
+              <div class="wide-xs w-100">
+                <div class="row g-3">
+                  <div class="col-12">
+                    <div class="form-group"><label class="form-label" for="protein-name">Protein Name</label>
+                      <div class="form-control-wrap"><input class="form-control" type="text" id="protein-name" placeholder="Product Name" /></div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group"><label class="form-label" for="protein-price">Price (RUB)</label>
+                      <div class="form-control-wrap"><input class="form-control" type="text" id="protein-price" placeholder="Price" /></div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group"><label class="form-label" for="protein-image">Protein Cover Image</label>
+                      <div class="form-control-wrap"><input class="form-control" type="file" accept=".png, .jpg, .jpeg" id="protein-image" /></div>
+                    </div>
+                  </div>
+                  <div style="margin-top: 15px;" class="col-12">
+                    <div class="form-group">
+                      <button class="btn btn-primary btn-block add-btn">Save</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <script>
+  const superCategory = document.getElementById('superCategory');
+  const categories = document.getElementById('category');
+
+
+  superCategory.addEventListener('change', async (e) => {
+    e.preventDefault();
+    console.log('hello');
+    // try {
+    //   const categories = await fetch(`/api/v1/categories/find-categories?superCategory=${encodeURIComponent(superCategory)}`);
+    //   if (categories.ok) {
+    //     const data = await categories.json();
+    //     console.log(data);
+    //   }
+    // } catch (err) {
+    //   console.error('Fetch error:', err);
+    // }
+  });
+</script> -->
+
+<%- include('partials/adminDashboardFooter.ejs') %>

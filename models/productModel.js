@@ -73,6 +73,12 @@ const productSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    proteins: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Protein', // Replace 'Protein' with the actual name of your protein model
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },

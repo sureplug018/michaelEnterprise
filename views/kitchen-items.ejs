@@ -46,6 +46,7 @@
                         <th scope="col">Category</th>
                         <th scope="col">Product Stock</th>
                         <th scope="col">View Product</th>
+                        <th scope="col">Proteins</th>
                         <% if(currentSuperCategory === 'kitchen'){ %>
                         <th scope="col">Add protein</th>
                         <% } %>
@@ -68,6 +69,16 @@
                         <td><%= item.category %></td>
                         <td><%= item.productStock %></td>
                         <td><a href="/michael-kitchen/item/<%= item.categorySlug %>/<%= item.slug %>" target="_blank">View</a></td>
+                        <td>
+                          <% if(item.proteins.length === 0){ %>
+                          No protein for this item
+                          <% }else{ %>
+                          <% item.proteins.forEach((protein) => { %>
+                          <%= protein.name %>,
+                          <% }) %>
+                          <% } %>
+
+                        </td>
                         <% if(currentSuperCategory === 'kitchen'){ %>
                         <td><a class="add-protein-modal-toggler" href="#" data-product-id="<%= item.id %>" data-bs-toggle="modal" data-bs-target="#add-protein"><i class="fa-solid fa-square-plus fa-xl"></i></a></td>
                         <% } %>
@@ -165,22 +176,19 @@
                       <div class="tab-pane active" id="personal">
                         <div class="row gy-4">
                           <div class="form-group">
-                            <label class="form-label" for="protein-name">Protein Name</label>
-                            <input type="text" class="form-control form-control-lg" id="protein-name" placeholder="Product Name">
-                          </div>
-                          <div class="form-group">
-                            <label class="form-label" for="protein-price">Price</label>
-                            <input type="text" class="form-control form-control-lg" id="protein-price" placeholder="Price">
-                          </div>
-                          <div class="form-group">
-                            <label class="form-label" for="protein-image">Image</label>
-                            <input type="file" class="form-control form-control-lg" accept=".png, .jpg, .jpeg" id="protein-image">
+                            <label class="form-label" for="proteinId">Protein Name</label>
+                            <select name="" class="form-control" id="proteinId">
+                              <option value="" selected disabled>Select Protein</option>
+                              <% proteins.forEach((protein) => { %>
+                              <option value="<%= protein.id %>"><%= protein.name %></option>
+                              <% }) %>
+                            </select>
                           </div>
                         </div>
                         <p></p>
                         <div class="col-12">
                           <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
-                            <li><button href="#" class="btn btn-lg btn-primary add-protein-btn">Upload Protein</button></li>
+                            <li><button href="#" class="btn btn-lg btn-primary add-protein-btn">Add Protein</button></li>
                             <li><button href="#" data-bs-dismiss="modal" class="link link-light">Cancel</button></li>
                           </ul>
                         </div>

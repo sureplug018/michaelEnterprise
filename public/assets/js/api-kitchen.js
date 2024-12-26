@@ -44,9 +44,10 @@ document.querySelectorAll('.add-to-cart-btn').forEach((button) => {
       );
 
       if (res.status === 200) {
-        const proteins = res.data.data.protein;
+        const product = res.data.data.product;
+        console.log(product);
 
-        if (proteins.length <= 0) {
+        if (product.proteins.length <= 0) {
           // Send a POST request to the backend to add the product to the cart
           const firstResponse = await axios.post(
             `/api/v1/carts/add-to-cart/${productId}`,
@@ -59,7 +60,7 @@ document.querySelectorAll('.add-to-cart-btn').forEach((button) => {
             // document.getElementById(productId).value += 1;
             document.querySelector('.floating-cart').removeAttribute('hidden');
           }
-        } else if (proteins.length >= 1) {
+        } else if (product.proteins.length >= 1) {
           button.style.opacity = '1';
           button.disabled = false;
           const proteinModal = document.getElementById('proteinModal');
@@ -71,7 +72,7 @@ document.querySelectorAll('.add-to-cart-btn').forEach((button) => {
 
           modalAddToCartBtn.dataset.productId = productId;
 
-          const productPrice = proteins[0].productId.price;
+          const productPrice = product.price;
 
           let totalSpan = document.querySelector('.protein-total p span');
 
@@ -79,27 +80,27 @@ document.querySelectorAll('.add-to-cart-btn').forEach((button) => {
 
           const modalImage = document.querySelector('.modal-image-src');
 
-          modalImage.src = proteins[0].productId.imageCover;
+          modalImage.src = product.imageCover;
 
           const modalDescription = document.querySelector('.modal-description');
 
-          modalDescription.textContent = proteins[0].productId.description;
+          modalDescription.textContent = product.description;
 
           const productName = document.querySelector('.modal-product-name');
 
-          productName.textContent = proteins[0].productId.name;
+          productName.textContent = product.name;
 
           const modalUrl = document.querySelector('.modal-image-url');
 
-          modalUrl.href = `/michael-kitchen/item/${proteins[0].productId.categorySlug}/${proteins[0].productId.slug}`;
+          modalUrl.href = `/michael-kitchen/item/${product.categorySlug}/${product.slug}`;
 
           const modalName = document.querySelector('.modal-name-url');
 
-          modalName.href = `/michael-kitchen/item/${proteins[0].productId.categorySlug}/${proteins[0].productId.slug}`;
+          modalName.href = `/michael-kitchen/item/${product.categorySlug}/${product.slug}`;
 
           const proteinList = document.getElementById('proteinList');
           proteinList.innerHTML = '';
-          proteins.forEach((protein, index) => {
+          product.proteins.forEach((protein, index) => {
             const proteinRow = document.createElement('div');
             proteinRow.style.display = 'flex';
             proteinRow.classList.add('protein-div');
@@ -269,9 +270,9 @@ if (singleProduct) {
       );
 
       if (res.status === 200) {
-        const proteins = res.data.data.protein;
+        const product = res.data.data.product;
 
-        if (proteins.length <= 0) {
+        if (product.proteins.length <= 0) {
           // Perform the API call
           const response = await axios.patch(
             `/api/v1/carts/increase-quantity/${productId}`,
@@ -295,7 +296,7 @@ if (singleProduct) {
             singleProduct.style.opacity = '1';
             singleProduct.disabled = false;
           }
-        } else if (proteins.length >= 1) {
+        } else if (product.proteins.length >= 1) {
           singleProduct.style.opacity = '1';
           singleProduct.disabled = false;
           const proteinModal = document.getElementById('proteinModal');
@@ -307,7 +308,7 @@ if (singleProduct) {
 
           modalAddToCartBtn.dataset.productId = productId;
 
-          const productPrice = proteins[0].productId.price;
+          const productPrice = product.price;
 
           let totalSpan = document.querySelector('.protein-total p span');
 
@@ -315,27 +316,27 @@ if (singleProduct) {
 
           const modalImage = document.querySelector('.modal-image-src');
 
-          modalImage.src = proteins[0].productId.imageCover;
+          modalImage.src = product.imageCover;
 
           const modalDescription = document.querySelector('.modal-description');
 
-          modalDescription.textContent = proteins[0].productId.description;
+          modalDescription.textContent = product.description;
 
           const productName = document.querySelector('.modal-product-name');
 
-          productName.textContent = proteins[0].productId.name;
+          productName.textContent = product.name;
 
           const modalUrl = document.querySelector('.modal-image-url');
 
-          modalUrl.href = `/michael-kitchen/item/${proteins[0].productId.categorySlug}/${proteins[0].productId.slug}`;
+          modalUrl.href = `/michael-kitchen/item/${product.categorySlug}/${product.slug}`;
 
           const modalName = document.querySelector('.modal-name-url');
 
-          modalName.href = `/michael-kitchen/item/${proteins[0].productId.categorySlug}/${proteins[0].productId.slug}`;
+          modalName.href = `/michael-kitchen/item/${product.categorySlug}/${product.slug}`;
 
           const proteinList = document.getElementById('proteinList');
           proteinList.innerHTML = '';
-          proteins.forEach((protein, index) => {
+          product.proteins.forEach((protein, index) => {
             const proteinRow = document.createElement('div');
             proteinRow.style.display = 'flex';
             proteinRow.classList.add('protein-div');
@@ -545,9 +546,9 @@ if (singlePlus) {
       );
 
       if (res.status === 200) {
-        const proteins = res.data.data.protein;
+        const product = res.data.data.product;
 
-        if (proteins.length <= 0) {
+        if (product.proteins.length <= 0) {
           // Perform the API call
           const response = await axios.patch(
             `/api/v1/carts/increase-quantity/${productId}`,
@@ -574,7 +575,7 @@ if (singlePlus) {
             singlePlus.style.opacity = '1';
             singlePlus.disabled = false;
           }
-        } else if (proteins.length >= 1) {
+        } else if (product.proteins.length >= 1) {
           singlePlus.style.opacity = '1';
           singlePlus.disabled = false;
           const proteinModal = document.getElementById('proteinModal');
@@ -586,7 +587,7 @@ if (singlePlus) {
 
           modalAddToCartBtn.dataset.productId = productId;
 
-          const productPrice = proteins[0].productId.price;
+          const productPrice = product.price;
 
           let totalSpan = document.querySelector('.protein-total p span');
 
@@ -594,27 +595,27 @@ if (singlePlus) {
 
           const modalImage = document.querySelector('.modal-image-src');
 
-          modalImage.src = proteins[0].productId.imageCover;
+          modalImage.src = product.imageCover;
 
           const modalDescription = document.querySelector('.modal-description');
 
-          modalDescription.textContent = proteins[0].productId.description;
+          modalDescription.textContent = product.description;
 
           const productName = document.querySelector('.modal-product-name');
 
-          productName.textContent = proteins[0].productId.name;
+          productName.textContent = product.name;
 
           const modalUrl = document.querySelector('.modal-image-url');
 
-          modalUrl.href = `/michael-kitchen/item/${proteins[0].productId.categorySlug}/${proteins[0].productId.slug}`;
+          modalUrl.href = `/michael-kitchen/item/${product.categorySlug}/${product.slug}`;
 
           const modalName = document.querySelector('.modal-name-url');
 
-          modalName.href = `/michael-kitchen/item/${proteins[0].productId.categorySlug}/${proteins[0].productId.slug}`;
+          modalName.href = `/michael-kitchen/item/${product.categorySlug}/${product.slug}`;
 
           const proteinList = document.getElementById('proteinList');
           proteinList.innerHTML = '';
-          proteins.forEach((protein, index) => {
+          product.proteins.forEach((protein, index) => {
             const proteinRow = document.createElement('div');
             proteinRow.style.display = 'flex';
             proteinRow.classList.add('protein-div');

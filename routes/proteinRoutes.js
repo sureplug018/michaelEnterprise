@@ -12,10 +12,12 @@ router.use(
   authController.restrictTo('admin', 'super-admin'),
 );
 
+router.post('/add-protein/:productId', proteinController.addProteins);
+
 router.post(
-  '/add-protein/:productId',
+  '/create-protein',
   orderController.uploadPaymentProof,
-  proteinController.addProteins,
+  proteinController.createProtein,
 );
 
 router.patch(

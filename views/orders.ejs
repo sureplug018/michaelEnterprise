@@ -47,6 +47,7 @@
                         <th scope="col">Reference</th>
                         <th scope="col">Delivery Method</th>
                         <th scope="col">Payment Proof</th>
+                        <th scope="col">Status</th>
                         <th scope="col">Created At</th>
                         <th scope="col">View Details</th>
                       </tr>
@@ -63,6 +64,27 @@
                         <td><%= order.reference %></td>
                         <td><%= order.deliveryMethod %></td>
                         <td><a href="<%= order.paymentProof %>" target="_blank">View</a></td>
+                        <% if(order.status === 'Order placed'){ %>
+                        <td>
+                          <div class="badge badge-dim bg-warning rounded-pill"><%= order.status %></div>
+                        </td>
+                        <% } else if(order.status === 'Shipped'){ %>
+                        <td>
+                          <div class="badge badge-dim bg-info rounded-pill"><%= order.status %></div>
+                        </td>
+                        <% }else if(order.status === 'Confirmed'){ %>
+                        <td>
+                          <div class="badge badge-dim bg-info rounded-pill"><%= order.status %></div>
+                        </td>
+                        <% }else if(order.status === 'Delivered'){ %>
+                        <td>
+                          <div class="badge badge-dim bg-success rounded-pill"><%= order.status %></div>
+                        </td>
+                        <% }else if(order.status === 'Cancelled'){ %>
+                        <td>
+                          <div class="badge badge-dim bg-dark rounded-pill"><%= order.status %></div>
+                        </td>
+                        <% } %>
                         <% const timeStamp = order.createdAt %>
                         <% const date = timeStamp.toLocaleDateString() %>
                         <% const time = timeStamp.toLocaleTimeString() %>

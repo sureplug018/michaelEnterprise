@@ -856,6 +856,7 @@ exports.orders = async (req, res) => {
           country: 1,
           region: 1,
           city: 1,
+          status: 1,
           postalCode: 1,
           postOfficeAddress: 1,
           passportNumber: 1,
@@ -1105,7 +1106,8 @@ exports.kitchenItems = async (req, res) => {
       // Fetch products with category filter and pagination
       const afroShopItems = await Product.find(filter)
         .skip(skip)
-        .limit(limitNumber);
+        .limit(limitNumber)
+        .populate('proteins');
       // Get total count of products for pagination metadata
       const totalCount = await Product.countDocuments(filter);
 
@@ -1116,6 +1118,8 @@ exports.kitchenItems = async (req, res) => {
       const categories = await Product.distinct('category', {
         superCategory: 'Kitchen',
       });
+
+      const proteins = await Protein.find();
       return res.status(200).render('kitchen-items', {
         title: 'Kitchen',
         user,
@@ -1125,6 +1129,28 @@ exports.kitchenItems = async (req, res) => {
         limit: limitNumber,
         currentCategory: category,
         categories, // Pass categories to the view
+        proteins,
+      });
+    }
+    return res.status(302).redirect('/');
+  } catch (err) {
+    res.status(500).render('404', {
+      title: 'Error',
+      message: 'Something went wrong.',
+    });
+  }
+};
+
+exports.addProtein = async (req, res) => {
+  try {
+    const user = res.locals.user;
+    if (!user) {
+      return res.status(302).redirect('/');
+    }
+    if (user.role === 'admin' || user.role === 'super-admin') {
+      return res.status(200).render('add-protein', {
+        title: 'Add Protein',
+        user,
       });
     }
     return res.status(302).redirect('/');

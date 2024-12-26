@@ -30,10 +30,10 @@
                     <thead>
                       <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Product Name</th>
                         <th scope="col">Protein Name</th>
                         <th scope="col">Protein price</th>
                         <th scope="col">Protein Image</th>
+                        <th scope="col">Availability</th>
                         <th scope="col">Edit</th>
                         <th scope="col">Delete</th>
                       </tr>
@@ -42,10 +42,10 @@
 
                       <% proteins.forEach(function(protein, index){ %> <tr>
                         <th scope="row"><%= index + 1 %></th>
-                        <td><%= protein.productId.name %></td>
                         <td><%= protein.name %></td>
-                        <td><%= protein.price %></td>
+                        <td>₽<%= protein.price %></td>
                         <td><img src="<%= protein.paymentProof %>" style="width: 100px; height: auto;" loading="lazy" alt=""></td>
+                        <td><%= protein.availability %></td>
                         <td><a class="edit-protein-modal" href="#" data-protein-id="<%= protein.id %>" data-bs-toggle="modal" data-bs-target="#profile-afro-product"><i class="fa-solid fa-pen-to-square fa-xl"></i></a></td>
                         <td><a class="delete-protein-modal" href="#" data-protein-id="<%= protein.id %>" data-bs-toggle="modal" data-bs-target="#delete-protein"><i class="fa-regular fa-trash-can fa-xl"></i></a></td>
                       </tr>
@@ -79,6 +79,17 @@
                               <div class="form-control-wrap"><input class="form-control" type="text" id="price" placeholder="Protein Price" /></div>
                             </div>
                           </div>
+                          <p>
+                            <div class="col-12">
+                              <div class="form-group"><label class="form-label" for="availability">Availability</label>
+                                <div class="form-control-wrap">
+                                  <select class="form-control" name="" id="availability">
+                                    <option value="" selected disabled>Select Availability</option>
+                                    <option value="true">Available</option>
+                                    <option value="false">Not Available</option>
+                                  </select>
+                                </div>
+                          </p>
                           <p></p>
                           <div class="col-12">
                             <div class="form-group"><label class="form-label" for="protein-image">Protein Image</label>

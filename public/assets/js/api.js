@@ -511,6 +511,27 @@ const userRole = async (email, role) => {
   }
 };
 
+const addProtein = async (formData) => {
+  try {
+    const res = await axios({
+      method: 'post',
+      url: '/api/v1/proteins/create-protein',
+      data: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    if (res.data.status === 'success') {
+      showAlert('success', 'Protein added successfully!');
+      setTimeout(function () {
+        location.href = '/admin/proteins';
+      }, 3000);
+    }
+  } catch (err) {
+    showAlert('error', err.response.data.message);
+  }
+};
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const loginForm = document.querySelector('.form-login');
 const signupForm = document.querySelector('.form-signup');
@@ -536,6 +557,7 @@ const reviewForm = document.querySelector('.review-form');
 const addCurrencyForm = document.querySelector('.add-currency-form');
 const addRateForm = document.querySelector('.add-rate-form');
 const userRoleForm = document.querySelector('.user-role-form');
+const proteinForm = document.querySelector('.add-protein-form');
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 if (userDataUpdateForm) {
@@ -550,6 +572,25 @@ if (userDataUpdateForm) {
     await updateUserDetail(firstName, lastName, phoneNumber);
     updateBtn.style.opacity = '1';
     updateBtn.textContent = 'Save Changes';
+  });
+}
+
+if (proteinForm) {
+  proteinForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const addBtn = document.querySelector('.add-btn');
+    addBtn.style.opacity = '0.5';
+    addBtn.textContent = 'Uploading...';
+    const formData = new FormData();
+    formData.append('name', document.getElementById('protein-name').value);
+    formData.append('price', document.getElementById('protein-price').value);
+    formData.append(
+      'paymentProof',
+      document.getElementById('protein-image').files[0],
+    );
+    await addProtein(formData);
+    addBtn.style.opacity = '1';
+    addBtn.textContent = 'Save';
   });
 }
 
@@ -1786,6 +1827,9 @@ document.querySelectorAll('.send-mail-modal').forEach((button) => {
   });
 });
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// PROTEINS
+
 const addProteinModal = document.querySelectorAll('.add-protein-modal-toggler');
 const addProteinBtn = document.querySelector('.add-protein-btn');
 
@@ -1800,27 +1844,19 @@ addProteinModal.forEach((button) => {
 if (addProteinBtn) {
   addProteinBtn.addEventListener('click', async (e) => {
     e.preventDefault();
-    if (!document.getElementById('protein-image').files[0]) {
-      return showAlert('error', 'Upload protein image');
-    }
     if (!currentProductId) return;
-    console.log(currentProductId);
     addProteinBtn.style.opacity = '0.5';
     addProteinBtn.textContent = 'processing...';
     addProteinBtn.disabled = true;
 
-    const formData = new FormData();
-    formData.append('name', document.getElementById('protein-name').value);
-    formData.append('price', document.getElementById('protein-price').value);
-    formData.append(
-      'paymentProof',
-      document.getElementById('protein-image').files[0],
-    );
+    const info = {
+      proteinId: document.getElementById('proteinId').value,
+    };
 
     try {
       const res = await axios.post(
         `/api/v1/proteins/add-protein/${currentProductId}`,
-        formData,
+        info,
       );
 
       if (res.data.status === 'success') {
@@ -1871,6 +1907,10 @@ if (editProteinBtn) {
     const formData = new FormData();
     formData.append('name', document.getElementById('name').value);
     formData.append('price', document.getElementById('price').value);
+    formData.append(
+      'availability',
+      document.getElementById('availability').value,
+    );
     formData.append(
       'paymentProof',
       document.getElementById('protein-image').files[0],

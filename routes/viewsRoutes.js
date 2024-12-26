@@ -120,6 +120,8 @@ router.get('/admin/add-currency', viewsController.addCurrency);
 
 router.get('/admin/user-role', viewsController.userRole);
 
+router.get('/admin/add-proteins', viewsController.addProtein);
+
 router.get(
   '/michael-kitchen/item/:categorySlug/:slug',
   viewsController.kitchenDetail,
