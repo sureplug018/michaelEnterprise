@@ -407,10 +407,11 @@ exports.protect = async (req, res, next) => {
     token = token.toString();
     if (token !== refreshToken) {
       
-      return res.status(400).json({
-        status: 'fail',
-        message: 'Unauthorized - invalid token',
-      });
+      // return res.status(400).json({
+      //   status: 'fail',
+      //   message: 'Unauthorized - invalid token',
+      // });
+      return res.status(302).redirect('/sign-in');
     }
     // step 3: check if user still exists
     const currentUser = await User.findById(decodedAccessToken.id);
