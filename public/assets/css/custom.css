@@ -590,7 +590,7 @@ header.main-header .header-sticky.active {
 }
 
 .slicknav_btn {
-  background: var(--accent-color);
+  background: var(--primary-color);
   padding: 6px 0 0;
   width: 38px;
   height: 38px;

@@ -9,12 +9,20 @@
           <h2><%= title %></h2>
           <nav>
             <ol class="breadcrumb mb-0">
-              <li class="breadcrumb-item">
-                <a href="">
-                  <i class="fa-solid fa-house"></i>
-                </a>
-              </li>
-              <li class="breadcrumb-item active"><%= title %></li>
+              <div style="display: flex; justify-content: space-between; gap: 10px;">
+                <li class=""><a href="/afro-shop/index"> <i class="fa-solid fa-shop"></i> <%= title %>
+                  </a>
+                </li>
+                <li class=""><a href="/michael-kitchen/index"> <i class="fa-solid fa-kitchen-set"></i> Kitchen
+                  </a>
+                </li>
+                <li class=""><a href="/exchange/index"> <i class="fa-solid fa-arrow-right-arrow-left"></i> Exchange
+                  </a>
+                </li>
+                <li class=""><a href="javascript:void(0);"> <i class="fa-solid fa-laptop"></i> Gadgets
+                  </a>
+                </li>
+              </div>
             </ol>
           </nav>
         </div>
@@ -49,8 +57,8 @@
           </div>
         </div>
 
-       <a href="/cart"><i class="fa-solid fa-cart-shopping fa-shake floating-cart" hidden style="color: #eb9202; position: fixed; right: 20px; top: 50%; transform: translateY(-50%); z-index: 1000; font-size: 30px; cursor: pointer;">
-        </i></a> 
+        <a href="/cart"><i class="fa-solid fa-cart-shopping fa-shake floating-cart" hidden style="color: #eb9202; position: fixed; right: 20px; top: 50%; transform: translateY(-50%); z-index: 1000; font-size: 30px; cursor: pointer;">
+          </i></a>
 
 
         <% if(products.length === 0){ %>
