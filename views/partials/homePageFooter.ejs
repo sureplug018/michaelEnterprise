@@ -29,7 +29,7 @@
           <h3 style="color: white;">our services</h3>
           <ul>
             <li><a href="/afro-shop/index">Afro Shop</a></li>
-            <li><a href="/michael-gadgets/index">Gadgets</a></li>
+            <li><a href="javascript:void(0);">Gadgets</a></li>
             <li><a href="/michael-kitchen/index">kitchen</a></li>
             <li><a href="/exchange/index">Exchange</a></li>
           </ul>
@@ -121,6 +121,37 @@
   </div>
 </footer>
 <!-- Footer End -->
+
+<div id="fullPageModal" class="modal">
+  <div class="close-btn" onclick="closeSignModal()">×</div>
+  <div class="modal-content" style="background: transparent; opacity: 100%;">
+    <div class="hero-content-body wow fadeInUp" data-wow-delay="0.5s">
+      <a href="/sign-in" class="btn-default">Sign In</a>
+    </div>
+
+    <div style="height: 20px;"></div>
+
+    <div class="hero-content-body wow fadeInUp" data-wow-delay="0.75s">
+      <a href="/register" class="btn-default">Sign Up</a>
+    </div>
+
+    <div style="height: 150px;"></div>
+
+    <div class="hero-content-body wow fadeInUp" data-wow-delay="1s">
+      <a class="close-modal-hover" style="padding: 7px 10px; color: white; border-radius: 5px;" onclick="closeSignModal()" href="javascript:void(0);">Close</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openSignModal() {
+    document.getElementById("fullPageModal").style.display = "flex";
+  }
+
+  function closeSignModal() {
+    document.getElementById("fullPageModal").style.display = "none";
+  }
+</script>
 
 <!-- Jquery Library File -->
 <script src="/assets/js/jquery-3.7.1.min.js"></script>
