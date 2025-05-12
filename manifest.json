@@ -1,0 +1,20 @@
+{
+  "name": "Michael Enterprise",
+  "short_name": "MichaelEnt",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#5F1303",
+  "icons": [
+    {
+      "src": "/assets/images/fav1.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/images/fav1.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
