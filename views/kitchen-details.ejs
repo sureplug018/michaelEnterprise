@@ -1,7 +1,375 @@
-<%- include('partials/kitchenHeader.ejs') %>
+<!DOCTYPE html>
+<html lang="zxx">
+<!--<< Header Area >>-->
 
-<!-- Breadcumb Section   S T A R T -->
-<!-- <div class="breadcumb-section">
+<head>
+  <!-- ========== Meta Tags ========== -->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Michael Kitchen">
+  <meta name="description" content="Afro Kitchen by Michael Enterprise offers authentic African meals and traditional cookware, combining rich culinary heritage with quality kitchen essentials for a true taste of African culture.">
+  <meta name="keywords" content="Afro Kitchen, African cuisine, traditional African food, African kitchen essentials, cultural meals, African cooking, Afrocentric cookware, African recipes, ethnic food experience, African food service, African culinary culture, home-style African meals, African food kitchen
+">
+  <!-- ======== Page title ============ -->
+  <title><%= title %> | Michael Enterprise</title>
+
+  <meta property="og:title" content="<%= product.name %>" />
+  <meta property="og:url" content="https:michael-enterprise.com/michael-kitchen/item/<%= product.categorySlug %>/<%= product.slug %>" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="<%= product.imageCover %>" />
+  <meta property="og:description" content="<%= product.description %>
+" />
+  <meta property="og:site_name" content="Michael Enterprise" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Michael Enterprise",
+      "url": "https://www.michaelenterprise.com",
+      "logo": "https://www.michaelenterprise.com/assets/images/logo-01.png",
+      "description": "Michael Enterprise offers Afrocentric products, kitchen essentials, gadget solutions, and exchange services with a focus on quality, innovation, and customer satisfaction.",
+      "sameAs": [
+        "https://www.instagram.com/michael_enterprise?igsh=d3EzMTAyZ3VpZHdl",
+        "https://vk.com/club227320115",
+        "https://t.me/micenterprise"
+      ]
+    }
+  </script>
+
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#5F1303">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#5F1303">
+  <link rel="apple-touch-icon" href="/assets/images/fav1.png">
+  <!--<< Favicon >>-->
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/images/fav1.png">
+  <!--<< Bootstrap min.css >>-->
+  <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+  <!--<< All Min Css >>-->
+  <link rel="stylesheet" href="/assets/css/all.min.css">
+  <!--<< Animate.css >>-->
+  <link rel="stylesheet" href="/assets/css/animate.css">
+  <!--<< Magnific Popup.css >>-->
+  <link rel="stylesheet" href="/assets/css/magnific-popup.css">
+  <!--<< MeanMenu.css >>-->
+  <link rel="stylesheet" href="/assets/css/meanmenu.css">
+  <!--<< Swiper Bundle.css >>-->
+  <link rel="stylesheet" href="/assets/css/swiper-bundle.min.css">
+  <!--<< Nice Select.css >>-->
+  <link rel="stylesheet" href="/assets/css/nice-select.css">
+  <!--<< Main.css >>-->
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <script src="https://kit.fontawesome.com/fe5872a91f.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="bg-color2" style="margin-top: 25px;">
+
+  <!-- Preloader Start -->
+  <!-- <div id="preloader" class="preloader">
+    <div class="animation-preloader">
+      <div class="spinner">
+      </div>
+      <div class="txt-loading">
+        <span data-text-preloader="F" class="letters-loading">
+          F
+        </span>
+        <span data-text-preloader="R" class="letters-loading">
+          R
+        </span>
+        <span data-text-preloader="E" class="letters-loading">
+          E
+        </span>
+        <span data-text-preloader="S" class="letters-loading">
+          S
+        </span>
+        <span data-text-preloader="H" class="letters-loading">
+          H
+        </span>
+        <span data-text-preloader="E" class="letters-loading">
+          E
+        </span>
+        <span data-text-preloader="A" class="letters-loading">
+          A
+        </span>
+        <span data-text-preloader="T" class="letters-loading">
+          T
+        </span>
+      </div>
+      <p class="text-center">Loading</p>
+    </div>
+    <div class="loader">
+      <div class="row">
+        <div class="col-3 loader-section section-left">
+          <div class="bg"></div>
+        </div>
+        <div class="col-3 loader-section section-left">
+          <div class="bg"></div>
+        </div>
+        <div class="col-3 loader-section section-right">
+          <div class="bg"></div>
+        </div>
+        <div class="col-3 loader-section section-right">
+          <div class="bg"></div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <!--<< Mouse Cursor Start >>-->
+  <!-- <div class="mouse-cursor cursor-outer"></div>
+  <div class="mouse-cursor cursor-inner"></div> -->
+
+  <!-- Back To Top Start -->
+  <button id="back-top" class="back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
+  <div style="background-color: #5F1303; height: 30px; width: 100%; text-align: center; position: fixed; top: 0; left: 0; z-index: 9999;">
+    <ul style="list-style: none; display: flex; gap: 30px; padding: 0; margin: 0; justify-content: center; align-items: center; height: 100%;">
+      <li><a style="color: white;" href="/afro-shop/index" target="_blank"><i class="fa-solid fa-shop fa-shake"></i> Afro Shop</a></li>
+      <li><a style="color: white;" href="javascript:void(0);" target="_blank"><i class="fa-solid fa-laptop fa-shake"></i> Gadgets</a></li>
+      <li><a style="color: white;" href="/michael-kitchen/index" target="_blank"><i class="fa-solid fa-kitchen-set fa-shake"></i> Kitchen</a></li>
+    </ul>
+  </div>
+
+  <!-- Offcanvas Area Start -->
+  <div class="fix-area">
+    <div class="offcanvas__info">
+      <div class="offcanvas__wrapper">
+        <div class="offcanvas__content">
+
+          <div class="offcanvas__top mb-5 d-flex justify-content-between align-items-center">
+            <div class="offcanvas__logo">
+              <a href="/">
+                <img src="/assets/images/logo-01.png" alt="logo-img">
+              </a>
+            </div>
+            <div class="offcanvas__close">
+              <button>
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+          <p class="text d-none d-lg-block">
+            Welcome to Michael Kitchen, where we bring you the finest recipes, culinary tips, and everything you need to create delicious moments!
+          </p>
+          <!-- <div class="offcanvas-gallery-area d-none d-xl-block">
+            <div class="offcanvas-gallery-items">
+              <a href="/assets/img/header/01.jpg" class="offcanvas-image img-popup">
+                <img src="/assets/img/header/01.jpg" alt="gallery-img">
+              </a>
+              <a href="/assets/img/header/02.jpg" class="offcanvas-image img-popup">
+                <img src="/assets/img/header/02.jpg" alt="gallery-img">
+              </a>
+              <a href="/assets/img/header/03.jpg" class="offcanvas-image img-popup">
+                <img src="/assets/img/header/03.jpg" alt="gallery-img">
+              </a>
+            </div>
+            <div class="offcanvas-gallery-items">
+              <a href="/assets/img/header/04.jpg" class="offcanvas-image img-popup">
+                <img src="/assets/img/header/04.jpg" alt="gallery-img">
+              </a>
+              <a href="/assets/img/header/05.jpg" class="offcanvas-image img-popup">
+                <img src="/assets/img/header/05.jpg" alt="gallery-img">
+              </a>
+              <a href="/assets/img/header/06.jpg" class="offcanvas-image img-popup">
+                <img src="/assets/img/header/06.jpg" alt="gallery-img">
+              </a>
+            </div>
+          </div> -->
+          <div class="mobile-menu fix mb-3"></div>
+          <div class="offcanvas__contact">
+            <h4>Contact Info</h4>
+            <ul>
+              <li class="d-flex align-items-center">
+                <div class="offcanvas__contact-icon">
+                  <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <div class="offcanvas__contact-text">
+                  <a target="_blank" href="https://yandex.com/maps/?text=47.243990,39.801900&si=4v43ct1phxuvzke23uqp5f8reg">Берберовская 6с2, Rostov on Don, Russia.</a>
+                </div>
+              </li>
+              <li class="d-flex align-items-center">
+                <div class="offcanvas__contact-icon mr-15">
+                  <i class="fa-solid fa-envelope"></i>
+                </div>
+                <div class="offcanvas__contact-text">
+                  <a href="tel:+013-003-003-9993"><span class="mailto:support@michael-enterprise.com">support@michael-enterprise.com</span></a>
+                </div>
+              </li>
+              <!-- <li class="d-flex align-items-center">
+                <div class="offcanvas__contact-icon mr-15">
+                  <i class="fal fa-clock"></i>
+                </div>
+                <div class="offcanvas__contact-text">
+                  <a target="_blank" href="index.html#">Mod-friday, 09am -05pm</a>
+                </div>
+              </li> -->
+              <li class="d-flex align-items-center">
+                <div class="offcanvas__contact-icon mr-15">
+                  <i class="fa-solid fa-phone-volume"></i>
+                </div>
+                <div class="offcanvas__contact-text">
+                  <a href="tel:+79954459255">+79954459255</a>
+                </div>
+              </li>
+            </ul>
+            <div class="header-button mt-4">
+              <a href="/michael-kitchen/shop" class="theme-btn">
+                <span class="button-content-wrapper d-flex align-items-center justify-content-center">
+                  <span class="button-icon"><i class="fa-solid fa-cart-shopping bg-transparent text-white me-2"></i></span>
+                  <span class="button-text">ORDER NOW</span>
+                </span>
+              </a>
+            </div>
+            <div class="social-icon d-flex align-items-center">
+              <a target="_blank" href="#"><i class="fab fa-facebook-f"></i></a>
+              <a target="_blank" href="https://www.instagram.com/michael_enterprise?igsh=d3EzMTAyZ3VpZHdl"><i class="fa-brands fa-instagram"></i></a>
+              <a target="_blank" href="https://vk.com/club227320115"><i class="fa-brands fa-vk"></i></a>
+              <a target="_blank" href="https://wa.me/+79954459255"><i class="fa-brands fa-whatsapp"></i></a>
+              <a target="_blank" href="https://t.me/micenterprise"><i class="fa-brands fa-telegram"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="offcanvas__overlay"></div>
+
+  <!-- Header Section Start -->
+  <header class="header-section">
+    <div class="black-bg"></div>
+    <div class="red-bg"></div>
+    <div class="container-fluid">
+      <div class="main-header-wrapper">
+        <div class="logo-image">
+          <a href="/">
+            <img src="/assets/images/logo-01.png" style="height: 126px;" alt="img">
+          </a>
+        </div>
+        <div class="main-header-items">
+          <div class="header-top-wrapper">
+            <span><i class="fa-regular fa-clock"></i> 09:00 am - 06:00 pm</span>
+            <div class="social-icon d-flex align-items-center">
+              <span>Follow Us:</span>
+              <a target="_blank" href="#"><i class="fab fa-facebook-f"></i></a>
+              <a target="_blank" href="https://www.instagram.com/michael_enterprise?igsh=d3EzMTAyZ3VpZHdl"><i class="fa-brands fa-instagram"></i></a>
+              <a target="_blank" href="https://vk.com/club227320115"><i class="fa-brands fa-vk"></i></a>
+              <a target="_blank" href="https://wa.me/+79954459255"><i class="fa-brands fa-whatsapp"></i></a>
+              <a target="_blank" href="https://t.me/micenterprise"><i class="fa-brands fa-telegram"></i></a>
+            </div>
+          </div>
+
+          <div id="header-sticky" class="header-1">
+            <div class="mega-menu-wrapper">
+              <div class="header-main" style="padding-top: 0px; padding-bottom: 0px;">
+                <div class="logo">
+                  <a href="/" class="header-logo">
+                    <img src="/assets/images/logo-01.png" style="height: 126px;" alt="logo-img">
+                  </a>
+                </div>
+                <div class="header-left" style="padding-left: 50px;">
+                  <div class="mean__menu-wrapper">
+                    <div class="main-menu">
+                      <nav id="mobile-menu">
+                        <ul>
+                          <li class="active menu-thumb">
+                            <a href="/michael-kitchen/index">
+                              Home
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/michael-kitchen/menu">
+                              Menu
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/michael-kitchen/shop">
+                              Shop
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/michael-kitchen/faqs">
+                              Faq's
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/michael-kitchen/contact-us">
+                              Contact Us
+                            </a>
+                          </li>
+                          <% if(!user){ %>
+                          <li>
+                            <a href="/sign-in">
+                              Sign In
+                            </a>
+                          </li>
+                          <li>
+                            <a href="/register">
+                              Sign Up
+                            </a>
+                          </li>
+                          <% } %>
+
+                          <!-- <span style="background-color: #eb9202; padding: 7px 2px; border-radius: 5px;">
+                            <li>
+                              <a href="/afro-shop/index">
+                                <i class="fa-solid fa-shop fa-shake"></i> Afro Shop
+                              </a>
+                            </li>
+                            <li>
+                              <a href="/exchange/index">
+                                <i class="fa-solid fa-arrow-right-arrow-left fa-shake"></i> Currency Exchange
+                              </a>
+                            </li>
+                            <li>
+                              <a href="javascript:void(0);">
+                                <i class="fa-solid fa-laptop fa-shake"></i> Gadgets
+                              </a>
+                            </li>
+                          </span> -->
+
+                        </ul>
+                      </nav>
+                    </div>
+                  </div>
+                </div>
+                <div class="header-right d-flex justify-content-end align-items-center">
+                  <div class="header__cart">
+                    <a href="/cart"> <i class="fa-solid fa-cart-shopping"></i> </a>
+
+                  </div>
+
+                  <div class="header__hamburger d-xl-block my-auto">
+                    <div class="sidebar__toggle">
+                      <i class="fas fa-bars"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Search Area Start -->
+  <!-- <div class="search-wrap">
+    <div class="search-inner">
+      <i class="fas fa-times search-close" id="search-close"></i>
+      <div class="search-cell">
+        <form method="get">
+          <div class="search-field-holder">
+            <input type="search" class="main-search-input" placeholder="Search...">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- Breadcumb Section   S T A R T -->
+  <!-- <div class="breadcumb-section">
   <div class="breadcumb-wrapper">
     <div class="container">
       <div class="row">
@@ -20,68 +388,68 @@
   </div>
 </div> -->
 
-<!-- Shop Details Section S T A R T -->
-<div class="shop-details-section section-padding fix">
-  <div class="shop-details-wrapper style1">
-    <div class="container">
-      <div class="shop-details bg-white">
-        <div class="container">
-          <div class="row gx-60">
-            <div class="col-lg-6">
-              <div class="product-big-img bg-color2">
-                <div class="dishes-thumb">
-                  <img id="mainImage" src="<%= product.imageCover %>" style="width: 305px; height: 305px; border-radius: 50%; object-fit: cover;" alt="thumb">
-                  <div class="circle-shape d-none d-md-block">
-                    <img class="cir36" src="/assets/img/food-items/circleShape2.png" alt="shape">
-                  </div>
-                </div>
-              </div>
-              <div style="display: flex; overflow-x: auto; gap: 10px; margin-top: 10px;">
-                <% product.images.forEach(function(image){ %>
-                <img src="<%= image %>" loading="lazy" alt="" style="width: 100px; height: 100px; object-fit: cover; flex-shrink: 0; border-radius: 50%; opacity: 0.5; cursor: pointer;" onclick="document.getElementById('mainImage').src='<%= image %>'">
-                <% }) %>
-              </div>
-            </div>
-
-            <div class="col-lg-6">
-              <div class="product-about">
-                <div class="title-wrapper">
-                  <h2 class="product-title"><%= product.name %></h2>
-                  <div class="price">₽<%= product.price %></div>
-                </div>
-
-                <div class="product-rating">
-                  <div class="star-rating" role="img" aria-label="Rated 5.00 out of 5"><span style="width:100%">Rated <strong class="rating">5.00</strong> out of 5
-                      based on <span class="rating">1</span> customer rating</span></div>
-                  <a href="shop-details.html" class="woocommerce-review-link">(<span class="count">2</span> customer reviews)</a>
-                </div>
-                <p class="text"><%= product.description %></p>
-
-                <div class="actions">
-                  <div class="quantity">
-                    <p>Quantity</p>
-
-                    <% if(user){ %>
-                    <div class="qty-wrapper">
-                      <input type="text" class="qty-input" id="<%= product.id %>" step="1" min="1" max="100" name="quantity" value="0" title="Qty">
-                      <button class="quantity-plus qty-btn plus-cart-btn-single" data-product-id="<%= product.id %>"><i class="fa-solid fa-plus"></i></button>
-                      <button hidden class="quantity-minus qty-btn minus-cart-btn-single" data-product-id="<%= product.id %>"><i class="fa-solid fa-minus"></i></button>
+  <!-- Shop Details Section S T A R T -->
+  <div class="shop-details-section section-padding fix">
+    <div class="shop-details-wrapper style1">
+      <div class="container">
+        <div class="shop-details bg-white">
+          <div class="container">
+            <div class="row gx-60">
+              <div class="col-lg-6">
+                <div class="product-big-img bg-color2">
+                  <div class="dishes-thumb">
+                    <img id="mainImage" src="<%= product.imageCover %>" style="width: 305px; height: 305px; border-radius: 50%; object-fit: cover;" alt="thumb">
+                    <div class="circle-shape d-none d-md-block">
+                      <img class="cir36" src="/assets/img/food-items/circleShape2.png" alt="shape">
                     </div>
                   </div>
-                  <a style="cursor: pointer;" class="theme-btn single-add-to-cart-btn" data-product-id="<%= product.id %>">Add to Cart<i class="fa-solid fa-cart-shopping bg-transparent text-white"></i></a>
-                  <% }else{ %>
-                  <div class="qty-wrapper">
-                    <input type="number" class="qty-input" step="1" min="1" max="100" name="quantity" value="1" title="Qty">
-                    <button onclick="window.location.href='/sign-in'" class="quantity-plus qty-btn"><i class="fa-solid fa-plus"></i></button>
-                    <button onclick="window.location.href='/sign-in'" class="quantity-minus qty-btn"><i class="fa-solid fa-minus"></i></button>
-                  </div>
                 </div>
-                <a href="/sign-in" class="theme-btn">Add to Cart<i class="fa-solid fa-cart-shopping bg-transparent text-white"></i></a>
-                <% } %>
-
-                <!-- <a href="wishlist.html" class="theme-btn style5 border-0">ADD TO wishlist<i class="fa-sharp fa-solid fa-heart"></i></a> -->
+                <div style="display: flex; overflow-x: auto; gap: 10px; margin-top: 10px;">
+                  <% product.images.forEach(function(image){ %>
+                  <img src="<%= image %>" loading="lazy" alt="" style="width: 100px; height: 100px; object-fit: cover; flex-shrink: 0; border-radius: 50%; opacity: 0.5; cursor: pointer;" onclick="document.getElementById('mainImage').src='<%= image %>'">
+                  <% }) %>
+                </div>
               </div>
-              <!-- <div class="share">
+
+              <div class="col-lg-6">
+                <div class="product-about">
+                  <div class="title-wrapper">
+                    <h2 class="product-title"><%= product.name %></h2>
+                    <div class="price">₽<%= product.price %></div>
+                  </div>
+
+                  <div class="product-rating">
+                    <div class="star-rating" role="img" aria-label="Rated 5.00 out of 5"><span style="width:100%">Rated <strong class="rating">5.00</strong> out of 5
+                        based on <span class="rating">1</span> customer rating</span></div>
+                    <a href="shop-details.html" class="woocommerce-review-link">(<span class="count">2</span> customer reviews)</a>
+                  </div>
+                  <p class="text"><%= product.description %></p>
+
+                  <div class="actions">
+                    <div class="quantity">
+                      <p>Quantity</p>
+
+                      <% if(user){ %>
+                      <div class="qty-wrapper">
+                        <input type="text" class="qty-input" id="<%= product.id %>" step="1" min="1" max="100" name="quantity" value="0" title="Qty">
+                        <button class="quantity-plus qty-btn plus-cart-btn-single" data-product-id="<%= product.id %>"><i class="fa-solid fa-plus"></i></button>
+                        <button hidden class="quantity-minus qty-btn minus-cart-btn-single" data-product-id="<%= product.id %>"><i class="fa-solid fa-minus"></i></button>
+                      </div>
+                    </div>
+                    <a style="cursor: pointer;" class="theme-btn single-add-to-cart-btn" data-product-id="<%= product.id %>">Add to Cart<i class="fa-solid fa-cart-shopping bg-transparent text-white"></i></a>
+                    <% }else{ %>
+                    <div class="qty-wrapper">
+                      <input type="number" class="qty-input" step="1" min="1" max="100" name="quantity" value="1" title="Qty">
+                      <button onclick="window.location.href='/sign-in'" class="quantity-plus qty-btn"><i class="fa-solid fa-plus"></i></button>
+                      <button onclick="window.location.href='/sign-in'" class="quantity-minus qty-btn"><i class="fa-solid fa-minus"></i></button>
+                    </div>
+                  </div>
+                  <a href="/sign-in" class="theme-btn">Add to Cart<i class="fa-solid fa-cart-shopping bg-transparent text-white"></i></a>
+                  <% } %>
+
+                  <!-- <a href="wishlist.html" class="theme-btn style5 border-0">ADD TO wishlist<i class="fa-sharp fa-solid fa-heart"></i></a> -->
+                </div>
+                <!-- <div class="share">
                   <h6>share with friends</h6>
                   <ul class="social-media">
                     <li> <a href="https://www.facebook.com"> <i class="fa-brands fa-facebook-f"></i> </a> </li>
@@ -92,27 +460,27 @@
                     <li> <a href="https://www.instagram.com"> <i class="fa-brands fa-instagram"></i> </a> </li>
                   </ul>
                 </div> -->
-            </div>
-          </div>
-        </div>
-
-        <a href="/cart"><i class="fa-solid fa-cart-shopping floating-cart" hidden style="color: #5f1303; position: fixed; right: 15px; top: 50%; transform: translateY(-50%); z-index: 1000; font-size: 30px; cursor: pointer;">
-          </i></a>
-
-        <div class="row">
-          <div class="col-12">
-            <div class="product-description">
-              <h3>product Description</h3>
-              <div class="desc">
-                <% const splitted = product.summary.split('*'); %>
-                <% splitted.forEach(function(p){ %>
-                <p>
-                  <%= p %>
-                </p>
-                <% }) %>
               </div>
             </div>
-            <!-- <div class="product-review">
+          </div>
+
+          <a href="/cart"><i class="fa-solid fa-cart-shopping floating-cart" hidden style="color: #5f1303; position: fixed; right: 15px; top: 50%; transform: translateY(-50%); z-index: 1000; font-size: 30px; cursor: pointer;">
+            </i></a>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="product-description">
+                <h3>product Description</h3>
+                <div class="desc">
+                  <% const splitted = product.summary.split('*'); %>
+                  <% splitted.forEach(function(p){ %>
+                  <p>
+                    <%= p %>
+                  </p>
+                  <% }) %>
+                </div>
+              </div>
+              <!-- <div class="product-review">
                 <h3>02 Reviews</h3>
                 <ul class="comment-list">
                   <li class="review comment-item">
@@ -151,7 +519,7 @@
                   </li>
                 </ul>
               </div> -->
-            <!-- <div class="comment-form">
+              <!-- <div class="comment-form">
                 <div class="form-title">
                   <h3 class="inner-title">Add a Review</h3>
                   <p>Your email address will not be published. Required fields are marked *</p>
@@ -190,116 +558,117 @@
                   </div>
                 </div>
               </div> -->
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-</div>
+  </div>
 
-<!-- Popular Dishes Section   S T A R T -->
-<section class="popular-dishes-section fix section-padding pt-0">
-  <div class="popular-dishes-wrapper style1">
-    <div class="container">
-      <div class="title-area">
-        <div class="sub-title text-center wow fadeInUp" data-wow-delay="0.5s">
-          <img class="me-1" src="/assets/img/icon/titleIcon.svg" alt="icon">POPULAR DISHES<img class="ms-1" src="/assets/img/icon/titleIcon.svg" alt="icon">
+  <!-- Popular Dishes Section   S T A R T -->
+  <section class="popular-dishes-section fix section-padding pt-0">
+    <div class="popular-dishes-wrapper style1">
+      <div class="container">
+        <div class="title-area">
+          <div class="sub-title text-center wow fadeInUp" data-wow-delay="0.5s">
+            <img class="me-1" src="/assets/img/icon/titleIcon.svg" alt="icon">POPULAR DISHES<img class="ms-1" src="/assets/img/icon/titleIcon.svg" alt="icon">
+          </div>
+          <div class="title wow fadeInUp" data-wow-delay="0.7s">
+            Related Items
+          </div>
         </div>
-        <div class="title wow fadeInUp" data-wow-delay="0.7s">
-          Related Items
-        </div>
-      </div>
-      <div class="dishes-card-wrap style1">
-        <% relatedProducts.slice(1, 6).forEach(function(product){ %>
-        <div class="dishes-card style1 wow fadeInUp" data-wow-delay="0.2s">
-          <div class="social-profile">
-            <!-- <span class="plus-btn"> <a href="shop-details.html#"> <i class="fa-regular fa-heart"></i></a></span>
+        <div class="dishes-card-wrap style1">
+          <% relatedProducts.slice(1, 6).forEach(function(product){ %>
+          <div class="dishes-card style1 wow fadeInUp" data-wow-delay="0.2s">
+            <div class="social-profile">
+              <!-- <span class="plus-btn"> <a href="shop-details.html#"> <i class="fa-regular fa-heart"></i></a></span>
             <ul>
               <li><a href="cart.html"><i class="fa-regular fa-basket-shopping-simple"></i></a></li>
               <li><a href="shop-details.html#" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-light fa-eye"></i></a></li>
             </ul> -->
-          </div>
-          <div class="dishes-thumb">
+            </div>
+            <div class="dishes-thumb">
+              <a href="/michael-kitchen/item/<%= product.categorySlug %>/<%= product.slug %>">
+                <img src="<%= product.imageCover %>" style="width: 165px; height: 165px; border-radius: 50%; object-fit: cover;" alt="thumb">
+              </a>
+            </div>
             <a href="/michael-kitchen/item/<%= product.categorySlug %>/<%= product.slug %>">
-              <img src="<%= product.imageCover %>" style="width: 165px; height: 165px; border-radius: 50%; object-fit: cover;" alt="thumb">
+              <h3> <%= product.name %> </h3>
             </a>
+            <!-- <p>The registration fee</p> -->
+            <h6>₽<%= product.price %></h6>
           </div>
-          <a href="/michael-kitchen/item/<%= product.categorySlug %>/<%= product.slug %>">
-            <h3> <%= product.name %> </h3>
-          </a>
-          <!-- <p>The registration fee</p> -->
-          <h6>₽<%= product.price %></h6>
-        </div>
-        <% }) %>
+          <% }) %>
 
+        </div>
       </div>
     </div>
-  </div>
 
 
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog  modal-dialog-centered">
-      <div class="modal-content pb-3 pe-3">
-        <div class="modal-header border-0">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="container">
-            <div class="row gy-5">
-              <div class="col-xxl-6">
-                <div class="modal-thumb">
-                  <div class="product-big-img bg-color2">
-                    <div class="dishes-thumb">
-                      <img class="img-fluid" src="/assets/img/dishes/dishes3_1.png" alt="thumb">
-                      <div class="circle-shape"><img class="cir36" src="/assets/img/food-items/circleShape2.png" alt="shape"></div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog  modal-dialog-centered">
+        <div class="modal-content pb-3 pe-3">
+          <div class="modal-header border-0">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="row gy-5">
+                <div class="col-xxl-6">
+                  <div class="modal-thumb">
+                    <div class="product-big-img bg-color2">
+                      <div class="dishes-thumb">
+                        <img class="img-fluid" src="/assets/img/dishes/dishes3_1.png" alt="thumb">
+                        <div class="circle-shape"><img class="cir36" src="/assets/img/food-items/circleShape2.png" alt="shape"></div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-xxl-6">
-                <div class="modal-details">
-                  <div class="product-about">
-                    <div class="title-wrapper">
-                      <h2 class="product-title">Chicken Pizza</h2>
-                      <div class="price">$69</div>
-                    </div>
-
-                    <div class="product-rating">
-                      <div class="star-rating" role="img" aria-label="Rated 5.00 out of 5">
-                        <span style="width:100%">Rated <strong class="rating">5.00</strong>
-                          out of 5 based on <span class="rating">1</span> customer
-                          rating</span>
+                <div class="col-xxl-6">
+                  <div class="modal-details">
+                    <div class="product-about">
+                      <div class="title-wrapper">
+                        <h2 class="product-title">Chicken Pizza</h2>
+                        <div class="price">$69</div>
                       </div>
-                      <a href="shop-details.html" class="woocommerce-review-link">(<span class="count">2</span> customer reviews)</a>
-                    </div>
-                    <p class="text">Aliquam hendrerit a augue insuscipit. Etiam aliquam massa
-                      quis des mauris commodo venenatis ligula commodo leez sed blandit
-                      convallis dignissim onec vel pellentesque neque.</p>
 
-                    <div class="actions">
-                      <div class="quantity">
-                        <p>Quantity</p>
-
-                        <div class="qty-wrapper">
-                          <button class="quantity-plus qty-btn"><i class="fa-solid fa-plus"></i></button>
-                          <input type="number" class="qty-input" step="1" min="1" max="100" name="quantity" value="1" title="Qty">
-                          <button class="quantity-minus qty-btn"><i class="fa-solid fa-minus"></i></button>
+                      <div class="product-rating">
+                        <div class="star-rating" role="img" aria-label="Rated 5.00 out of 5">
+                          <span style="width:100%">Rated <strong class="rating">5.00</strong>
+                            out of 5 based on <span class="rating">1</span> customer
+                            rating</span>
                         </div>
+                        <a href="shop-details.html" class="woocommerce-review-link">(<span class="count">2</span> customer reviews)</a>
                       </div>
-                      <a href="cart.html" class="theme-btn">Add to Cart<i class="fa-regular fa-cart-shopping bg-transparent text-white"></i></a>
-                      <a href="wishlist.html" class="theme-btn style5 border-0">ADD TO
-                        wishlist<i class="fa-sharp fa-solid fa-heart"></i></a>
-                    </div>
-                    <div class="share">
-                      <h6>share with friends</h6>
-                      <ul class="social-media">
-                        <li> <a href="https://www.facebook.com"> <i class="fa-brands fa-facebook-f"></i> </a> </li>
-                        <li> <a href="https://www.youtube.com"> <i class="fa-brands fa-youtube"></i> </a> </li>
-                        <li> <a href="https://www.x.com"> <i class="fa-brands fa-twitter"></i> </a> </li>
-                        <li> <a href="https://www.instagram.com"> <i class="fa-brands fa-instagram"></i> </a> </li>
-                      </ul>
+                      <p class="text">Aliquam hendrerit a augue insuscipit. Etiam aliquam massa
+                        quis des mauris commodo venenatis ligula commodo leez sed blandit
+                        convallis dignissim onec vel pellentesque neque.</p>
+
+                      <div class="actions">
+                        <div class="quantity">
+                          <p>Quantity</p>
+
+                          <div class="qty-wrapper">
+                            <button class="quantity-plus qty-btn"><i class="fa-solid fa-plus"></i></button>
+                            <input type="number" class="qty-input" step="1" min="1" max="100" name="quantity" value="1" title="Qty">
+                            <button class="quantity-minus qty-btn"><i class="fa-solid fa-minus"></i></button>
+                          </div>
+                        </div>
+                        <a href="cart.html" class="theme-btn">Add to Cart<i class="fa-regular fa-cart-shopping bg-transparent text-white"></i></a>
+                        <a href="wishlist.html" class="theme-btn style5 border-0">ADD TO
+                          wishlist<i class="fa-sharp fa-solid fa-heart"></i></a>
+                      </div>
+                      <div class="share">
+                        <h6>share with friends</h6>
+                        <ul class="social-media">
+                          <li> <a href="https://www.facebook.com"> <i class="fa-brands fa-facebook-f"></i> </a> </li>
+                          <li> <a href="https://www.youtube.com"> <i class="fa-brands fa-youtube"></i> </a> </li>
+                          <li> <a href="https://www.x.com"> <i class="fa-brands fa-twitter"></i> </a> </li>
+                          <li> <a href="https://www.instagram.com"> <i class="fa-brands fa-instagram"></i> </a> </li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -309,7 +678,6 @@
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<%- include('partials/kitchenFooter.ejs') %>
+  <%- include('partials/kitchenFooter.ejs') %>
