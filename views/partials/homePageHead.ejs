@@ -157,14 +157,11 @@
                 <li class="nav-item"><a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="/about">About Us</a></li>
-                <li class="nav-item submenu"><a class="nav-link" href="#">Services</a>
-                  <ul>
-                    <li class="nav-item"><a class="nav-link" target="_blank" href="/afro-shop/index">Afro Shop</a></li>
-                    <li class="nav-item"><a class="nav-link" target="_blank" href="javascript:void(0);" <%= gadgets === null ? 'aria-disabled="true"' : '' %>>Gadgets</a></li>
-                    <li class="nav-item"><a class="nav-link" target="_blank" href="/michael-kitchen/index" <%= kitchen === null ? 'aria-disabled="true"' : '' %>>Kitchen</a></li>
-                    <li class="nav-item"><a class="nav-link" target="_blank" href="/exchange/index">Currency Exchange</a></li>
-                  </ul>
-                </li>
+                <li class="nav-item"><a class="nav-link" target="_blank" href="/afro-shop/index">Afro Shop</a></li>
+                <li class="nav-item"><a class="nav-link" href="javascript:void(0);">Gadgets</a></li>
+                <li class="nav-item"><a class="nav-link" target="_blank" href="/michael-kitchen/index" <%= kitchen === null ? 'aria-disabled="true"' : '' %>>Kitchen</a></li>
+                <li class="nav-item"><a class="nav-link" target="_blank" href="/exchange/index">Currency Exchange</a></li>
+                
                 <li class="nav-item highlighted-menu"><a class="nav-link" href="/contact">Contact Us</a></li>
                 <% if(!user){ %>
                 <li class="nav-item"><a class="nav-link" href="/sign-in">Sign In</a></li>
@@ -179,7 +176,7 @@
             <!-- Let’s Start Button End -->
           </div>
           <!-- Main Menu End -->
-          <div class="navbar-toggle" style="background-color: #eb9202;"></div>
+          <div class="navbar-toggle" style="background-color: #eb9202; padding: 5px; border-radius: 5px;"></div>
         </div>
       </nav>
       <div class="responsive-menu"></div>

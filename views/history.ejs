@@ -5,13 +5,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="Michael Enterprise Exchange provides reliable and hassle-free exchange services, ensuring fast, secure, and transparent transactions tailored to meet your financial needs.">
+  <meta name="keywords" content="michael enterprise, russia, rubbles, naira, naira, exchange">
   <title>Michael Enterprise | <%= title %></title>
+  <!-- Favicon icon -->
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/fav1.png">
+  <meta property="og:title" content="Michael Enterprise Exchange" />
+  <meta property="og:url" content="https:michael-enterprise.com/exchange/index" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/assets/images/exchange-small.jpg" />
+  <meta property="og:description" content="Michael Enterprise Exchange provides reliable and hassle-free exchange services, ensuring fast, secure, and transparent transactions tailored to meet your financial needs. 
+" />
+  <meta property="og:site_name" content="Michael Enterprise" />
   <!-- Favicon icon -->
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/fav1.png">
   <!-- toastr -->
   <link rel="stylesheet" href="/assets/plugins/toastr/toastr.min.css">
   <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="/assets/css/styleExchange.css">
+  <script src="https://kit.fontawesome.com/fe5872a91f.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -25,6 +37,14 @@
   </div>
 
   <div class="main-wrapper">
+    <div style="background-color: #5F1303; height: 30px; width: 100%; text-align: center;">
+      <ul style="list-style: none; display: flex; gap: 30px; padding: 0; margin: 0; justify-content: center;">
+        <li style="color: white;"><a style="color: white;" href="/afro-shop/index" target="_blank"><i class="fa-solid fa-shop fa-shake"></i> Afro Shop</a></li>
+        <li style="color: white;"><a style="color: white;" href="javascript:void(0);" target="_blank"><i class="fa-solid fa-laptop fa-shake"></i> Gadgets</a></li>
+        <li style="color: white;"><a style="color: white;" href="/michael-kitchen/index" target="_blank"><i class="fa-solid fa-kitchen-set fa-shake"></i> Kitchen</a></li>
+      </ul>
+
+    </div>
     <!--===================== Sidebar Start =====================-->
     <section class="sidebar">
       <nav class="navbar navbar-expand-lg navbar-light flex-nowrap flex-column justify-content-between align-items-start p-0">
@@ -39,26 +59,34 @@
             <ul class="navbar-nav flex-row flex-lg-column justify-content-between align-items-center align-items-lg-start">
               <li>
                 <a class="nav-link d-flex align-items-center" href="/exchange/index" data-tooltip="home" data-placement="top">
-                  <i class="mdi mdi-home-circle"></i>
-                  <div class="nav-text d-none d-md-block">Home</div>
+                  <div class="d-flex d-md-inline-flex flex-column flex-md-row align-items-center">
+                    <i class="mdi mdi-home-circle"></i>
+                    <div class="nav-text s-none d-md-block">Home</div>
+                  </div>
                 </a>
               </li>
               <li>
                 <a class="nav-link d-flex align-items-center @@buy-sell" href="/exchange/money-exchange" data-tooltip="exchange" data-placement="top">
-                  <i class="mdi mdi-repeat"></i>
-                  <div class="nav-text d-none d-md-block">exchange</div>
+                  <div class="d-flex d-md-inline-flex flex-column flex-md-row align-items-center">
+                    <i class="mdi mdi-repeat"></i>
+                    <div class="nav-text s-none d-md-block">exchange</div>
+                  </div>
                 </a>
               </li>
               <li>
                 <a class="nav-link d-flex align-items-center @@accounts active" href="/exchange/history" data-tooltip="history" data-placement="top">
-                  <i class="mdi mdi-clock-outline"></i>
-                  <div class="nav-text d-none d-md-block">History</div>
+                  <div class="d-flex d-md-inline-flex flex-column flex-md-row align-items-center">
+                    <i class="mdi mdi-clock-outline"></i>
+                    <div class="nav-text s-none d-md-block">History</div>
+                  </div>
                 </a>
               </li>
               <li>
                 <a class="nav-link d-flex align-items-center @@settings" href="/exchange/beneficiaries" data-tooltip="beneficiary" data-placement="top">
-                  <i class="mdi mdi-account-multiple"></i>
-                  <div class="nav-text d-none d-md-block">Beneficiary</div>
+                  <div class="d-flex d-md-inline-flex flex-column flex-md-row align-items-center">
+                    <i class="mdi mdi-account-multiple"></i>
+                    <div class="nav-text s-none d-md-block">Beneficiary</div>
+                  </div>
                 </a>
               </li>
             </ul>

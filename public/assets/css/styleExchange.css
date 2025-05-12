@@ -6535,6 +6535,11 @@ fieldset:disabled .btn {
   display: none !important;
 }
 
+.s-none {
+  display: block;
+  width: 100%;
+}
+
 .shadow {
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
 }
@@ -11042,7 +11047,7 @@ strong {
   left: 0;
   overflow-y: hidden;
   overflow-x: auto;
-  padding: 0 35px;
+  padding: 0 10px;
   z-index: 999;
   /*======== tooltip ========*/
 }

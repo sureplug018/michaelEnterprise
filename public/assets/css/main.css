@@ -3241,11 +3241,11 @@ input.main-search-input::placeholder {
     padding: 0 50px;
   }
 }
-@media (max-width: 1600px) {
+/* @media (max-width: 1600px) {
   .header-section .container-fluid {
     padding: 0 40px;
   }
-}
+} */
 @media (max-width: 1199px) {
   .header-section .container-fluid {
     padding: 0 30px;
@@ -3398,7 +3398,7 @@ input.main-search-input::placeholder {
 }
 @media (max-width: 1600px) {
   .main-header-wrapper {
-    gap: 40px;
+    gap: 2px;
   }
 }
 @media (max-width: 1399px) {
@@ -3803,7 +3803,7 @@ input.main-search-input::placeholder {
 }
 
 .header-1 .mega-menu-wrapper {
-  padding: 0 50px;
+  padding: 0;
   position: relative;
   z-index: 1;
   background-image: url(../img/bg/headerBg.png);

@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="/assets/plugins/toastr/toastr.min.css">
   <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="/assets/css/styleExchange.css">
+  <script src="https://kit.fontawesome.com/fe5872a91f.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -34,6 +35,14 @@
   </div>
 
   <div class="main-wrapper">
+    <div style="background-color: #5F1303; height: 30px; width: 100%; text-align: center;">
+      <ul style="list-style: none; display: flex; gap: 30px; padding: 0; margin: 0; justify-content: center;">
+        <li style="color: white;"><a style="color: white;" href="/afro-shop/index" target="_blank"><i class="fa-solid fa-shop fa-shake"></i> Afro Shop</a></li>
+        <li style="color: white;"><a style="color: white;" href="javascript:void(0);" target="_blank"><i class="fa-solid fa-laptop fa-shake"></i> Gadgets</a></li>
+        <li style="color: white;"><a style="color: white;" href="/michael-kitchen/index" target="_blank"><i class="fa-solid fa-kitchen-set fa-shake"></i> Kitchen</a></li>
+      </ul>
+
+    </div>
     <!--===================== Sidebar Start =====================-->
     <section class="sidebar">
       <nav class="navbar navbar-expand-lg navbar-light flex-nowrap flex-column justify-content-between align-items-start p-0">
@@ -48,26 +57,34 @@
             <ul class="navbar-nav flex-row flex-lg-column justify-content-between align-items-center align-items-lg-start">
               <li>
                 <a class="nav-link d-flex align-items-center" href="/exchange/index" data-tooltip="home" data-placement="top">
-                  <i class="mdi mdi-home-circle"></i>
-                  <div class="nav-text d-none d-md-block">Home</div>
+                  <div class="d-flex d-md-inline-flex flex-column flex-md-row align-items-center">
+                    <i class="mdi mdi-home-circle"></i>
+                    <div class="nav-text s-none d-md-block">Home</div>
+                  </div>
                 </a>
               </li>
               <li>
                 <a class="nav-link d-flex align-items-center @@buy-sell active" href="/exchange/money-exchange" data-tooltip="exchange" data-placement="top">
-                  <i class="mdi mdi-repeat"></i>
-                  <div class="nav-text d-none d-md-block">exchange</div>
+                  <div class="d-flex d-md-inline-flex flex-column flex-md-row align-items-center">
+                    <i class="mdi mdi-repeat"></i>
+                    <div class="nav-text s-none d-md-block">exchange</div>
+                  </div>
                 </a>
               </li>
               <li>
                 <a class="nav-link d-flex align-items-center @@accounts" href="/exchange/history" data-tooltip="history" data-placement="top">
-                  <i class="mdi mdi-clock-outline"></i>
-                  <div class="nav-text d-none d-md-block">History</div>
+                  <div class="d-flex d-md-inline-flex flex-column flex-md-row align-items-center">
+                    <i class="mdi mdi-clock-outline"></i>
+                    <div class="nav-text s-none d-md-block">History</div>
+                  </div>
                 </a>
               </li>
               <li>
                 <a class="nav-link d-flex align-items-center @@settings" href="/exchange/beneficiaries" data-tooltip="beneficiary" data-placement="top">
-                  <i class="mdi mdi-account-multiple"></i>
-                  <div class="nav-text d-none d-md-block">Beneficiary</div>
+                  <div class="d-flex d-md-inline-flex flex-column flex-md-row align-items-center">
+                    <i class="mdi mdi-account-multiple"></i>
+                    <div class="nav-text s-none d-md-block">Beneficiary</div>
+                  </div>
                 </a>
               </li>
             </ul>
